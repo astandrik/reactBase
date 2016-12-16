@@ -1,0 +1,8 @@
+.clickable-image:hover{
+  cursor: pointer;
+}
+
+.clickable-image.burger {
+  width: 56px;
+  height: 56px;
+}

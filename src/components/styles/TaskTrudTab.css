@@ -1,0 +1,53 @@
+.clickable-image.edit {
+  width: 30px;
+  height: 30px;
+}
+
+.clickable-image.delete {
+  width: 30px;
+  height: 30px;
+}
+
+.laborBlock {
+  border: 1px solid black;
+  margin:5px 5px;
+}
+
+.commentButton{
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.clickable-image.openTrud {
+  width: 30px;
+  height: 30px;
+  float:right;
+}
+
+.timeDateCommentLabel {
+  margin-top: 30px;
+  text-align: center;
+  width: 100%
+}
+
+.commentBlock {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+  min-height: 40px;
+  justify-content: space-between;
+  padding:10px;
+}
+
+.laborBlock .innerLaborBlock {
+  margin: 5px;
+}
+
+.trudCommentsBlock.closed {
+  display: none;
+}
+
+.trudCommentsBlock.opened {
+  display: flex;
+  flex-direction: column;
+}

@@ -8,9 +8,9 @@ var spinnerStyles = {
 
 export default (props) => {
   if(props.isFetching) {
-    spinnerStyles.visibility = "visible";
+    spinnerStyles.display = "inline-block";
   } else {
-    spinnerStyles.visibility = "hidden";
+    spinnerStyles.display = "none";
   }
   return <MDSpinner style={spinnerStyles} size={60}/>;
 }

@@ -1,0 +1,19 @@
+.ReactModal__Content {
+  top: 20%!important;
+  right: 20%!important;
+  left: 20%!important;
+  bottom: 20%!important;
+}
+
+
+.close-modal{
+  width: 15px;
+  height: 15px;
+  position: absolute;;
+  right: 0;
+  margin: 0 10px;
+}
+
+.modalForm {
+  height: 100%;
+}

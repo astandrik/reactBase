@@ -1,0 +1,132 @@
+.taskPanel {
+  margin:5px;
+  border: 1px solid black;
+  overflow: auto;
+  overflow-x: hidden;
+  min-height: 50px;
+}
+
+.panelText {
+  float:left;
+  clear:both;
+  margin:5px;
+}
+
+.panelLabel {
+  text-decoration: underline;
+  margin: 5px;
+  float: left;
+}
+
+
+.infoHeader {
+  padding: 5px 60px 5px 5px;
+  border-bottom: 1px solid black;
+  max-height: 50px;
+}
+
+.taskInfoTabs > div > div:first-child {
+  background-color: white!important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: 60px;
+}
+
+.taskInfoTabs > div > div:nth-child(2) {
+  display: none;
+}
+
+.noDisplay {
+  display: none!important;
+}
+
+.infoHeaderBlock span {
+  margin-top: 7.5px;
+  margin-left: 3px;
+  display: block;
+  float: left;
+}
+
+.infoHeaderBlock div:nth-child(2) {
+  margin-left: 30px;
+}
+
+.user {
+  width: 30px;
+  height: 30px;
+  float: left;
+}
+
+.calendar {
+  width: 30px;
+  height: 30px;
+    float: left;
+}
+
+.clickable-image.ellipsis {
+  width: 30px;
+  height: 30px;
+}
+.clickable-image.clock {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+}
+.clickable-image.comment {
+  width: 30px;
+  height: 30px;
+  margin: 0 5px;
+}
+
+
+
+.taskInfoTab {
+  color:black!important;
+  max-width: 150px;
+  font-size: 12px!important;
+  margin: 5px 0!important;
+  background-color: #DDDDDD!important;
+  border: 1px solid black!important;
+}
+
+.taskInfoTab:first-child {
+    border-right: none!important;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.addTrudButtonContainer {
+  max-height: 50px;
+  outline: 1px black solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.addTrudButton {
+  height: 30px;
+  width:200px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #95BCF2!important;
+  border: 1px solid black!important;
+  cursor: pointer;
+}
+
+.taskInfoTab:nth-child(2) {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.taskInfoTab.active{
+  background-color: #95BCF2!important;
+}
+
+.taskInfoTab>div>div{
+  height:30px!important;
+}
+
+.taskInfoTab.active {
+
+}

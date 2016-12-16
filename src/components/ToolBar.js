@@ -1,25 +1,32 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
+import "./styles/Link.css";
+import "./styles/Toolbar.css";
+import hamburger from "../Icons/hamburger.svg";
+
+const namePositionStyles = {
+      minHeight: 56,
+      display: "flex",
+      flexDirection: "column"
+}
+
+const ToolbarStyles = {
+  justifyContent: "space-between",
+  backgroundColor: "white",
+  borderBottom: "2px solid"
+}
 
 export default class ToolbarExamplesSimple extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: 3,
-    };
-  }
-
-  handleChange = (event, index, value) => this.setState({value});
-
   render() {
     return (
-      <Toolbar>
+      <Toolbar style={ToolbarStyles}>
+        <img className="clickable-image burger" onClick={this.props.handleClick.bind(this)}  src={hamburger} alt="logo" />
         <ToolbarGroup>
-          <FlatButton label="Главная"  />
-          <FlatButton label="Неглавная"  />
-          <FlatButton label="Побочная"  />
+          <div style={namePositionStyles}>
+            <span style={{marginTop:5}}>{this.props.name}</span>
+            <span style={{marginTop:10}}>{this.props.position}</span>
+          </div>
         </ToolbarGroup>
       </Toolbar>
     );

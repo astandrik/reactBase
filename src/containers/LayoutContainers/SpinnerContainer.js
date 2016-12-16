@@ -1,6 +1,5 @@
-import Spinner from "../components/Spinner"
+import Spinner from "../../components/Spinner"
 
-import {changeFetchingStatus} from "../redux/actions/layoutActions";
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state) => {
