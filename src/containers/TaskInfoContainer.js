@@ -1,11 +1,13 @@
 import TaskInfo from "../components/Tasks/TaskInfo";
 import { connect } from 'react-redux';
-import {setActiveTaskTab, openDescription} from "../redux/actions/tasksActions";
+import {setActiveTaskTab, openDescription,setAddingTrudTask} from "../redux/actions/tasksActions";
 import {openTrudModal,closeTrudModal} from "../redux/actions/layoutActions";
+import {reset} from 'redux-form';
 
 const mapStateToProps = (state,ownProps) => {
   return {
     task: ownProps.task,
+    trudTask: state.currentAddingTrudTask,
     activeTab: state.activeTaskTab,
     isTrudModalOpen: state.isTrudModalOpen
   }
@@ -19,14 +21,17 @@ const mapDispatchToProps = (dispatch) => {
     openDescription: (task) => {
       dispatch(openDescription({task: task}));
     },
-    openTrudModal: () => {
-      dispatch(openTrudModal({}));
+    openTrudModal: (task) => {
+      dispatch(openTrudModal());
+      dispatch(setAddingTrudTask({task}))
     },
     handleSubmit: (json) =>  {
       debugger;
+      dispatch(reset('commentForm'));
     },
     handleTrudSubmit: (json) => {
       debugger;
+      dispatch(reset('trudDialogForm'));
     },
     closeModal: () => {
       dispatch(closeTrudModal({}));

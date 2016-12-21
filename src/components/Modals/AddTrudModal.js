@@ -43,7 +43,7 @@ const dialog = (props) => {
   <img className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
   <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
   <Container vertical="true" >
-    <h2>{props.task.title}</h2>
+    <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
       <div flex="2">
         <Field style={{margin:"10px", minHeight:"20px", minWidth:"150px"}} name="hours" component="input" placeholder="Количество часов"/>
       </div>
@@ -54,7 +54,7 @@ const dialog = (props) => {
       <div flex="5">
         <Field name="comment" component={commentField}/>
        </div>
-      <FlatButton type="submit" label="Сохранить" />
+      <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
   </Container>
   </form>
   </Modal>

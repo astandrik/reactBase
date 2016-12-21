@@ -1,0 +1,25 @@
+.taskTable {
+  width:100%;
+  height: 100%;
+  background: white;
+  border-collapse: collapse;
+}
+
+.taskTable tr{
+  border: 1px black solid;
+}
+
+.taskTable th{
+  border: 1px black solid;
+}
+
+
+.taskTable td{
+  border: 1px black solid;
+  text-align: center;
+}
+
+.taskTable td:first-child{
+  border: 1px black solid;
+  text-align: left;
+}

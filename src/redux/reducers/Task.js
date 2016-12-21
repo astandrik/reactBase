@@ -8,7 +8,8 @@ import {SET_TASKS,
   SET_CURRRENT_LABOR,
   OPEN_DESCRIPTION,
   SET_GROUPED_LABORS,
-  SET_CURRENT_TASK_COMMENT} from "../actions/tasksActions";
+  SET_CURRENT_TASK_COMMENT,
+  SET_ADDING_TRUD_TASK} from "../actions/tasksActions";
 
 
 function findTaskInTreeById(tasks,id) {
@@ -47,6 +48,15 @@ function deactivateTasks(tasks) {
     if(tasks[i].children) {
       deactivateTasks(tasks[i].children);
     }
+  }
+}
+
+export function addingTrudTask(state = {}, action) {
+  switch (action.type) {
+    case SET_ADDING_TRUD_TASK:        
+        return action.task;
+    default:
+        return state;
   }
 }
 

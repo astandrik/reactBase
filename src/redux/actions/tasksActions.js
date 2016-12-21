@@ -11,6 +11,7 @@ export const OPEN_LABOR_COMMENT = "OPEN_LABOR_COMMENT";
 export const SET_GROUPED_LABORS = "SET_GROUPED_LABORS";
 export const OPEN_DESCRIPTION = "OPEN_DESCRIPTION";
 export const SET_CURRENT_TASK_COMMENT = "SET_CURRENT_TASK_COMMENT";
+export const SET_ADDING_TRUD_TASK = "SET_ADDING_TRUD_TASK";
 
 import {changeFetchingStatus} from "./layoutActions";
 import Task from "../../Entities/Tasks/Task";
@@ -20,6 +21,7 @@ import Labor from "../../Entities/Tasks/Labor";
 import {toggleRightPanel} from "./layoutActions";
 import {generateActionFunc, fetchAsync} from "./actionHelper.js";
 
+export const setAddingTrudTask = generateActionFunc(SET_ADDING_TRUD_TASK);
 export const setTasks = generateActionFunc(SET_TASKS);
 export const setLabor = generateActionFunc(SET_CURRRENT_LABOR);
 export const toggleTaskTreeOpen = generateActionFunc(TOGGLE_OPEN);

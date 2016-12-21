@@ -29,11 +29,13 @@ var containerStyles = {
 
 import {getCurrentUser, setTabs} from "./redux/actions/layoutActions";
 import {loadTasks} from "./redux/actions/tasksActions";
+import {loadTableData} from "./redux/actions/tableActions";
 
 var loadRepo = {
   user: (user) => store.dispatch(getCurrentUser({id: 1})),
   tasks: ()=>store.dispatch(loadTasks()),
-  tabs: (tabs)=>store.dispatch(setTabs({tabs}))
+  tabs: (tabs)=>store.dispatch(setTabs({tabs})),
+  tableData: ()=>store.dispatch(loadTableData())
 }
 loadRepo.user();
 

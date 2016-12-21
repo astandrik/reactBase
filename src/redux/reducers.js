@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import * as taskReducers from "./reducers/Task";
 import * as layoutReducers from "./reducers/Layout";
+import * as tableReducers from "./reducers/Table";
 import { reducer as formReducer } from 'redux-form';
 
 
@@ -17,5 +18,7 @@ export default combineReducers({
   groupedLabors: taskReducers.setGroupedLabors,
   currentTaskComment: taskReducers.setCurrentTaskComment,
   isTrudModalOpen: layoutReducers.openTrudModal,
-  form: formReducer
+  tableData: tableReducers.setTableData,
+  form: formReducer,
+  currentAddingTrudTask: taskReducers.addingTrudTask
 })

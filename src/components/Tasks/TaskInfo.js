@@ -8,7 +8,7 @@ import clock from "../../Icons/clock.svg";
 import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
 import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
 import moment from 'moment';
-import AddTrudModal from "../Modals/AddTrudModal";
+import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 
 export default (props) => {
   const task = props.task;
@@ -24,9 +24,9 @@ export default (props) => {
       </div>
     </div>
   )
-  const addTrudButton = (
+  const addTrudButton = (task) => (
     <div className={"addTrudButtonContainer " + (props.activeTab != "trud" ? "noDisplay" : "")}>
-      <div className="addTrudButton" onClick={props.openTrudModal.bind(this)}>
+      <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>
         Добавить трудозату
       </div>
     </div>
@@ -76,8 +76,8 @@ export default (props) => {
             <TaskCommentsTabContainer onSubmit={props.handleSubmit} task={task}/>
           </div>
       </Container>
-      {addTrudButton}
-      <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}} task={task}/>
+      {addTrudButton(task)}
+      <AddTrudModalContainer isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
     </Container>
     )
 }

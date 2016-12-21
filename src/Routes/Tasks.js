@@ -26,13 +26,15 @@ const tabs = [
   {to: "/tasks/list", title: "Список"}
 ]
 
-const TaskList = () => (
+const TaskList = () => {
+  return (
   <Container vertical={true} style={{height:"100%"}} >
     <div containerStyle={containerTaskListContainerStyles} style={TaskListContainerStyles}>
       <TaskListContainer menuItems={menuItems} />
     </div>
   </Container>
-)
+  )
+}
 
 class Tasks extends Component {
   constructor(props, context) {

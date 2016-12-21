@@ -4,5 +4,6 @@ import SpinnerContainer from "./LayoutContainers/SpinnerContainer";
 import GlobalHeaderContainer from "./LayoutContainers/GlobalHeaderContainer";
 import RightPanelContainer from "./LayoutContainers/RightPanelContainer";
 import TaskListContainer from "./TaskListContainer";
+import TaskTableContainer from "./TaskTableContainer";
 
-export {SpinnerContainer,ToolbarContainer,LeftNavContainer, TaskListContainer,GlobalHeaderContainer,RightPanelContainer}
+export {SpinnerContainer,ToolbarContainer,LeftNavContainer, TaskListContainer,GlobalHeaderContainer,RightPanelContainer, TaskTableContainer}
