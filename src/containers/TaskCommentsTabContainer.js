@@ -1,6 +1,5 @@
 import TaskCommentsTab from "../components/Tasks/TaskCommentsTab";
 import { connect } from 'react-redux';
-import {setCurrentTaskComment} from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state,ownProps) => {
   return {

@@ -1,11 +1,11 @@
 .taskTable {
   width:100%;
   height: 100%;
-  background: white;
   border-collapse: collapse;
 }
 
 .taskTable tr{
+    background: white;
   border: 1px black solid;
 }
 
@@ -22,4 +22,34 @@
 .taskTable td:first-child{
   border: 1px black solid;
   text-align: left;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.clickable-image.left {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.tableCalendar {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
+
+.weekVisualiser {
+  line-height: 30px;
+}
+
+.clickable-image.right {
+  width: 20px;
+  height: 20px;
+  margin-top: 5px;
+  margin-right: 5px;
 }

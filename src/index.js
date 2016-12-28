@@ -32,10 +32,10 @@ import {loadTasks} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 
 var loadRepo = {
-  user: (user) => store.dispatch(getCurrentUser({id: 1})),
+  user: (user) => store.dispatch(getCurrentUser({})),
   tasks: ()=>store.dispatch(loadTasks()),
   tabs: (tabs)=>store.dispatch(setTabs({tabs})),
-  tableData: ()=>store.dispatch(loadTableData())
+  tableData: ()=>store.dispatch(loadTableData({day: new Date()}))
 }
 loadRepo.user();
 

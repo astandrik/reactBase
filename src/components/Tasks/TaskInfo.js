@@ -25,7 +25,7 @@ export default (props) => {
     </div>
   )
   const addTrudButton = (task) => (
-    <div className={"addTrudButtonContainer " + (props.activeTab != "trud" ? "noDisplay" : "")}>
+    <div className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
       <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>
         Добавить трудозату
       </div>
@@ -45,7 +45,7 @@ export default (props) => {
           {imagesPanel}
         </Container>
       </div>
-      <Container vertical={true} flex="6" height="auto" containerStyle={{overflow: "auto", paddingTop: "25px"}}>
+      <Container vertical={true} flex="6" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
           <h2 flex="1" style={{margin:"5px", marginBottom: "20px"}}>
             {task.title}
           </h2>
@@ -69,10 +69,10 @@ export default (props) => {
               {task.description}
             </span>
           </div>
-          <div className={(props.activeTab != "trud") ? "noDisplay" : ""}>
+          <div className={(props.activeTab !== "trud") ? "noDisplay" : ""}>
             <TaskTrudTabContainer/>
           </div>
-          <div className={(props.activeTab != "comment") ? "noDisplay" : ""}>
+          <div className={(props.activeTab !== "comment") ? "noDisplay" : ""}>
             <TaskCommentsTabContainer onSubmit={props.handleSubmit} task={task}/>
           </div>
       </Container>

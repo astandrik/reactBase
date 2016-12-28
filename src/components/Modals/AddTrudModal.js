@@ -33,7 +33,7 @@ const commentField = ({ input, label, meta: { touched, error } }) => {
 }
 
 const dialog = (props) => {
-  const { handleSubmit, pristine, reset, submitting } = props;
+  const { handleSubmit } = props;
 
   return (
     <Modal

@@ -20,5 +20,6 @@ export default combineReducers({
   isTrudModalOpen: layoutReducers.openTrudModal,
   tableData: tableReducers.setTableData,
   form: formReducer,
-  currentAddingTrudTask: taskReducers.addingTrudTask
+  currentAddingTrudTask: taskReducers.addingTrudTask,
+  currentWeek: tableReducers.setCurrentWeek
 })

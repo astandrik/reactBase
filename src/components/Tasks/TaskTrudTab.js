@@ -1,9 +1,7 @@
 import React from "react";
 import Container from "../Container";
 import "../styles/TaskTrudTab.css";
-import edit from "../../Icons/edit.svg";
 import openTrud from "../../Icons/fast-forward.svg";
-import deleteTrud from "../../Icons/delete-photo.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
 import 'moment/locale/ru';
@@ -19,8 +17,8 @@ const generateLaborsBlock = function(laborGroup,props) {
         <Container style={{margin: "5px"}} width="auto" flex="8">
           <div flex="8">
             <Container style={{justifyContent: "space-between"}}>
-                <div style={{flex:"2"}}>{labor.author}</div>
-                <div style={{flex:"4", fontWeight:"bold"}}>{labor.code}</div>
+                <div style={{flex:"2"}}>{labor.author.name}</div>
+                <div style={{flex:"4", fontWeight:"bold"}}>{labor.code.value}</div>
             </Container>
             <span className="commentButton" onClick={props.openComments.bind(this,labor.id)}>Показать комментарии({labor.comments.length})</span>
             <div className={"trudCommentsBlock " + (labor.commentsOpened ? "opened" : "closed")}>

@@ -2,15 +2,15 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskCommentsTab.css";
 import helpers from "./taskHelpers";
-import TextField from 'material-ui/TextField';
 import { Field, reduxForm } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton';
 
 const tab = class TaskCommentsTab extends React.Component {
     render () {
       const props = this.props;
-      const { handleSubmit, pristine, reset, submitting } = props;
+      const { handleSubmit} = props;
       let comments = helpers.generateComments(props.comments);
+      if(props.task) {
       return (
           <Container vertical="true">
             <div>
@@ -27,6 +27,9 @@ const tab = class TaskCommentsTab extends React.Component {
             </div>
           </Container>
       )
+    } else {
+      return <div/>
+    }
     }
 }
 

@@ -1,64 +1,58 @@
 import React from "react";
 import "../styles/taskTable.css";
 import AddTrudModal from "../Modals/AddTrudModal";
+import right from "../../Icons/right.svg";
+import left from "../../Icons/left.svg";
+import moment from 'moment';
+import calendar from "../../Icons/calendar.svg";
+import DatePicker from 'react-datepicker';
+import helpers from "./tableHelpers";
 
-const generateHeaders = function (headers) {
-  let th = [<th key="0">Название</th>];
-  for(var i = 1; i <= headers.length; i++) {
-    th[i] = (
-      <th key={i}>
-        {headers[i-1]}
-      </th>
-    );
-  }
-  return th;
+
+const datepickerStyles = {
+  width: "70%",
+  display: "flex",
+  float: "right",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  background: "white"
 }
 
-const generateRows = function(data) {
-  let rows = [];
-  const elements = data.data;
-  for(var i = 0; i < Object.keys(elements).length;i++) {
-    const elem = elements[Object.keys(elements)[i]];
-    let td = [];
-    let names = [];
-    const tdWidth = 70 / data.headers.length;
-    for(var j = 0; j < elem.length; j++) {
-      const val = elem[j];
-      td[j] = (
-        <td key={j} width={tdWidth+"%"}>{val.timings ? val.timings.length : 0}</td>
-      )
-    }
-    for(var j = elem.length; j < data.headers.length; j++) {
-      td[j] = (
-        <td key={j} width={tdWidth+"%"}>{0}</td>
-      )
-    }
-    rows[i] = (
-      <tr key={i}>
-        <td width="30%"> {Object.keys(elements)[i]} </td>
-        {td}
-      </tr>
-    )
-  }
-  return rows;
-}
+const datePicker = (props, range)=> (
+  <div style={datepickerStyles}>
+    <img className="clickable-image left" onClick={props.handlePrevWeek.bind(this,props.currentWeek)}  src={left} alt="logo" />
+    <div className="dateContainer">
+      <span className="weekVisualiser">{"Неделя " + helpers.getWeek(props.currentWeek) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" }</span>
+      <img className="tableCalendar" src={calendar} alt="logo" />
+      <DatePicker
+        selected={props.currentWeek ? moment(props.currentWeek) : moment(new Date())}
+        onChange={props.onDateSelect}
+      />
+    </div>
+    <img className="clickable-image right" onClick={props.handleNextWeek.bind(this,props.currentWeek)}  src={right} alt="logo" />
+  </div>
+)
 
 const createTable = (tableData, props) => {
-  const headers = generateHeaders(tableData.headers);
-  const rows = generateRows(tableData);
+  const headers = helpers.generateHeaders(tableData.headers);
+  const rows = helpers.generateRows(tableData);
+  const range = helpers.getDateRange(props.currentWeek);
   return (
-    <div className="taskTable">
-      <table className="taskTable" cellSpacing="0">
-        <thead>
-          <tr>
-            {headers}
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-      <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
+    <div>
+      {datePicker(props,range)}
+      <div className="taskTable">
+        <table className="taskTable" cellSpacing="0">
+          <thead>
+            <tr>
+              {headers}
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+        <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
+      </div>
     </div>
   )
 }

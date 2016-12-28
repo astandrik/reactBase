@@ -1,6 +1,6 @@
 import TaskList from "../components/Tasks/TaskList";
 import { connect } from 'react-redux';
-import {loadTask, activateTask, toggleTaskTreeOpen,toggleTaskOpen, deactivateTasks,loadLabors} from "../redux/actions/tasksActions";
+import {loadTask, activateTask, toggleTaskTreeOpen,toggleTaskOpen, deactivateTasks} from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -18,7 +18,6 @@ const mapDispatchToProps = (dispatch) => {
     loadTask: (id) => {
       dispatch(loadTask({id}));
       dispatch(activateTask({id}));
-      dispatch(loadLabors({id}));
     },
     toggleOpen: (index)=> {
       dispatch(toggleTaskTreeOpen({index: index}));

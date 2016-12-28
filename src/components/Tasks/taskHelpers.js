@@ -8,7 +8,7 @@ helpers.generateComments = function(comments) {
   const makeCommentBlock = function(comment) {
     return (
       <div className="commentBlock" key={comment.id}>
-        <span>{comment.author}</span>
+        <span>{comment.author.name}</span>
         <span style={{ marginLeft:"5px", fontWeight:"bold"}}>{comment.text}</span>
       </div>
     )
@@ -21,7 +21,7 @@ helpers.generateComments = function(comments) {
 }
 
 helpers.generateTasks = function(propsTasks,props) {
-  let tasks = [[],[],[]];
+  let tasks = [];
   propsTasks = propsTasks || [];
   propsTasks.forEach((item, i) => {
     const hasChildren = item.children && item.children.length > 0;
@@ -47,7 +47,7 @@ helpers.generateTasks = function(propsTasks,props) {
       children = helpers.generateTasks(item.children, props);
       elem = wrapTaskContainer(elem, children)
     }
-    tasks[item.type-1].push(elem);
+    tasks.push(elem);
   });
   return tasks;
 }
@@ -62,23 +62,23 @@ helpers.generateMenuItems =  function(menuItems) {
   return items;
 }
 
-helpers.generateTaskContainers = function (tasks, props) {
-  const taskTypes = ["Нераспределенные задачи", "Мои задачи", "Задачи подчиненных"]
+helpers.generateTaskContainers = function (taskTree, props) {
   let taskContainers = [];
-  for(var i = 0; i < taskTypes.length; i++) {
+  for(var i = 0; i < taskTree.length; i++) {
     let closed = false;
     if(!props.tasksOpened[i]) {
       closed = true;
     }
+    let tasks = helpers.generateTasks(taskTree[i].children,props);
     taskContainers.push(
-      <div className="taskContainer" key={taskTypes[i]}>
+      <div className="taskContainer" key={taskTree[i].name}>
         <div style={{marginTop:"10px"}}>
           <div className="taskListContainer">
-            <span style={{fontWeight: "bold"}}>{taskTypes[i]}</span>
+            <span style={{fontWeight: "bold"}}>{taskTree[i].name}</span>
             <img className={"clickable-image next " + (!closed? 'opened' : 'closed')} onClick={props.toggleOpen.bind(this,i)}  src={next}/>
           </div>
           <div className={"tasks " + (!closed? 'opened' : 'closed')}>
-            {tasks[i]}
+            {tasks}
           </div>
         </div>
       </div>

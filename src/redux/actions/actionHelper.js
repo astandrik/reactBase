@@ -8,7 +8,6 @@ export function generateActionFunc(type) {
   }
   return func;
 }
-
 const CHANGE_FETCHING_STATUS = "CHANGE_FETCHING_STATUS";
 export const changeFetchingStatus = generateActionFunc(CHANGE_FETCHING_STATUS);
 

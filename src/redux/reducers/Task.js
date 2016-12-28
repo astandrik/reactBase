@@ -15,7 +15,7 @@ import {SET_TASKS,
 function findTaskInTreeById(tasks,id) {
   let elem = -1;
   for(var i = 0; i < tasks.length; i++) {
-    if(tasks[i].id == id) {
+    if(tasks[i].id === id) {
       elem = tasks[i];
       break;
     }
@@ -33,7 +33,7 @@ function findTaskInTreeById(tasks,id) {
 function findLaborById(labors, id) {
   let elem = -1;
   for(var i = 0; i < labors.length; i++) {
-    if(labors[i].id == id) {
+    if(labors[i].id === id) {
       elem = labors[i];
       break;
     }
@@ -53,7 +53,7 @@ function deactivateTasks(tasks) {
 
 export function addingTrudTask(state = {}, action) {
   switch (action.type) {
-    case SET_ADDING_TRUD_TASK:        
+    case SET_ADDING_TRUD_TASK:
         return action.task;
     default:
         return state;

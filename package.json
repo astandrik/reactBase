@@ -1,6 +1,7 @@
 {
   "name": "react_app",
   "version": "0.1.0",
+  "proxy": "http://localhost:3300",
   "private": true,
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
