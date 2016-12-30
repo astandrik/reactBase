@@ -4,7 +4,7 @@ import MenuItem from 'material-ui/MenuItem';
 let helpers = {};
 
 
-helpers.generateComments = function(comments) {
+helpers.generateComments = function(comments = []) {
   const makeCommentBlock = function(comment) {
     return (
       <div className="commentBlock" key={comment.id}>

@@ -19,6 +19,14 @@
   text-align: center;
 }
 
+.react-datepicker__input-container input{
+  max-width: 70px;
+}
+
+.tableCell {
+  cursor: pointer;
+}
+
 .taskTable td:first-child{
   border: 1px black solid;
   text-align: left;

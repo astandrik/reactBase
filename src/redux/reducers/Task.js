@@ -9,7 +9,8 @@ import {SET_TASKS,
   OPEN_DESCRIPTION,
   SET_GROUPED_LABORS,
   SET_CURRENT_TASK_COMMENT,
-  SET_ADDING_TRUD_TASK} from "../actions/tasksActions";
+  SET_ADDING_TRUD_TASK,
+  SET_CODES} from "../actions/tasksActions";
 
 
 function findTaskInTreeById(tasks,id) {
@@ -28,6 +29,7 @@ function findTaskInTreeById(tasks,id) {
   }
   return elem;
 }
+
 
 
 function findLaborById(labors, id) {
@@ -60,12 +62,21 @@ export function addingTrudTask(state = {}, action) {
   }
 }
 
+export function setCodes(state = [], action) {
+  switch (action.type) {
+    case SET_CODES:
+      return action.codes;
+    default:
+      return state;
+  }
+}
+
 export function setCurrentTaskComment(state = "", action) {
   switch (action.type) {
     case SET_CURRENT_TASK_COMMENT:
       return action.text
     default:
-      return state
+      return state;
   }
 
 }

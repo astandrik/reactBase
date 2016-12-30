@@ -43,9 +43,9 @@ export default (props) => {
   labors = [].concat.apply([], labors);
   if(labors.length > 0) {
     return (
-      <Container vertical="true">
+      <div>
         {labors}
-      </Container>
+      </div>
     )
   } else {
     return <div/>;

@@ -21,5 +21,6 @@ export default combineReducers({
   tableData: tableReducers.setTableData,
   form: formReducer,
   currentAddingTrudTask: taskReducers.addingTrudTask,
-  currentWeek: tableReducers.setCurrentWeek
+  currentWeek: tableReducers.setCurrentWeek,
+  codes: taskReducers.setCodes
 })

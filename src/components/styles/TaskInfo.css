@@ -114,6 +114,14 @@
   cursor: pointer;
 }
 
+.trud {
+  margin: 5px;
+}
+
+.comment {
+  margin: 5px;
+}
+
 .taskInfoTab:nth-child(2) {
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;

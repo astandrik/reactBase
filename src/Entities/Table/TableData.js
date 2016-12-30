@@ -1,5 +1,6 @@
 import moment from 'moment';
 import _ from 'lodash';
+import Labor from "../Tasks/Labor";
 const addDays = function(date, days) {
     var dat = date;
     dat.setDate(dat.getDate() + days);
@@ -30,8 +31,10 @@ export default class TableData {
         if(!timings[x.date]) {
           timings[x.date] = [];
         }
+        x = new Labor(x);
         timings[x.date].push(x);
       });
+      timings.id = current.id;
       sum[current.name] = timings;
       return sum;
     }, {});

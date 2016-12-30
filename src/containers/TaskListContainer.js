@@ -1,6 +1,9 @@
 import TaskList from "../components/Tasks/TaskList";
 import { connect } from 'react-redux';
-import {loadTask, activateTask, toggleTaskTreeOpen,toggleTaskOpen, deactivateTasks} from "../redux/actions/tasksActions";
+import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
+import {reset} from 'redux-form';
+import {loadTask, activateTask, toggleTaskTreeOpen,toggleTaskOpen,
+   deactivateTasks,setTaskView,loadWorkCodes, createTask} from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -27,6 +30,19 @@ const mapDispatchToProps = (dispatch) => {
     },
     onRightClose: () => {
       dispatch(deactivateTasks());
+    },
+    handleNewTaskSubmit: (json) =>  {
+      json.parent_id = 0;
+      json.start_dt = (new Date(json.startDate)).getTime() * 1000;
+      dispatch(createTask(json));
+      dispatch(reset('newTaskInfoDialogForm'));
+    },
+    handleAddNewTask: () => {
+      dispatch(loadWorkCodes());
+      dispatch(setTaskView({
+        task: {type: "new"}
+      }));
+      dispatch(toggleRightPanel({status: 1}));
     }
   }
 }

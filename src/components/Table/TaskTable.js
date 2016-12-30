@@ -1,12 +1,15 @@
 import React from "react";
 import "../styles/taskTable.css";
 import AddTrudModal from "../Modals/AddTrudModal";
+import Container from "../Container";
 import right from "../../Icons/right.svg";
 import left from "../../Icons/left.svg";
 import moment from 'moment';
 import calendar from "../../Icons/calendar.svg";
+import LaborListContainer from "../../containers/LaborListContainer";
 import DatePicker from 'react-datepicker';
 import helpers from "./tableHelpers";
+import {RightPanelContainer} from "../../containers/Containers";
 
 
 const datepickerStyles = {
@@ -16,6 +19,11 @@ const datepickerStyles = {
   flexDirection: "row",
   justifyContent: "space-between",
   background: "white"
+}
+
+const fullSize = {
+  width:"100%",
+  height: "100%"
 }
 
 const datePicker = (props, range)=> (
@@ -35,32 +43,41 @@ const datePicker = (props, range)=> (
 
 const createTable = (tableData, props) => {
   const headers = helpers.generateHeaders(tableData.headers);
-  const rows = helpers.generateRows(tableData);
+  const rows = helpers.generateRows(tableData, props.cellClickHandler);
   const range = helpers.getDateRange(props.currentWeek);
-  return (
-    <div>
-      {datePicker(props,range)}
-      <div className="taskTable">
-        <table className="taskTable" cellSpacing="0">
-          <thead>
-            <tr>
-              {headers}
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-        <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
+  let rightPanel = <div containerStyle={{display:"none"}}/>;
+  if(props.rightPanelStatus) {
+    rightPanel = (
+      <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
+        <RightPanelContainer onClose={props.onRightClose}>
+          <LaborListContainer  task={props.taskView} />
+        </RightPanelContainer>
       </div>
-    </div>
+    )
+  }
+  return (
+    <Container>
+      <div>
+        {datePicker(props,range)}
+        <div className="taskTable">
+          <table className="taskTable" cellSpacing="0">
+            <thead>
+              <tr>
+                {headers}
+              </tr>
+            </thead>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+          <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
+        </div>
+      </div>
+      {rightPanel}
+    </Container>
   )
 }
 
 export default (props) => {
-  if(props.tableData && props.tableData.data && Object.keys(props.tableData.data).length > 0) {
-    return createTable(props.tableData, props);
-  } else {
-    return <div></div>
-  }
+  return createTable(props.tableData, props);
 }

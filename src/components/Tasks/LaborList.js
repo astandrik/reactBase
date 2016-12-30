@@ -25,7 +25,7 @@ export default (props) => {
     </div>
   )
   const addTrudButton = (task) => (
-    <div className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
+    <div className={"addTrudButtonContainer "}>
       <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>
         Добавить трудозату
       </div>
@@ -34,46 +34,19 @@ export default (props) => {
   return (
     <Container vertical={true}>
       <div className="infoHeader" flex="1">
-        <Container style={{justifyContent: "space-between"}}>
           <div className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>
-            <span>{task.manager}</span>
             <div>
               <img className="user" src={calendar} alt="logo" />
               <span>{moment(task.startDate).format("DD.MM.YY")}</span>
             </div>
           </div>
-          {imagesPanel}
-        </Container>
       </div>
       <Container vertical={true} flex="6" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
           <h2 flex="1" style={{margin:"5px", marginBottom: "20px"}}>
             {task.title}
           </h2>
-          <Container flex="3">
-            <div className="taskPanel">
-              <span className="panelLabel"> Код работ </span>
-              <span className="panelText"> {task.code} </span>
-            </div>
-            <div  className="taskPanel">
-              <span className="panelLabel"> Статья финансирования </span>
-              <span className="panelText"> {task.finance} </span>
-            </div>
-          </Container>
-          <div className="taskPanel" flex="4" containerStyle={{minHeight: "200px"}}>
-            <span className="panelLabel"> Описание </span>
-            <span className={"panelText " + (!task.descriptionOpen ? "" : "noDisplay")}>
-              {task.shortDescription} <span style={{fontSize:"20px"}}>...</span>
-              <span style={{textDecoration: "underline", color:"blue",cursor:"pointer"}} onClick={props.openDescription.bind(this, task)}>Подробнее...</span>
-            </span>
-            <span  className={"panelText " + (task.descriptionOpen ? "" : "noDisplay")}>
-              {task.description}
-            </span>
-          </div>
-          <div className={(props.activeTab !== "trud") ? "noDisplay" : "trud"}>
+          <div className="trud">
             <TaskTrudTabContainer/>
-          </div>
-          <div className={(props.activeTab !== "comment") ? "noDisplay" : "comment"}>
-            <TaskCommentsTabContainer onSubmit={props.handleSubmit} task={task}/>
           </div>
       </Container>
       {addTrudButton(task)}

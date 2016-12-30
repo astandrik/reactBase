@@ -2,7 +2,7 @@ import React from "react";
 let helpers = {};
 
 
-helpers.generateHeaders = function (headers) {
+helpers.generateHeaders = function (headers = []) {
   let th = [<th key="0">Название</th>];
   for(var i = 1; i <= headers.length; i++) {
     th[i] = (
@@ -15,10 +15,13 @@ helpers.generateHeaders = function (headers) {
 }
 
 
-helpers.generateRows = function(data) {
+helpers.generateRows = function(data = [], clickHandler) {
   let rows = [];
   const elements = data.data;
   const headers = data.headers;
+  if(!data || data.length == 0) {
+    return [];
+  }
   for(var i = 0; i < Object.keys(elements).length;i++) {
     const elem = elements[Object.keys(elements)[i]];
     let td = [];
@@ -27,7 +30,7 @@ helpers.generateRows = function(data) {
     for(var j = 0; j < headers.length; j++) {
       const val = elem[headers[j]];
       td[j] = (
-        <td key={j} width={tdWidth+"%"}>{val ? val.length : 0}</td>
+        <td key={j} className="tableCell" width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id)}>{val ? val.length : 0}</td>
       )
     }
     rows[i] = (
