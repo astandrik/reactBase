@@ -34,11 +34,17 @@ export default class GlobalHeader extends React.Component {
         </div>
       )
     }
-    return (
-      <div style={headerStyles}>
-        <h2 style={{textAlign: "center", marginBottom:"0px"}}>{this.props.title}</h2>
-        {tabs}
-      </div>
-    );
+    if(!this.props.currentTitle) {
+      return (
+        <div style={{display: "none"}}/>
+      )
+    } else {
+      return (
+        <div style={headerStyles}>
+          <h2 style={{textAlign: "center", marginBottom:"0px"}}>{this.props.currentTitle}</h2>
+          {tabs}
+        </div>
+      );
+    }
   }
 }

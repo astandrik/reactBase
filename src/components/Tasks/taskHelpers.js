@@ -1,6 +1,7 @@
 import React from "react";
 import next from "../../Icons/next.svg";
 import MenuItem from 'material-ui/MenuItem';
+import ReactTooltip from 'react-tooltip'
 let helpers = {};
 
 
@@ -85,6 +86,17 @@ helpers.generateTaskContainers = function (taskTree, props) {
     )
   }
   return taskContainers;
+}
+
+helpers.createExecutors = function(executors) {
+  let executorDivs = [];
+  if(executors) {
+    executors.forEach((x,i) => {
+      const name = x.name.split(' ').map(x=>x[0].toUpperCase());
+      executorDivs.push(<div className="singleExecutor" key={x.id}><span data-tip={x.name}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+    });
+  }
+  return executorDivs;
 }
 
 export default helpers;

@@ -1,25 +1,28 @@
 import AddTrudModal from "../../components/Modals/AddTrudModal";
-import { connect } from 'react-redux';
+import {
+    connect
+} from 'react-redux';
 
-const mapStateToProps = (state,ownProps) => {
-  return {
-    trudTask: state.currentAddingTrudTask,
-    isTrudModalOpen: ownProps.isTrudModalOpen,
-    closeModal: ownProps.closeModal,
-    handleTrudSubmit: ownProps.handleTrudSubmit
-  }
+const mapStateToProps = (state, ownProps) => {
+    return {
+        trudTask: state.currentAddingTrudTask,
+        isTrudModalOpen: ownProps.isTrudModalOpen,
+        closeModal: ownProps.closeModal,
+        handleTrudSubmit: ownProps.handleTrudSubmit,
+        codes: state.codes
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
+    return {
 
-  }
+    }
 }
 
 
 const Visible = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(AddTrudModal)
 
 export default Visible

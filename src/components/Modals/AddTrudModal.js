@@ -9,16 +9,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Field, reduxForm } from 'redux-form'
 import "../styles/Modal.css";
 import moment from "moment";
-
-const DPicker = ({ input, label, meta: { touched, error } }) => {
-  const selected = input.value ? moment(input.value) : null;
-    return (
-        <DatePicker
-           selected={selected}
-            onChange={input.onChange}
-        />
-);
-}
+import SelectInput from "../formComponents/SelectInput";
+import DPicker from "../formComponents/DatePicker";
+import calendar from "../../Icons/calendar.svg";
 
 const commentField = ({ input, label, meta: { touched, error } }) => {
   return (
@@ -45,11 +38,23 @@ const dialog = (props) => {
   <Container vertical="true" >
     <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
       <div flex="2">
-        <Field style={{margin:"10px", minHeight:"20px", minWidth:"150px"}} name="hours" component="input" placeholder="Количество часов"/>
+        <Field style={{margin:"10px 0", minHeight:"20px", minWidth:"150px"}} name="hours" component="input" placeholder="Количество часов"/>
       </div>
       <Container flex="2">
-        <Field style={{margin:"10px", minHeight:"20px", minWidth:"150px"}} name="code" component="input" placeholder="Код работ"/>
-        <Field name="startDate" component={DPicker}/>
+        <Field
+            name="code"
+            component={prp =>
+                <SelectInput
+                    {...prp}
+                    placeholder="Код работ"
+                    options={props.codes}
+                />
+            }/>
+          <div className="taskDate">
+            <img className="rightCalendar" src={calendar} alt="logo" />
+            <Field name="startDate" component={DPicker}/>
+            <span> Дата: </span>
+          </div>
       </Container>
       <div flex="5">
         <Field name="comment" component={commentField}/>

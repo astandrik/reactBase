@@ -14,15 +14,25 @@ export const SET_CURRENT_TASK_COMMENT = "SET_CURRENT_TASK_COMMENT";
 export const SET_ADDING_TRUD_TASK = "SET_ADDING_TRUD_TASK";
 export const SELECT_TABLE_LABORS = "SELECT_TABLE_LABORS";
 export const GET_WORK_CODES = "GET_WORK_CODES";
+export const REMOVE_TASK_VIEW = "REMOVE_TASK_VIEW";
 export const SET_CODES = "SET_CODES";
 
+import {
+    reset
+} from 'redux-form';
 import Task from "../../Entities/Tasks/Task";
 import TaskTree from "../../Entities/Tasks/TaskTree";
 import moment from "moment";
 import _ from "lodash";
 import Labor from "../../Entities/Tasks/Labor";
-import {toggleRightPanel} from "./layoutActions";
-import {generateActionFunc, fetchAsync, fetchPost} from "./actionHelper.js";
+import {
+    toggleRightPanel
+} from "./layoutActions";
+import {
+    generateActionFunc,
+    fetchAsync,
+    fetchPost
+} from "./actionHelper.js";
 
 export const setAddingTrudTask = generateActionFunc(SET_ADDING_TRUD_TASK);
 export const setTasks = generateActionFunc(SET_TASKS);
@@ -38,66 +48,86 @@ export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
 export const setCurrentTaskComment = generateActionFunc(SET_CURRENT_TASK_COMMENT);
 export const setGroupedLabors = generateActionFunc(SET_GROUPED_LABORS);
 export const setCodes = generateActionFunc(SET_CODES);
+export const removeCurrentTask = generateActionFunc(REMOVE_TASK_VIEW)
 
 export function groupLabors(labors) {
-  labors.sort((a,b) => a.startDate < b.startDate ? 1 : -1);
-  let groups = _.groupBy(labors, function (labor) {
-    return moment(labor.startDate).startOf('day').format();
-  });
-  return groups;
+    labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
+    let groups = _.groupBy(labors, function (labor) {
+        return moment(labor.startDate).startOf('day').format();
+    });
+    return groups;
 }
 
 export function loadTask(obj) {
-  const handler = function(json, dispatch) {
-    const task = new Task(json.data);
-    dispatch(setTaskView({task}));
-    dispatch(toggleRightPanel({status: 1}));
-    const labors = json.data.timings.map((x) => new Labor(x));
-    const groups = groupLabors(labors);
-    dispatch(setGroupedLabors({groups}));
-  }
-  return fetchAsync(`/get/task?id=${obj.id}`, handler);
+    const handler = function (json, dispatch) {
+        const task = new Task(json.data);
+        dispatch(setTaskView({
+            task
+        }));
+        dispatch(toggleRightPanel({
+            status: 1
+        }));
+        const labors = json.data.timings.map((x) => new Labor(x));
+        const groups = groupLabors(labors);
+        dispatch(setGroupedLabors({
+            groups
+        }));
+    }
+    return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
 
 export function loadTaskShort(obj, callback) {
-  const handler = function(json, dispatch) {
-    const task = new Task(json.data);
-    if(callback) {
-      callback(task);
+    const handler = function (json, dispatch) {
+        const task = new Task(json.data);
+        if (callback) {
+            callback(task);
+        }
     }
-  }
-  return fetchAsync(`/get/task?id=${obj.id}`, handler);
+    return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
 
 
 export function loadLabor(id) {
-  const handler = function(json, dispatch) {
-    let labor = new Labor(json.data);
-    //dispatch(setTasks({tasks: tasks.tree}));
-  }
-  return fetchAsync(`/get/time?id=${id}`, handler);
+    const handler = function (json, dispatch) {
+        let labor = new Labor(json.data);
+        //dispatch(setTasks({tasks: tasks.tree}));
+    }
+    return fetchAsync(`/get/time?id=${id}`, handler);
 }
 
 export function loadWorkCodes() {
-  const handler = (data, dispatch) => {
-    let codes = data.data.codes.map(x=> ({label:x.value, value: x.id}));
-    dispatch(setCodes({codes}));
-  }
-  return fetchAsync(`/data/codes`, handler);
+    const handler = (data, dispatch) => {
+        let codes = data.data.codes.map(x => ({
+            label: x.value,
+            value: x.id
+        }));
+        dispatch(setCodes({
+            codes
+        }));
+    }
+    return fetchAsync(`/data/codes`, handler);
 }
 
 export function loadTasks(id) {
-  const handler = function(json, dispatch) {
-    let tasks = new TaskTree(json.data.tree);
-    dispatch(setTasks({tasks: tasks.tree}));
-  }
-  return fetchAsync(`/data/tree`, handler);
+    const handler = function (json, dispatch) {
+        let tasks = new TaskTree(json.data.tree);
+        dispatch(setTasks({
+            tasks: tasks.tree
+        }));
+    }
+    return fetchAsync(`/data/tree`, handler);
 }
 
-export function createTask(data) {
-  const handler = (json)=> {
-    debugger;
-  }
-  data.code_id = data.code;
-  return fetchPost(`/create/task`, data, handler);
+export function createTask(data,dispatch) {
+    const handler = (json) => {
+      dispatch(reset('newTaskInfoDialogForm'));
+    }
+    return fetchPost(`/create/task`, data, handler);
+}
+
+export function createLabor(data) {
+    const handler = (json,dispatch) => {
+      dispatch(reset('trudDialogForm'));
+    }
+    return fetchPost(`/create/time`, data, handler);
 }

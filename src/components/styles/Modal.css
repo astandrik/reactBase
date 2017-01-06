@@ -3,6 +3,7 @@
   right: 20%!important;
   left: 20%!important;
   bottom: 20%!important;
+  background: #EEEEEE!important;
 }
 
 
@@ -16,4 +17,19 @@
 
 .modalForm {
   height: 100%;
+}
+
+.taskDate {
+  margin-left: 80px;
+  margin-right: 80px; 
+}
+
+.taskDate > div > * {
+  float:right;
+  margin: 0 10px;
+}
+
+.rightCalendar {
+  width: 23px;
+  height: 23px;
 }

@@ -10,7 +10,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './index.css';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
-
 import {ToolbarContainer, SpinnerContainer,LeftNavContainer,GlobalHeaderContainer}  from "./containers/Containers";
 import Container from "./components/Container";
 import Reducers from './redux/reducers';
@@ -27,17 +26,23 @@ var containerStyles = {
   justifyContent: "center"
 }
 
-import {getCurrentUser, setTabs} from "./redux/actions/layoutActions";
-import {loadTasks} from "./redux/actions/tasksActions";
+import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
+import {setTabs, setCurrentTitle} from "./redux/actions/layoutActions";
+import {loadTasks,loadWorkCodes} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 
 var loadRepo = {
   user: (user) => store.dispatch(getCurrentUser({})),
   tasks: ()=>store.dispatch(loadTasks()),
   tabs: (tabs)=>store.dispatch(setTabs({tabs})),
-  tableData: ()=>store.dispatch(loadTableData({day: new Date()}))
+  tableData: ()=>store.dispatch(loadTableData({day: new Date()})),
+  setCurrentTitle: (title) => store.dispatch(setCurrentTitle({title:title})),
+  workCodes: () => store.dispatch(loadWorkCodes()),
+  subordinates: () => store.dispatch(getSubordinates({}))
 }
 loadRepo.user();
+loadRepo.workCodes();
+loadRepo.subordinates();
 
 const RouterCreator = function(name, to, hashtag) {
   return {name, to, hashtag};
@@ -57,6 +62,10 @@ const sidenavRoutes = [
 
 class Layout extends React.Component {
   render() {
+    let headerStyle = {
+      background: "white",
+      borderBottom:"1px solid black"
+    };
     return (
     <div>
       <ToolbarContainer/>
@@ -64,8 +73,8 @@ class Layout extends React.Component {
           <SpinnerContainer/>
           <LeftNavContainer children={sidenavRoutes}/>
           <Container vertical="true" style={{background:"#DDDDDD"}}>
-            <GlobalHeaderContainer tabs={this.props.tabs} flex="1" containerStyle={{background: "white",maxHeight: "80px", minHeight:"80px",borderBottom:"1px solid black"}} />
-              <div containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
+              <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
+              <div flex="999" containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
                 {this.props.children}
               </div>
           </Container>

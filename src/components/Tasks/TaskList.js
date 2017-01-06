@@ -7,6 +7,7 @@ import "../styles/TaskList.css";
 import TaskInfoContainer from "../../containers/TaskInfoContainer";
 import NewTaskInfoContainer from "../../containers/NewTaskInfoContainer";
 import helpers from "./taskHelpers";
+import ValidationErrorsModalContainer from "../../containers/ModalContainers/ValidationErrorsModalContainer";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -43,7 +44,7 @@ export default class TaskList extends React.Component {
       rightPanel= (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
           <RightPanelContainer onClose={this.props.onRightClose}>
-            <TaskInfoContainer task={this.props.taskView}/>
+            <TaskInfoContainer task={this.props.taskView} onSubmit={this.props.handleEditTaskSubmit}/>
           </RightPanelContainer>
         </div>
       )
@@ -66,6 +67,7 @@ export default class TaskList extends React.Component {
           </div>
         </div>
         {rightPanel}
+        <ValidationErrorsModalContainer containerStyle={{maxWidth: '0'}}/>
       </Container>
     );
   }

@@ -6,13 +6,14 @@ import {reset} from 'redux-form';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    codes: state.codes
+    codes: state.codes,
+    executors: state.subordinates
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-  
+
   }
 }
 
