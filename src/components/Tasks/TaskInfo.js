@@ -169,7 +169,8 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
 }
 
 let taskForm = reduxForm({
-  form: "taskInfoDialogForm"
+  form: "taskInfoDialogForm",
+  enableReinitialize: true
 })(TaskInfoComponent);
 
 taskForm = connect(

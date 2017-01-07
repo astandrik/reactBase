@@ -18,6 +18,7 @@ export default class Task {
         this.children = task.children;
         this.opened = false;
         this.active = false;
+        this.timings = task.timings;
         this.author = task.author.name
         this.finance = task.finance;
         this.comments = task.comments;

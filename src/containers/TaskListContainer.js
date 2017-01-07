@@ -35,8 +35,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadTask: (id) => {
-            dispatch(removeCurrentTask());
+        loadTask: (id) => {            
             dispatch(loadTask({
                 id
             }));

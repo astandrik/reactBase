@@ -91,7 +91,6 @@ export function loadTaskShort(obj, callback) {
 export function loadLabor(id) {
     const handler = function (json, dispatch) {
         let labor = new Labor(json.data);
-        //dispatch(setTasks({tasks: tasks.tree}));
     }
     return fetchAsync(`/get/time?id=${id}`, handler);
 }

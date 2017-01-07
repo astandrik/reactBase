@@ -10,16 +10,6 @@ import {
     reducer as formReducer
 } from 'redux-form';
 
-const form = formReducer.plugin({
-    taskInfoDialogForm: (state, action) => { // <------ 'account' is name of form given to reduxForm()
-        switch (action.type) {
-        case "SET_TASK_VIEW":
-            return undefined; // <--- blow away form data
-        default:
-            return state;
-        }
-    }
-})
 
 export default combineReducers({
     isFetching: layoutReducers.fetchStatusChange,
@@ -35,7 +25,7 @@ export default combineReducers({
     currentTaskComment: taskReducers.setCurrentTaskComment,
     isTrudModalOpen: layoutReducers.openTrudModal,
     tableData: tableReducers.setTableData,
-    form: form,
+    form: formReducer,
     currentAddingTrudTask: taskReducers.addingTrudTask,
     currentWeek: tableReducers.setCurrentWeek,
     codes: taskReducers.setCodes,
