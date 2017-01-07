@@ -41,7 +41,7 @@ export default class GlobalHeader extends React.Component {
     } else {
       return (
         <div style={headerStyles}>
-          <h2 style={{textAlign: "center", marginBottom:"0px"}}>{this.props.currentTitle}</h2>
+          <h2 style={{textAlign: "center", marginBottom:"0px", marginTop: "5px"}}>{this.props.currentTitle}</h2>
           {tabs}
         </div>
       );

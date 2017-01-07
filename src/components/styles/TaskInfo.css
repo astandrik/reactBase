@@ -57,6 +57,7 @@
   padding: 5px 60px 5px 5px;
   border-bottom: 1px solid black;
   max-height: 50px;
+  min-height: 35px;
 }
 
 .taskInfoTabs > div > div:first-child {
@@ -75,11 +76,23 @@
   display: none!important;
 }
 
+.singleExecutor {
+  position: relative;
+}
+
 .singleExecutor span {
-  margin-top: 7.5px;
-  margin-left: 3px;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  top: 0;
+  bottom: 0;
+  left:0;
+  right: 0;
+  position: absolute;
   display: block;
   float: left;
+  line-height: 30px;
 }
 
 .infoHeaderBlock > div > div:nth-child(2) {
@@ -101,9 +114,9 @@
 .singleExecutor {
   height: 30px;
   width: 30px;
-  background: #EEEEEE;
+  background: #DDDDDD;
   border-radius: 30px;
-  border: 1px solid black;
+  border: 2px solid black;
   text-align: center;
   float:left;
   margin:5px;

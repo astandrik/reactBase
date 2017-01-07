@@ -10,8 +10,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './index.css';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 
-import {ToolbarContainer, SpinnerContainer,LeftNavContainer,GlobalHeaderContainer}  from "./containers/Containers";
-import Container from "./components/Container";
 import Reducers from './redux/reducers';
 let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // Needed for onTouchTap
@@ -19,17 +17,11 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 injectTapEventPlugin();
 import {Home,TaskRoutes} from "./Routes/routes";
 
-var containerStyles = {
-  display: "flex",
-  width: "100%",
-  height: "calc(100% - 56px)",
-  justifyContent: "center"
-}
-
 import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle} from "./redux/actions/layoutActions";
 import {loadTasks,loadWorkCodes} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
+import LayoutContainer from "./LayoutContainer";
 
 var loadRepo = {
   user: (user) => store.dispatch(getCurrentUser({})),
@@ -44,43 +36,6 @@ loadRepo.user();
 loadRepo.workCodes();
 loadRepo.subordinates();
 
-const RouterCreator = function(name, to, hashtag) {
-  return {name, to, hashtag};
-}
-
-const sidenavRoutes = [
-  {name: "Все задачи", to:"/tasks/list"//, children:[RouterCreator("Нераспределенные задачи", null, "free"),RouterCreator("Мои задачи", null, "my"),RouterCreator("Задачи подчиненных", null, "subordinate")]
-  },
-  RouterCreator("Мои отчеты", '/reports'),
-  RouterCreator("Мои трудозатраты", '/work')
-];
-
-
-
-class Layout extends React.Component {
-  render() {
-    let headerStyle = {
-      background: "white",
-      borderBottom:"1px solid black",
-      maxHeight: "83.91px"
-    };
-    return (
-    <div>
-      <ToolbarContainer/>
-        <div style={containerStyles}>
-          <SpinnerContainer/>
-          <LeftNavContainer children={sidenavRoutes}/>
-          <Container vertical="true" style={{background:"#DDDDDD"}}>
-              <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
-              <div containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
-                {this.props.children}
-              </div>
-          </Container>
-      </div>
-    </div>
-    )
-  }
-}
 
 const TasksRouter = TaskRoutes({loadRepo:loadRepo});
 
@@ -88,7 +43,7 @@ const Root = () => (
     <Provider store={store}>
       <MuiThemeProvider>
         <Router history={browserHistory}>
-          <Route path="/" component={Layout}>
+          <Route path="/" component={LayoutContainer}>
             <IndexRoute component={Home}/>
             {TasksRouter}
           </Route>
