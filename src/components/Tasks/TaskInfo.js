@@ -61,6 +61,18 @@ const popoverMenu = (props, context) => {
      )
 }
 
+const codeBlockStyle = {
+  minHeight: "76px"
+}
+
+const headerBlockStyle = {
+  minHeight: "56px"
+}
+
+const descriptionBlockStyle = {
+  minHeight: "269px"
+}
+
 const  TaskInfoComponent =  class newTaskInfo extends React.Component {
   constructor(props) {
    super(props);
@@ -109,10 +121,10 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
               </Container>
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
-                <h2 flex="1" style={{margin:"5px", marginBottom: "20px"}}>
+                <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
                   <Field name="name"  component={fields.nameField}/>
                 </h2>
-                <Container flex="3">
+                <Container flex="3" containerStyle={codeBlockStyle}>
                   <div className="taskPanel">
                     <span className="panelLabel"> Код работ </span>
                       <Field
