@@ -11,6 +11,7 @@
 .laborBlock {
   border: 1px solid black;
   margin:5px 0;
+  min-height: 50px;
 }
 
 .commentButton{

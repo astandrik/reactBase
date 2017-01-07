@@ -144,7 +144,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                       </span>
                   </div>
                 </Container>
-                <div className="taskPanel" flex="4" containerStyle={{minHeight: "200px"}}>
+                <div className="taskPanel" flex="4" containerStyle={{minHeight: "270px"}}>
                   <span className="panelLabel"> Описание </span>
                     <span  className="panelText fullWidth">
                       <Field className="fieldValue" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}}name="description" component="textarea" placeholder="Описание задачи"/>

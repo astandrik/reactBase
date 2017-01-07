@@ -23,7 +23,7 @@ const tab = class TaskCommentsTab extends React.Component {
             <div style={{outline: "1px solid black"}}>
               <Container className="leaveCommentContainer">
                 <span flex="1" style={{marginLeft:"20px"}}>{props.task.manager}</span>
-                <textarea  flex="3" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}} name="comment" ref="commentField" placeholder="Напишите комментарий"/>
+                <textarea  flex="3" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}} name="comment" ref="commentField" placeholder="Напишите комментарий"/>
               </Container>
               <FlatButton onClick={prepareComment} label="Отправить" />
             </div>

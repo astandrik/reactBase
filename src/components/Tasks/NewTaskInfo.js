@@ -11,6 +11,18 @@ import {connect} from 'react-redux';
 import DPicker from "../formComponents/DatePicker";
 
 
+const codeBlockStyle = {
+  minHeight: "76px"
+}
+
+const headerBlockStyle = {
+  minHeight: "56px"
+}
+
+const descriptionBlockStyle = {
+  minHeight: "269px"
+}
+
 const newTaskInfoComponent = class newTaskInfo extends React.Component {
     render () {
   const props=this.props;
@@ -40,10 +52,10 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
         </Container>
       </div>
       <Container vertical={true} flex="6" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
-          <h2 flex="1" style={{margin:"5px", marginBottom: "20px"}}>
+          <h2 containerStyle={headerBlockStyle} flex="1" style={{margin:"5px", marginBottom: "20px"}}>
             <Field name="name" className="fieldValue taskHeader" component="input" placeholder="Название задачи"/>
           </h2>
-          <Container flex="3">
+          <Container containerStyle={codeBlockStyle} flex="3">
             <div className="taskPanel">
               <span className="panelLabel"> Код работ </span>
               <Field
@@ -63,7 +75,7 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
               </span>
             </div>
           </Container>
-          <div className="taskPanel" flex="4" containerStyle={{minHeight: "200px"}}>
+          <div className="taskPanel" flex="4" containerStyle={{minHeight: "270px"}}>
             <span className="panelLabel"> Описание </span>
             <span  className="panelText fullWidth">
               <Field className="fieldValue" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}}name="description" component="textarea" placeholder="Описание задачи"/>
