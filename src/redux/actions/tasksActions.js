@@ -26,7 +26,8 @@ import moment from "moment";
 import _ from "lodash";
 import Labor from "../../Entities/Tasks/Labor";
 import {
-    toggleRightPanel
+    toggleRightPanel,
+    closeTrudModal
 } from "./layoutActions";
 import {
     generateActionFunc,
@@ -133,15 +134,17 @@ export function editTask(data) {
   return fetchPost(`/edit/task`, data, handler);
 }
 
-export function createComment(data) {
+export function createComment(data, task) {
   const handler = (json,dispatch) => {
-
+    dispatch(loadTask(task));
   }
   return fetchPost(`/create/comment`, data, handler);
 }
 
-export function createLabor(data) {
+export function createLabor(data, task) {
     const handler = (json,dispatch) => {
+      dispatch(loadTask(task));
+      dispatch(closeTrudModal());
       dispatch(reset('trudDialogForm'));
     }
     return fetchPost(`/create/time`, data, handler);

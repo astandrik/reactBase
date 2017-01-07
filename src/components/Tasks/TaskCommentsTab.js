@@ -13,6 +13,7 @@ const tab = class TaskCommentsTab extends React.Component {
       const prepareComment = () => {
         var self = this;
         sendComment(self.refs.commentField.value);
+        self.refs.commentField.value = "";
       }
       if(props.task) {
       return (

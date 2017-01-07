@@ -50,8 +50,9 @@ const mapDispatchToProps = (dispatch) => {
         handleTrudSubmit: (task, json) => {
             json.task_id = task.id;
             json.code_id = json.code;
+            json.date = (new Date(json.startDate)).getTime() / 1000;
             json.status = 0;
-            dispatch(createLabor(json));
+            dispatch(createLabor(json, task));
         },
         handleAddNewSubTask: (task) => {
           dispatch(setTaskView({
@@ -71,8 +72,7 @@ const mapDispatchToProps = (dispatch) => {
           let obj = {};
           obj.comment = comment;
           obj.task_id = task.id;
-          obj.author_id = 2;
-          dispatch(createComment(obj));
+          dispatch(createComment(obj,task));
         }
     }
 }

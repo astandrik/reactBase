@@ -70,7 +70,7 @@ const headerBlockStyle = {
 }
 
 const descriptionBlockStyle = {
-  minHeight: "269px"
+  minHeight: "200px"
 }
 
 const  TaskInfoComponent =  class newTaskInfo extends React.Component {
@@ -144,10 +144,10 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                       </span>
                   </div>
                 </Container>
-                <div className="taskPanel" flex="4" containerStyle={{minHeight: "270px"}}>
+                <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
                   <span className="panelLabel"> Описание </span>
                     <span  className="panelText fullWidth">
-                      <Field className="fieldValue" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}}name="description" component="textarea" placeholder="Описание задачи"/>
+                      <Field className="fieldValue" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}name="description" component="textarea" placeholder="Описание задачи"/>
                     </span>
                 </div>
                 <div className={(props.activeTab !== "trud") ? "noDisplay" : "trud"}>

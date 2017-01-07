@@ -20,7 +20,7 @@ const headerBlockStyle = {
 }
 
 const descriptionBlockStyle = {
-  minHeight: "269px"
+  minHeight: "200px"
 }
 
 const newTaskInfoComponent = class newTaskInfo extends React.Component {
