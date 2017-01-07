@@ -61,7 +61,8 @@ class Layout extends React.Component {
   render() {
     let headerStyle = {
       background: "white",
-      borderBottom:"1px solid black"
+      borderBottom:"1px solid black",
+      maxHeight: "83.91px"
     };
     return (
     <div>
@@ -71,7 +72,7 @@ class Layout extends React.Component {
           <LeftNavContainer children={sidenavRoutes}/>
           <Container vertical="true" style={{background:"#DDDDDD"}}>
               <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
-              <div flex="999" containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
+              <div containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
                 {this.props.children}
               </div>
           </Container>
