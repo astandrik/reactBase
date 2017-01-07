@@ -82,7 +82,9 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
             </span>
           </div>
       </Container>
-      <FlatButton type="submit" label="Создать" />
+        <div style={{borderTop:"1px solid black", minHeight: "36px"}}>
+          <FlatButton type="submit" label="Создать" />
+        </div>
       </Container>
       </form>
     )
