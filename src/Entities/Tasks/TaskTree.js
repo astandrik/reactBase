@@ -5,7 +5,9 @@ function parseTree(tree) {
     const children = parseTree(item.children);
     container[index] = {name:item.name, children: children, type: item.type};
     if(item.type === "TASK") {
-      Object.assign(container[index], new Task(item.task));
+      let obj = new Task(item.task);
+      Object.assign(obj,container[index]);
+      container[index] = obj;
     }
   });
   return container;

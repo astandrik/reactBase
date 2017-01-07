@@ -10,14 +10,21 @@ export const setLoggedUser = generateActionFunc(SET_USER);
 export const setSubordinates = generateActionFunc(SET_SUBORDINATES);
 
 export function getSubordinates() {
+    const handler2 = (data, json, dispatch) => {
+      const user = {
+          label: json.data.user.name,
+          value: json.data.user.id
+      };
+      dispatch(setSubordinates({
+          subordinates: data.concat([user])
+      }));
+    }
     const handler = (json, dispatch) => {
         const data = json.data.subordinates.map(x => ({
             label: x.name,
             value: x.id
         }));
-        dispatch(setSubordinates({
-            subordinates: data
-        }));
+        dispatch(fetchAsync(`/data/me`, handler2.bind(this,data)));
     };
     return fetchAsync('/data/subordinates', handler);
 }

@@ -85,7 +85,8 @@ taskForm = connect(
   state => {
     return ({
     initialValues:  {
-      executors: []
+      executors: [],
+      parent_id: state.taskView.parent_id
     }
   })}
 )(taskForm)

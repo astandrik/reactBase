@@ -49,11 +49,8 @@ const RouterCreator = function(name, to, hashtag) {
 }
 
 const sidenavRoutes = [
-  {name: "Мои задачи", to:"/tasks/list", children:[
-    RouterCreator("Нераспределенные задачи", null, "free"),
-    RouterCreator("Мои задачи", null, "my"),
-    RouterCreator("Задачи подчиненных", null, "subordinate"),
-  ]},
+  {name: "Все задачи", to:"/tasks/list"//, children:[RouterCreator("Нераспределенные задачи", null, "free"),RouterCreator("Мои задачи", null, "my"),RouterCreator("Задачи подчиненных", null, "subordinate")]
+  },
   RouterCreator("Мои отчеты", '/reports'),
   RouterCreator("Мои трудозатраты", '/work')
 ];

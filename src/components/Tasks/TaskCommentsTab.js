@@ -8,7 +8,12 @@ import FlatButton from 'material-ui/FlatButton';
 const tab = class TaskCommentsTab extends React.Component {
     render () {
       const props = this.props;
+      const {sendComment} = props;
       let comments = helpers.generateComments(props.comments);
+      const prepareComment = () => {
+        var self = this;
+        sendComment(self.refs.commentField.value);
+      }
       if(props.task) {
       return (
           <Container vertical="true">
@@ -18,9 +23,9 @@ const tab = class TaskCommentsTab extends React.Component {
             <div style={{outline: "1px solid black"}}>
               <Container className="leaveCommentContainer">
                 <span flex="1" style={{marginLeft:"20px"}}>{props.task.manager}</span>
-                <Field flex="3" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}}name="comment" component="textarea" placeholder="Напишите комментарий"/>
+                <textarea  flex="3" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}} name="comment" ref="commentField" placeholder="Напишите комментарий"/>
               </Container>
-              <FlatButton type="submit" label="Отправить" />
+              <FlatButton onClick={prepareComment} label="Отправить" />
             </div>
           </Container>
       )

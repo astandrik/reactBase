@@ -17,21 +17,18 @@ import {
 } from "../actions/tasksActions";
 
 
-function findTaskInTreeById(tasks, id) {
-    let elem = -1;
+function findAllTaskInTreeById(tasks, id) {
+    let elems = [];
     for (var i = 0; i < tasks.length; i++) {
         if (tasks[i].id === id) {
-            elem = tasks[i];
+            elems.push(tasks[i]);
             break;
         }
         if (tasks[i].children) {
-            elem = findTaskInTreeById(tasks[i].children, id);
-            if (elem !== -1) {
-                break;
-            }
+            elems = elems.concat(findAllTaskInTreeById(tasks[i].children, id));
         }
     }
-    return elem;
+    return elems;
 }
 
 
@@ -88,6 +85,7 @@ export function setCurrentTaskComment(state = "", action) {
 export function setTaskView(state = false, action) {
     switch (action.type) {
     case SET_TASK_VIEW:
+        action.task.parent_id = action.parent_id || 0;
         return action.task;
     case REMOVE_TASK_VIEW:
         return {}
@@ -141,13 +139,13 @@ export function setTasks(state = [], action) {
     case SET_TASKS:
         return action.tasks
     case TOGGLE_TASK_OPEN:
-        let item = findTaskInTreeById(state, action.id);
-        item.opened = !item.opened;
+        let items = findAllTaskInTreeById(state, action.id);
+        items.forEach(x=> x.opened = !x.opened);
         return JSON.parse(JSON.stringify(state));
     case ACTIVATE_TASK:
         deactivateTasks(state);
-        let item_ = findTaskInTreeById(state, action.id);
-        item_.active = true;
+        let items_ = findAllTaskInTreeById(state, action.id);
+        items_.forEach(x=> x.active = true);
         return JSON.parse(JSON.stringify(state));
     case DEACTIVATE_TASKS:
         deactivateTasks(state);

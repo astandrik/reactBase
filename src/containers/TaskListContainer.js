@@ -17,7 +17,8 @@ import {
     deactivateTasks,
     setTaskView,
     createTask,
-    removeCurrentTask
+    removeCurrentTask,
+    editTask
 } from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state, ownProps) => {
@@ -57,15 +58,16 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deactivateTasks());
         },
         handleNewTaskSubmit: (json) => {
-            json.parent_id = 0;
+            json.executors = json.executors ? json.executors.map(x => x.value) : [];
+            json.parent_id = json.parent_id || 0;
             json.start_dt = (new Date(json.startDate)).getTime() / 1000;
             json.code_id = json.code;
-            dispatch(createTask(json));            
+            dispatch(createTask(json));
         },
         handleEditTaskSubmit: (json) => {
             json.start_dt = (new Date(json.startDate)).getTime() / 1000;
-            //dispatch(createTask(json));
-            //dispatch(reset('newTaskInfoDialogForm'));
+            json.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
+            dispatch(editTask(json));
         },
         handleAddNewTask: () => {
             dispatch(setTaskView({

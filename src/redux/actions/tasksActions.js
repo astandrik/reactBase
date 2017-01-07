@@ -108,7 +108,7 @@ export function loadWorkCodes() {
     return fetchAsync(`/data/codes`, handler);
 }
 
-export function loadTasks(id) {
+export function loadTasks() {
     const handler = function (json, dispatch) {
         let tasks = new TaskTree(json.data.tree);
         dispatch(setTasks({
@@ -118,11 +118,26 @@ export function loadTasks(id) {
     return fetchAsync(`/data/tree`, handler);
 }
 
-export function createTask(data,dispatch) {
-    const handler = (json) => {
+export function createTask(data) {
+    const handler = (json,dispatch) => {
+      dispatch(loadTasks());
       dispatch(reset('newTaskInfoDialogForm'));
     }
     return fetchPost(`/create/task`, data, handler);
+}
+
+export function editTask(data) {
+  const handler = (json,dispatch) => {
+
+  }
+  return fetchPost(`/edit/task`, data, handler);
+}
+
+export function createComment(data) {
+  const handler = (json,dispatch) => {
+
+  }
+  return fetchPost(`/create/comment`, data, handler);
 }
 
 export function createLabor(data) {

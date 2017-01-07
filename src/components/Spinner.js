@@ -2,8 +2,12 @@ import React from "react";
 import MDSpinner from "react-md-spinner";
 
 var spinnerStyles = {
+  position: "absolute",
+  marginLeft: "auto",
+  marginRight: "auto",
+  left: 0,
+  right: 0,
   top: "50vh",
-  position: "absolute"
 }
 
 export default (props) => {

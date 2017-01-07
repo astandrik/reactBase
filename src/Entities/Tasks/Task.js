@@ -1,3 +1,9 @@
+const statusDict = {
+  0: "Активна",
+  1: "Завершена",
+  2: "Удалена"
+}
+
 export default class Task {
     constructor(json) {
         const task = json;
@@ -7,8 +13,9 @@ export default class Task {
         this.description = task.description;
         this.shortDescription = task.description.slice(0, 400);
         this.descriptionOpen = false;
-        this.status = task.status;
-        this.children = task.childTasks;
+        this.status = statusDict[task.status];
+        this.status = this.status=== undefined ? "Неопознанный" : this.status;
+        this.children = task.children;
         this.opened = false;
         this.active = false;
         this.author = task.author.name

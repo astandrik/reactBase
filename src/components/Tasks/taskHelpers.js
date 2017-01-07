@@ -21,6 +21,18 @@ helpers.generateComments = function(comments = []) {
   return commentBlocks;
 }
 
+
+helpers.createExecutors = function(executors) {
+  let executorDivs = [];
+  if(executors) {
+    executors.forEach((x,i) => {
+      const name = x.name.split(' ').map(x=>x[0].toUpperCase());
+      executorDivs.push(<div className="singleExecutor" key={x.id}><span data-tip={x.name}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+    });
+  }
+  return executorDivs;
+}
+
 helpers.generateTasks = function(propsTasks,props) {
   let tasks = [];
   propsTasks = propsTasks || [];
@@ -41,7 +53,11 @@ helpers.generateTasks = function(propsTasks,props) {
     elem = (
         <div className={"single-task " + (item.active ? " active" : "")} key={item.id}>
           <span className="taskLabel" onClick={props.loadTask.bind(this,item.id)}>{item.title}</span>
-          <img className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item.id)}  src={next}/>
+          <div>
+            <div className="taskStatusTree">{item.status}</div>
+            {helpers.createExecutors(item.executors)}
+            <img className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item.id)}  src={next}/>
+          </div>
         </div>
     );
     if(hasChildren) {

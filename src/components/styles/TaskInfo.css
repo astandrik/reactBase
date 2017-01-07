@@ -18,6 +18,7 @@
   width:100%;
 }
 
+
 .fieldValue.taskHeader {
   font-size: 24px;
 }
@@ -42,6 +43,10 @@
     border: none;
     border-bottom: 1px solid black;
     outline: none;
+}
+
+.infoHeaderBlock .singleExecutor{
+  margin-top: 0;
 }
 
 
