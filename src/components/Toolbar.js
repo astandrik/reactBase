@@ -5,7 +5,7 @@ import "./styles/Toolbar.css";
 import hamburger from "../Icons/hamburger.svg";
 
 const namePositionStyles = {
-      minHeight: 56,
+      minHeight: "35px",
       display: "flex",
       flexDirection: "column"
 }
@@ -13,7 +13,8 @@ const namePositionStyles = {
 const ToolbarStyles = {
   justifyContent: "space-between",
   backgroundColor: "white",
-  borderBottom: "2px solid"
+  borderBottom: "2px solid",
+  height: "42px"
 }
 
 export default class ToolbarExamplesSimple extends React.Component {
@@ -25,7 +26,7 @@ export default class ToolbarExamplesSimple extends React.Component {
         <ToolbarGroup>
           <div style={namePositionStyles}>
             <span style={{marginTop:5}}>{this.props.name}</span>
-            <span style={{marginTop:10}}>{this.props.position}</span>
+            <span style={{marginTop:"2px"}}>{this.props.position}</span>
           </div>
         </ToolbarGroup>
       </Toolbar>

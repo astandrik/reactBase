@@ -1,3 +1,4 @@
+import moment from 'moment';
 const statusDict = {
   0: "Активна",
   1: "Завершена",
@@ -22,6 +23,9 @@ export default class Task {
         this.author = task.author.name
         this.finance = task.finance;
         this.comments = task.comments;
+        if(this.comments) {          
+          this.comments.forEach(x=>{x.date = moment(new Date(x.created_dt * 1000)).format("LT, DD MMMM YYYY")});
+        }
         this.executors = task.executors;
         this.startDate = new Date(task.start_dt * 1000);
         this.code = {

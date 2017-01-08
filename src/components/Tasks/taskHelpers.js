@@ -9,7 +9,7 @@ helpers.generateComments = function(comments = []) {
   const makeCommentBlock = function(comment) {
     return (
       <div className="commentBlock" key={comment.id}>
-        <span>{comment.author.name}</span>
+        <div className="headerCommentBlock"><span>{comment.author.name},</span><span style={{marginLeft:"10px"}}>{comment.date}</span></div>
         <span style={{ marginLeft:"5px", fontWeight:"bold"}}>{comment.comment}</span>
       </div>
     )
