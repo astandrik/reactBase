@@ -14,20 +14,19 @@ export default class SelectInput extends React.Component {
           } // <-- To be aligned with how redux-form publishes its CHANGE action payload. The event received is an object with 2 keys: "value" and "label"
         }
     }
-
+    onBlur(event) {
+      if(this.props.input.onBlur) {
+        this.props.input.onBlur(this.props.input.value);
+        if(this.props.newOnBlur) {
+          this.props.newOnBlur(this.props.input.value);
+        }
+      }
+    }
     render() {
-        return ( <
-            Select {...this.props
-            }
-            value = {
-                this.props.input.value || ''
-            }
-            onBlur = {
-                () => this.props.input.onBlur(this.props.input.value)
-            }
-            onChange = {
-                this.onChange.bind(this)
-            }
+        return ( <Select {...this.props} value = {this.props.input.value || ''}
+            onBlur = {this.onBlur.bind(this)}
+            onChange = {this.onChange.bind(this)}
+            ref={this.props.ref || "select_field"}
             options = {
                 this.props.options
             } // <-- Receive options from the form

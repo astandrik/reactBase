@@ -35,7 +35,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadTask: (id) => {            
+        loadTask: (id) => {
             dispatch(loadTask({
                 id
             }));
@@ -66,6 +66,8 @@ const mapDispatchToProps = (dispatch) => {
         handleEditTaskSubmit: (json) => {
             json.start_dt = (new Date(json.startDate)).getTime() / 1000;
             json.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
+            debugger;
+              json.executors = json.executors ? json.executors.map(x => x.value) : [];
             dispatch(editTask(json));
         },
         handleAddNewTask: () => {

@@ -62,6 +62,8 @@ export function groupLabors(labors) {
 export function loadTask(obj) {
     const handler = function (json, dispatch) {
         const task = new Task(json.data);
+        task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
+        task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
         dispatch(setTaskView({
             task
         }));

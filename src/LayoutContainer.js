@@ -16,7 +16,7 @@ const sidenavRoutes = [
 var containerStyles = {
   display: "flex",
   width: "100%",
-  height: "calc(100% - 56px)",
+  height: "calc(100% - 42px)",
   justifyContent: "center"
 }
 

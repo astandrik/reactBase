@@ -79,6 +79,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
 
    this.state = {
      open: false,
+     executorsFieldActive: false
     };
   }
   handleEdit(context){
@@ -86,6 +87,14 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
   }
   openPopover() {
     this.setState({open: true})
+  }
+  activateExecutorsField() {
+    this.setState({executorsFieldActive: true});
+    debugger;
+    this.refs.executorsSelect.focus();
+  }
+  deactivateExecutorsField() {
+    this.setState({executorsFieldActive: false})
   }
   handleRequestClose = () => {
     this.setState({
@@ -99,8 +108,27 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
     const fields = fieldsDict(props,this.handleEdit.bind(this, this));
     const imagesPanel = imagePanelF(props, this);
     const popover = popoverMenu(props, this);
-    const executorNames = helpers.createExecutors(task.executors);
     const addTrudButton = addTrudButtonF(props);
+    const executorNames = helpers.createExecutors(task.rawExecutors);
+    let executorsField = "";
+    if(this.state.executorsFieldActive) {
+      executorsField = (
+        <Field
+        name="executors"
+        ref="executorsSelect"
+        newOnBlur={this.deactivateExecutorsField.bind(this)}
+        component={prp =>
+            <SelectInput
+                multi={true}
+                {...prp}
+                placeholder="Исполнители"
+                options={props.executors}
+            />
+        }/>
+      );
+    } else {
+      executorsField = (<div className="executorNames" onClick={this.activateExecutorsField.bind(this)}>{executorNames}</div>);
+    }
     if(!task.name) {
       return <div/>;
     } else {
@@ -111,7 +139,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
             <div className="infoHeader" flex="1">
               <Container style={{justifyContent: "space-between"}}>
                 <div className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>
-                  <div className="executorNames">{executorNames}</div>
+                  {executorsField}
                   <div>
                     <img className="user" src={calendar} alt="logo" />
                     <Field name="startDate" component={DPicker}/>
