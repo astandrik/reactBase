@@ -90,8 +90,6 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
   }
   activateExecutorsField() {
     this.setState({executorsFieldActive: true});
-    debugger;
-    this.refs.executorsSelect.focus();
   }
   deactivateExecutorsField() {
     this.setState({executorsFieldActive: false})
@@ -115,7 +113,6 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       executorsField = (
         <Field
         name="executors"
-        ref="executorsSelect"
         newOnBlur={this.deactivateExecutorsField.bind(this)}
         component={prp =>
             <SelectInput
@@ -123,6 +120,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                 {...prp}
                 placeholder="Исполнители"
                 options={props.executors}
+                autofocus={true}
             />
         }/>
       );
@@ -138,7 +136,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
           <Container vertical={true}>
             <div className="infoHeader" flex="1">
               <Container style={{justifyContent: "space-between"}}>
-                <div className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>
+                <div ref="executorsSelect" className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>
                   {executorsField}
                   <div>
                     <img className="user" src={calendar} alt="logo" />

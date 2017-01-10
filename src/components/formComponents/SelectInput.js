@@ -26,7 +26,6 @@ export default class SelectInput extends React.Component {
         return ( <Select {...this.props} value = {this.props.input.value || ''}
             onBlur = {this.onBlur.bind(this)}
             onChange = {this.onChange.bind(this)}
-            ref={this.props.ref || "select_field"}
             options = {
                 this.props.options
             } // <-- Receive options from the form

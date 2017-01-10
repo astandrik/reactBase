@@ -2,7 +2,7 @@ import React from 'react';
 import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar';
 import "./styles/Link.css";
 import "./styles/Toolbar.css";
-import hamburger from "../Icons/hamburger.svg";
+import hamburger from "../Icons/menu.svg";
 
 const namePositionStyles = {
       minHeight: "35px",

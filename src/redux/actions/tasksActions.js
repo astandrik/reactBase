@@ -130,7 +130,7 @@ export function createTask(data) {
 
 export function editTask(data) {
   const handler = (json,dispatch) => {
-
+    dispatch(loadTasks());
   }
   return fetchPost(`/edit/task`, data, handler);
 }

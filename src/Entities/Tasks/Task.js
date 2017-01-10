@@ -14,6 +14,7 @@ export default class Task {
         this.description = task.description;
         this.shortDescription = task.description.slice(0, 400);
         this.descriptionOpen = false;
+        this.rawstatus = task.status;
         this.status = statusDict[task.status];
         this.status = this.status=== undefined ? "Неопознанный" : this.status;
         this.children = task.children;
@@ -23,7 +24,7 @@ export default class Task {
         this.author = task.author.name
         this.finance = task.finance;
         this.comments = task.comments;
-        if(this.comments) {          
+        if(this.comments) {
           this.comments.forEach(x=>{x.date = moment(new Date(x.created_dt * 1000)).format("LT, DD MMMM YYYY")});
         }
         this.executors = task.executors;

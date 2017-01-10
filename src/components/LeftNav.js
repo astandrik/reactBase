@@ -40,7 +40,7 @@ const Nav = (props) => {
     <div className="left-sidebar-container">
       <SideNav
      showNav={props.showNav}
-     title={<div>Дратути</div>}
+     title={<div>СПКИ</div>}
      titleStyle={{backgroundColor: '#2196F3'}}
      items={children}
      itemStyle={{padding: 0}}

@@ -57,18 +57,22 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deactivateTasks());
         },
         handleNewTaskSubmit: (json) => {
-            json.executors = json.executors ? json.executors.map(x => x.value) : [];
-            json.parent_id = json.parent_id || 0;
-            json.start_dt = (new Date(json.startDate)).getTime() / 1000;
-            json.code_id = json.code;
-            dispatch(createTask(json));
+            let newJson = {};
+            Object.assign(newJson, json);
+            newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
+            newJson.parent_id = json.parent_id || 0;
+            newJson.start_dt = (new Date(json.startDate)).getTime() / 1000;
+            newJson.code_id = json.code;
+            dispatch(createTask(newJson));
         },
         handleEditTaskSubmit: (json) => {
-            json.start_dt = (new Date(json.startDate)).getTime() / 1000;
-            json.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
-            debugger;
-              json.executors = json.executors ? json.executors.map(x => x.value) : [];
-            dispatch(editTask(json));
+            let newJson = {};
+            Object.assign(newJson, json);
+            newJson.start_dt = (new Date(json.startDate)).getTime() / 1000;
+            newJson.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
+            newJson.status = json.rawstatus;
+            newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
+            dispatch(editTask(newJson));
         },
         handleAddNewTask: () => {
             dispatch(setTaskView({
