@@ -7,9 +7,6 @@ import {
     closeErrorsModal
 } from "../redux/actions/layoutActions";
 import {
-    reset
-} from 'redux-form';
-import {
     loadTask,
     activateTask,
     toggleTaskTreeOpen,
@@ -17,7 +14,6 @@ import {
     deactivateTasks,
     setTaskView,
     createTask,
-    removeCurrentTask,
     editTask
 } from "../redux/actions/tasksActions";
 
@@ -72,7 +68,7 @@ const mapDispatchToProps = (dispatch) => {
             newJson.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
             newJson.status = json.rawstatus;
             newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
-            dispatch(editTask(newJson));
+            dispatch(editTask(newJson, json));
         },
         handleAddNewTask: () => {
             dispatch(setTaskView({

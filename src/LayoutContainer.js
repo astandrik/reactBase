@@ -49,7 +49,6 @@ class Layout extends React.Component {
   }
 }
 import { connect } from 'react-redux';
-import {reset} from 'redux-form';
 
 const mapStateToProps = (state,ownProps) => {
   return {

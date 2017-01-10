@@ -1,7 +1,6 @@
 import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {deactivateTasks, groupLabors, setGroupedLabors, setLabor,
-   loadTask,setAddingTrudTask,loadTaskShort} from "../redux/actions/tasksActions";
+import {deactivateTasks, groupLabors, setGroupedLabors, setLabor,setAddingTrudTask,loadTaskShort} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
 import {changeWeek, setCurrentWeek} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';

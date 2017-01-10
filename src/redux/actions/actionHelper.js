@@ -19,12 +19,14 @@ const CHANGE_FETCHING_STATUS = "CHANGE_FETCHING_STATUS";
 export const changeFetchingStatus = generateActionFunc(CHANGE_FETCHING_STATUS);
 
 
-export function fetchPost(url, data, handler) {
+export function fetchPost(url, data, handler, errorHandler) {
     var formBody = [];
     for (var property in data) {
+      if(data.hasOwnProperty(property)) {
         var encodedKey = encodeURIComponent(property);
         var encodedValue = encodeURIComponent(data[property]);
         formBody.push(encodedKey + "=" + encodedValue);
+      }
     }
     formBody = formBody.join("&");
     return function (dispatch) {
@@ -50,6 +52,9 @@ export function fetchPost(url, data, handler) {
                         errors: json.error
                     }));
                     dispatch(openErrorsModal({}));
+                    if(errorHandler) {
+                      errorHandler(dispatch);
+                    }
                 } else {
                   handler(json, dispatch);
                 }

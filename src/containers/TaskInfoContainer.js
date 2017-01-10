@@ -15,9 +15,6 @@ import {
     closeTrudModal,
     toggleRightPanel
 } from "../redux/actions/layoutActions";
-import {
-    reset
-} from 'redux-form';
 
 const mapStateToProps = (state, ownProps) => {
     return {

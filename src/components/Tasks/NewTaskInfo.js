@@ -2,8 +2,6 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
 import calendar from "../../Icons/calendar.svg";
-import moment from 'moment';
-import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 import { Field, reduxForm } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton';
 import SelectInput from "../formComponents/SelectInput";
@@ -20,13 +18,12 @@ const headerBlockStyle = {
 }
 
 const descriptionBlockStyle = {
-  minHeight: "200px"
+  minHeight: "270px"
 }
 
 const newTaskInfoComponent = class newTaskInfo extends React.Component {
     render () {
   const props=this.props;
-  const task = props.task;
   const {handleSubmit} = props;
   return (
     <form onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column", height: "100%"}}>
@@ -75,7 +72,7 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
               </span>
             </div>
           </Container>
-          <div className="taskPanel" flex="4" containerStyle={{minHeight: "270px"}}>
+          <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
             <span className="panelLabel"> Описание </span>
             <span  className="panelText fullWidth">
               <Field className="fieldValue" style={{margin:"10px", minHeight:"200px", minWidth:"90%"}}name="description" component="textarea" placeholder="Описание задачи"/>

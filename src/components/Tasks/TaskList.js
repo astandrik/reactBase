@@ -32,7 +32,7 @@ export default class TaskList extends React.Component {
     let items = generateMenuItems(menuItems);
     let taskContainers = generateTaskContainers(propsTasks, this.props);
     let rightPanel = <div containerStyle={{display:"none"}}/>;
-    if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type == "new") {
+    if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type === "new") {
       rightPanel = (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
           <RightPanelContainer onClose={this.props.onRightClose}>

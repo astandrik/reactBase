@@ -7,7 +7,6 @@ import {
     SET_TASK_VIEW,
     SET_ACTIVE_TASK_TAB,
     OPEN_LABOR_COMMENT,
-    REMOVE_TASK_VIEW,
     SET_CURRRENT_LABOR,
     OPEN_DESCRIPTION,
     SET_GROUPED_LABORS,
@@ -87,8 +86,6 @@ export function setTaskView(state = false, action) {
     case SET_TASK_VIEW:
         action.task.parent_id = action.parent_id || 0;
         return action.task;
-    case REMOVE_TASK_VIEW:
-        return {}
     case OPEN_DESCRIPTION:
         action.task.descriptionOpen = true;
         return JSON.parse(JSON.stringify(state));

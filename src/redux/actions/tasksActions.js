@@ -14,7 +14,6 @@ export const SET_CURRENT_TASK_COMMENT = "SET_CURRENT_TASK_COMMENT";
 export const SET_ADDING_TRUD_TASK = "SET_ADDING_TRUD_TASK";
 export const SELECT_TABLE_LABORS = "SELECT_TABLE_LABORS";
 export const GET_WORK_CODES = "GET_WORK_CODES";
-export const REMOVE_TASK_VIEW = "REMOVE_TASK_VIEW";
 export const SET_CODES = "SET_CODES";
 
 import {
@@ -49,7 +48,6 @@ export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
 export const setCurrentTaskComment = generateActionFunc(SET_CURRENT_TASK_COMMENT);
 export const setGroupedLabors = generateActionFunc(SET_GROUPED_LABORS);
 export const setCodes = generateActionFunc(SET_CODES);
-export const removeCurrentTask = generateActionFunc(REMOVE_TASK_VIEW)
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -128,18 +126,25 @@ export function createTask(data) {
     return fetchPost(`/create/task`, data, handler);
 }
 
-export function editTask(data) {
+export function editTask(data, task) {
   const handler = (json,dispatch) => {
     dispatch(loadTasks());
   }
-  return fetchPost(`/edit/task`, data, handler);
+  const errorHandler = (dispatch) => {
+    dispatch(loadTask(task));
+    dispatch(reset("taskInfoDialogForm"));
+  }
+  return fetchPost(`/edit/task`, data, handler, errorHandler);
 }
 
 export function createComment(data, task) {
   const handler = (json,dispatch) => {
     dispatch(loadTask(task));
   }
-  return fetchPost(`/create/comment`, data, handler);
+  const errorHandler = (dispatch) => {
+    dispatch(loadTask(task));
+  }
+  return fetchPost(`/create/comment`, data, handler, errorHandler);
 }
 
 export function createLabor(data, task) {
@@ -148,5 +153,8 @@ export function createLabor(data, task) {
       dispatch(closeTrudModal());
       dispatch(reset('trudDialogForm'));
     }
-    return fetchPost(`/create/time`, data, handler);
+    const errorHandler = (dispatch) => {
+
+    }
+    return fetchPost(`/create/time`, data, handler, errorHandler);
 }

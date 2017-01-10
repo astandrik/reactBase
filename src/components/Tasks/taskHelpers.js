@@ -56,7 +56,7 @@ helpers.generateTasks = function(propsTasks,props) {
           <div>
             <div className="taskStatusTree">{item.status}</div>
             {helpers.createExecutors(item.executors)}
-            <img className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item.id)}  src={next}/>
+            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item.id)}  src={next}/>
           </div>
         </div>
     );
@@ -92,7 +92,7 @@ helpers.generateTaskContainers = function (taskTree, props) {
         <div style={{marginTop:"10px"}}>
           <div className="taskListContainer">
             <span style={{fontWeight: "bold"}}>{taskTree[i].name}</span>
-            <img className={"clickable-image next " + (!closed? 'opened' : 'closed')} onClick={props.toggleOpen.bind(this,i)}  src={next}/>
+            <img role="presentation"  className={"clickable-image next " + (!closed? 'opened' : 'closed')} onClick={props.toggleOpen.bind(this,i)}  src={next}/>
           </div>
           <div className={"tasks " + (!closed? 'opened' : 'closed')}>
             {tasks}

@@ -2,7 +2,6 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskCommentsTab.css";
 import helpers from "./taskHelpers";
-import { Field, reduxForm } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton';
 
 const tab = class TaskCommentsTab extends React.Component {

@@ -19,13 +19,12 @@ helpers.generateRows = function(data = [], clickHandler) {
   let rows = [];
   const elements = data.data;
   const headers = data.headers;
-  if(!data || data.length == 0) {
+  if(!data || data.length === 0) {
     return [];
   }
   for(var i = 0; i < Object.keys(elements).length;i++) {
     const elem = elements[Object.keys(elements)[i]];
     let td = [];
-    let names = [];
     const tdWidth = 70 / data.headers.length;
     for(var j = 0; j < headers.length; j++) {
       const val = elem[headers[j]];

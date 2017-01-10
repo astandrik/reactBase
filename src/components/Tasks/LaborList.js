@@ -2,28 +2,12 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
 import calendar from "../../Icons/calendar.svg";
-import ellipsis from "../../Icons/ellipsis.svg";
-import comment from "../../Icons/speech-bubbles-comment-option.svg";
-import clock from "../../Icons/clock.svg";
 import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
-import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
 import moment from 'moment';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 
 export default (props) => {
   const task = props.task;
-  const imagesPanel = (
-    <div style={{display: 'flex', justifyContent: "flex-end"}}>
-      <div style={{marginRight:"15px"}}>
-        <img className="clickable-image clock" onClick={props.chooseCurrentTaskTab.bind(this, 'trud')} src={clock} alt="logo" />
-        <img className="clickable-image comment" onClick={props.chooseCurrentTaskTab.bind(this, 'comment')} src={comment} alt="logo" />
-      </div>
-      <div style={{width:"1px", borderRight: "1px solid black"}}></div>
-      <div style={{marginLeft:"15px"}}>
-        <img className="clickable-image ellipsis" src={ellipsis} alt="logo" />
-      </div>
-    </div>
-  )
   const addTrudButton = (task) => (
     <div className={"addTrudButtonContainer "}>
       <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>

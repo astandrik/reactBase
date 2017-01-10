@@ -3,12 +3,10 @@ import Modal from 'react-modal';
 import Container from "../Container";
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-import DatePicker from 'react-datepicker';
 import close from "../../Icons/delete.svg";
 import 'react-datepicker/dist/react-datepicker.css';
 import { Field, reduxForm } from 'redux-form'
 import "../styles/Modal.css";
-import moment from "moment";
 import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
 import calendar from "../../Icons/calendar.svg";
@@ -33,7 +31,7 @@ const dialog = (props) => {
     isOpen={props.isModalOpen}
     contentLabel="Modal"
   >
-  <img className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
+  <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
   <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
   <Container vertical="true" >
     <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
