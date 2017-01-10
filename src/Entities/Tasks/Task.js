@@ -16,7 +16,7 @@ export default class Task {
         this.descriptionOpen = false;
         this.rawstatus = task.status;
         this.status = statusDict[task.status];
-        this.status = this.status=== undefined ? "Неопознанный" : this.status;
+        this.status = this.status=== undefined ? "Вычисляется" : this.status;
         this.children = task.children;
         this.opened = false;
         this.active = false;
