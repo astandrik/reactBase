@@ -34,7 +34,8 @@ export function getCurrentUser() {
         const data = json.data.user;
         const user = {
             name: data.name,
-            position: data.position
+            position: data.position,
+            id: data.id        
         };
         dispatch(setLoggedUser({
             user

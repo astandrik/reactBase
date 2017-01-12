@@ -1,6 +1,6 @@
 import TaskTrudTab from "../components/Tasks/TaskTrudTab";
 import { connect } from 'react-redux';
-import {openLaborComment} from "../redux/actions/tasksActions";
+import {openLaborComment, editLabor} from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -12,6 +12,11 @@ const mapDispatchToProps = (dispatch) => {
   return {
     openComments: (id) => {
       dispatch(openLaborComment({id}));
+    },
+    acceptTrud: (trud) => {
+      let newJson = Object.assign({}, trud);
+      newJson.status = 1;
+      dispatch(editLabor(newJson));
     }
   }
 }

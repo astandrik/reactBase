@@ -29,6 +29,9 @@ import {
     closeTrudModal
 } from "./layoutActions";
 import {
+  changeWeek
+} from "./tableActions";
+import {
     generateActionFunc,
     fetchAsync,
     fetchPost
@@ -123,6 +126,7 @@ export function createTask(data) {
       dispatch(loadTasks());
       dispatch(reset('newTaskInfoDialogForm'));
     }
+    data.start_dt = (new Date(data.startDate)).getTime() / 1000;
     return fetchPost(`/create/task`, data, handler);
 }
 
@@ -134,6 +138,7 @@ export function editTask(data, task) {
     dispatch(loadTask(task));
     dispatch(reset("taskInfoDialogForm"));
   }
+  data.start_dt = (new Date(data.startDate)).getTime() / 1000;
   return fetchPost(`/edit/task`, data, handler, errorHandler);
 }
 
@@ -156,5 +161,21 @@ export function createLabor(data, task) {
     const errorHandler = (dispatch) => {
 
     }
+    data.date = (new Date(data.startDate)).getTime() / 1000;
     return fetchPost(`/create/time`, data, handler, errorHandler);
+}
+
+export function editLabor(data) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadTask({id: data.task_id}));
+    const curDay = getState().currentWeek;
+    if(curDay) {
+      dispatch(changeWeek({day: curDay}));
+    }
+  }
+  const errorHandler = (dispatch) => {
+
+  }
+  data.date = (new Date(data.startDate)).getTime() / 1000;
+  return fetchPost('/edit/time', data, handler);
 }
