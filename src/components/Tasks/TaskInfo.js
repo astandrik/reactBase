@@ -224,7 +224,7 @@ let taskForm = reduxForm({
   enableReinitialize: true
 })(TaskInfoComponent);
 
-const selector = formValueSelector('taskInfoDialogForm')
+const selector = formValueSelector('taskInfoDialogForm');
 taskForm = connect(
   state => {
     const executorsForm = selector(state, 'executors');

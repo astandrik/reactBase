@@ -15,6 +15,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     openTrud: (labor) => {
       dispatch(loadLabor(labor));
+    acceptTrud: (trud) => {
+      let newJson = Object.assign({}, trud);
+      newJson.status = 1;
+      dispatch(editLabor(newJson));
     }
   }
 }

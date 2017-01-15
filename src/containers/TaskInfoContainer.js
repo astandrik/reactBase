@@ -50,7 +50,6 @@ const mapDispatchToProps = (dispatch) => {
             json.task_id = task.id;
             json.code_id = json.code;
             json.value = json.hours;
-            json.date = (new Date(json.startDate)).getTime() / 1000;
             json.status = 0;
             dispatch(createLabor(json, task));
         },

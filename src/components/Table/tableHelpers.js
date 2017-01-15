@@ -10,7 +10,7 @@ helpers.generateHeaders = function (headers = []) {
         {headers[i-1]}
       </th>
     );
-  }
+  } 
   return th;
 }
 
@@ -29,7 +29,7 @@ helpers.generateRows = function(data = [], clickHandler) {
     for(var j = 0; j < headers.length; j++) {
       const val = elem[headers[j]];
       td[j] = (
-        <td key={j} className="tableCell" width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id)}>{val ? val.length : 0}</td>
+        <td key={j} className="tableCell" width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id)}>{val ? (val.myHours + "/" + val.hours) : 0}</td>
       )
     }
     rows[i] = (

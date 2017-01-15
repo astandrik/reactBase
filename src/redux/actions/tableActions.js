@@ -22,8 +22,8 @@ export const setCurrentWeek = generateActionFunc(SET_WEEK);
 
 export function changeWeek(obj) {
   const range = getDateRange(obj.day);
-  const handler = function(json, dispatch) {
-    const tableData = new TableData(json, range.first, range.last);
+  const handler = function(json, dispatch, getState) {
+    const tableData = new TableData(json, range.first, range.last, getState().user);
     dispatch(setTableData({tableData}));
   }
   return fetchAsync(`/data/tasks?date_from=${ Math.floor((+range.first)/1000)}&date_to=${Math.floor((+range.last)/1000)}`, handler);
@@ -31,9 +31,9 @@ export function changeWeek(obj) {
 
 
 export function loadTableData(obj) {
-  const range = getDateRange(new Date());
-  const handler = function(json, dispatch) {
-    const tableData = new TableData(json, range.first, range.last);
+  const range = getDateRange(obj.day);
+  const handler = function(json, dispatch, getState) {
+    const tableData = new TableData(json, range.first, range.last, getState().user);
     dispatch(setTableData({tableData}));
   }
   return fetchAsync(`/data/tasks?date_from=${ Math.floor((+range.first)/1000)}&date_to=${Math.floor((+range.last)/1000)}`, handler);

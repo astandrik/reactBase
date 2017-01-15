@@ -2,6 +2,7 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskTrudTab.css";
 import openTrud from "../../Icons/fast-forward.svg";
+import acceptTrud from "../../Icons/acceptTrud.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
 import 'moment/locale/ru';
@@ -13,7 +14,7 @@ const generateLaborsBlock = function(laborGroup,props) {
     let labor = laborGroup[i-1];
     let comments = helpers.generateComments(labor.comments);
     labors[i] =  (
-      <Container vertical="true" className="laborBlock" key={labor.id}>
+      <Container vertical="true" className={`laborBlock ${(labor.status == "Новая") ? "highlighted" : ''}`} key={labor.id}>
         <Container style={{margin: "5px"}} width="auto" flex="8">
           <div flex="8">
             <Container style={{justifyContent: "space-between"}}>
@@ -25,6 +26,9 @@ const generateLaborsBlock = function(laborGroup,props) {
             <div className={"trudCommentsBlock " + (labor.commentsOpened ? "opened" : "closed")}>
               {comments}
             </div>
+          </div>
+          <div flex="1" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
+            <img className="clickable-image openTrud" src={acceptTrud} onClick={props.acceptTrud.bind(this, labor)} alt="logo" />
           </div>
           <div flex="1">
             <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />

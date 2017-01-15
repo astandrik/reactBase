@@ -29,7 +29,7 @@ export function fetchPost(url, data, handler, errorHandler) {
       }
     }
     formBody = formBody.join("&");
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch(changeFetchingStatus({
             status: true
         }));
@@ -56,14 +56,14 @@ export function fetchPost(url, data, handler, errorHandler) {
                       errorHandler(dispatch);
                     }
                 } else {
-                  handler(json, dispatch);
+                  handler(json, dispatch, getState);
                 }
             })
     }
 }
 
 export function fetchAsync(url, handler) {
-    return function (dispatch) {
+    return function (dispatch, getState) {
         dispatch(changeFetchingStatus({
             status: true
         }));
@@ -73,7 +73,7 @@ export function fetchAsync(url, handler) {
                 dispatch(changeFetchingStatus({
                     status: false
                 }));
-                handler(json, dispatch);
+                handler(json, dispatch, getState);
             })
     }
 }

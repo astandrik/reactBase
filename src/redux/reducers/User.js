@@ -5,7 +5,7 @@ import {
 
 export function setSubordinates(state = [], action) {
     switch (action.type) {
-    case SET_SUBORDINATES:    
+    case SET_SUBORDINATES:
         return action.subordinates
     default:
         return state;
@@ -14,13 +14,15 @@ export function setSubordinates(state = [], action) {
 
 export function userSet(state = {
     name: 'None',
-    position: 'Никто'
+    position: 'Никто',
+    id: -1
 }, action) {
     switch (action.type) {
     case SET_USER:
         return {
             name: action.user.name,
-            position: action.user.position
+            position: action.user.position,
+            id: action.user.id
         };
     default:
         return state;

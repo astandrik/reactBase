@@ -18,7 +18,7 @@ function getDates(startDate, stopDate) {
 }
 
 export default class TableData {
-  constructor(json, first, last) {
+  constructor(json, first, last, currentUser) {
     const dataInfo = json.data.tasks;
     const dateArray = getDates(first, last).map(x=> {
       return moment(x).format('DD.MM');
@@ -26,13 +26,20 @@ export default class TableData {
     const groups = dataInfo.reduce((sum, current) => {
       let timings = {};
       current.timings.forEach(x => {
-        x.date=((new Date(x.date*1000)).setHours(0,0,0,0));
-        x.date = moment(x.date).format('DD.MM');
-        if(!timings[x.date]) {
-          timings[x.date] = [];
-        }
         x = new Labor(x);
-        timings[x.date].push(x);
+        x.dateHeader = moment((new Date(x.startDate)).setHours(0,0,0,0)).format('DD.MM');
+        if(!timings[x.dateHeader]) {
+          timings[x.dateHeader] = [];
+          timings[x.dateHeader].hours = 0;
+          timings[x.dateHeader].myHours = 0;
+        }
+        timings[x.dateHeader].push(x);
+        if(!isNaN(parseFloat(x.value))) {
+          timings[x.dateHeader].hours += parseFloat(x.value);
+          if(x.author.id == currentUser.id) {
+            timings[x.dateHeader].myHours += parseFloat(x.value);
+          }
+        }
       });
       timings.id = current.id;
       sum[current.name] = timings;
