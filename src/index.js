@@ -19,7 +19,7 @@ import {Home,TaskRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle} from "./redux/actions/layoutActions";
-import {loadTasks,loadWorkCodes} from "./redux/actions/tasksActions";
+import {loadTasks,loadWorkCodes, loadFinances} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
 
@@ -30,10 +30,12 @@ var loadRepo = {
   tableData: ()=>store.dispatch(loadTableData({day: new Date()})),
   setCurrentTitle: (title) => store.dispatch(setCurrentTitle({title:title})),
   workCodes: () => store.dispatch(loadWorkCodes()),
+  finances: () => store.dispatch(loadFinances()),
   subordinates: () => store.dispatch(getSubordinates({}))
 }
 loadRepo.user();
 loadRepo.workCodes();
+loadRepo.finances();
 loadRepo.subordinates();
 
 

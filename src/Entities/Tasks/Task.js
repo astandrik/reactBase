@@ -22,7 +22,6 @@ export default class Task {
         this.active = false;
         this.timings = task.timings;
         this.author = task.author.name
-        this.finance = task.finance;
         this.comments = task.comments;
         if(this.comments) {
           this.comments.forEach(x=>{x.date = moment(new Date(x.created_dt * 1000)).format("LT, DD MMMM YYYY")});
@@ -33,5 +32,9 @@ export default class Task {
             label: task.code.value,
             value: task.code.id
         };
+        this.finance = {
+          label: task.finance.value,
+          value: task.finance.id
+        }
     }
 }

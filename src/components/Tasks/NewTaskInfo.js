@@ -68,7 +68,15 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
             <div  className="taskPanel">
               <span className="panelLabel"> Статья финансирования </span>
               <span className="panelText">
-                <Field className="fieldValue" name="finance" component="input" placeholder="Статья финансирования"/>
+              <Field
+        name="finance"
+        component={prp =>
+            <SelectInput
+                {...prp}
+                placeholder="Статья финансирования"
+                options={props.finances}
+            />
+        }/>
               </span>
             </div>
           </Container>

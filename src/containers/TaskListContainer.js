@@ -14,7 +14,8 @@ import {
     deactivateTasks,
     setTaskView,
     createTask,
-    editTask
+    editTask,
+    editLabor
 } from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state, ownProps) => {
@@ -59,6 +60,7 @@ const mapDispatchToProps = (dispatch) => {
             newJson.parent_id = json.parent_id || 0;
             newJson.start_dt = (new Date(json.startDate)).getTime() / 1000;
             newJson.code_id = json.code;
+            newJson.finance_id = json.finance;
             dispatch(createTask(newJson));
         },
         handleEditTaskSubmit: (json) => {
@@ -66,9 +68,18 @@ const mapDispatchToProps = (dispatch) => {
             Object.assign(newJson, json);
             newJson.start_dt = (new Date(json.startDate)).getTime() / 1000;
             newJson.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
+            newJson.finance_id = json.finance ? (json.finance.value ? json.finance.value : json.finance) : 0;
+            delete newJson.finance;
             newJson.status = json.rawstatus;
             newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
             dispatch(editTask(newJson, json));
+        },
+        handleEditLaborSubmit: (json) => {
+          json.code_id = json.code;
+          json.value = json.hours;
+          json.date = (new Date(json.startDate)).getTime() / 1000;
+          json.finance_id =  json.finance ? (json.finance.value ? json.finance.value : json.finance) : 0;
+          dispatch(editLabor(json));
         },
         handleAddNewTask: () => {
             dispatch(setTaskView({

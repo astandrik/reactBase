@@ -55,6 +55,19 @@ const WorkCodeField = ({codes,debouncedUpdate}) => (
       }/>
 );
 
+const FinancesField = ({finances,debouncedUpdate}) => (
+  <Field
+      name="finance"
+      newOnChange={debouncedUpdate}
+      component={prp =>
+          <SelectInput
+              {...prp}
+              placeholder="Статья финансирования"
+              options={finances}
+          />
+      }/>
+);
+
 const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
     <div style={{marginRight:"15px"}}>
@@ -179,9 +192,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                   </div>
                   <div  className="taskPanel">
                     <span className="panelLabel"> Статья финансирования </span>
-                      <span className="panelText">
-                        <Field className="fieldValue" name="finance" component="input" placeholder="Статья финансирования"/>
-                      </span>
+                        <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>                      
                   </div>
                 </Container>
                 <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>

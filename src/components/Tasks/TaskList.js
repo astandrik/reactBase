@@ -6,6 +6,7 @@ import Container from "../Container";
 import "../styles/TaskList.css";
 import TaskInfoContainer from "../../containers/TaskInfoContainer";
 import NewTaskInfoContainer from "../../containers/NewTaskInfoContainer";
+import LaborInfoContainer from "../../containers/LaborInfoContainer";
 import helpers from "./taskHelpers";
 import ValidationErrorsModalContainer from "../../containers/ModalContainers/ValidationErrorsModalContainer";
 
@@ -32,7 +33,15 @@ export default class TaskList extends React.Component {
     let items = generateMenuItems(menuItems);
     let taskContainers = generateTaskContainers(propsTasks, this.props);
     let rightPanel = <div containerStyle={{display:"none"}}/>;
-    if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type === "new") {
+    if(this.props.rightPanelStatus && this.props.laborView) {
+      rightPanel = (
+        <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
+          <RightPanelContainer onClose={this.props.onRightClose}>
+            <LaborInfoContainer labor={this.props.laborView} onSubmit={this.props.handleEditLaborSubmit}/>
+          </RightPanelContainer>
+        </div>
+      )
+    } else if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type === "new") {
       rightPanel = (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
           <RightPanelContainer onClose={this.props.onRightClose}>

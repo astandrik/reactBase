@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state,ownProps) => {
   return {
     codes: state.codes,
+    finances: state.finances,
     executors: state.subordinates
   }
 }

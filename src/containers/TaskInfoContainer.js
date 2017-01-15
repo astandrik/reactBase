@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
         activeTab: state.activeTaskTab,
         isTrudModalOpen: state.isTrudModalOpen,
         codes: state.codes,
+        finances: state.finances,
         executors: state.subordinates
     }
 }

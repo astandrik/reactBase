@@ -27,7 +27,7 @@ const generateLaborsBlock = function(laborGroup,props) {
             </div>
           </div>
           <div flex="1">
-            <img className="clickable-image openTrud" src={openTrud} alt="logo" />
+            <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
           </div>
         </Container>
       </Container>

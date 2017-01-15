@@ -12,7 +12,9 @@ import {
     SET_GROUPED_LABORS,
     SET_CURRENT_TASK_COMMENT,
     SET_ADDING_TRUD_TASK,
-    SET_CODES
+    SET_CODES,
+    SET_FINANCES,
+    SET_LABOR_VIEW
 } from "../actions/tasksActions";
 
 
@@ -71,6 +73,15 @@ export function setCodes(state = [], action) {
     }
 }
 
+export function setFinances(state = [], action) {
+    switch (action.type) {
+    case SET_FINANCES:
+        return action.finances;
+    default:
+        return state;
+    }
+}
+
 export function setCurrentTaskComment(state = "", action) {
     switch (action.type) {
     case SET_CURRENT_TASK_COMMENT:
@@ -93,6 +104,18 @@ export function setTaskView(state = false, action) {
         return state;
     }
 }
+
+export function setLaborView(state = false, action) {
+    switch (action.type) {
+    case SET_TASK_VIEW:
+        return false;
+    case SET_LABOR_VIEW:
+        return action.labor;
+    default:
+        return state;
+    }
+}
+
 
 export function setActiveTaskTab(state = "trud", action) {
     switch (action.type) {

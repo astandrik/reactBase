@@ -15,6 +15,8 @@ export const SET_ADDING_TRUD_TASK = "SET_ADDING_TRUD_TASK";
 export const SELECT_TABLE_LABORS = "SELECT_TABLE_LABORS";
 export const GET_WORK_CODES = "GET_WORK_CODES";
 export const SET_CODES = "SET_CODES";
+export const SET_FINANCES = "SET_FINANCES";
+export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 
 import {
     reset
@@ -48,6 +50,8 @@ export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
 export const setCurrentTaskComment = generateActionFunc(SET_CURRENT_TASK_COMMENT);
 export const setGroupedLabors = generateActionFunc(SET_GROUPED_LABORS);
 export const setCodes = generateActionFunc(SET_CODES);
+export const setFinances = generateActionFunc(SET_FINANCES);
+export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -91,6 +95,12 @@ export function loadTaskShort(obj, callback) {
 export function loadLabor(id) {
     const handler = function (json, dispatch) {
         let labor = new Labor(json.data);
+        dispatch(setLaborView({
+            labor
+        }));
+        dispatch(toggleRightPanel({
+            status: 1
+        }));
     }
     return fetchAsync(`/get/time?id=${id}`, handler);
 }
@@ -106,6 +116,19 @@ export function loadWorkCodes() {
         }));
     }
     return fetchAsync(`/data/codes`, handler);
+}
+
+export function loadFinances() {
+    const handler = (data, dispatch) => {
+        let finances = data.data.finances.map(x => ({
+            label: x.value,
+            value: x.id
+        }));
+        dispatch(setFinances({
+            finances
+        }));
+    }
+    return fetchAsync(`/data/finances`, handler);
 }
 
 export function loadTasks() {
@@ -136,6 +159,18 @@ export function editTask(data, task) {
   }
   return fetchPost(`/edit/task`, data, handler, errorHandler);
 }
+
+export function editLabor(data) {
+  const handler = (json,dispatch) => {
+
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadLabor(data));
+    dispatch(reset("laborInfoDialogForm"));
+  }
+  return fetchPost(`/edit/labor`, data, handler, errorHandler);
+}
+
 
 export function createComment(data, task) {
   const handler = (json,dispatch) => {
