@@ -74,8 +74,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleEditLaborSubmit: (json) => {
           json.code_id = json.code;
-          json.value = json.hours;
-          json.date = (new Date(json.startDate)).getTime() / 1000;
+          json.value = json.hours;          
           json.finance_id =  json.finance ? (json.finance.value ? json.finance.value : json.finance) : 0;
           dispatch(editLabor(json));
         },

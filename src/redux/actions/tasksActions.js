@@ -166,8 +166,12 @@ export function editTask(data, task) {
 }
 
 export function editLabor(data) {
-  const handler = (json,dispatch) => {
-
+  const handler = (json,dispatch, getState) => {
+    dispatch(loadTask({id: data.task_id}));
+    const curDay = getState().currentWeek;
+    if(curDay) {
+      dispatch(changeWeek({day: curDay}));
+    }
   }
   const errorHandler = (dispatch) => {
     dispatch(loadLabor(data));

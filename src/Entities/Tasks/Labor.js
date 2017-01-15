@@ -1,4 +1,3 @@
-import moment from 'moment';
 const statusDict = {
   0: "Новая",
   1: "Подтверждена",

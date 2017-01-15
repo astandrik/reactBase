@@ -1,6 +1,6 @@
 import TaskTrudTab from "../components/Tasks/TaskTrudTab";
 import { connect } from 'react-redux';
-import {openLaborComment, loadLabor} from "../redux/actions/tasksActions";
+import {openLaborComment, loadLabor,editLabor} from "../redux/actions/tasksActions";
 
 const mapStateToProps = (state,ownProps) => {
   return {
