@@ -17,6 +17,8 @@ import {
     editTask,
     editLabor
 } from "../redux/actions/tasksActions";
+import LaborToSend from "../Entities/Tasks/LaborToSend";
+import TaskToSend from "../Entities/Tasks/TaskToSend";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -26,7 +28,8 @@ const mapStateToProps = (state, ownProps) => {
         tasksOpened: state.tasksOpened,
         taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
-        isErrorsModalOpen: state.isErrorsModalOpen
+        isErrorsModalOpen: state.isErrorsModalOpen,
+        laborView: state.laborView
     }
 }
 
@@ -54,29 +57,16 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(deactivateTasks());
         },
         handleNewTaskSubmit: (json) => {
-            let newJson = {};
-            Object.assign(newJson, json);
-            newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
-            newJson.parent_id = json.parent_id || 0;
-            newJson.code_id = json.code;
-            newJson.finance_id = json.finance;
-            dispatch(createTask(newJson));
+            let task = TaskToSend(json);
+            dispatch(createTask(task));
         },
         handleEditTaskSubmit: (json) => {
-            let newJson = {};
-            Object.assign(newJson, json);
-            newJson.code_id = json.code ? (json.code.value ? json.code.value : json.code) : 0;
-            newJson.finance_id = json.finance ? (json.finance.value ? json.finance.value : json.finance) : 0;
-            delete newJson.finance;
-            newJson.status = json.rawstatus;
-            newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
-            dispatch(editTask(newJson, json));
+            let task = TaskToSend(json);
+            dispatch(editTask(task, json));
         },
         handleEditLaborSubmit: (json) => {
-          json.code_id = json.code;
-          json.value = json.hours;          
-          json.finance_id =  json.finance ? (json.finance.value ? json.finance.value : json.finance) : 0;
-          dispatch(editLabor(json));
+          const labor = LaborToSend(json);
+          dispatch(editLabor(labor, true));
         },
         handleAddNewTask: () => {
             dispatch(setTaskView({

@@ -1,6 +1,7 @@
 import TaskTrudTab from "../components/Tasks/TaskTrudTab";
 import { connect } from 'react-redux';
 import {openLaborComment, loadLabor,editLabor} from "../redux/actions/tasksActions";
+import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -15,10 +16,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     openTrud: (labor) => {
       dispatch(loadLabor(labor));
+    },
     acceptTrud: (trud) => {
-      let newJson = Object.assign({}, trud);
-      newJson.status = 1;
-      dispatch(editLabor(newJson));
+      let labor = LaborToSend(trud);
+      labor.status = 1;
+      dispatch(editLabor(labor));
     }
   }
 }
@@ -27,6 +29,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TaskTrudTab)
+)(TaskTrudTab);
 
 export default Visible;

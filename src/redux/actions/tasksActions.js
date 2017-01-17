@@ -17,6 +17,7 @@ export const GET_WORK_CODES = "GET_WORK_CODES";
 export const SET_CODES = "SET_CODES";
 export const SET_FINANCES = "SET_FINANCES";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
+export const CLOSE_LABOR = "CLOSE_LABOR";
 
 import {
     reset
@@ -55,6 +56,7 @@ export const setGroupedLabors = generateActionFunc(SET_GROUPED_LABORS);
 export const setCodes = generateActionFunc(SET_CODES);
 export const setFinances = generateActionFunc(SET_FINANCES);
 export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
+export const closeLabor= generateActionFunc(CLOSE_LABOR);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -95,7 +97,7 @@ export function loadTaskShort(obj, callback) {
 }
 
 
-export function loadLabor(id) {
+export function loadLabor(labor) {
     const handler = function (json, dispatch) {
         let labor = new Labor(json.data);
         dispatch(setLaborView({
@@ -105,7 +107,7 @@ export function loadLabor(id) {
             status: 1
         }));
     }
-    return fetchAsync(`/get/time?id=${id}`, handler);
+    return fetchAsync(`/get/time?id=${labor.id}`, handler);
 }
 
 export function loadWorkCodes() {
@@ -165,28 +167,21 @@ export function editTask(data, task) {
   return fetchPost(`/edit/task`, data, handler, errorHandler);
 }
 
-export function editLabor(data) {
-  const handler = (json,dispatch, getState) => {
-    dispatch(loadTask({id: data.task_id}));
-    const curDay = getState().currentWeek;
-    if(curDay) {
-      dispatch(changeWeek({day: curDay}));
+
+export function createComment(data, task, fromLabor) {
+  const handler = (json,dispatch) => {
+    if(fromLabor) {
+      dispatch(loadLabor({id: data.time_id}));
+    } else {
+      dispatch(loadTask({id: data.task_id}));
     }
   }
   const errorHandler = (dispatch) => {
-    dispatch(loadLabor(data));
-    dispatch(reset("laborInfoDialogForm"));
-  }
-  return fetchPost(`/edit/labor`, data, handler, errorHandler);
-}
-
-
-export function createComment(data, task) {
-  const handler = (json,dispatch) => {
-    dispatch(loadTask(task));
-  }
-  const errorHandler = (dispatch) => {
-    dispatch(loadTask(task));
+    if(fromLabor) {
+      dispatch(loadLabor({id: data.time_id}));
+    } else {
+      dispatch(loadTask({id: data.task_id}));
+    }
   }
   return fetchPost(`/create/comment`, data, handler, errorHandler);
 }
@@ -204,16 +199,21 @@ export function createLabor(data, task) {
     return fetchPost(`/create/time`, data, handler, errorHandler);
 }
 
-export function editLabor(data) {
+export function editLabor(data, fromLabor) {
   const handler = (json, dispatch, getState) => {
-    dispatch(loadTask({id: data.task_id}));
+    if(fromLabor) {
+      dispatch(loadLabor(data));
+    } else {
+      dispatch(loadTask({id: data.task_id}));
+    }
     const curDay = getState().currentWeek;
     if(curDay) {
       dispatch(changeWeek({day: curDay}));
     }
   }
   const errorHandler = (dispatch) => {
-
+    dispatch(loadTask(data));
+    dispatch(reset("taskInfoDialogForm"));
   }
   data.date = (new Date(data.startDate)).getTime() / 1000;
   return fetchPost('/edit/time', data, handler);

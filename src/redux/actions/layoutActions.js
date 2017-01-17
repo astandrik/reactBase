@@ -8,7 +8,7 @@ export const SET_CURRENT_TITLE = "SET_CURRENT_TITLE";
 export const OPEN_ERRORS_MODAL = "OPEN_ERRORS_MODAL";
 export const CLOSE_ERRORS_MODAL = "CLOSE_ERRORS_MODAL";
 import {
-    generateActionFunc 
+    generateActionFunc
 } from "./actionHelper.js";
 
 export const toggleToolbar = generateActionFunc(TOGGLE_TOOLBAR);

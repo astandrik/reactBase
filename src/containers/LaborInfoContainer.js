@@ -1,15 +1,21 @@
-import TaskInfo from "../components/Tasks/TaskInfo";
+import LaborInfo from "../components/Tasks/LaborInfo";
 import {
     connect
 } from 'react-redux';
 import {
-    setLaborView
+    setLaborView,
+    closeLabor,
+    loadTask,
+    createComment,
+    loadLabor
 } from "../redux/actions/tasksActions";
 import {
     openTrudModal,
     closeTrudModal,
     toggleRightPanel
 } from "../redux/actions/layoutActions";
+import {editLabor} from "../redux/actions/tasksActions";
+import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -21,10 +27,20 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendComment: (task, comment) => {
+        sendComment: (labor, comment) => {
           let obj = {};
           obj.comment = comment;
-          obj.task_id = task.id;
+          obj.time_id = labor.id;
+          dispatch(createComment(obj,{id: labor.task_id}, true));
+        },
+        acceptTrud: (trud) => {
+          let labor = LaborToSend(trud);
+          labor.status = 1;
+          dispatch(editLabor(labor));
+        },
+        returnToTask: (trud) => {
+          dispatch(closeLabor());
+          dispatch(loadTask({id: trud.task_id}));
         }
     }
 }
@@ -33,6 +49,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
     mapStateToProps,
     mapDispatchToProps
-)(TaskInfo)
+)(LaborInfo)
 
 export default Visible;

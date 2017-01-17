@@ -19,8 +19,8 @@ const generateLaborsBlock = function(laborGroup,props) {
           <div flex="8">
             <Container style={{justifyContent: "space-between"}}>
                 <div style={{flex:"3"}}>{labor.author.name}</div>
-                <div style={{flex:"2", fontWeight:"bold"}}>{labor.value} часов</div>
-                <div style={{flex:"2", fontWeight:"bold"}}>{labor.code.value}</div>
+                <div style={{flex:"2", fontWeight:"bold"}}>{labor.hours} часов</div>
+                <div style={{flex:"2", fontWeight:"bold"}}>{labor.code.label}</div>
             </Container>
             <span className="commentButton" onClick={props.openComments.bind(this,labor.id)}>Показать комментарии({labor.comments.length})</span>
             <div className={"trudCommentsBlock " + (labor.commentsOpened ? "opened" : "closed")}>

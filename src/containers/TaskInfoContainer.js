@@ -27,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
         executors: state.subordinates
     }
 }
+import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -47,11 +48,9 @@ const mapDispatchToProps = (dispatch) => {
             }))
         },
         handleTrudSubmit: (task, json) => {
-            json.task_id = task.id;
-            json.code_id = json.code;
-            json.value = json.hours;
-            json.status = 0;
-            dispatch(createLabor(json, task));
+            let labor = LaborToSend(json);
+            labor.task_id = task.id;
+            dispatch(createLabor(labor, task));
         },
         handleAddNewSubTask: (task) => {
           dispatch(setTaskView({

@@ -7,14 +7,14 @@ import 'react-select/dist/react-select.css';
 export default class SelectInput extends React.Component {
     onChange(event) {
         if (this.props.input.onChange) {
-          if(event.value) {
+          if(event && event.value) {
             this.props.input.onChange(event.value);
             if(this.props.newOnChange) {
               this.props.newOnChange(event.value);
             }
           } else {
             this.props.input.onChange(event);
-            if(this.props.newOnChange) {
+            if(this.props.newOnChange && event) {
               this.props.newOnChange(event);
             }
           } // <-- To be aligned with how redux-form publishes its CHANGE action payload. The event received is an object with 2 keys: "value" and "label"

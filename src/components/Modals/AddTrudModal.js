@@ -10,6 +10,7 @@ import "../styles/Modal.css";
 import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
 import calendar from "../../Icons/calendar.svg";
+import {WorkCodeField, FinancesField, HoursField, Panel} from "../formComponents/ReusableComponents";
 
 const commentField = ({ input, label, meta: { touched, error } }) => {
   return (
@@ -23,6 +24,8 @@ const commentField = ({ input, label, meta: { touched, error } }) => {
   );
 }
 
+
+
 const dialog = (props) => {
   const { handleSubmit } = props;
 
@@ -35,24 +38,23 @@ const dialog = (props) => {
   <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
   <Container vertical="true" >
     <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
-      <div flex="2">
-        <Field style={{margin:"10px 0", minHeight:"20px", minWidth:"150px"}} name="hours" component="input" placeholder="Количество часов"/>
-      </div>
+       <Container flex="2">
+       <Panel label="Количество часов">
+         <Field name="hours"  component={HoursField} />
+       </Panel>
+        <div className="taskDate">
+          <img className="rightCalendar" src={calendar} alt="logo" />
+          <Field name="startDate" component={DPicker}/>
+          <span> Дата: </span>
+        </div>
+       </Container>
       <Container flex="2">
-        <Field
-            name="code"
-            component={prp =>
-                <SelectInput
-                    {...prp}
-                    placeholder="Код работ"
-                    options={props.codes}
-                />
-            }/>
-          <div className="taskDate">
-            <img className="rightCalendar" src={calendar} alt="logo" />
-            <Field name="startDate" component={DPicker}/>
-            <span> Дата: </span>
-          </div>
+        <Panel label="Код работ">
+          <WorkCodeField codes={props.codes}/>
+        </Panel>
+        <Panel label="Статья финансирования">
+          <FinancesField finances={props.finances}/>
+        </Panel>
       </Container>
       <div flex="5">
         <Field name="comment" component={commentField}/>

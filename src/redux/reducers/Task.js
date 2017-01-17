@@ -14,7 +14,8 @@ import {
     SET_ADDING_TRUD_TASK,
     SET_CODES,
     SET_FINANCES,
-    SET_LABOR_VIEW
+    SET_LABOR_VIEW,
+    CLOSE_LABOR
 } from "../actions/tasksActions";
 
 
@@ -108,6 +109,8 @@ export function setTaskView(state = false, action) {
 export function setLaborView(state = false, action) {
     switch (action.type) {
     case SET_TASK_VIEW:
+        return false;
+    case CLOSE_LABOR:
         return false;
     case SET_LABOR_VIEW:
         return action.labor;

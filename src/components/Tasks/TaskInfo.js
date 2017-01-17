@@ -1,82 +1,32 @@
 import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
-import calendar from "../../Icons/calendar.svg";
-import ellipsis from "../../Icons/ellipsis.svg";
-import comment from "../../Icons/speech-bubbles-comment-option.svg";
-import clock from "../../Icons/clock.svg";
 import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
 import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {connect} from 'react-redux';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
-import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
 import helpers from "./taskHelpers";
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
+import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
+import Icon from "../../Icons/Icon";
 
-const NameField = ({input}) => {
-    return (<input {...input}   className="fieldValue taskHeader" placeholder="Название задачи"/>);
-  }
 
-const DescriptionField = ({input}) => {
-    return (<textarea {...input}  placeholder="Описание задачи" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
-}
 
-const ExecutorsSelectField = ({executors, deactivateExecutorsField,debouncedUpdate}) => (
-  <Field
-  name="executors"
-  newOnBlur={deactivateExecutorsField}
-  newOnChange={debouncedUpdate}
-  component={prp =>
-      <SelectInput
-          multi={true}
-          {...prp}
-          placeholder="Исполнители"
-          options={executors}
-          autofocus={true}
-      />
-  }/>
-);
 
-const WorkCodeField = ({codes,debouncedUpdate}) => (
-  <Field
-      name="code"
-      newOnChange={debouncedUpdate}
-      component={prp =>
-          <SelectInput
-              {...prp}
-              placeholder="Код работ"
-              options={codes}
-          />
-      }/>
-);
-
-const FinancesField = ({finances,debouncedUpdate}) => (
-  <Field
-      name="finance"
-      newOnChange={debouncedUpdate}
-      component={prp =>
-          <SelectInput
-              {...prp}
-              placeholder="Статья финансирования"
-              options={finances}
-          />
-      }/>
-);
-
-const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover}) => (
+const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover,activePanel}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
-    <div style={{marginRight:"15px"}}>
-      <img className="clickable-image clock" onClick={chooseTrudTab} src={clock} alt="logo" />
-      <img className="clickable-image comment" onClick={chooseCommentTab} src={comment} alt="logo" />
+    <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
+      <Icon name="clock" className={`clickable-image clock ${activePanel=="trud" ? 'active' : ''}`} onClick={chooseTrudTab}/>
+      <Icon name="comment" className={`clickable-image comment ${activePanel=="comment" ? 'active' : ''}`} onClick={chooseCommentTab}/>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
     <div style={{marginLeft:"15px"}}>
-      <img className="clickable-image ellipsis" onClick={openPopover} src={ellipsis} alt="logo" />
+      <Icon className="clickable-image ellipsis" onClick={openPopover} name="ellipsis" />
     </div>
   </div>
 );
@@ -128,7 +78,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
     };
     this.handleDebounce = debounce(this.handleEdit, 500);
   }
-  handleEdit(e) {
+  handleEdit(e) {    
     setTimeout(() => {this.refs.sbmt.click()});
   }
   openPopover() {
@@ -170,13 +120,13 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
               <Container style={{justifyContent: "space-between"}}>
                 <div ref="executorsSelect" className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>
                   {executorsField}
-                  <div>
-                    <img className="user" src={calendar} alt="logo" />
+                  <div style={{display:"flex", flexDirection:"row"}}>
+                    <Icon className="user" name="calendar" />
                     <Field name="startDate" newOnChange={this.handleEdit.bind(this)} component={DPicker}/>
                   </div>
                 </div>
                 <div ref="ellipsis">
-                  <ImagePanel chooseTrudTab={props.chooseCurrentTaskTab.bind(this, 'trud')} chooseCommentTab={props.chooseCurrentTaskTab.bind(this, 'comment')}
+                  <ImagePanel activePanel={props.activeTab} chooseTrudTab={props.chooseCurrentTaskTab.bind(this, 'trud')} chooseCommentTab={props.chooseCurrentTaskTab.bind(this, 'comment')}
                     openPopover={this.openPopover.bind(this)}/>
                 </div>
               </Container>
@@ -186,14 +136,12 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                   <Field name="name"  component={NameField} />
                 </h2>
                 <Container flex="3" containerStyle={codeBlockStyle}>
-                  <div className="taskPanel">
-                    <span className="panelLabel"> Код работ </span>
-                      <WorkCodeField codes={this.props.codes} debouncedUpdate={this.handleEdit.bind(this)}/>
-                  </div>
-                  <div  className="taskPanel">
-                    <span className="panelLabel"> Статья финансирования </span>
-                        <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>                      
-                  </div>
+                  <Panel label="Код работ">
+                    <WorkCodeField codes={this.props.codes} debouncedUpdate={this.handleEdit.bind(this)}/>
+                  </Panel>
+                  <Panel label="Статья финансирования">
+                    <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>
+                  </Panel>
                 </Container>
                 <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
                   <span className="panelLabel"> Описание </span>
@@ -236,6 +184,6 @@ taskForm = connect(
     initialValues: state.taskView,
     executorsFromForm
   })}
-)(taskForm)
+)(taskForm);
 
 export default taskForm;

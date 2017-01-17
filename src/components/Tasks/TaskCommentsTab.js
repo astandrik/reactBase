@@ -5,6 +5,11 @@ import helpers from "./taskHelpers";
 import FlatButton from 'material-ui/FlatButton';
 
 const tab = class TaskCommentsTab extends React.Component {
+    stopPropagation (e){
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+    }
+        
     render () {
       const props = this.props;
       const {sendComment} = props;
@@ -23,7 +28,7 @@ const tab = class TaskCommentsTab extends React.Component {
             <div style={{outline: "1px solid black"}}>
               <Container className="leaveCommentContainer">
                 <span flex="1" style={{marginLeft:"20px"}}>{props.task.manager}</span>
-                <textarea  flex="3" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}} name="comment" ref="commentField" placeholder="Напишите комментарий"/>
+                <textarea  flex="3" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}} onChange={this.stopPropagation} ref="commentField" placeholder="Напишите комментарий"/>
               </Container>
               <FlatButton onClick={prepareComment} label="Отправить" />
             </div>

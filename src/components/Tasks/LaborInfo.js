@@ -12,40 +12,9 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
 import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
+import {WorkCodeField, FinancesField,NameField, DescriptionField, Panel, HoursField} from "../formComponents/ReusableComponents";
+import Icon from "../../Icons/Icon";
 
-const NameField = ({input}) => {
-    return (<input {...input}   className="fieldValue taskHeader" placeholder="Название"/>);
-  }
-
-const DescriptionField = ({input}) => {
-    return (<textarea {...input}  placeholder="Описание задачи" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
-}
-
-const WorkCodeField = ({codes,debouncedUpdate}) => (
-  <Field
-      name="code"
-      newOnChange={debouncedUpdate}
-      component={prp =>
-          <SelectInput
-              {...prp}
-              placeholder="Код работ"
-              options={codes}
-          />
-      }/>
-);
-
-const FinancesField = ({finances,debouncedUpdate}) => (
-  <Field
-      name="finance"
-      newOnChange={debouncedUpdate}
-      component={prp =>
-          <SelectInput
-              {...prp}
-              placeholder="Статья финансирования"
-              options={finances}
-          />
-      }/>
-);
 
 
 const codeBlockStyle = {
@@ -59,6 +28,19 @@ const headerBlockStyle = {
 const descriptionBlockStyle = {
   minHeight: "200px"
 }
+
+const ImagePanel = ({acceptTrud, returnToTask, status}) => (
+  <div style={{display: 'flex', justifyContent: "flex-end"}}>
+    <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
+      <Icon name="cursor" className={`clickable-image comment`} onClick={returnToTask}/>
+      <Icon name="acceptTrud" className={`clickable-image comment ${status == "Новая" ? '' : 'noDisplay'}`} onClick={acceptTrud}/>
+    </div>
+    <div style={{width:"1px", borderRight: "1px solid black"}}></div>
+    <div style={{marginLeft:"15px"}}>
+      <Icon className="clickable-image ellipsis" name="ellipsis" />
+    </div>
+  </div>
+);
 
 
 const  LaborInfoComponent =  class newLaborInfo extends React.Component {
@@ -92,6 +74,9 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                     <Field name="startDate" newOnChange={this.handleEdit.bind(this)} component={DPicker}/>
                   </div>
                 </div>
+                <div>
+                  <ImagePanel acceptTrud={this.props.acceptTrud.bind(this, labor)} returnToTask={props.returnToTask.bind(this, labor)} status={labor.status} />
+                </div>
               </Container>
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
@@ -99,21 +84,20 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   <Field name="description"  component={NameField} />
                 </h2>
                 <Container flex="3" containerStyle={codeBlockStyle}>
-                  <div className="taskPanel">
-                    <span className="panelLabel"> Код работ </span>
-                      <WorkCodeField codes={this.props.codes} debouncedUpdate={this.handleEdit.bind(this)}/>
-                  </div>
-                  <div  className="taskPanel">
-                    <span className="panelLabel"> Статья финансирования </span>
-                        <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>
-                  </div>
+                  <Panel label="Количество часов">
+                    <Field name="hours"  component={HoursField} />
+                  </Panel>
+                  <Panel label="Код работ">
+                    <WorkCodeField codes={this.props.codes} debouncedUpdate={this.handleEdit.bind(this)}/>
+                  </Panel>
+                  <Panel label="Статья финансирования">
+                    <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>
+                  </Panel>
                 </Container>
                 <div>
                   <TaskCommentsTabContainer sendComment={props.sendComment.bind(this, labor)} task={labor}/>
                 </div>
             </Container>
-            <AddTrudModalContainer isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)}
-              onSubmit={props.handleTrudSubmit.bind(this, task)} containerStyle={{maxHeight: '0'}}/>
           </Container>
           <input type="submit"  ref="sbmt" style={{display:"none"}}/>
         </form>
@@ -127,12 +111,11 @@ let laborForm = reduxForm({
   enableReinitialize: true
 })(LaborInfoComponent);
 
-const selector = formValueSelector('laborInfoDialogForm')
-taskForm = connect(
+laborForm = connect(
   state => {
     return ({
     initialValues: state.laborView
   })}
-)(laborForm)
+)(laborForm);
 
 export default laborForm;

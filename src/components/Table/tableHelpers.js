@@ -1,4 +1,5 @@
 import React from "react";
+import {getDateRange} from "../../redux/actions/tableActions";
 let helpers = {};
 
 
@@ -10,7 +11,7 @@ helpers.generateHeaders = function (headers = []) {
         {headers[i-1]}
       </th>
     );
-  } 
+  }
   return th;
 }
 
@@ -50,15 +51,6 @@ helpers.getWeek = function(date) {
     return Math.ceil(dayOfYear/7)
 };
 
-helpers.getDateRange = function(day) {
-  var curr = new Date(day); // get current date
-  var curr2 = new Date(day); // get current date
-  var first = curr.getDate() - curr.getDay() + 1; // First day is the day of the month - the day of the week
-  var last = first + 6; // last day is the first day + 6
-
-  var firstday = new Date(curr.setDate(first));
-  var lastday = new Date(curr2.setDate(last));
-  return {first: firstday, last: lastday};
-}
+helpers.getDateRange = getDateRange;
 
 export default helpers;

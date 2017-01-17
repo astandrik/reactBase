@@ -7,6 +7,7 @@ import FlatButton from 'material-ui/FlatButton';
 import SelectInput from "../formComponents/SelectInput";
 import {connect} from 'react-redux';
 import DPicker from "../formComponents/DatePicker";
+import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
 
 
 const codeBlockStyle = {
@@ -31,16 +32,7 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
       <div className="infoHeader" flex="1">
         <Container style={{justifyContent: "space-between"}}>
           <div className="infoHeaderBlock fullWidth" style={{display: 'flex', justifyContent: "flex-begin"}}>
-            <Field
-            name="executors"
-            component={prp =>
-                <SelectInput
-                    multi={true}
-                    {...prp}
-                    placeholder="Исполнители"
-                    options={props.executors}
-                />
-            }/>
+            <ExecutorsSelectField executors={props.executors}/>
             <div>
               <img className="user" src={calendar} alt="logo" />
               <Field name="startDate" component={DPicker}/>
@@ -53,32 +45,12 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
             <Field name="name" className="fieldValue taskHeader" component="input" placeholder="Название задачи"/>
           </h2>
           <Container containerStyle={codeBlockStyle} flex="3">
-            <div className="taskPanel">
-              <span className="panelLabel"> Код работ </span>
-              <Field
-    name="code"
-    component={prp =>
-        <SelectInput
-            {...prp}
-            placeholder="Код работ"
-            options={props.codes}
-        />
-    }/>
-            </div>
-            <div  className="taskPanel">
-              <span className="panelLabel"> Статья финансирования </span>
-              <span className="panelText">
-              <Field
-        name="finance"
-        component={prp =>
-            <SelectInput
-                {...prp}
-                placeholder="Статья финансирования"
-                options={props.finances}
-            />
-        }/>
-              </span>
-            </div>
+            <Panel label="Код работ">
+              <WorkCodeField codes={this.props.codes}/>
+            </Panel>
+            <Panel label="Статья финансирования">
+              <FinancesField finances={this.props.finances}/>
+            </Panel>
           </Container>
           <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
             <span className="panelLabel"> Описание </span>

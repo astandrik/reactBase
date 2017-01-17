@@ -1,7 +1,11 @@
 .taskPanel {
   margin:5px;
   border: 1px solid black;
-  min-height: 50px;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px;
 }
 
 .panelText {
@@ -21,6 +25,10 @@
 
 .fieldValue.taskHeader {
   font-size: 24px;
+}
+
+.formInput {
+  height: 30px;
 }
 
 .panelLabel {
@@ -142,7 +150,9 @@
   height: 30px;
   margin: 0 5px;
 }
-
+svg.active {
+  fill: #02ceff!important
+}
 
 
 .taskInfoTab {

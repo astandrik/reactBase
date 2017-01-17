@@ -1,3 +1,4 @@
+import moment from "moment";
 const statusDict = {
   0: "Новая",
   1: "Подтверждена",
@@ -12,7 +13,17 @@ export default class Labor {
       this.comments.forEach(x=>{x.date = moment(new Date(x.created_dt * 1000)).format("LT, DD MMMM YYYY")});
     }
     this.commentsOpened = false;
+    this.rawstatus = json.status;
+    this.hours = json.value;
     this.status = statusDict[json.status];
     this.status = this.status=== undefined ? "Вычисляется" : this.status;
+    this.code = {
+        label: json.code.value,
+        value: json.code.id
+    };
+    this.finance = {
+      label: json.finance.value,
+      value: json.finance.id
+    }
   }
 }
