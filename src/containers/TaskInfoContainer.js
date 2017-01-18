@@ -24,7 +24,8 @@ const mapStateToProps = (state, ownProps) => {
         isTrudModalOpen: state.isTrudModalOpen,
         codes: state.codes,
         finances: state.finances,
-        executors: state.subordinates
+        executors: state.subordinates,
+        groups: state.groupedLabors
     }
 }
 import LaborToSend from "../Entities/Tasks/LaborToSend";

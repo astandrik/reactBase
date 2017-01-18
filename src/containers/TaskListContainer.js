@@ -17,6 +17,10 @@ import {
     editTask,
     editLabor
 } from "../redux/actions/tasksActions";
+import {
+  loadTableData
+} from "../redux/actions/tableActions";
+
 import LaborToSend from "../Entities/Tasks/LaborToSend";
 import TaskToSend from "../Entities/Tasks/TaskToSend";
 
@@ -29,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
         taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
         isErrorsModalOpen: state.isErrorsModalOpen,
-        laborView: state.laborView
+        laborView: state.laborView,
+        tableData: state.tableData
     }
 }
 
@@ -42,6 +47,10 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(activateTask({
                 id
             }));
+            dispatch(loadTableData({
+              day: new Date()
+            },
+            id))
         },
         toggleOpen: (index) => {
             dispatch(toggleTaskTreeOpen({

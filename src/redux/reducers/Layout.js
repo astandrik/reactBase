@@ -69,10 +69,10 @@ export function setCurrentTitle(state = "", action) {
     }
 }
 
-export function toggleToolbar(state = false, action) {
+export function toggleToolbar(state = true, action) {
     switch (action.type) {
     case TOGGLE_TOOLBAR:
-        return action.status
+        return !state;
     default:
         return state;
     }

@@ -4,11 +4,11 @@ import ReactSVG from 'react-svg'
 function loadIcon(name, className, onClick) {
   const path =  require("./" + name +".svg");
   return (
-    <div    onClick={onClick}>
-    <ReactSVG
-   path={path}
-   className={className}
-   />
+    <div onClick={onClick}>
+      <ReactSVG
+        path={path}
+        className={className}
+     />
    </div>
   )
 }

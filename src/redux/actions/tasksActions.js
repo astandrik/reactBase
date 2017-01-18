@@ -16,6 +16,7 @@ export const SELECT_TABLE_LABORS = "SELECT_TABLE_LABORS";
 export const GET_WORK_CODES = "GET_WORK_CODES";
 export const SET_CODES = "SET_CODES";
 export const SET_FINANCES = "SET_FINANCES";
+export const SET_GROUPED_TABLE_LABORS = "SET_GROUPED_TABLE_LABORS";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 export const CLOSE_LABOR = "CLOSE_LABOR";
 
@@ -32,7 +33,8 @@ import {
     closeTrudModal
 } from "./layoutActions";
 import {
-  changeWeek
+  changeWeek,
+  generateLaborsFromTableData
 } from "./tableActions";
 import {
     generateActionFunc,
@@ -53,6 +55,7 @@ export const openLaborComment = generateActionFunc(OPEN_LABOR_COMMENT);
 export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
 export const setCurrentTaskComment = generateActionFunc(SET_CURRENT_TASK_COMMENT);
 export const setGroupedLabors = generateActionFunc(SET_GROUPED_LABORS);
+export const setGroupedTableLabors = generateActionFunc(SET_GROUPED_TABLE_LABORS);
 export const setCodes = generateActionFunc(SET_CODES);
 export const setFinances = generateActionFunc(SET_FINANCES);
 export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
@@ -66,7 +69,7 @@ export function groupLabors(labors) {
     return groups;
 }
 
-export function loadTask(obj) {
+export function loadTask(obj, callback) {
     const handler = function (json, dispatch) {
         const task = new Task(json.data);
         task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
@@ -82,6 +85,9 @@ export function loadTask(obj) {
         dispatch(setGroupedLabors({
             groups
         }));
+        if(callback) {
+          callback(task);
+        }
     }
     return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
@@ -92,6 +98,11 @@ export function loadTaskShort(obj, callback) {
         if (callback) {
             callback(task);
         }
+        task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
+        task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
+        dispatch(setTaskView({
+            task
+        }));
     }
     return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
@@ -199,10 +210,14 @@ export function createLabor(data, task) {
     return fetchPost(`/create/time`, data, handler, errorHandler);
 }
 
-export function editLabor(data, fromLabor) {
+export function editLabor(data, fromLabor, fromTable) {
   const handler = (json, dispatch, getState) => {
     if(fromLabor) {
       dispatch(loadLabor(data));
+    } else if(fromTable) {
+      const task_id = data.task_id;
+      dispatch(closeLabor());
+      dispatch(loadTask({id:task_id}));
     } else {
       dispatch(loadTask({id: data.task_id}));
     }

@@ -1,4 +1,4 @@
-import LaborInfo from "../components/Tasks/LaborInfo";
+import LaborInfoTable from "../components/Table/LaborInfoTable";
 import {
     connect
 } from 'react-redux';
@@ -36,11 +36,12 @@ const mapDispatchToProps = (dispatch) => {
         acceptTrud: (trud) => {
           let labor = LaborToSend(trud);
           labor.status = 1;
-          dispatch(editLabor(labor));
+          dispatch(editLabor(labor, false, true));
         },
         returnToTask: (trud) => {
+          const task_id = trud.task_id;
           dispatch(closeLabor());
-          dispatch(loadTask({id: trud.task_id}));
+          dispatch(loadTask({id:task_id}));
         }
     }
 }
@@ -49,6 +50,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
     mapStateToProps,
     mapDispatchToProps
-)(LaborInfo)
+)(LaborInfoTable)
 
 export default Visible;

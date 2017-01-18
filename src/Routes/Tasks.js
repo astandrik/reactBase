@@ -11,14 +11,13 @@ const menuItems = [
 
 
 const containerTaskListContainerStyles = {
-    border: "1px solid black",
     flex:"10",
     overflow: "auto"
 }
 
 const TaskListContainerStyles = {
-  padding: "30px",
-  height: "calc(100% - 60px)"
+  padding: "10px 20px",
+  height: "calc(100% - 20px)"
 }
 
 const tabs = [
@@ -44,7 +43,7 @@ class Tasks extends Component {
 
   render() {
     return (
-        <Container style={{margin:"10px 20px 10px 20px",background:"#EEEEEE"}} width="calc(100% - 40px)" flex="8" container={{overflow:"auto"}}>
+        <Container className="global-body-container" flex="8" container={{overflow:"auto"}}>
           {this.props.children}
         </Container>
     );

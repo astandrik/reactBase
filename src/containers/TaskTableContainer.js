@@ -1,9 +1,11 @@
 import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {deactivateTasks, groupLabors, setGroupedLabors, setLabor,setAddingTrudTask,loadTaskShort} from "../redux/actions/tasksActions";
+import {deactivateTasks, groupLabors, setGroupedLabors, setLabor,setAddingTrudTask,loadTask,loadTaskShort, editLabor, setGroupedTableLabors} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
 import {changeWeek, setCurrentWeek} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';
+
+import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -12,7 +14,8 @@ const mapStateToProps = (state,ownProps) => {
     tableData: state.tableData,
     currentWeek: state.currentWeek,
     taskView: state.taskView,
-    isTrudModalOpen: state.isTrudModalOpen
+    isTrudModalOpen: state.isTrudModalOpen,
+    laborView: state.laborView
   }
 }
 
@@ -24,8 +27,8 @@ const mapDispatchToProps = (dispatch) => {
     cellClickHandler: (data, id) => {
       if(data && data.length) {
         const groups = groupLabors(data);
-        dispatch(loadTaskShort({id}));
-        dispatch(setGroupedLabors({groups}));
+        dispatch(loadTask({id}));
+        dispatch(setGroupedTableLabors({groups}));
         dispatch(toggleRightPanel({status: 1}));
       } else if (data) {
         alert("Ebin))");
@@ -36,6 +39,14 @@ const mapDispatchToProps = (dispatch) => {
         };
         dispatch(loadTaskShort({id}, taskCallback));
 
+      }
+    },
+    rowClickHandler: (data, id) => {
+      if(data && data.length) {
+        const groups = groupLabors(data);
+        dispatch(loadTask({id}));
+        dispatch(setGroupedTableLabors({groups}));
+        dispatch(toggleRightPanel({status: 1}));
       }
     },
     onDateSelect: (day) => {
@@ -51,6 +62,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     closeModal: () => {
       dispatch(closeTrudModal({}));
+    },
+    handleEditLaborSubmit: (json) => {
+      const labor = LaborToSend(json);
+      dispatch(editLabor(labor, true));
     },
     handlePrevWeek: (weekStart) => {
       const prev = new Date(weekStart.getTime() - 2 * 24 * 60 * 60 * 1000);

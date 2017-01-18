@@ -127,6 +127,8 @@
 
 .rightPanelContainer {
   transition: all ease 0.5s;
+  border: 1px solid black;
+  border-radius: 5px;
 }
 
 .rightPanelContainer.opened {
@@ -139,5 +141,9 @@
 
 .tasksContainer {
   transition: all ease 0.5s;
-  overflow: auto;;
+  overflow: auto;
+  background-color: #EEEEEE;
+  border:1px black solid;
+  border-radius: 5px;
+  padding: 5px;
 }

@@ -7,7 +7,8 @@ import {reset} from 'redux-form';
 const mapStateToProps = (state,ownProps) => {
   return {
     task: ownProps.task,
-    isTrudModalOpen: state.isTrudModalOpen
+    isTrudModalOpen: state.isTrudModalOpen,
+    groups: state.groupedTableLabors
   }
 }
 

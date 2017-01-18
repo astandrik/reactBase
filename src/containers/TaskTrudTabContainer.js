@@ -5,7 +5,7 @@ import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    groups: state.groupedLabors
+    groups: ownProps.groups
   }
 }
 

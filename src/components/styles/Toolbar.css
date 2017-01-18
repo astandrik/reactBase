@@ -7,3 +7,12 @@
   height: 30px;
   margin-top: 5px;
 }
+
+.spki-block>*{
+  float: left;
+}
+
+.spki-block>h3 {
+  margin-top: 10px;
+  margin-left: 10px;
+}

@@ -12,7 +12,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleClick: ()=> {
-      dispatch(toggleToolbar({status: true}));
+      dispatch(toggleToolbar());
     }
   }
 }

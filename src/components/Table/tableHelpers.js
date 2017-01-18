@@ -16,7 +16,7 @@ helpers.generateHeaders = function (headers = []) {
 }
 
 
-helpers.generateRows = function(data = [], clickHandler) {
+helpers.generateRows = function(data = [], clickHandler, rowClickHandler) {
   let rows = [];
   const elements = data.data;
   const headers = data.headers;
@@ -27,15 +27,19 @@ helpers.generateRows = function(data = [], clickHandler) {
     const elem = elements[Object.keys(elements)[i]];
     let td = [];
     const tdWidth = 70 / data.headers.length;
+    let labors = [];
     for(var j = 0; j < headers.length; j++) {
       const val = elem[headers[j]];
+      if(val) {
+        labors = labors.concat(val);
+      }
       td[j] = (
         <td key={j} className="tableCell" width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id)}>{val ? (val.myHours + "/" + val.hours) : 0}</td>
       )
     }
     rows[i] = (
       <tr key={i}>
-        <td width="30%"> {Object.keys(elements)[i]} </td>
+        <td width="30%" className="tableCell" onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} </td>
         {td}
       </tr>
     )

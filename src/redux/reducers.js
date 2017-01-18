@@ -23,6 +23,7 @@ export default combineReducers({
     rightPanelStatus: layoutReducers.toggleRightPanel,
     activeTaskTab: taskReducers.setActiveTaskTab,
     groupedLabors: taskReducers.setGroupedLabors,
+    groupedTableLabors: taskReducers.setGroupedTableLabors,
     currentTaskComment: taskReducers.setCurrentTaskComment,
     isTrudModalOpen: layoutReducers.openTrudModal,
     tableData: tableReducers.setTableData,

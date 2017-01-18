@@ -10,6 +10,7 @@ import LaborListContainer from "../../containers/LaborListContainer";
 import DatePicker from 'react-datepicker';
 import helpers from "./tableHelpers";
 import {RightPanelContainer} from "../../containers/Containers";
+import LaborInfoTableContainer from "../../containers/LaborInfoTableContainer";
 
 
 const datepickerStyles = {
@@ -43,10 +44,18 @@ const datePicker = (props, range)=> (
 
 const createTable = (tableData, props) => {
   const headers = helpers.generateHeaders(tableData.headers);
-  const rows = helpers.generateRows(tableData, props.cellClickHandler);
+  const rows = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler);
   const range = helpers.getDateRange(props.currentWeek);
   let rightPanel = <div containerStyle={{display:"none"}}/>;
-  if(props.rightPanelStatus) {
+  if(props.rightPanelStatus && props.laborView) {
+    rightPanel = (
+      <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
+        <RightPanelContainer onClose={props.onRightClose}>
+          <LaborInfoTableContainer labor={props.laborView}  onSubmit={props.handleEditLaborSubmit}/>
+        </RightPanelContainer>
+      </div>
+    )
+  } else if(props.rightPanelStatus) {
     rightPanel = (
       <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
         <RightPanelContainer onClose={props.onRightClose}>
@@ -57,7 +66,7 @@ const createTable = (tableData, props) => {
   }
   return (
     <Container>
-      <div>
+      <div className="tableContainer">
         {datePicker(props,range)}
         <div className="taskTable">
           <table className="taskTable" cellSpacing="0">
@@ -73,6 +82,7 @@ const createTable = (tableData, props) => {
           <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
         </div>
       </div>
+      <div className={`splitter ${(props.rightPanelStatus ? "" : "noDisplay")}`}/>
       {rightPanel}
     </Container>
   )

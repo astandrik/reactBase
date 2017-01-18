@@ -78,7 +78,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
     };
     this.handleDebounce = debounce(this.handleEdit, 500);
   }
-  handleEdit(e) {    
+  handleEdit(e) {
     setTimeout(() => {this.refs.sbmt.click()});
   }
   openPopover() {
@@ -150,7 +150,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                     </span>
                 </div>
                 <div className={(props.activeTab !== "trud") ? "noDisplay" : "trud"}>
-                  <TaskTrudTabContainer/>
+                  <TaskTrudTabContainer groups={this.props.groups}/>
                 </div>
                 <div className={(props.activeTab !== "comment") ? "noDisplay" : "comment"}>
                   <TaskCommentsTabContainer sendComment={props.sendComment.bind(this, task)} task={task}/>

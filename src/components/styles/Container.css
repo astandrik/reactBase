@@ -1,3 +1,9 @@
 .noDisplay {
-  display: none!important; 
+  display: none!important;
+}
+
+.global-body-container{
+  margin: 10px 10px;
+  background: rgb(221, 221, 221);
+  width: calc(100% - 20px);
 }

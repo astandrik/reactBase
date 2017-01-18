@@ -15,7 +15,8 @@ import {
     SET_CODES,
     SET_FINANCES,
     SET_LABOR_VIEW,
-    CLOSE_LABOR
+    CLOSE_LABOR,
+    SET_GROUPED_TABLE_LABORS
 } from "../actions/tasksActions";
 
 
@@ -127,6 +128,15 @@ export function setActiveTaskTab(state = "trud", action) {
     default:
         return state;
     }
+}
+
+export function setGroupedTableLabors(state = [], action) {
+  switch (action.type) {
+    case SET_GROUPED_TABLE_LABORS:
+        return action.groups;
+    default:
+        return state;
+  }
 }
 
 export function setGroupedLabors(state = [], action) {

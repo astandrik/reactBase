@@ -57,7 +57,7 @@ const dialog = (props) => {
         </Panel>
       </Container>
       <div flex="5">
-        <Field name="comment" component={commentField}/>
+        <Field name="description" component={commentField}/>
        </div>
       <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
   </Container>

@@ -1,5 +1,5 @@
 import React from "react";
-import {ToolbarContainer, SpinnerContainer,LeftNavContainer,GlobalHeaderContainer}  from "./containers/Containers";
+import {ToolbarContainer, SpinnerContainer,SideBarContainer,GlobalHeaderContainer}  from "./containers/Containers";
 import Container from "./components/Container";
 
 
@@ -17,7 +17,8 @@ var containerStyles = {
   display: "flex",
   width: "100%",
   height: "calc(100% - 42px)",
-  justifyContent: "center"
+  justifyContent: "center",
+  flexDirection: "row"
 }
 
 
@@ -36,10 +37,10 @@ class Layout extends React.Component {
       <ToolbarContainer/>
         <div style={containerStyles}>
           <SpinnerContainer/>
-          <LeftNavContainer children={sidenavRoutes}/>
+          <SideBarContainer children={sidenavRoutes}/>
           <Container vertical="true" style={{background:"#DDDDDD"}}>
               <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
-              <div containerStyle={{overflow:"auto"}} style={{height: "calc(100% - 20px)"}}>
+              <div containerStyle={{overflow:"auto"}} style={{height: "100%"}}>
                 {this.props.children}
               </div>
           </Container>

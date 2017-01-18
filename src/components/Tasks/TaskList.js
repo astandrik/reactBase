@@ -75,6 +75,7 @@ export default class TaskList extends React.Component {
             {taskContainers}
           </div>
         </div>
+        <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
         {rightPanel}
         <ValidationErrorsModalContainer containerStyle={{maxWidth: '0'}}/>
       </Container>
