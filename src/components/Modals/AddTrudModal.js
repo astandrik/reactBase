@@ -10,6 +10,10 @@ import "../styles/Modal.css";
 import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
 import calendar from "../../Icons/calendar.svg";
+import moment from 'moment';
+import {
+    connect
+} from 'react-redux';
 import {WorkCodeField, FinancesField, HoursField, Panel} from "../formComponents/ReusableComponents";
 
 const commentField = ({ input, label, meta: { touched, error } }) => {
@@ -37,27 +41,25 @@ const dialog = (props) => {
   <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
   <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
   <Container vertical="true" >
-    <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
-       <Container flex="2">
-       <Panel label="Количество часов">
-         <Field name="hours"  component={HoursField} />
-       </Panel>
-        <div className="taskDate">
-          <img className="rightCalendar" src={calendar} alt="logo" />
-          <Field name="startDate" component={DPicker}/>
-          <span> Дата: </span>
-        </div>
-       </Container>
-      <Container flex="2">
-        <Panel label="Код работ">
-          <WorkCodeField codes={props.codes}/>
-        </Panel>
-        <Panel label="Статья финансирования">
-          <FinancesField finances={props.finances}/>
-        </Panel>
+       <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
+       <Container flex="2" className="responsive-vertical">
+         <Panel label="Количество часов">
+           <Field name="hours"  component={HoursField} />
+         </Panel>
+          <Panel label="Код работ">
+            <WorkCodeField codes={props.codes}/>
+          </Panel>
+          <Panel label="Статья финансирования">
+            <FinancesField finances={props.finances}/>
+          </Panel>
       </Container>
+      <div className="taskDate">
+        <span> Дата: </span>
+        <Field name="startLaborDate" component={DPicker}/>
+        <img className="rightCalendar" src={calendar} alt="logo" />
+      </div>
       <div flex="5">
-        <Field name="description" component={commentField}/>
+        <Field name="comment" component={commentField}/>
        </div>
       <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
   </Container>
@@ -66,6 +68,22 @@ const dialog = (props) => {
   )
 }
 
-export default reduxForm({
-  form: "trudDialogForm"
+let dialogForm = reduxForm({
+  form: "trudDialogForm",
+  enableReinitialize: true
 })(dialog);
+
+function swapDate(d) {
+  const a = d.split('.');
+  return a[1] + "." + a[0];
+}
+
+dialogForm = connect(
+  state => {
+    const currentDate = state.currentDay ? moment(`${swapDate(state.currentDay)}.${state.currentWeek.getFullYear()}`) : moment(new Date());
+    return ({
+    initialValues: Object.assign(state.currentAddingTrudTask, {startLaborDate: currentDate})
+  })}
+)(dialogForm);
+
+export default dialogForm;

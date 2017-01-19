@@ -10,7 +10,7 @@ import LaborListContainer from "../../containers/LaborListContainer";
 import DatePicker from 'react-datepicker';
 import helpers from "./tableHelpers";
 import {RightPanelContainer} from "../../containers/Containers";
-import LaborInfoTableContainer from "../../containers/LaborInfoTableContainer";
+import LaborInfoContainer from "../../containers/LaborInfoContainer";
 
 
 const datepickerStyles = {
@@ -51,7 +51,7 @@ const createTable = (tableData, props) => {
     rightPanel = (
       <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
         <RightPanelContainer onClose={props.onRightClose}>
-          <LaborInfoTableContainer labor={props.laborView}  onSubmit={props.handleEditLaborSubmit}/>
+          <LaborInfoContainer labor={props.laborView}  onSubmit={props.handleEditLaborSubmit}/>
         </RightPanelContainer>
       </div>
     )

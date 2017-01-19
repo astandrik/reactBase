@@ -8,6 +8,10 @@
   padding: 4px;
 }
 
+.modalForm .taskPanel {
+  border: none;
+}
+
 .panelText {
   float:left;
   clear:both;

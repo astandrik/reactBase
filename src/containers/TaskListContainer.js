@@ -3,8 +3,7 @@ import {
     connect
 } from 'react-redux';
 import {
-    toggleRightPanel,
-    closeErrorsModal
+    toggleRightPanel
 } from "../redux/actions/layoutActions";
 import {
     loadTask,
@@ -18,7 +17,8 @@ import {
     editLabor
 } from "../redux/actions/tasksActions";
 import {
-  loadTableData
+  loadTableData,
+  setCurrentDay
 } from "../redux/actions/tableActions";
 
 import LaborToSend from "../Entities/Tasks/LaborToSend";
@@ -32,7 +32,6 @@ const mapStateToProps = (state, ownProps) => {
         tasksOpened: state.tasksOpened,
         taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
-        isErrorsModalOpen: state.isErrorsModalOpen,
         laborView: state.laborView,
         tableData: state.tableData
     }
@@ -47,10 +46,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(activateTask({
                 id
             }));
-            dispatch(loadTableData({
-              day: new Date()
-            },
-            id))
+            dispatch(setCurrentDay({day: false}));
         },
         toggleOpen: (index) => {
             dispatch(toggleTaskTreeOpen({
@@ -75,6 +71,7 @@ const mapDispatchToProps = (dispatch) => {
         },
         handleEditLaborSubmit: (json) => {
           const labor = LaborToSend(json);
+          labor.status = 0;
           dispatch(editLabor(labor, true));
         },
         handleAddNewTask: () => {
@@ -86,9 +83,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(toggleRightPanel({
                 status: 1
             }));
-        },
-        closeModal: () => {
-            dispatch(closeErrorsModal({}));
         }
     }
 }

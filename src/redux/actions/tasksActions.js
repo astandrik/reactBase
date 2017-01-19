@@ -34,7 +34,7 @@ import {
 } from "./layoutActions";
 import {
   changeWeek,
-  generateLaborsFromTableData
+  loadTableData
 } from "./tableActions";
 import {
     generateActionFunc,
@@ -70,21 +70,17 @@ export function groupLabors(labors) {
 }
 
 export function loadTask(obj, callback) {
-    const handler = function (json, dispatch) {
+    const handler = function (json, dispatch, getState) {
         const task = new Task(json.data);
         task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
         task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
-        dispatch(setTaskView({
-            task
-        }));
-        dispatch(toggleRightPanel({
-            status: 1
-        }));
+        dispatch(setTaskView({task}));
+        dispatch(toggleRightPanel({status: 1}));
         const labors = json.data.timings.map((x) => new Labor(x));
         const groups = groupLabors(labors);
-        dispatch(setGroupedLabors({
-            groups
-        }));
+        dispatch(setGroupedLabors({groups}));
+        const currentWeek = getState().currentWeek;
+        dispatch(loadTableData({day: currentWeek}, task.id));
         if(callback) {
           callback(task);
         }
@@ -92,20 +88,31 @@ export function loadTask(obj, callback) {
     return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
 
-export function loadTaskShort(obj, callback) {
-    const handler = function (json, dispatch) {
-        const task = new Task(json.data);
-        if (callback) {
-            callback(task);
-        }
-        task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
-        task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
-        dispatch(setTaskView({
-            task
-        }));
+export function createTask(data) {
+    const handler = (json,dispatch, getState) => {
+      dispatch(loadTasks());
+      const currentWeek = getState().currentWeek;
+      dispatch(loadTableData({day: currentWeek}, json.id))
+      dispatch(reset('newTaskInfoDialogForm'));
     }
-    return fetchAsync(`/get/task?id=${obj.id}`, handler);
+    data.start_dt = (new Date(data.startDate)).getTime() / 1000;
+    return fetchPost(`/create/task`, data, handler);
 }
+
+export function editTask(data, task) {
+  const handler = (json,dispatch, getState) => {
+    dispatch(loadTasks());
+    const currentWeek = getState().currentWeek;
+    dispatch(loadTableData({day: currentWeek}, task.id))
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadTask(task));
+    dispatch(reset("taskInfoDialogForm"));
+  }
+  data.start_dt = (new Date(data.startDate)).getTime() / 1000;
+  return fetchPost(`/edit/task`, data, handler, errorHandler);
+}
+
 
 
 export function loadLabor(labor) {
@@ -117,9 +124,42 @@ export function loadLabor(labor) {
         dispatch(toggleRightPanel({
             status: 1
         }));
+
     }
     return fetchAsync(`/get/time?id=${labor.id}`, handler);
 }
+
+export function createLabor(data, task) {
+    const handler = (json,dispatch) => {
+      dispatch(loadTask(task));
+      dispatch(closeTrudModal());
+      dispatch(reset('trudDialogForm'));
+    }
+    const errorHandler = (dispatch) => {
+
+    }
+    data.date = (new Date(data.startDate)).getTime() / 1000;
+    return fetchPost(`/create/time`, data, handler, errorHandler);
+}
+
+export function editLabor(data, fromLabor) {
+  const handler = (json, dispatch, getState) => {
+    if(fromLabor) {
+      dispatch(loadLabor(data));
+      const currentWeek = getState().currentWeek;
+      dispatch(loadTableData({day: currentWeek}, data.task_id));
+    } else {
+      dispatch(loadTask({id: data.task_id}));
+    }
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadTask(data));
+    dispatch(reset("taskInfoDialogForm"));
+  }
+  data.date = (new Date(data.startDate)).getTime() / 1000;
+  return fetchPost('/edit/time', data, handler);
+}
+
 
 export function loadWorkCodes() {
     const handler = (data, dispatch) => {
@@ -157,27 +197,6 @@ export function loadTasks() {
     return fetchAsync(`/data/tree`, handler);
 }
 
-export function createTask(data) {
-    const handler = (json,dispatch) => {
-      dispatch(loadTasks());
-      dispatch(reset('newTaskInfoDialogForm'));
-    }
-    data.start_dt = (new Date(data.startDate)).getTime() / 1000;
-    return fetchPost(`/create/task`, data, handler);
-}
-
-export function editTask(data, task) {
-  const handler = (json,dispatch) => {
-    dispatch(loadTasks());
-  }
-  const errorHandler = (dispatch) => {
-    dispatch(loadTask(task));
-    dispatch(reset("taskInfoDialogForm"));
-  }
-  data.start_dt = (new Date(data.startDate)).getTime() / 1000;
-  return fetchPost(`/edit/task`, data, handler, errorHandler);
-}
-
 
 export function createComment(data, task, fromLabor) {
   const handler = (json,dispatch) => {
@@ -197,39 +216,4 @@ export function createComment(data, task, fromLabor) {
   return fetchPost(`/create/comment`, data, handler, errorHandler);
 }
 
-export function createLabor(data, task) {
-    const handler = (json,dispatch) => {
-      dispatch(loadTask(task));
-      dispatch(closeTrudModal());
-      dispatch(reset('trudDialogForm'));
-    }
-    const errorHandler = (dispatch) => {
 
-    }
-    data.date = (new Date(data.startDate)).getTime() / 1000;
-    return fetchPost(`/create/time`, data, handler, errorHandler);
-}
-
-export function editLabor(data, fromLabor, fromTable) {
-  const handler = (json, dispatch, getState) => {
-    if(fromLabor) {
-      dispatch(loadLabor(data));
-    } else if(fromTable) {
-      const task_id = data.task_id;
-      dispatch(closeLabor());
-      dispatch(loadTask({id:task_id}));
-    } else {
-      dispatch(loadTask({id: data.task_id}));
-    }
-    const curDay = getState().currentWeek;
-    if(curDay) {
-      dispatch(changeWeek({day: curDay}));
-    }
-  }
-  const errorHandler = (dispatch) => {
-    dispatch(loadTask(data));
-    dispatch(reset("taskInfoDialogForm"));
-  }
-  data.date = (new Date(data.startDate)).getTime() / 1000;
-  return fetchPost('/edit/time', data, handler);
-}

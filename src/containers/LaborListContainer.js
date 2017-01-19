@@ -1,8 +1,9 @@
 import LaborList from "../components/Tasks/LaborList";
 import { connect } from 'react-redux';
-import {setActiveTaskTab, openDescription,setAddingTrudTask} from "../redux/actions/tasksActions";
+import {setActiveTaskTab, openDescription,setAddingTrudTask, createLabor} from "../redux/actions/tasksActions";
 import {openTrudModal,closeTrudModal} from "../redux/actions/layoutActions";
 import {reset} from 'redux-form';
+import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -28,9 +29,10 @@ const mapDispatchToProps = (dispatch) => {
       debugger;
       dispatch(reset('commentForm'));
     },
-    handleTrudSubmit: (json) => {
-      debugger;
-      dispatch(reset('trudDialogForm'));
+    handleTrudSubmit: (task, json) => {
+        let labor = LaborToSend(json);
+        labor.task_id = task.id;
+        dispatch(createLabor(labor, task));
     },
     closeModal: () => {
       dispatch(closeTrudModal({}));

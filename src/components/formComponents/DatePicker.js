@@ -30,6 +30,7 @@ export default ({
     return ( <DatePicker className="datePicker"
         selected={selected}
         onChange={change}
+        popoverTargetAttachment="bottom left"
         />
     );
 }

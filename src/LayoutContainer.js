@@ -1,6 +1,10 @@
 import React from "react";
 import {ToolbarContainer, SpinnerContainer,SideBarContainer,GlobalHeaderContainer}  from "./containers/Containers";
 import Container from "./components/Container";
+import {
+    closeErrorsModal
+} from "./redux/actions/layoutActions";
+import ValidationErrorsModalContainer from "./containers/ModalContainers/ValidationErrorsModalContainer";
 
 
 const RouterCreator = function(name, to, hashtag) {
@@ -45,6 +49,7 @@ class Layout extends React.Component {
               </div>
           </Container>
       </div>
+      <ValidationErrorsModalContainer containerStyle={{maxWidth: '0'}}/>
     </div>
     )
   }
@@ -54,13 +59,16 @@ import { connect } from 'react-redux';
 const mapStateToProps = (state,ownProps) => {
   return {
     needHeader: state.currentTitle,
-    children: ownProps.children
+    children: ownProps.children,
+    isErrorsModalOpen: state.isErrorsModalOpen
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    closeModal: () => {
+        dispatch(closeErrorsModal({}));
+    }
   }
 }
 

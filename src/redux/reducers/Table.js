@@ -1,6 +1,7 @@
 import {
   GET_TABLE_DATA,
-  SET_WEEK
+  SET_WEEK,
+  SET_DAY
 } from "../actions/tableActions";
 
 function getMonday(d) {
@@ -10,7 +11,7 @@ function getMonday(d) {
   return new Date(d.setDate(diff));
 }
 
-const monday = getMonday(new Date());;
+export const monday = getMonday(new Date());
 
 export function setTableData(state = [], action) {
   switch (action.type) {
@@ -18,6 +19,15 @@ export function setTableData(state = [], action) {
       return action.tableData
     default:
       return state
+  }
+}
+
+export function setCurrentDay(state = false, action) {
+  switch (action.type) {
+    case SET_DAY:
+      return action.day;
+    default:
+      return state;
   }
 }
 

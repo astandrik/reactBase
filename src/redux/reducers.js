@@ -30,6 +30,7 @@ export default combineReducers({
     form: formReducer,
     currentAddingTrudTask: taskReducers.addingTrudTask,
     currentWeek: tableReducers.setCurrentWeek,
+    currentDay: tableReducers.setCurrentDay,
     codes: taskReducers.setCodes,
     finances: taskReducers.setFinances,
     currentTitle: layoutReducers.setCurrentTitle,

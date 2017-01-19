@@ -30,11 +30,18 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler) {
     let labors = [];
     for(var j = 0; j < headers.length; j++) {
       const val = elem[headers[j]];
+      let hasUnaccepted = false;
       if(val) {
+        for(var k = 0; k < val.length; k++) {
+          if(val[k].rawstatus ==0) {
+            hasUnaccepted = true;
+            break;
+          }
+        }
         labors = labors.concat(val);
       }
       td[j] = (
-        <td key={j} className="tableCell" width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id)}>{val ? (val.myHours + "/" + val.hours) : 0}</td>
+        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''}`} width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}</td>
       )
     }
     rows[i] = (

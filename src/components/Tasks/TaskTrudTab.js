@@ -5,6 +5,7 @@ import openTrud from "../../Icons/fast-forward.svg";
 import acceptTrud from "../../Icons/acceptTrud.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
+import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
 
 
@@ -28,10 +29,15 @@ const generateLaborsBlock = function(laborGroup,props) {
             </div>
           </div>
           <div flex="1" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
-            <img className="clickable-image openTrud" src={acceptTrud} onClick={props.acceptTrud.bind(this, labor)} alt="logo" />
+            <div data-tip="Подтвердить">
+              <img className="clickable-image openTrud" src={acceptTrud} onClick={props.acceptTrud.bind(this, labor)} alt="logo" />
+            </div>
+            <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
           <div flex="1">
-            <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
+            <div data-tip="Открыть">
+              <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
+            </div>
           </div>
         </Container>
       </Container>

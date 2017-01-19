@@ -6,6 +6,9 @@
   background: #EEEEEE!important;
 }
 
+.react-datepicker__tether-element {
+  left: -75px!important;
+}
 
 .close-modal{
   width: 15px;
@@ -24,16 +27,21 @@
 }
 
 .taskDate {
-  margin-left: 80px;
-  margin-right: 80px;
+  margin-top: 20px;
 }
 
 .taskDate > div > * {
-  float:right;
+  float:left;
   margin: 0 10px;
 }
 
 .rightCalendar {
   width: 23px;
   height: 23px;
+}
+
+@media all and (max-width: 1250px){
+  .responsive-vertical>div{
+    flex-direction: column!important;
+  }
 }

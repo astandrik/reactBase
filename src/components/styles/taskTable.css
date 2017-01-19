@@ -18,6 +18,10 @@
   border: 1px black solid;
 }
 
+.has-unaccepted {
+  background: yellow;
+}
+
 .taskTable th{
   border: 1px black solid;
 }

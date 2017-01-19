@@ -81,7 +81,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
                 <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
-                  <Field name="description"  component={NameField} />
+                  <Field name="comment"  component={NameField} />
                 </h2>
                 <Container flex="3" containerStyle={codeBlockStyle}>
                   <Panel label="Количество часов">
