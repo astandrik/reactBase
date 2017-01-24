@@ -19,7 +19,6 @@ export default combineReducers({
     tabs: layoutReducers.setTabs,
     taskView: taskReducers.setTaskView,
     laborView: taskReducers.setLaborView,
-    tasksOpened: taskReducers.toggleTaskOpen,
     rightPanelStatus: layoutReducers.toggleRightPanel,
     activeTaskTab: taskReducers.setActiveTaskTab,
     groupedLabors: taskReducers.setGroupedLabors,
@@ -36,5 +35,8 @@ export default combineReducers({
     currentTitle: layoutReducers.setCurrentTitle,
     subordinates: userReducers.setSubordinates,
     validationErrors: errorReducers.setValidationErrors,
-    isErrorsModalOpen: layoutReducers.isErrorsModalOpened
+    isErrorsModalOpen: layoutReducers.isErrorsModalOpened,
+    treeFilter: taskReducers.changeTreeFilter,
+    activeIndexes: taskReducers.setActiveIndexes,
+    openedTasks: taskReducers.setOpenedTasks
 })

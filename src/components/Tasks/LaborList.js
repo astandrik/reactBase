@@ -30,7 +30,7 @@ export default (props) => {
             {task.title}
           </h2>
           <div className="trud">
-            <TaskTrudTabContainer groups={props.groups}/>
+            <TaskTrudTabContainer type="table"/>
           </div>
       </Container>
       {addTrudButton(task)}

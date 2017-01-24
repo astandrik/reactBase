@@ -21,22 +21,75 @@ const fullSize = {
   height: "100%"
 }
 
+let tasksDict = [];
+let tasksIdDict = [];
+
+function fillTasksDict(tasks) {
+  tasks.forEach((x) => {
+    tasksDict[x.globalIndex] = x;
+    if(!tasksIdDict[x.id]) {
+      tasksIdDict[x.id] = [x];
+    } else {
+      tasksIdDict[x.id].push(x);
+    };
+    if(x.children) {
+      fillTasksDict(x.children);
+    }
+  })
+}
+
+function findAllTaskInTreeByIndexes(globalIndexes) {
+  if(globalIndexes[0] == -1) {
+    return [];
+  } else {
+    let elems = globalIndexes.map(x => tasksDict[x]);
+    return elems;
+  }
+}
+
+function findAllTaskInTreeByIds(ids) {
+    if(ids[0] == -1) {
+      return [];
+    } else {
+      let elems = ids.reduce((sum,current) => sum.concat(tasksIdDict[current]), []);
+      return elems;
+    }
+}
+
 const generateMenuItems = helpers.generateMenuItems;
+
+function deactivateTasks() {
+    for(var e in tasksDict) {
+        tasksDict[e].active = false;
+        tasksDict[e].opened = false;
+    }
+}
 
 const generateTaskContainers = helpers.generateTaskContainers;
 
 export default class TaskList extends React.Component {
-
   render() {
+    tasksDict = [];
     let propsTasks = this.props.tasks;
+    fillTasksDict(propsTasks);
+    deactivateTasks();
+    if(this.props.activeIndexes.taskId !== -1) {
+      let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
+      items_.forEach(x=> x.active = true);
+    }
+    if(this.props.openedTasks.length > 0) {
+      let items_ = findAllTaskInTreeByIndexes(this.props.openedTasks);
+      items_.forEach(x=> x.opened = true);
+    }
     let menuItems = this.props.menuItems;
     let items = generateMenuItems(menuItems);
     let taskContainers = generateTaskContainers(propsTasks, this.props);
     let rightPanel = <div containerStyle={{display:"none"}}/>;
+    const handleChange = (event, index, value) => this.props.filterChange(value);
     if(this.props.rightPanelStatus && this.props.laborView) {
       rightPanel = (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer onClose={this.props.onRightClose}>
+          <RightPanelContainer>
             <LaborInfoContainer labor={this.props.laborView} onSubmit={this.props.handleEditLaborSubmit}/>
           </RightPanelContainer>
         </div>
@@ -44,7 +97,7 @@ export default class TaskList extends React.Component {
     } else if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type === "new") {
       rightPanel = (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer onClose={this.props.onRightClose}>
+          <RightPanelContainer>
             <NewTaskInfoContainer task={this.props.taskView} onSubmit={this.props.handleNewTaskSubmit}/>
           </RightPanelContainer>
         </div>
@@ -52,7 +105,7 @@ export default class TaskList extends React.Component {
     } else if(this.props.rightPanelStatus) {
       rightPanel= (
         <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer onClose={this.props.onRightClose}>
+          <RightPanelContainer>
             <TaskInfoContainer task={this.props.taskView} onSubmit={this.props.handleEditTaskSubmit}/>
           </RightPanelContainer>
         </div>
@@ -66,7 +119,7 @@ export default class TaskList extends React.Component {
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>
             </div>
             <div>
-              <DropDownMenu className="taskDropdown" value={this.props.value}>
+              <DropDownMenu onChange={handleChange} className="taskDropdown" value={this.props.treeFilter}>
                 {items}
               </DropDownMenu>
             </div>

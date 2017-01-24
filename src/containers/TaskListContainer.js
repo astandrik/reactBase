@@ -8,13 +8,12 @@ import {
 import {
     loadTask,
     activateTask,
-    toggleTaskTreeOpen,
     toggleTaskOpen,
-    deactivateTasks,
     setTaskView,
     createTask,
     editTask,
-    editLabor
+    editLabor,
+    changeTreeFilter
 } from "../redux/actions/tasksActions";
 import {
   loadTableData,
@@ -28,38 +27,31 @@ const mapStateToProps = (state, ownProps) => {
     return {
         tasks: state.tasks,
         menuItems: ownProps.menuItems,
-        value: 1,
-        tasksOpened: state.tasksOpened,
         taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
         laborView: state.laborView,
-        tableData: state.tableData
+        tableData: state.tableData,
+        treeFilter: state.treeFilter,
+        activeIndexes: state.activeIndexes,
+        openedTasks: state.openedTasks
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadTask: (id) => {
+        loadTask: (task) => {
             dispatch(loadTask({
-                id
+                id: task.id
             }));
             dispatch(activateTask({
-                id
+                globalIndex: task.globalIndex
             }));
             dispatch(setCurrentDay({day: false}));
         },
-        toggleOpen: (index) => {
-            dispatch(toggleTaskTreeOpen({
-                index: index
-            }));
-        },
-        toggleTaskOpen: (id) => {
+        toggleTaskOpen: (task) => {
             dispatch(toggleTaskOpen({
-                id: id
+                globalIndex: task.globalIndex
             }));
-        },
-        onRightClose: () => {
-            dispatch(deactivateTasks());
         },
         handleNewTaskSubmit: (json) => {
             let task = TaskToSend(json);
@@ -83,6 +75,9 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(toggleRightPanel({
                 status: 1
             }));
+        },
+        filterChange: (value) => {
+          dispatch(changeTreeFilter({value}));
         }
     }
 }

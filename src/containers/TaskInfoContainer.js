@@ -24,8 +24,7 @@ const mapStateToProps = (state, ownProps) => {
         isTrudModalOpen: state.isTrudModalOpen,
         codes: state.codes,
         finances: state.finances,
-        executors: state.subordinates,
-        groups: state.groupedLabors
+        executors: state.subordinates
     }
 }
 import LaborToSend from "../Entities/Tasks/LaborToSend";
@@ -49,7 +48,7 @@ const mapDispatchToProps = (dispatch) => {
             }))
         },
         handleTrudSubmit: (task, json) => {
-            let labor = LaborToSend(json);            
+            let labor = LaborToSend(json);
             labor.task_id = task.id;
             dispatch(createLabor(labor, task));
         },

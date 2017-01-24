@@ -1,6 +1,6 @@
 import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {deactivateTasks, setGroupedLabors, setLabor,setAddingTrudTask,loadTask, editLabor, setGroupedTableLabors} from "../redux/actions/tasksActions";
+import {setGroupedLabors, setLabor,setAddingTrudTask,loadTask, editLabor, setGroupedTableLabors} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
 import {changeWeek, setCurrentWeek, setCurrentDay} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';
@@ -15,15 +15,14 @@ const mapStateToProps = (state,ownProps) => {
     currentWeek: state.currentWeek,
     taskView: state.taskView,
     isTrudModalOpen: state.isTrudModalOpen,
-    laborView: state.laborView
+    laborView: state.laborView,
+    activeIndexes: state.activeIndexes,
+    currentDay: state.currentDay
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRightClose: () => {
-      dispatch(deactivateTasks());
-    },
     cellClickHandler: (data, id, date) => {
       dispatch(setCurrentDay({day: date}));
       if(data && data.length) {
@@ -37,7 +36,6 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(setAddingTrudTask({task}));
         };
         dispatch(loadTask({id}, taskCallback));
-
       }
     },
     rowClickHandler: (data, id) => {

@@ -4,9 +4,9 @@ import Container from "../components/Container";
 
 
 const menuItems = [
-  {id: 1, text: "Выполненные"},
-  {id: 2, text: "Невыполненные"},
-  {id: 3, text: "Выполняемые"}
+  {id: 0, text: "Активна"},
+  {id: 1, text: "Завершена"},
+  {id: 3, text: "Все"}
 ]
 
 
@@ -38,7 +38,6 @@ const TaskList = () => {
 class Tasks extends Component {
   constructor(props, context) {
     super(props, context);
-    this.state = {text: 'hui'};
   }
 
   render() {

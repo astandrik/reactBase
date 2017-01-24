@@ -44,13 +44,13 @@ const datePicker = (props, range)=> (
 
 const createTable = (tableData, props) => {
   const headers = helpers.generateHeaders(tableData.headers);
-  const rows = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler);
+  const rows = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler, props);
   const range = helpers.getDateRange(props.currentWeek);
   let rightPanel = <div containerStyle={{display:"none"}}/>;
   if(props.rightPanelStatus && props.laborView) {
     rightPanel = (
       <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-        <RightPanelContainer onClose={props.onRightClose}>
+        <RightPanelContainer>
           <LaborInfoContainer labor={props.laborView}  onSubmit={props.handleEditLaborSubmit}/>
         </RightPanelContainer>
       </div>
@@ -58,7 +58,7 @@ const createTable = (tableData, props) => {
   } else if(props.rightPanelStatus) {
     rightPanel = (
       <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-        <RightPanelContainer onClose={props.onRightClose}>
+        <RightPanelContainer>
           <LaborListContainer  task={props.taskView} />
         </RightPanelContainer>
       </div>

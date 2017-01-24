@@ -5,7 +5,9 @@ import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    groups: ownProps.groups
+    groups: state.groupedLabors,
+    groupsTable:  state.groupedTableLabors,
+    type: ownProps.type
   }
 }
 
@@ -20,6 +22,11 @@ const mapDispatchToProps = (dispatch) => {
     acceptTrud: (trud) => {
       let labor = LaborToSend(trud);
       labor.status = 1;
+      dispatch(editLabor(labor));
+    },
+    declineTrud: (trud) => {
+      let labor = LaborToSend(trud);
+      labor.status = 2;
       dispatch(editLabor(labor));
     }
   }

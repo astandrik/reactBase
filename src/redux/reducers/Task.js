@@ -1,9 +1,7 @@
 import {
     SET_TASKS,
-    TOGGLE_OPEN,
     TOGGLE_TASK_OPEN,
     ACTIVATE_TASK,
-    DEACTIVATE_TASKS,
     SET_TASK_VIEW,
     SET_ACTIVE_TASK_TAB,
     OPEN_LABOR_COMMENT,
@@ -16,24 +14,12 @@ import {
     SET_FINANCES,
     SET_LABOR_VIEW,
     CLOSE_LABOR,
-    SET_GROUPED_TABLE_LABORS
+    SET_GROUPED_TABLE_LABORS,
+    CHANGE_TREE_FILTER
 } from "../actions/tasksActions";
-
-
-function findAllTaskInTreeById(tasks, id) {
-    let elems = [];
-    for (var i = 0; i < tasks.length; i++) {
-        if (tasks[i].id === id) {
-            elems.push(tasks[i]);
-            break;
-        }
-        if (tasks[i].children) {
-            elems = elems.concat(findAllTaskInTreeById(tasks[i].children, id));
-        }
-    }
-    return elems;
-}
-
+import {
+  TOGGLE_RIGHT_PANEL
+} from "../actions/layoutActions";
 
 
 function findLaborById(labors, id) {
@@ -45,16 +31,6 @@ function findLaborById(labors, id) {
         }
     }
     return elem;
-}
-
-
-function deactivateTasks(tasks) {
-    for (var i = 0; i < tasks.length; i++) {
-        tasks[i].active = false;
-        if (tasks[i].children) {
-            deactivateTasks(tasks[i].children);
-        }
-    }
 }
 
 export function addingTrudTask(state = {}, action) {
@@ -92,6 +68,15 @@ export function setCurrentTaskComment(state = "", action) {
         return state;
     }
 
+}
+
+export function changeTreeFilter(state = 0, action) {
+  switch (action.type) {
+    case CHANGE_TREE_FILTER:
+      return action.value;
+    default:
+      return state;
+  }
 }
 
 export function setTaskView(state = false, action) {
@@ -133,7 +118,16 @@ export function setActiveTaskTab(state = "trud", action) {
 export function setGroupedTableLabors(state = [], action) {
   switch (action.type) {
     case SET_GROUPED_TABLE_LABORS:
-        return action.groups;
+      return action.groups;
+    case OPEN_LABOR_COMMENT:
+        const keys = Object.keys(state);
+        for (var i = 0; i < keys.length; i++) {
+            let labor = findLaborById(state[keys[i]], action.id);
+            if (labor !== -1) {
+                labor.commentsOpened = !labor.commentsOpened;
+            }
+        }
+        return JSON.parse(JSON.stringify(state));
     default:
         return state;
   }
@@ -167,34 +161,45 @@ export function setCurrentLabors(state = {}, action) {
     }
 }
 
+export function setActiveIndexes(state = {taskId: -1, globalIndex: -1}, action) {
+  switch (action.type) {
+    case ACTIVATE_TASK:
+      return {taskId: state.taskId, globalIndex: action.globalIndex};
+    case SET_TASK_VIEW:
+      return {taskId: action.task.id, globalIndex: state.globalIndex};
+    case TOGGLE_RIGHT_PANEL:
+      if(action.status == 0) {
+        return {taskId: -1, globalIndex: -1}
+      } else {
+        return state;
+      }
+    default:
+      return state;
+  }
+}
+
+export function setOpenedTasks(state=[], action) {
+  switch (action.type) {
+    case TOGGLE_TASK_OPEN:
+      let newState = state.slice();
+      const idx = newState.indexOf(action.globalIndex);
+      if(~idx) {
+        newState.splice(idx,1);
+      } else {
+        newState.push(action.globalIndex);
+      }
+      return newState;
+    default:
+      return state;
+  }
+}
+
 export function setTasks(state = [], action) {
     switch (action.type) {
     case SET_TASKS:
-        return action.tasks
-    case TOGGLE_TASK_OPEN:
-        let items = findAllTaskInTreeById(state, action.id);
-        items.forEach(x=> x.opened = !x.opened);
-        return JSON.parse(JSON.stringify(state));
-    case ACTIVATE_TASK:
-        deactivateTasks(state);
-        let items_ = findAllTaskInTreeById(state, action.id);
-        items_.forEach(x=> x.active = true);
-        return JSON.parse(JSON.stringify(state));
-    case DEACTIVATE_TASKS:
-        deactivateTasks(state);
-        return JSON.parse(JSON.stringify(state));
+        return action.tasks;
     default:
         return state;
     }
 }
 
-export function toggleTaskOpen(state = [0, 0, 0], action) {
-    switch (action.type) {
-    case TOGGLE_OPEN:
-        let new_arr = state.slice();
-        new_arr[action.index] = !new_arr[action.index];
-        return new_arr;
-    default:
-        return state;
-    }
-}

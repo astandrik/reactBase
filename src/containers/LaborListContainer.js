@@ -8,8 +8,7 @@ import LaborToSend from "../Entities/Tasks/LaborToSend";
 const mapStateToProps = (state,ownProps) => {
   return {
     task: ownProps.task,
-    isTrudModalOpen: state.isTrudModalOpen,
-    groups: state.groupedTableLabors
+    isTrudModalOpen: state.isTrudModalOpen
   }
 }
 

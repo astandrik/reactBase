@@ -80,7 +80,8 @@ function swapDate(d) {
 
 dialogForm = connect(
   state => {
-    const currentDate = state.currentDay ? moment(`${swapDate(state.currentDay)}.${state.currentWeek.getFullYear()}`) : moment(new Date());
+    const date = state.currentDay ? (`${swapDate(state.currentDay)}.${state.currentWeek.getFullYear()}`).split(".").join("/") : new Date();
+    const currentDate = moment(date);
     return ({
     initialValues: Object.assign(state.currentAddingTrudTask, {startLaborDate: currentDate})
   })}

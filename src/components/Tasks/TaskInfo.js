@@ -150,7 +150,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                     </span>
                 </div>
                 <div className={(props.activeTab !== "trud") ? "noDisplay" : "trud"}>
-                  <TaskTrudTabContainer groups={this.props.groups}/>
+                  <TaskTrudTabContainer type="task"/>
                 </div>
                 <div className={(props.activeTab !== "comment") ? "noDisplay" : "comment"}>
                   <TaskCommentsTabContainer sendComment={props.sendComment.bind(this, task)} task={task}/>

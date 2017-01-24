@@ -19,6 +19,7 @@ export const SET_FINANCES = "SET_FINANCES";
 export const SET_GROUPED_TABLE_LABORS = "SET_GROUPED_TABLE_LABORS";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 export const CLOSE_LABOR = "CLOSE_LABOR";
+export const CHANGE_TREE_FILTER = "CHANGE_TREE_FILTER";
 
 import {
     reset
@@ -45,11 +46,9 @@ import {
 export const setAddingTrudTask = generateActionFunc(SET_ADDING_TRUD_TASK);
 export const setTasks = generateActionFunc(SET_TASKS);
 export const setLabor = generateActionFunc(SET_CURRRENT_LABOR);
-export const toggleTaskTreeOpen = generateActionFunc(TOGGLE_OPEN);
 export const setTaskView = generateActionFunc(SET_TASK_VIEW);
 export const toggleTaskOpen = generateActionFunc(TOGGLE_TASK_OPEN);
 export const activateTask = generateActionFunc(ACTIVATE_TASK);
-export const deactivateTasks = generateActionFunc(DEACTIVATE_TASKS);
 export const setActiveTaskTab = generateActionFunc(SET_ACTIVE_TASK_TAB);
 export const openLaborComment = generateActionFunc(OPEN_LABOR_COMMENT);
 export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
@@ -60,6 +59,7 @@ export const setCodes = generateActionFunc(SET_CODES);
 export const setFinances = generateActionFunc(SET_FINANCES);
 export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 export const closeLabor= generateActionFunc(CLOSE_LABOR);
+export const changeTreeFilter = generateActionFunc(CHANGE_TREE_FILTER);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -74,7 +74,7 @@ export function loadTask(obj, callback) {
         const task = new Task(json.data);
         task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
         task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
-        dispatch(setTaskView({task}));
+        dispatch(setTaskView({task, parent_id: task.parent_id || 0}));
         dispatch(toggleRightPanel({status: 1}));
         const labors = json.data.timings.map((x) => new Labor(x));
         const groups = groupLabors(labors);
@@ -187,7 +187,7 @@ export function loadFinances() {
     return fetchAsync(`/data/finances`, handler);
 }
 
-export function loadTasks() {
+export function loadTasks(filterValue) {
     const handler = function (json, dispatch) {
         let tasks = new TaskTree(json.data.tree);
         dispatch(setTasks({

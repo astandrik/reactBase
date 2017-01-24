@@ -51,12 +51,12 @@ helpers.generateTasks = function(propsTasks,props) {
       )
     }
     elem = (
-        <div className={"single-task " + (item.active ? " active" : "")} key={item.id}>
-          <span className="taskLabel" onClick={props.loadTask.bind(this,item.id)}>{item.title}</span>
+        <div className={`${((item.rawstatus !== props.treeFilter) && props.treeFilter !== 3) ? " noDisplay " : ""}` + "single-task " + (item.active ? " active" : "")} key={item.id}>
+          <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.title}</span>
           <div>
             <div className="taskStatusTree">{item.status}</div>
             {helpers.createExecutors(item.executors)}
-            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item.id)}  src={next}/>
+            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') + (!hasChildren ? " non-visible" : " visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
           </div>
         </div>
     );
@@ -82,19 +82,15 @@ helpers.generateMenuItems =  function(menuItems) {
 helpers.generateTaskContainers = function (taskTree, props) {
   let taskContainers = [];
   for(var i = 0; i < taskTree.length; i++) {
-    let closed = false;
-    if(!props.tasksOpened[i]) {
-      closed = true;
-    }
     let tasks = helpers.generateTasks(taskTree[i].children,props);
     taskContainers.push(
       <div className="taskContainer" key={taskTree[i].name}>
         <div style={{marginTop:"10px"}}>
           <div className="taskListContainer">
             <span style={{fontWeight: "bold"}}>{taskTree[i].name}</span>
-            <img role="presentation"  className={"clickable-image next " + (!closed? 'opened' : 'closed')} onClick={props.toggleOpen.bind(this,i)}  src={next}/>
+            <img role="presentation"  className={"clickable-image next " + (taskTree[i].opened? 'opened' : 'closed')} onClick={props.toggleTaskOpen.bind(this,taskTree[i])}  src={next}/>
           </div>
-          <div className={"tasks " + (!closed? 'opened' : 'closed')}>
+          <div className={"tasks " + (taskTree[i].opened ? 'opened' : 'closed')}>
             {tasks}
           </div>
         </div>
@@ -106,11 +102,13 @@ helpers.generateTaskContainers = function (taskTree, props) {
 
 helpers.createExecutors = function(executors) {
   let executorDivs = [];
-  if(executors) {
+  if(executors && executors.length > 0) {
     executors.forEach((x,i) => {
       const name = x.name.split(' ').map(x=>x[0].toUpperCase());
       executorDivs.push(<div className="singleExecutor" key={x.id}><span data-tip={x.name}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
     });
+  } else {
+      executorDivs.push(<div className="singleExecutor" key={-1}><span data-tip={"Не распределено"}>Н/Р</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
   }
   return executorDivs;
 }

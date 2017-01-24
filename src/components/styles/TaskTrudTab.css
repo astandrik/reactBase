@@ -14,8 +14,16 @@
   min-height: 60px;
 }
 
-.laborBlock.highlighted {
+.laborBlock.new-task {
   background: yellow;
+}
+
+.laborBlock.accepted-task {
+  background: white;
+}
+
+.laborBlock.declined-task {
+  background: pink;
 }
 
 .commentButton{

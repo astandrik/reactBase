@@ -16,15 +16,21 @@ helpers.generateHeaders = function (headers = []) {
 }
 
 
-helpers.generateRows = function(data = [], clickHandler, rowClickHandler) {
+helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props) {
   let rows = [];
   const elements = data.data;
   const headers = data.headers;
+  const activeId = props.activeIndexes.taskId;
   if(!data || data.length === 0) {
     return [];
   }
   for(var i = 0; i < Object.keys(elements).length;i++) {
-    const elem = elements[Object.keys(elements)[i]];
+    let elem = elements[Object.keys(elements)[i]];
+    if(elem.id == activeId) {
+      elem.active = true;
+    } else {
+      elem.active = false;
+    }
     let td = [];
     const tdWidth = 70 / data.headers.length;
     let labors = [];
@@ -40,13 +46,19 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler) {
         }
         labors = labors.concat(val);
       }
+      const commentsNumber = val ? val.reduce((sum, cur) => sum + cur.comments.length, 0) : 0;
+      let comments = <div className="noDisplay"/>;
+      if(commentsNumber > 0) {
+        comments = <div className="comments-number">{commentsNumber}</div>
+      }
       td[j] = (
-        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''}`} width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}</td>
+        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''} ${elem.active && (headers[j] === props.currentDay || props.currentDay === false)? "active" : ''}`} width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}
+        {comments}</td>
       )
     }
     rows[i] = (
       <tr key={i}>
-        <td width="30%" className="tableCell" onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} </td>
+        <td width="30%" className={`tableCell ${elem.active? "active" : ''}`} onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} </td>
         {td}
       </tr>
     )

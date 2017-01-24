@@ -3,11 +3,18 @@ import Container from "../Container";
 import "../styles/TaskTrudTab.css";
 import openTrud from "../../Icons/fast-forward.svg";
 import acceptTrud from "../../Icons/acceptTrud.svg";
+import decline from "../../Icons/decline.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
 import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
 
+
+const statusDict = {
+  "Новая": "new-task",
+  "Подтверждена": "accepted-task",
+  "Отклонена": "declined-task"
+}
 
 const generateLaborsBlock = function(laborGroup,props) {
   let labors = [<div key={laborGroup[0].startDate} className="timeDateCommentLabel">------{moment(laborGroup[0].startDate).format("LL").toString()}------</div>];
@@ -15,7 +22,7 @@ const generateLaborsBlock = function(laborGroup,props) {
     let labor = laborGroup[i-1];
     let comments = helpers.generateComments(labor.comments);
     labors[i] =  (
-      <Container vertical="true" className={`laborBlock ${(labor.status == "Новая") ? "highlighted" : ''}`} key={labor.id}>
+      <Container vertical="true" className={`laborBlock ${statusDict[labor.status]}`} key={labor.id}>
         <Container style={{margin: "5px"}} width="auto" flex="8">
           <div flex="8">
             <Container style={{justifyContent: "space-between"}}>
@@ -28,9 +35,15 @@ const generateLaborsBlock = function(laborGroup,props) {
               {comments}
             </div>
           </div>
-          <div flex="1" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
-            <div data-tip="Подтвердить">
+          <div flex="1">
+            <div data-tip="Подтвердить" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
               <img className="clickable-image openTrud" src={acceptTrud} onClick={props.acceptTrud.bind(this, labor)} alt="logo" />
+            </div>
+            <ReactTooltip place="top" type="dark" effect="float" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}/>
+          </div>
+          <div flex="1">
+            <div data-tip="Отклонить">
+              <img className="clickable-image openTrud" src={decline} onClick={props.declineTrud.bind(this, labor)} alt="logo" />
             </div>
             <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
@@ -38,6 +51,7 @@ const generateLaborsBlock = function(laborGroup,props) {
             <div data-tip="Открыть">
               <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
             </div>
+            <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
         </Container>
       </Container>
@@ -48,8 +62,9 @@ const generateLaborsBlock = function(laborGroup,props) {
 
 export default (props) => {
   let labors = [];
-  for(var i = 0; i < Object.keys(props.groups).length; i++) {
-    labors[i] = generateLaborsBlock(props.groups[Object.keys(props.groups)[i]],props);
+  const groups = props.type === "table" ? props.groupsTable : props.groups;
+  for(var i = 0; i < Object.keys(groups).length; i++) {
+    labors[i] = generateLaborsBlock(groups[Object.keys(groups)[i]],props);
   }
   labors = [].concat.apply([], labors);
   if(labors.length > 0) {

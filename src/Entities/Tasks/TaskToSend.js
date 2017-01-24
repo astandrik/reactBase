@@ -5,5 +5,8 @@ export default function(json) {
   newJson.status = json.rawstatus ? json.rawstatus : 0;
   delete newJson.finance;
   newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
+  if(newJson.executors.length == 0) {
+    delete newJson.executors;
+  }
   return newJson;
 }

@@ -20,6 +20,7 @@ export default class Task {
         this.children = task.children;
         this.opened = false;
         this.active = false;
+        this.parent_id = task.parent_id;
         this.timings = task.timings;
         this.author = task.author.name
         this.comments = task.comments;
