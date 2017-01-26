@@ -37,6 +37,7 @@ const dialog = (props) => {
     <Modal
     isOpen={props.isModalOpen}
     contentLabel="Modal"
+    className="large-modal"
   >
   <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
   <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>

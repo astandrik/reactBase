@@ -20,11 +20,6 @@ const TaskListContainerStyles = {
   height: "calc(100% - 20px)"
 }
 
-const tabs = [
-  {to: "/tasks/table", title: "Таблица"},
-  {to: "/tasks/list", title: "Список"}
-]
-
 const TaskList = () => {
   return (
   <Container vertical={true} style={{height:"100%"}} >
@@ -39,7 +34,24 @@ class Tasks extends Component {
   constructor(props, context) {
     super(props, context);
   }
-
+  componentDidUpdate() {
+    const type = this.props.params.type;
+    this.props.route.loadRepo.setGlobalTaskType(type);
+    const tabs = [
+      {to: "/tasks/"+type+"/table", title: "Таблица"},
+      {to: "/tasks/"+type+"/list", title: "Список"}
+    ]
+    this.props.route.loadRepo.tabs(tabs);
+  }
+  componentDidMount() {
+    const type = this.props.params.type;
+    this.props.route.loadRepo.setGlobalTaskType(type);
+    const tabs = [
+      {to: "/tasks/"+type+"/table", title: "Таблица"},
+      {to: "/tasks/"+type+"/list", title: "Список"}
+    ]
+    this.props.route.loadRepo.tabs(tabs);        
+  }
   render() {
     return (
         <Container className="global-body-container" flex="8" container={{overflow:"auto"}}>
@@ -49,4 +61,4 @@ class Tasks extends Component {
   }
 }
 
-export {Tasks,TaskList, tabs};
+export {Tasks,TaskList};

@@ -4,25 +4,24 @@ import Container from "../Container";
 import FlatButton from 'material-ui/FlatButton';
 import "../styles/Modal.css";
 
+
 const errorsModal = (props) => {
-  let errorMessages = [];
-  for(var i = 0; i < props.errors.length; i++) {
-    errorMessages.push(<li key={i}> {props.errors[i]} </li>);
-  }
+  let message = "";
+  message = props.message;
   return (
     <Modal
     isOpen={props.isModalOpen}
     contentLabel="Modal"
-    style={{overlay: {zIndex: 10}}}
-    className="large-modal"
+    style={{overlay: {zIndex: 8}}}
+    className="small-modal"
     >
     <Container vertical="true">
-      <h2 flex="2"> Внимание! </h2>
       <ul flex="10">
-        {errorMessages}
+        {message}
       </ul>
       <div flex="1">
-        <FlatButton style={{float:"right"}} onClick={props.closeModal} label="Я всё поправлю!" />
+        <FlatButton style={{float:"right"}} onClick={props.answer.bind(this, true)} label="Да" />
+        <FlatButton style={{float:"left"}} onClick={props.answer.bind(this, false)} label="Нет" />
       </div>
     </Container>
     </Modal>

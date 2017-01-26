@@ -42,13 +42,23 @@ export default class TableData {
         }
       });
       timings.id = current.id;
+      timings.types = {};
+      if(current.executors.filter(x => x.id === currentUser.id).length > 0) {
+        timings.types["my"] = 1;
+      }
+      if(current.executors.filter(x => x.id !== currentUser.id).length > 0) {
+        timings.types["subordinate"] = 1;
+      }
+      if(current.executors.length === 0) {
+        timings.types["nonDistributed"] = 1;
+      }
       sum[current.name] = timings;
       return sum;
     }, {});
     let data = {};
     data.headers = dateArray;
     data.data = groups;
-    this.headers = data.headers;
+    this.headers = data.headers;    
     this.data = data.data;
   }
 }

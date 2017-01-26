@@ -2,3 +2,13 @@
    align-items: center;
    min-height: 150px;
 }
+
+.comment-send-area.disabled {
+  background: #EEEEEE;
+  pointer-events: none;
+}
+
+.comment-send-area.disabled textarea {
+  background: #EEEEEE;
+  pointer-events: none;
+}

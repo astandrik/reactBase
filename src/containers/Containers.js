@@ -6,5 +6,9 @@ import GlobalHeaderContainer from "./LayoutContainers/GlobalHeaderContainer";
 import RightPanelContainer from "./LayoutContainers/RightPanelContainer";
 import TaskListContainer from "./TaskListContainer";
 import TaskTableContainer from "./TaskTableContainer";
+import ReportsTableContainer from "./ReportsTableContainer";
+import SubordinatesTableContainer from "./SubordinatesTableContainer";
+import StatisticsContainer from "./StatisticsContainer";
 
-export {SpinnerContainer,ToolbarContainer,LeftNavContainer, TaskListContainer,GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer}
+export {SpinnerContainer,ToolbarContainer,LeftNavContainer, TaskListContainer,GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer,
+ReportsTableContainer, SubordinatesTableContainer,StatisticsContainer}

@@ -12,6 +12,13 @@ export default class Labor {
     if(this.comments) {
       this.comments.forEach(x=>{x.date = moment(new Date(x.created_dt * 1000)).format("LT, DD MMMM YYYY")});
     }
+    const rights = json.rights;
+    this.rights = {
+      create: ~rights.indexOf("create"),
+      update: ~rights.indexOf("update"),
+      comment: ~rights.indexOf("comment"),
+      accept: ~rights.indexOf("accept"),
+    }
     this.commentsOpened = false;
     this.rawstatus = json.status;
     this.comment = json.description;

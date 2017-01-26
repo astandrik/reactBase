@@ -1,6 +1,6 @@
 import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {setGroupedLabors, setLabor,setAddingTrudTask,loadTask, editLabor, setGroupedTableLabors} from "../redux/actions/tasksActions";
+import {setGroupedLabors, setLabor,setAddingTrudTask,loadTask, editLabor, setGroupedTableLabors, acceptAllTimings} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
 import {changeWeek, setCurrentWeek, setCurrentDay} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';
@@ -73,6 +73,9 @@ const mapDispatchToProps = (dispatch) => {
       const next = new Date(weekStart.getTime() + 9 * 24 * 60 * 60 * 1000);
       dispatch(setCurrentWeek({day: next}));
       dispatch(changeWeek({day: next}));
+    },
+    acceptAll: (timings) => {
+      dispatch(acceptAllTimings(timings.map(x => x.id), null, true));
     }
   }
 }

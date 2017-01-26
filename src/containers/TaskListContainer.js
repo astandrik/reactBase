@@ -3,7 +3,8 @@ import {
     connect
 } from 'react-redux';
 import {
-    toggleRightPanel
+    toggleRightPanel,
+    setClientHeight
 } from "../redux/actions/layoutActions";
 import {
     loadTask,
@@ -33,7 +34,8 @@ const mapStateToProps = (state, ownProps) => {
         tableData: state.tableData,
         treeFilter: state.treeFilter,
         activeIndexes: state.activeIndexes,
-        openedTasks: state.openedTasks
+        openedTasks: state.openedTasks,
+        clientHeight: state.clientHeight
     }
 }
 
@@ -60,6 +62,9 @@ const mapDispatchToProps = (dispatch) => {
         handleEditTaskSubmit: (json) => {
             let task = TaskToSend(json);
             dispatch(editTask(task, json));
+        },
+        setClientHeight: (height) => {
+          dispatch(setClientHeight({height}));
         },
         handleEditLaborSubmit: (json) => {
           const labor = LaborToSend(json);

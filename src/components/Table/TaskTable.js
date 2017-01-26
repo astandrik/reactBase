@@ -11,6 +11,7 @@ import DatePicker from 'react-datepicker';
 import helpers from "./tableHelpers";
 import {RightPanelContainer} from "../../containers/Containers";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
 
 const datepickerStyles = {
@@ -42,9 +43,11 @@ const datePicker = (props, range)=> (
   </div>
 )
 
-const createTable = (tableData, props) => {
-  const headers = helpers.generateHeaders(tableData.headers);
-  const rows = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler, props);
+function createTable (tableData, props) {
+  const rowsObj = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler, props);
+  const rows = rowsObj.rows;
+  const message = "Принять все трудозатраты за " + this.state.date + "?";
+  const headers = helpers.generateHeaders(tableData.headers, rowsObj.datedLabors, this.openConfirm.bind(this));
   const range = helpers.getDateRange(props.currentWeek);
   let rightPanel = <div containerStyle={{display:"none"}}/>;
   if(props.rightPanelStatus && props.laborView) {
@@ -84,10 +87,38 @@ const createTable = (tableData, props) => {
       </div>
       <div className={`splitter ${(props.rightPanelStatus ? "" : "noDisplay")}`}/>
       {rightPanel}
+     <ConfirmModalContainer containerStyle={{maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={message} answer={this.acceptAnswer.bind(this)}/>
     </Container>
   )
 }
 
-export default (props) => {
-  return createTable(props.tableData, props);
+export default class Table extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false,
+      date: "null",
+      labors: []
+    }
+  }
+  openConfirm(date, labors) {
+    this.setState({
+      date: date,
+      labors: labors
+    });
+    this.setState({isModalOpen: true});
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false});
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.acceptAll(this.state.labors);
+    }
+  }
+  render() {
+    const props = this.props;
+    return createTable.call(this,props.tableData, props);
+  }
 }

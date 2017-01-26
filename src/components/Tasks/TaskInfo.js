@@ -33,7 +33,7 @@ const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover,activePanel}) 
 
 const addTrudButtonF = (props) => ((task) => (
   <div flex="2" className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
-    <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>
+    <div className={`addTrudButton ${task.rights.time ? "" : "disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
       Добавить трудозату
     </div>
   </div>
@@ -113,7 +113,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       return <div/>;
     } else {
       return (
-        <form onSubmit={handleSubmit} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
+        <form onSubmit={handleSubmit} className={task.rights.update ? "" : "no-update"} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           {popover}
           <Container vertical={true}>
             <div className="infoHeader" flex="1">

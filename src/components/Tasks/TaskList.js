@@ -21,8 +21,8 @@ const fullSize = {
   height: "100%"
 }
 
-let tasksDict = [];
-let tasksIdDict = [];
+let tasksDict = {};
+let tasksIdDict = {};
 
 function fillTasksDict(tasks) {
   tasks.forEach((x) => {
@@ -43,7 +43,7 @@ function findAllTaskInTreeByIndexes(globalIndexes) {
     return [];
   } else {
     let elems = globalIndexes.map(x => tasksDict[x]);
-    return elems;
+    return elems.filter(x=> x!== undefined);
   }
 }
 
@@ -52,7 +52,7 @@ function findAllTaskInTreeByIds(ids) {
       return [];
     } else {
       let elems = ids.reduce((sum,current) => sum.concat(tasksIdDict[current]), []);
-      return elems;
+      return elems.filter(x=> x!== undefined);
     }
 }
 
@@ -68,9 +68,23 @@ function deactivateTasks() {
 const generateTaskContainers = helpers.generateTaskContainers;
 
 export default class TaskList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.componentDidUpdate = this.componentDidUpdate.bind(this);
+  }
+  componentDidUpdate() {
+    const ref = this.refs.taskTree;
+    if(ref) {
+      this.props.setClientHeight(ref.clientHeight);
+    }
+  }
   render() {
-    tasksDict = [];
+    tasksDict = {};
+    tasksIdDict= {};
     let propsTasks = this.props.tasks;
+    if(propsTasks.length ==0) {
+      return <div/>;
+    }
     fillTasksDict(propsTasks);
     deactivateTasks();
     if(this.props.activeIndexes.taskId !== -1) {
@@ -83,7 +97,7 @@ export default class TaskList extends React.Component {
     }
     let menuItems = this.props.menuItems;
     let items = generateMenuItems(menuItems);
-    let taskContainers = generateTaskContainers(propsTasks, this.props);
+    let taskContainers = generateTaskContainers(propsTasks, this.props, this.props.clientHeight);
     let rightPanel = <div containerStyle={{display:"none"}}/>;
     const handleChange = (event, index, value) => this.props.filterChange(value);
     if(this.props.rightPanelStatus && this.props.laborView) {
@@ -113,7 +127,7 @@ export default class TaskList extends React.Component {
     }
     return (
       <Container>
-        <div className="tasksContainer" style={fullSize}>
+        <div className="tasksContainer" style={fullSize} ref="taskTree">
           <div style={buttonContainerStyles}>
             <div>
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>

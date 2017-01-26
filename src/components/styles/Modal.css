@@ -1,8 +1,28 @@
-.ReactModal__Content {
+.large-modal {
   top: 20%!important;
   right: 20%!important;
   left: 20%!important;
   bottom: 20%!important;
+  background: #EEEEEE!important;
+  position: absolute;
+    border: 1px solid rgb(204, 204, 204);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+}
+
+.small-modal {
+  position: absolute;
+    border: 1px solid rgb(204, 204, 204);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+  top: 30%!important;
+  right: 30%!important;
+  left: 30%!important;
+  bottom: 30%!important;
   background: #EEEEEE!important;
 }
 

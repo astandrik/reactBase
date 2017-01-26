@@ -38,6 +38,11 @@ const mapDispatchToProps = (dispatch) => {
           labor.status = 1;
           dispatch(editLabor(labor, true));
         },
+        declineTrud: (trud) => {
+          let labor = LaborToSend(trud);
+          labor.status = 2;
+          dispatch(editLabor(labor, true));
+        },
         returnToTask: (trud) => {
           dispatch(closeLabor());
           dispatch(loadTask({id: trud.task_id}));

@@ -5,13 +5,43 @@ import calendar from "../../Icons/calendar.svg";
 import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
 import moment from 'moment';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
-export default (props) => {
+export default class Labors extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false
+    }
+  }
+  openConfirm() {
+    this.setState({isModalOpen: true});
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false});
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.acceptAll(this.props.task.timings, this.props.task);
+    }
+  }
+  render () {
+  const props = this.props;
   const task = props.task;
+  const message = "Принять все трудозатраты из списка?";
+  if(!task) {
+    return <div/>;
+  }
   const addTrudButton = (task) => (
     <div className={"addTrudButtonContainer "}>
-      <div className="addTrudButton" onClick={props.openTrudModal.bind(this, task)}>
+      <div className={"addTrudButton" +  `${task.rights.time ? "" : "disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
         Добавить трудозату
+      </div>
+      <div>
+        <div className={"addTrudButton" +  `${task.timings.every(x => x.rights.accept) ? "" : "disabled"}`} onClick={this.openConfirm.bind(this)}>
+          Принять все
+        </div>
       </div>
     </div>
   )
@@ -35,6 +65,8 @@ export default (props) => {
       </Container>
       {addTrudButton(task)}
       <AddTrudModalContainer isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit.bind(this, task)} containerStyle={{maxHeight: '0'}}/>
+      <ConfirmModalContainer containerStyle={{maxHeight: '0'}} isModalOpen={this.state.isModalOpen} message={message} answer={this.acceptAnswer.bind(this)}/>
     </Container>
     )
+  }
 }

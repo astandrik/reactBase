@@ -17,8 +17,10 @@ export const GET_WORK_CODES = "GET_WORK_CODES";
 export const SET_CODES = "SET_CODES";
 export const SET_FINANCES = "SET_FINANCES";
 export const SET_GROUPED_TABLE_LABORS = "SET_GROUPED_TABLE_LABORS";
+export const SET_GLOBAL_TASK_TYPE = "SET_GLOBAL_TASK_TYPE";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 export const CLOSE_LABOR = "CLOSE_LABOR";
+export const SET_TASK_OPEN = "SET_TASK_OPEN";
 export const CHANGE_TREE_FILTER = "CHANGE_TREE_FILTER";
 
 import {
@@ -59,7 +61,9 @@ export const setCodes = generateActionFunc(SET_CODES);
 export const setFinances = generateActionFunc(SET_FINANCES);
 export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 export const closeLabor= generateActionFunc(CLOSE_LABOR);
+export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const changeTreeFilter = generateActionFunc(CHANGE_TREE_FILTER);
+export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -88,12 +92,12 @@ export function loadTask(obj, callback) {
     return fetchAsync(`/get/task?id=${obj.id}`, handler);
 }
 
+
 export function createTask(data) {
     const handler = (json,dispatch, getState) => {
       dispatch(loadTasks());
-      const currentWeek = getState().currentWeek;
-      dispatch(loadTableData({day: currentWeek}, json.id))
       dispatch(reset('newTaskInfoDialogForm'));
+      dispatch(loadTask(json.data));
     }
     data.start_dt = (new Date(data.startDate)).getTime() / 1000;
     return fetchPost(`/create/task`, data, handler);
@@ -187,12 +191,32 @@ export function loadFinances() {
     return fetchAsync(`/data/finances`, handler);
 }
 
+const typeDict = {
+  "nonDistributed": "Нераспределенные задачи",
+  "my": "Мои задачи",
+  "subordinate": "Задачи подчинённых",
+  "all" : "Все задачи"
+}
+
 export function loadTasks(filterValue) {
-    const handler = function (json, dispatch) {
+    const handler = function (json, dispatch, getState) {
+        const type = getState().globalTaskType;
         let tasks = new TaskTree(json.data.tree);
-        dispatch(setTasks({
-            tasks: tasks.tree
-        }));
+        if(type!== "all") {
+          const name = typeDict[type];
+          const chosenTasks = tasks.tree.filter(x => x.name == name);
+          if(chosenTasks[0]) {
+            dispatch(setTaskOpen({globalIndexes: [chosenTasks[0].globalIndex]}));
+          }
+          dispatch(setTasks({
+              tasks: chosenTasks
+          }));
+        } else {
+          dispatch(setTaskOpen({globalIndexes: tasks.tree.map(x=>x.globalIndex)}));
+          dispatch(setTasks({
+              tasks: tasks.tree
+          }));
+        }
     }
     return fetchAsync(`/data/tree`, handler);
 }
@@ -217,3 +241,16 @@ export function createComment(data, task, fromLabor) {
 }
 
 
+export function acceptAllTimings(ids, task, fromTable) {
+  const handler = (json, dispatch, getState) => {
+    if(fromTable) {
+      const currentWeek = getState().currentWeek;
+      dispatch(loadTableData({day: currentWeek}))
+    } else {
+      dispatch(loadTask({id: task.id}));
+    }
+  }
+  if(ids.length > 0) {
+    return fetchAsync(`/data/accepttime?ids=${ids.join(",")}`, handler);
+  }
+}

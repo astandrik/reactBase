@@ -13,7 +13,9 @@ import {
     SET_CODES,
     SET_FINANCES,
     SET_LABOR_VIEW,
+    SET_TASK_OPEN,
     CLOSE_LABOR,
+    SET_GLOBAL_TASK_TYPE,
     SET_GROUPED_TABLE_LABORS,
     CHANGE_TREE_FILTER
 } from "../actions/tasksActions";
@@ -189,6 +191,8 @@ export function setOpenedTasks(state=[], action) {
         newState.push(action.globalIndex);
       }
       return newState;
+    case SET_TASK_OPEN:
+      return action.globalIndexes
     default:
       return state;
   }

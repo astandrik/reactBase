@@ -60,7 +60,18 @@ export const generateLaborsFromTableData = (data, task_id, day) => {
 export function loadTableData(obj, task_id) {
   const range = getDateRange(obj.day);
   const handler = function(json, dispatch, getState) {
-    const tableData = new TableData(json, range.first, range.last, getState().user);
+    const user =  getState().user;
+    const globalType = getState().globalTaskType;
+    let tableData = new TableData(json, range.first, range.last, user);
+    if(globalType !== "all") {
+      let newData = {};
+      for(var e in tableData.data) {
+        if(tableData.data[e].types[globalType]) {
+          newData[e] = tableData.data[e];
+        }
+      }
+      tableData.data = newData;
+    }
     dispatch(setTableData({tableData}));
     if(task_id) {
       const day = getState().currentDay;

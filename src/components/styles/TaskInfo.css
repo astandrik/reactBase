@@ -198,14 +198,31 @@ svg.active {
   align-items: center;
 }
 
+.no-update .taskPanel {
+  pointer-events: none;
+}
+
+.no-update .taskHeader {
+  pointer-events: none;
+}
+
+.no-update .infoHeaderBlock{
+  pointer-events: none;
+}
+
 .addTrudButton {
   height: 30px;
   width:200px;
   text-align: center;
   line-height: 30px;
-  background-color: #95BCF2!important;
+  background-color: #95BCF2;
   border: 1px solid black!important;
   cursor: pointer;
+}
+
+.addTrudButton.disabled {
+  pointer-events: none;
+  background-color: #CCCCCC!important;
 }
 
 .trud {

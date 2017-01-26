@@ -15,11 +15,11 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-import {Home,TaskRoutes} from "./Routes/routes";
+import {Home,TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
-import {setTabs, setCurrentTitle} from "./redux/actions/layoutActions";
-import {loadTasks,loadWorkCodes, loadFinances} from "./redux/actions/tasksActions";
+import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";
+import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
 
@@ -31,7 +31,9 @@ var loadRepo = {
   setCurrentTitle: (title) => store.dispatch(setCurrentTitle({title:title})),
   workCodes: () => store.dispatch(loadWorkCodes()),
   finances: () => store.dispatch(loadFinances()),
-  subordinates: () => store.dispatch(getSubordinates({}))
+  subordinates: () => store.dispatch(getSubordinates({})),
+  setGlobalTaskType: (type) => store.dispatch(setGlobalTaskType({routeType: type})),
+  clearLayout: () => store.dispatch(clearLayout())
 }
 loadRepo.user();
 loadRepo.workCodes();
@@ -40,6 +42,9 @@ loadRepo.subordinates();
 
 
 const TasksRouter = TaskRoutes({loadRepo:loadRepo});
+const ReportRouter = ReportRoutes({loadRepo:loadRepo});
+const SubordinatesRouter = SubordinatesRoutes({loadRepo:loadRepo});
+const StatisticsRouter = StatisticsRoutes({loadRepo:loadRepo});
 
 const Root = () => (
     <Provider store={store}>
@@ -48,6 +53,9 @@ const Root = () => (
           <Route path="/" component={LayoutContainer}>
             <IndexRoute component={Home}/>
             {TasksRouter}
+            {ReportRouter}
+            {SubordinatesRouter}
+            {StatisticsRouter}
           </Route>
       </Router>
       </MuiThemeProvider>
@@ -58,3 +66,4 @@ ReactDOM.render(
   <Root />,
   document.getElementById('root')
 );
+

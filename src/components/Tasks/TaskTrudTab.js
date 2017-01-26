@@ -2,13 +2,11 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskTrudTab.css";
 import openTrud from "../../Icons/fast-forward.svg";
-import acceptTrud from "../../Icons/acceptTrud.svg";
-import decline from "../../Icons/decline.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
 import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
-
+import Icon from "../../Icons/Icon";
 
 const statusDict = {
   "Новая": "new-task",
@@ -35,15 +33,15 @@ const generateLaborsBlock = function(laborGroup,props) {
               {comments}
             </div>
           </div>
-          <div flex="1">
-            <div data-tip="Подтвердить" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
-              <img className="clickable-image openTrud" src={acceptTrud} onClick={props.acceptTrud.bind(this, labor)} alt="logo" />
+          <div flex="1" style={{height:"100%"}}>
+            <div style={{height:"100%"}} data-tip={labor.rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
+              <Icon name="acceptTrud" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")} onClick={props.acceptTrud.bind(this, labor)}/>
             </div>
             <ReactTooltip place="top" type="dark" effect="float" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}/>
           </div>
-          <div flex="1">
-            <div data-tip="Отклонить">
-              <img className="clickable-image openTrud" src={decline} onClick={props.declineTrud.bind(this, labor)} alt="logo" />
+          <div flex="1" style={{height:"100%"}}>
+            <div data-tip={labor.rights.accept ? "Отклонить" : "Нет прав на отклонение"} style={{height:"100%"}}>
+              <Icon name="decline" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")} onClick={props.declineTrud.bind(this, labor)}/>
             </div>
             <ReactTooltip place="top" type="dark" effect="float"/>
           </div>

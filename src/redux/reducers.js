@@ -38,5 +38,7 @@ export default combineReducers({
     isErrorsModalOpen: layoutReducers.isErrorsModalOpened,
     treeFilter: taskReducers.changeTreeFilter,
     activeIndexes: taskReducers.setActiveIndexes,
-    openedTasks: taskReducers.setOpenedTasks
+    openedTasks: taskReducers.setOpenedTasks,
+    globalTaskType: layoutReducers.setGlobalTaskType,
+    clientHeight: layoutReducers.setClientHeight
 })

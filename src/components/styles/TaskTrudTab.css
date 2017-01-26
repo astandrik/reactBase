@@ -8,6 +8,23 @@
   height: 30px;
 }
 
+.disabled {
+  pointer-events: none!important;
+}
+
+svg.disabled {
+  fill: #CCCCCC!important;
+  pointer-events: none;
+}
+
+svg.disabled circle{
+  fill: #CCCCCC!important;
+}
+
+svg.disabled path {
+  fill: #CCCCCC!important;
+}
+
 .laborBlock {
   border: 1px solid black;
   margin:5px 0;
@@ -34,6 +51,12 @@
 .clickable-image.openTrud {
   width: 30px;
   height: 30px;
+  float:right;
+}
+
+.clickable-image.openTrud.small {
+  width: 20px;
+  height: 20px;
   float:right;
 }
 

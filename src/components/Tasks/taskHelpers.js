@@ -2,6 +2,7 @@ import React from "react";
 import next from "../../Icons/next.svg";
 import MenuItem from 'material-ui/MenuItem';
 import ReactTooltip from 'react-tooltip'
+import { List } from 'react-virtualized';
 let helpers = {};
 
 
@@ -51,7 +52,7 @@ helpers.generateTasks = function(propsTasks,props) {
       )
     }
     elem = (
-        <div className={`${((item.rawstatus !== props.treeFilter) && props.treeFilter !== 3) ? " noDisplay " : ""}` + "single-task " + (item.active ? " active" : "")} key={item.id}>
+        <div className={"single-task " + (item.active ? " active" : "")} key={item.id}>
           <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.title}</span>
           <div>
             <div className="taskStatusTree">{item.status}</div>
@@ -79,11 +80,43 @@ helpers.generateMenuItems =  function(menuItems) {
   return items;
 }
 
-helpers.generateTaskContainers = function (taskTree, props) {
+helpers.generateTaskContainers = function (taskTree, props, height) {
   let taskContainers = [];
+  let count = taskTree.length;
+  if(!isNaN(parseInt(height))) {
+    height = parseInt(height);
+  }
+  height = height - (100 + 26*count);
+  let heightPerContainer = height / count;
+  taskTree.sort((a,b) => a.children.length > b.children.length ? 1 : -1);
   for(var i = 0; i < taskTree.length; i++) {
-    let tasks = helpers.generateTasks(taskTree[i].children,props);
-    taskContainers.push(
+    const filtered = taskTree[i].children.filter(item => (item.rawstatus === props.treeFilter) || props.treeFilter === 3)
+    let tasks = helpers.generateTasks(filtered,props);
+    function rowRenderer ({
+      key,         // Unique key within array of rows
+      index,       // Index of row within collection
+      isScrolling, // The List is currently being scrolled
+      isVisible,   // This row is visible within the List (eg it is not an overscanned row)
+      style        // Style object to be applied to row (to position it)
+    }) {
+      return (
+        <div
+          key={key}
+          style={style}
+        >
+          {tasks[index]}
+        </div>
+      )
+    }
+    let h = tasks.length * 40;
+    if(h < heightPerContainer && (count-1)) {
+      let remained = (heightPerContainer - h) /(count-1);
+      count--;
+      heightPerContainer += remained;
+    } else {
+      h = heightPerContainer;
+    }
+    taskContainers[i] = (
       <div className="taskContainer" key={taskTree[i].name}>
         <div style={{marginTop:"10px"}}>
           <div className="taskListContainer">
@@ -91,7 +124,13 @@ helpers.generateTaskContainers = function (taskTree, props) {
             <img role="presentation"  className={"clickable-image next " + (taskTree[i].opened? 'opened' : 'closed')} onClick={props.toggleTaskOpen.bind(this,taskTree[i])}  src={next}/>
           </div>
           <div className={"tasks " + (taskTree[i].opened ? 'opened' : 'closed')}>
-            {tasks}
+                    <List
+            width={500}
+            height={h}
+            rowHeight={40}
+            rowCount={tasks.length}
+            rowRenderer={rowRenderer}
+          />
           </div>
         </div>
       </div>

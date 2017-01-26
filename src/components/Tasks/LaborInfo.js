@@ -14,6 +14,7 @@ import {debounce} from "../../helperFunctions";
 import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
 import {WorkCodeField, FinancesField,NameField, DescriptionField, Panel, HoursField} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
+import ReactTooltip from 'react-tooltip'
 
 
 
@@ -29,11 +30,25 @@ const descriptionBlockStyle = {
   minHeight: "200px"
 }
 
-const ImagePanel = ({acceptTrud, returnToTask, status}) => (
+const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
     <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
-      <Icon name="cursor" className={`clickable-image comment`} onClick={returnToTask}/>
-      <Icon name="acceptTrud" className={`clickable-image comment ${status == "Новая" ? '' : 'noDisplay'}`} onClick={acceptTrud}/>
+      <div data-tip="Вернуться">
+        <Icon name="cursor" className={`clickable-image comment`} onClick={returnToTask}/>
+      </div>
+      <ReactTooltip place="top" type="dark" effect="float"/>
+      <div data-tip={rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(status !== "Новая") ? "noDisplay" : ''} `}>
+        <div className={(rights.accept ? "" : "disabled")}>
+          <Icon name="acceptTrud" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")} onClick={acceptTrud}/>
+        </div>
+      </div>
+      <ReactTooltip place="top" type="dark" effect="float"/>
+      <div data-tip={rights.accept ? "Отклонить" : "Нет прав на отклонение"}>
+        <div className={(rights.accept ? "" : "disabled")}>
+          <Icon name="decline" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")} onClick={declineTrud}/>
+        </div>
+      </div>
+      <ReactTooltip place="top" type="dark" effect="float"/>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
     <div style={{marginLeft:"15px"}}>
@@ -64,7 +79,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
       return <div/>;
     } else {
       return (
-        <form onSubmit={handleSubmit} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
+        <form onSubmit={handleSubmit} className={labor.rights.update ? "" : "no-update"} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           <Container vertical={true}>
             <div className="infoHeader" flex="1">
               <Container style={{justifyContent: "space-between"}}>
@@ -75,7 +90,9 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   </div>
                 </div>
                 <div>
-                  <ImagePanel acceptTrud={this.props.acceptTrud.bind(this, labor)} returnToTask={props.returnToTask.bind(this, labor)} status={labor.status} />
+                  <ImagePanel rights={labor.rights}
+                  declineTrud={this.props.declineTrud.bind(this, labor)}
+                  acceptTrud={this.props.acceptTrud.bind(this, labor)} returnToTask={props.returnToTask.bind(this, labor)} status={labor.status} />
                 </div>
               </Container>
             </div>

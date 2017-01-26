@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Labor from "./Labor";
 const statusDict = {
   0: "Активна",
   1: "Завершена",
@@ -8,6 +9,14 @@ const statusDict = {
 export default class Task {
     constructor(json) {
         const task = json;
+        const rights = task.rights;
+        this.rights = {
+          create: ~rights.indexOf("create"),
+          update: ~rights.indexOf("update"),
+          comment: ~rights.indexOf("comment"),
+          time: ~rights.indexOf("time"),
+          accept: ~rights.indexOf("accept")
+        }
         this.title = task.name;
         this.name = task.name;
         this.id = task.id;
@@ -21,7 +30,7 @@ export default class Task {
         this.opened = false;
         this.active = false;
         this.parent_id = task.parent_id;
-        this.timings = task.timings;
+        this.timings = task.timings ? task.timings.map(x => new Labor(x)) : [];
         this.author = task.author.name
         this.comments = task.comments;
         if(this.comments) {

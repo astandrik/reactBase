@@ -29,7 +29,7 @@ const Container = (props) => {
     );
   })
   return (
-    <div style={styles} className={className}>
+    <div style={styles} className={className} >
       {children}
     </div>
   )
