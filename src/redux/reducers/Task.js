@@ -17,10 +17,12 @@ import {
     CLOSE_LABOR,
     SET_GLOBAL_TASK_TYPE,
     SET_GROUPED_TABLE_LABORS,
-    CHANGE_TREE_FILTER
+    CHANGE_TREE_FILTER,
+    SET_FILTERS
 } from "../actions/tasksActions";
 import {
-  TOGGLE_RIGHT_PANEL
+  TOGGLE_RIGHT_PANEL,
+  CLEAR_LAYOUT
 } from "../actions/layoutActions";
 
 
@@ -33,6 +35,40 @@ function findLaborById(labors, id) {
         }
     }
     return elem;
+}
+
+const defaultFilters = {
+  types: ["current"],
+  all_subs: 0,
+  sub_ids: []
+};
+
+const subordinateDefaultFilters = {
+  types: ["current"],
+  all_subs: 0,
+  sub_ids: []
+};
+
+export function setDefaultFilters(state = defaultFilters, action) {
+  switch (action.type) {
+    case SET_GLOBAL_TASK_TYPE:
+      return action.filters;
+    case CLEAR_LAYOUT:
+      return defaultFilters;
+    default:
+      return state;
+  }
+}
+
+export function setFilters(state = defaultFilters, action) {
+  switch (action.type) {
+    case SET_FILTERS:
+      return action.filters;
+    case CLEAR_LAYOUT:
+      return defaultFilters;
+    default:
+      return state;
+  }
 }
 
 export function addingTrudTask(state = {}, action) {

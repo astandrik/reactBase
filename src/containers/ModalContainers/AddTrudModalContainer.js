@@ -27,3 +27,5 @@ const Visible = connect(
 )(AddTrudModal)
 
 export default Visible
+
+

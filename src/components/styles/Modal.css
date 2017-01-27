@@ -26,8 +26,61 @@
   background: #EEEEEE!important;
 }
 
+.filter-popover {
+  min-width: 800px;
+  min-height: 200px;
+  border: 1px solid rgb(204, 204, 204);
+    background: #EEEEEE!important;
+}
+
+.filter-modal-container .modal-header {
+  text-align: center;
+  margin-top: 10px;
+  text-decoration: underline;
+  color: black;
+  width: 100%;
+  display: block;
+}
+
+.filter-modal-container .Select-control {
+  height: 70px;
+}
+
+.modal-header {
+  margin-bottom: 5px;
+}
+
+.filter-popover > div {
+  min-width: 800px;
+  min-height: 200px;
+}
+.filter-popover > div >div>div {
+  min-width: 800px;
+  min-height: 200px;
+}
+
 .react-datepicker__tether-element {
   left: -75px!important;
+}
+
+.filter-popover > div {
+  overflow-y: visible!important;
+}
+
+.subs-choose-radio > div {
+  float: left;
+}
+
+.subs-choose-radio > div:first-child {
+  width:34%!important;
+}
+
+.subs-choose-radio > div:nth-child(2) {
+  width:66%!important;
+}
+
+.filter-modal-container .subs-choose-radio {
+  font-size: 14px;
 }
 
 .close-modal{

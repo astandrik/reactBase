@@ -21,6 +21,7 @@ export const SET_GLOBAL_TASK_TYPE = "SET_GLOBAL_TASK_TYPE";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 export const CLOSE_LABOR = "CLOSE_LABOR";
 export const SET_TASK_OPEN = "SET_TASK_OPEN";
+export const SET_FILTERS = "SET_FILTERS";
 export const CHANGE_TREE_FILTER = "CHANGE_TREE_FILTER";
 
 import {
@@ -64,6 +65,7 @@ export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const changeTreeFilter = generateActionFunc(CHANGE_TREE_FILTER);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
+export const setFilters = generateActionFunc(SET_FILTERS);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -198,29 +200,48 @@ const typeDict = {
   "all" : "Все задачи"
 }
 
-export function loadTasks(filterValue) {
-    const handler = function (json, dispatch, getState) {
-        const type = getState().globalTaskType;
-        let tasks = new TaskTree(json.data.tree);
-        if(type!== "all") {
-          const name = typeDict[type];
-          const chosenTasks = tasks.tree.filter(x => x.name == name);
-          if(chosenTasks[0]) {
-            dispatch(setTaskOpen({globalIndexes: [chosenTasks[0].globalIndex]}));
-          }
-          dispatch(setTasks({
-              tasks: chosenTasks
-          }));
-        } else {
-          dispatch(setTaskOpen({globalIndexes: tasks.tree.map(x=>x.globalIndex)}));
-          dispatch(setTasks({
-              tasks: tasks.tree
-          }));
+
+
+export function loadTasks() {
+    return (dispatch, getState) => {
+      const params = getState().currentTaskFilters;
+      let par = {};
+      let paramArr = [];
+      par.sub_ids = params.sub_ids ? params.sub_ids.join(",") : "";
+      par.all_subs = params.all_subs;
+      par.types = params.types.join(",");
+      for(var e in par) {
+        if(par[e]) {
+          paramArr.push(`${e}=${par[e]}`);
         }
+      }
+      dispatch(loadTree(paramArr))
     }
-    return fetchAsync(`/data/tree`, handler);
 }
 
+
+export function loadTree(params) {
+  const handler = function (json, dispatch, getState) {
+      const type = getState().globalTaskType;
+      let tasks = new TaskTree(json.data.tree);
+      if(type!== "all") {
+        const name = typeDict[type];
+        const chosenTasks = tasks.tree.filter(x => x.name == name);
+        if(chosenTasks[0]) {
+          dispatch(setTaskOpen({globalIndexes: [chosenTasks[0].globalIndex]}));
+        }
+        dispatch(setTasks({
+            tasks: chosenTasks
+        }));
+      } else {
+        dispatch(setTaskOpen({globalIndexes: tasks.tree.map(x=>x.globalIndex)}));
+        dispatch(setTasks({
+            tasks: tasks.tree
+        }));
+      }
+  }
+ return fetchAsync(`/data/tree?${params.join("&")}`, handler);
+}
 
 export function createComment(data, task, fromLabor) {
   const handler = (json,dispatch) => {

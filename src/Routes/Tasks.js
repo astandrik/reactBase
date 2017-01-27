@@ -3,12 +3,6 @@ import {TaskListContainer} from "../containers/Containers";
 import Container from "../components/Container";
 
 
-const menuItems = [
-  {id: 0, text: "Активна"},
-  {id: 1, text: "Завершена"},
-  {id: 3, text: "Все"}
-]
-
 
 const containerTaskListContainerStyles = {
     flex:"10",
@@ -24,7 +18,7 @@ const TaskList = () => {
   return (
   <Container vertical={true} style={{height:"100%"}} >
     <div containerStyle={containerTaskListContainerStyles} style={TaskListContainerStyles}>
-      <TaskListContainer menuItems={menuItems} />
+      <TaskListContainer />
     </div>
   </Container>
   )
@@ -50,7 +44,7 @@ class Tasks extends Component {
       {to: "/tasks/"+type+"/table", title: "Таблица"},
       {to: "/tasks/"+type+"/list", title: "Список"}
     ]
-    this.props.route.loadRepo.tabs(tabs);        
+    this.props.route.loadRepo.tabs(tabs);
   }
   render() {
     return (

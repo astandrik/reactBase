@@ -2,6 +2,7 @@ import React from "react";
 import {getDateRange} from "../../redux/actions/tableActions";
 let helpers = {};
 import Icon from "../../Icons/Icon";
+import taskHelpers from "../Tasks/taskHelpers";
 
 
 helpers.generateHeaders = function (headers = [], datedLabors, onAccept) {
@@ -74,9 +75,10 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
         {comments}</td>
       )
     }
+    const executors = taskHelpers.createExecutors(elem.executors);
     rows[i] = (
       <tr key={i}>
-        <td width="30%" className={`tableCell ${elem.active? "active" : ''}`} onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} </td>
+        <td width="30%" className={`tableCell ${elem.active? "active" : ''}`} onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} {executors} </td>
         {td}
       </tr>
     )

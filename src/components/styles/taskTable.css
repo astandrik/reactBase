@@ -17,6 +17,10 @@
   pointer-events: none;
 }
 
+.tableCell .singleExecutor {
+  float: right;
+}
+
 .table-header>div{
   display: flex;
   justify-content: center;

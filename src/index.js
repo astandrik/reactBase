@@ -8,7 +8,7 @@ import thunk  from 'redux-thunk';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './index.css';
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute, IndexRedirect  } from 'react-router';
 
 import Reducers from './redux/reducers';
 let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
@@ -51,7 +51,7 @@ const Root = () => (
       <MuiThemeProvider>
         <Router history={browserHistory}>
           <Route path="/" component={LayoutContainer}>
-            <IndexRoute component={Home}/>
+            <IndexRedirect to="/tasks/my/table"/>
             {TasksRouter}
             {ReportRouter}
             {SubordinatesRouter}

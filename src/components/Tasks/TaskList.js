@@ -9,6 +9,8 @@ import NewTaskInfoContainer from "../../containers/NewTaskInfoContainer";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
 import helpers from "./taskHelpers";
 import ValidationErrorsModalContainer from "../../containers/ModalContainers/ValidationErrorsModalContainer";
+import Icon from "../../Icons/Icon";
+import FilterModalContainer from "../../containers/ModalContainers/FilterModalContainer";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -67,16 +69,41 @@ function deactivateTasks() {
 
 const generateTaskContainers = helpers.generateTaskContainers;
 
+  const checkBoxValues=[
+    {value: "all", label:"Все задачи"},
+    {value: "current", label:"Текущие задачи"},
+    {value: "unaccepted", label:"Неакцептированные задачи"},
+    {value: "completes", label:"Завершенные задачи"},
+  ];
+
 export default class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.state = {
+      isFilterModalOpen: false
+    }
+
+  }
+  closeFilter() {
+    this.setState({isFilterModalOpen: false})
   }
   componentDidUpdate() {
     const ref = this.refs.taskTree;
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
+  }
+  getFilterParent() {
+    return document.querySelector('.tasksContainer');
+  }
+  handleTouchTap (event) {
+    // This prevents ghost click.
+    event.preventDefault();
+    this.setState({
+      isFilterModalOpen: true,
+      anchorEl: event.currentTarget,
+    })
   }
   render() {
     tasksDict = {};
@@ -95,8 +122,6 @@ export default class TaskList extends React.Component {
       let items_ = findAllTaskInTreeByIndexes(this.props.openedTasks);
       items_.forEach(x=> x.opened = true);
     }
-    let menuItems = this.props.menuItems;
-    let items = generateMenuItems(menuItems);
     let taskContainers = generateTaskContainers(propsTasks, this.props, this.props.clientHeight);
     let rightPanel = <div containerStyle={{display:"none"}}/>;
     const handleChange = (event, index, value) => this.props.filterChange(value);
@@ -133,9 +158,7 @@ export default class TaskList extends React.Component {
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>
             </div>
             <div>
-              <DropDownMenu onChange={handleChange} className="taskDropdown" value={this.props.treeFilter}>
-                {items}
-              </DropDownMenu>
+              <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className="clickable-image clock filter-icon"/>
             </div>
           </div>
           <div style={{marginTop:"20px"}}>
@@ -144,6 +167,9 @@ export default class TaskList extends React.Component {
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
         {rightPanel}
+        <FilterModalContainer isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
+        anchorEl={this.state.anchorEl} applyFilters={this.props.applyFilters}
+        filterValues={checkBoxValues} closeModal={this.closeFilter.bind(this)} containerStyle={{maxWidth: '0'}}/>
       </Container>
     );
   }

@@ -42,6 +42,7 @@ export default class TableData {
         }
       });
       timings.id = current.id;
+      timings.executors = current.executors;
       timings.types = {};
       if(current.executors.filter(x => x.id === currentUser.id).length > 0) {
         timings.types["my"] = 1;
@@ -58,7 +59,7 @@ export default class TableData {
     let data = {};
     data.headers = dateArray;
     data.data = groups;
-    this.headers = data.headers;    
+    this.headers = data.headers;
     this.data = data.data;
   }
 }

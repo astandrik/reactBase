@@ -14,7 +14,9 @@ import {
     createTask,
     editTask,
     editLabor,
-    changeTreeFilter
+    changeTreeFilter,
+    setFilters,
+    loadTasks
 } from "../redux/actions/tasksActions";
 import {
   loadTableData,
@@ -27,7 +29,6 @@ import TaskToSend from "../Entities/Tasks/TaskToSend";
 const mapStateToProps = (state, ownProps) => {
     return {
         tasks: state.tasks,
-        menuItems: ownProps.menuItems,
         taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
         laborView: state.laborView,
@@ -49,6 +50,11 @@ const mapDispatchToProps = (dispatch) => {
                 globalIndex: task.globalIndex
             }));
             dispatch(setCurrentDay({day: false}));
+        },
+        applyFilters:(filters) => {
+          const filt = {sub_ids: filters.subs, types: filters.types, all_subs: filters.allSubs};
+          dispatch(setFilters({filters: filt}));
+          dispatch(loadTasks());
         },
         toggleTaskOpen: (task) => {
             dispatch(toggleTaskOpen({

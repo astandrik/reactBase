@@ -15,8 +15,14 @@ export function getSubordinates() {
           label: json.data.user.name,
           value: json.data.user.id
       };
+      let subs = data.concat([user]);
+      let dict = {};
+      subs.forEach(x => {
+        dict[x.value] = x;
+      });
+      subs.dict = dict;
       dispatch(setSubordinates({
-          subordinates: data.concat([user])
+          subordinates: subs
       }));
     }
     const handler = (json, dispatch) => {
@@ -35,7 +41,7 @@ export function getCurrentUser() {
         const user = {
             name: data.name,
             position: data.position,
-            id: data.id        
+            id: data.id
         };
         dispatch(setLoggedUser({
             user
