@@ -35,18 +35,21 @@ export default class Labors extends React.Component {
   }
   const newLabors = task.timings ? task.timings.filter(x=> x.rawstatus===0) : [];
   const canAcceptAll = (newLabors.length > 0) && newLabors.every(x => x.rights.accept);
-  const addTrudButton = (task) => (
-    <div className={"addTrudButtonContainer "}>
-      <div className={"addTrudButton" +  `${task.rights.time ? "" : " disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
-        Добавить трудозату
-      </div>
-      <div>
-        <div className={"addTrudButton" +  `${canAcceptAll ? "" : " disabled"}`} onClick={this.openConfirm.bind(this)}>
-          Принять все
+  let addTrudButton = <div className="noDisplay"/>;
+  if(task.rights) {
+  addTrudButton = (task) => (
+      <div className={"addTrudButtonContainer "}>
+        <div className={`addTrudButton ${task.rights.time ? "" : " disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
+          Добавить трудозату
+        </div>
+        <div>
+          <div className={`addTrudButton ${canAcceptAll ? "" : " disabled"}`} onClick={this.openConfirm.bind(this)}>
+            Принять все
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
   return (
     <Container vertical={true}>
       <div className="infoHeader" flex="1">

@@ -22,6 +22,7 @@ export default class Labor {
     this.commentsOpened = false;
     this.rawstatus = json.status;
     this.comment = json.description;
+    this.date = moment(this.startDate).format('DD.MM');
     this.hours = json.value;
     this.status = statusDict[json.status];
     this.status = this.status=== undefined ? "Вычисляется" : this.status;

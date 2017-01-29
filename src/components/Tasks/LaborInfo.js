@@ -2,17 +2,12 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
 import calendar from "../../Icons/calendar.svg";
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import {connect} from 'react-redux';
-import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
-import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
-import helpers from "./taskHelpers";
-import Menu from 'material-ui/Menu';
-import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
 import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
-import {WorkCodeField, FinancesField,NameField, DescriptionField, Panel, HoursField} from "../formComponents/ReusableComponents";
+import {WorkCodeField, FinancesField,NameField, Panel, HoursField} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
 import ReactTooltip from 'react-tooltip'
 
@@ -24,10 +19,6 @@ const codeBlockStyle = {
 
 const headerBlockStyle = {
   minHeight: "56px"
-}
-
-const descriptionBlockStyle = {
-  minHeight: "200px"
 }
 
 const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights}) => (

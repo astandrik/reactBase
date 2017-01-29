@@ -4,7 +4,6 @@ import Container from "../Container";
 import FlatButton from 'material-ui/FlatButton';
 import "../styles/Modal.css";
 import Checkbox from 'material-ui/Checkbox';
-import close from "../../Icons/delete.svg";
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Select from 'react-select';
 
@@ -23,7 +22,7 @@ const filterModal = class filter extends React.Component {
     super(props);
     const filters = props.currentTaskFilters;
     this.state = {
-      currentTaskFilters: props.currentTaskFilters,
+      currentTaskFilters: filters,
       defaultFilters: props.defaultFilters
     }
   }
@@ -81,8 +80,7 @@ const filterModal = class filter extends React.Component {
     this.props.applyFilters(this.state.currentTaskFilters);
   }
   render() {
-    const props = this.props;
-    let message = "";
+    const props = this.props;    
     const checkBoxValues = props.filterValues;
     let checkBoxes = [];
     let currentTaskFilters = this.state.currentTaskFilters;

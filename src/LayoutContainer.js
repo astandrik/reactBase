@@ -32,10 +32,11 @@ var containerStyles = {
 
 class Layout extends React.Component {
   render() {
+    let maxHeight = this.props.tabs && this.props.tabs.length ?  "66.91px": "40.91px";
     let headerStyle = {
       background: "white",
       borderBottom:"1px solid black",
-      maxHeight: "66.91px"
+      maxHeight
     };
     if(!this.props.needHeader) {
       headerStyle.display = "none";
@@ -64,7 +65,8 @@ const mapStateToProps = (state,ownProps) => {
   return {
     needHeader: state.currentTitle,
     children: ownProps.children,
-    isErrorsModalOpen: state.isErrorsModalOpen
+    isErrorsModalOpen: state.isErrorsModalOpen,
+    tabs: state.tabs
   }
 }
 

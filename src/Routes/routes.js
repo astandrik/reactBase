@@ -37,6 +37,7 @@ const SubordinatesRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои сотрудники");
     props.loadRepo.clearLayout();
+    props.loadRepo.tableData();
   }
   return (
     <Route path="subordinates" component={Subordinates}  onEnter={subordinatesEnter}/>

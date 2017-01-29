@@ -1,7 +1,6 @@
 import {generateActionFunc, fetchAsync} from "./actionHelper.js";
 import TableData from "../../Entities/Table/TableData";
 import {setGroupedTableLabors, groupLabors} from "./tasksActions";
-import {monday} from "../reducers/Table";
 
 export const GET_TABLE_DATA = "GET_TABLE_DATA";
 export const CHANGE_WEEK = "CHANGE_WEEK";
@@ -39,19 +38,18 @@ export const generateLaborsFromTableData = (data, task_id, day) => {
   const elements = data.data;
   const headers = data.headers;
   let labors = [];
-  for(var i = 0; i < Object.keys(elements).length;i++) {
-    const elem = elements[Object.keys(elements)[i]];
-    if(elem.id == task_id) {
-      for(var j = 0; j < headers.length; j++) {
-        const val = elem[headers[j]];
-        if(val) {
-          if(day && headers[j] == day) {
-            labors = labors.concat(val);
-          } else if(!day) {
-            labors = labors.concat(val);
-          }
-        }
-      }
+  let task = {};
+  for(var e in elements) {
+    if(e.split("|id|")[1] == task_id) {
+      task = elements[e];
+      break;
+    }
+  }
+  if(day) {
+    labors = task.dates[day].timings;
+  } else {
+    for(var k in task.dates) {
+      labors = labors.concat(task.dates[k].timings);
     }
   }
   return labors;
@@ -63,15 +61,6 @@ export function loadTableData(obj, task_id) {
     const user =  getState().user;
     const globalType = getState().globalTaskType;
     let tableData = new TableData(json, range.first, range.last, user);
-    if(globalType !== "all") {
-      let newData = {};
-      for(var e in tableData.data) {
-        if(tableData.data[e].types[globalType]) {
-          newData[e] = tableData.data[e];
-        }
-      }
-      tableData.data = newData;
-    }
     dispatch(setTableData({tableData}));
     if(task_id) {
       const day = getState().currentDay;

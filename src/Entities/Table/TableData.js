@@ -20,46 +20,67 @@ function getDates(startDate, stopDate) {
 export default class TableData {
   constructor(json, first, last, currentUser) {
     const dataInfo = json.data.tasks;
+    let datedLabors = {};
     const dateArray = getDates(first, last).map(x=> {
-      return moment(x).format('DD.MM');
+      const date =  moment(x).format('DD.MM');
+      datedLabors[date] = [];
+      datedLabors[date].overallMy = 0;
+      datedLabors[date].overallTotal = 0;
+      return date;
     });
-    const groups = dataInfo.reduce((sum, current) => {
-      let timings = {};
-      current.timings.forEach(x => {
-        x = new Labor(x);
-        x.dateHeader = moment((new Date(x.startDate)).setHours(0,0,0,0)).format('DD.MM');
-        if(!timings[x.dateHeader]) {
-          timings[x.dateHeader] = [];
-          timings[x.dateHeader].hours = 0;
-          timings[x.dateHeader].myHours = 0;
+    let datedTaskLabors = {};
+    for(let i = 0; i < dataInfo.length; i++) {
+      let timings = dataInfo[i].timings.map(x => new Labor(x));
+      const taskName = dataInfo[i].name + "|id|" + dataInfo[i].id;
+      datedTaskLabors[taskName] = {
+        timings: timings,
+        executors: dataInfo[i].executors,
+        id: dataInfo[i].id,
+        dates: {}
+      };
+      for(let j = 0; j < dateArray.length; j++) {
+        datedTaskLabors[taskName].dates[dateArray[j]] = {
+          val: 0,
+          timings:  [],
+          id: dataInfo[i].id,
+          executors: dataInfo[i].executors
+        };
+      }
+
+      for(let j = 0; j < dateArray.length; j++) {
+        let currentTimings = timings.filter(x => x.date === dateArray[j]);
+        let overallMy = 0;
+        let overallTotal = 0;
+        for(let k = 0; k < currentTimings.length; k++) {
+            datedLabors[dateArray[j]].push(currentTimings[k]);
+            let hours = 0;
+            let myHours = 0;
+            let val = currentTimings[k].value;
+            if(!isNaN(parseFloat(val))) {
+              hours += parseFloat(val);
+              overallTotal += parseFloat(val);
+              if(currentTimings[k].author.id === currentUser.id) {
+                myHours += parseFloat(val);
+                overallMy += parseFloat(val);
+              }
+            }
+          datedTaskLabors[taskName].dates[currentTimings[k].date].val = `${myHours}/${hours}`;
+          datedTaskLabors[taskName].dates[currentTimings[k].date].timings = currentTimings;
+          datedTaskLabors[taskName].dates[currentTimings[k].date].hasUnaccepted = currentTimings.some(x => x.rawstatus === 0);
+          datedTaskLabors[taskName].dates[currentTimings[k].date].commentsNumber = currentTimings.reduce((s,c) => s+c.comments.length,0);
         }
-        timings[x.dateHeader].push(x);
-        if(!isNaN(parseFloat(x.value))) {
-          timings[x.dateHeader].hours += parseFloat(x.value);
-          if(x.author.id == currentUser.id) {
-            timings[x.dateHeader].myHours += parseFloat(x.value);
-          }
-        }
-      });
-      timings.id = current.id;
-      timings.executors = current.executors;
-      timings.types = {};
-      if(current.executors.filter(x => x.id === currentUser.id).length > 0) {
-        timings.types["my"] = 1;
+        datedLabors[dateArray[j]].overallMy += overallMy;
+        datedLabors[dateArray[j]].overallTotal += overallTotal;
       }
-      if(current.executors.filter(x => x.id !== currentUser.id).length > 0) {
-        timings.types["subordinate"] = 1;
-      }
-      if(current.executors.length === 0) {
-        timings.types["nonDistributed"] = 1;
-      }
-      sum[current.name] = timings;
-      return sum;
-    }, {});
+    }
+    for(let i = 0; i < dateArray.length; i++) {
+      datedLabors[dateArray[i]].overall = `${datedLabors[dateArray[i]].overallMy}/${datedLabors[dateArray[i]].overallTotal}`;
+    }
     let data = {};
     data.headers = dateArray;
-    data.data = groups;
+    data.data = datedTaskLabors;
     this.headers = data.headers;
     this.data = data.data;
+    this.datedLabors = datedLabors;
   }
 }

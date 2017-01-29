@@ -7,7 +7,6 @@ import close from "../../Icons/delete.svg";
 import 'react-datepicker/dist/react-datepicker.css';
 import { Field, reduxForm } from 'redux-form'
 import "../styles/Modal.css";
-import SelectInput from "../formComponents/SelectInput";
 import DPicker from "../formComponents/DatePicker";
 import calendar from "../../Icons/calendar.svg";
 import moment from 'moment';

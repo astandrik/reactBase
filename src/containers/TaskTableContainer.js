@@ -1,6 +1,6 @@
 import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {setGroupedLabors, setLabor,setAddingTrudTask,loadTask, editLabor, setGroupedTableLabors, acceptAllTimings} from "../redux/actions/tasksActions";
+import {setAddingTrudTask,loadTask, editLabor, acceptAllTimings, activateTask} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
 import {changeWeek, setCurrentWeek, setCurrentDay} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';
@@ -13,9 +13,7 @@ const mapStateToProps = (state,ownProps) => {
     rightPanelStatus: state.rightPanelStatus,
     tableData: state.tableData,
     currentWeek: state.currentWeek,
-    taskView: state.taskView,
     isTrudModalOpen: state.isTrudModalOpen,
-    laborView: state.laborView,
     activeIndexes: state.activeIndexes,
     currentDay: state.currentDay
   }
@@ -24,12 +22,13 @@ const mapStateToProps = (state,ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     cellClickHandler: (data, id, date) => {
+      dispatch(activateTask({
+         taskId: id
+      }));
       dispatch(setCurrentDay({day: date}));
       if(data && data.length) {
         dispatch(loadTask({id}));
-        dispatch(toggleRightPanel({status: 1}));
-      } else if (data) {
-        alert("Ebin))");
+        dispatch(toggleRightPanel({status: 1}));      
       } else {
         dispatch(openTrudModal());
         const taskCallback = (task) => {
@@ -39,6 +38,9 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     rowClickHandler: (data, id) => {
+      dispatch(activateTask({
+         taskId: id
+      }));
       if(data && data.length) {
         dispatch(setCurrentDay({day: false}));
         dispatch(loadTask({id}));
@@ -52,17 +54,8 @@ const mapDispatchToProps = (dispatch) => {
     openTrudModal: () => {
       dispatch(openTrudModal({}));
     },
-    handleTrudSubmit: (json) => {
-      debugger;
-      dispatch(reset('trudDialogForm'));
-    },
     closeModal: () => {
       dispatch(closeTrudModal({}));
-    },
-    handleEditLaborSubmit: (json) => {
-      const labor = LaborToSend(json);
-      labor.status = 0;
-      dispatch(editLabor(labor,true));
     },
     handlePrevWeek: (weekStart) => {
       const prev = new Date(weekStart.getTime() - 2 * 24 * 60 * 60 * 1000);

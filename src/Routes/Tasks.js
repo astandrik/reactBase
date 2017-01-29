@@ -27,6 +27,7 @@ const TaskList = () => {
 class Tasks extends Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {};
   }
   componentDidUpdate() {
     const type = this.props.params.type;

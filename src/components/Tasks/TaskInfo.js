@@ -21,8 +21,8 @@ import Icon from "../../Icons/Icon";
 const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover,activePanel}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
     <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
-      <Icon name="clock" className={`clickable-image clock ${activePanel=="trud" ? 'active' : ''}`} onClick={chooseTrudTab}/>
-      <Icon name="comment" className={`clickable-image comment ${activePanel=="comment" ? 'active' : ''}`} onClick={chooseCommentTab}/>
+      <Icon name="clock" className={`clickable-image clock ${activePanel==="trud" ? 'active' : ''}`} onClick={chooseTrudTab}/>
+      <Icon name="comment" className={`clickable-image comment ${activePanel==="comment" ? 'active' : ''}`} onClick={chooseCommentTab}/>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
     <div style={{marginLeft:"15px"}}>
@@ -40,8 +40,24 @@ const addTrudButtonF = (props) => ((task) => (
 ));
 
 const popoverMenu = (props, context) => {
-  return(
-  <Popover
+  let menuItems = [];
+  const task = props.task;
+  if(task.rights.create) {
+    menuItems.push(<MenuItem key={1} onClick={props.handleAddNewSubTask.bind(this, props.task)} primaryText="Cоздать подзадачу" />)
+  }
+  if(task.rights.accept) {
+    menuItems.push(<MenuItem key={2} onClick={props.declineTask.bind(this, props.task)} primaryText="Отклонить задачу" />)
+  }
+  if(task.rights.accept && task.rawstatus === 0) {
+    menuItems.push(<MenuItem key={3} onClick={props.acceptTask.bind(this, props.task)} primaryText="Подтвердить задачу" />)
+  }
+  if(task.rights.delete) {
+    menuItems.push(<MenuItem key={4} onClick={props.deleteTask.bind(this, props.task)} primaryText="Удалить задачу" />)
+  }
+  if(task.rights.delete) {
+    menuItems.push(<MenuItem key={4} onClick={props.copyTask.bind(this, props.task)} primaryText="Копировать задачу" />)
+  }
+  return (<Popover
          open={context.state.open}
          anchorEl={context.refs.ellipsis}
          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
@@ -49,7 +65,7 @@ const popoverMenu = (props, context) => {
          onRequestClose={context.handleRequestClose}
        >
          <Menu>
-           <MenuItem onClick={props.handleAddNewSubTask.bind(this, props.task)} primaryText="Cоздать подзадачу" />
+           {menuItems}
          </Menu>
        </Popover>
      )

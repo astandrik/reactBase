@@ -9,13 +9,21 @@
   height: 80%!important
 }
 
-.taskContainer .ReactVirtualized__Grid  {
+.tasksContainer .ReactVirtualized__Grid  {
   width: 100%!important;
   outline: none!important;
 }
 
 .taskDropdown>div:first-child>div:nth-child(2) {
   line-height: 36px!important
+}
+
+.single-task.new-task {
+  background-color: rgba(255,255,0,0.6);
+}
+
+.single-task.declined-task {
+  background: pink;
 }
 
 .taskDropdown>div:first-child>svg {
@@ -31,11 +39,14 @@
 
 .taskStatusTree {
   float: left;
-  margin-top: 7.5px;
   border: 1px solid black;
   border-radius: 5px;
   background: white;
   padding: 4px;
+}
+
+.tasks.closed {
+  display: none;
 }
 
 .clickable-image:hover{
@@ -43,8 +54,8 @@
 }
 
 .next {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   transition: all 0.1s ease;
   margin-right: 10px;
 }
@@ -69,7 +80,7 @@
 }
 
 .taskLabel {
-    line-height: 50px;
+    line-height: 40px;
     flex: 1;
 }
 
@@ -78,11 +89,11 @@
 }
 
 .single-task .next {
-  margin-top: 13px;
+  margin-top: 8px;
 }
 
 .single-task{
-  height: 40px;
+  height: 30px;
   margin-top: 10;
   margin-bottom: 10;
   width: 100%;
@@ -108,10 +119,6 @@
 .tasks {
   overflow: hidden;
   margin-left: 20px;
-}
-
-.tasks.closed {
-  display: none;
 }
 
 .addButton {
@@ -143,13 +150,54 @@
   border-radius: 5px;
 }
 
-.rightPanelContainer.opened {
-  flex: 1!important;
+.task-header {
+  font-weight: bold;
 }
 
-.rightPanelContainer.closed {
-  display: none!important;
+.task-header .taskLabel {
+  pointer-events: none;
 }
+
+.level_1 {
+  margin-left: 20px;
+  width: calc(100% - 20px);
+}
+
+.level_2 {
+  margin-left: 40px;
+  width: calc(100% - 40px);
+}
+
+.level_3 {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}
+
+.level_4 {
+  margin-left: 80px;
+  width: calc(100% - 80px);
+}
+
+.level_5 {
+  margin-left: 100px;
+  width: calc(100% - 100px);
+}
+
+.level_6 {
+  margin-left: 120px;
+  width: calc(100% - 120px);
+}
+
+.level_7 {
+  margin-left: 140px;
+  width: calc(100% - 140px);
+}
+
+.level_8 {
+  margin-left: 160px;
+  width: calc(100% - 160px);
+}
+
 
 .tasksContainer {
   transition: all ease 0.5s;

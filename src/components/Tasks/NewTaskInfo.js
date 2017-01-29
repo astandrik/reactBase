@@ -4,10 +4,9 @@ import "../styles/TaskInfo.css";
 import calendar from "../../Icons/calendar.svg";
 import { Field, reduxForm } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton';
-import SelectInput from "../formComponents/SelectInput";
 import {connect} from 'react-redux';
 import DPicker from "../formComponents/DatePicker";
-import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
+import {WorkCodeField, FinancesField,ExecutorsSelectField, Panel} from "../formComponents/ReusableComponents";
 
 
 const codeBlockStyle = {
@@ -74,10 +73,16 @@ let taskForm = reduxForm({
 
 taskForm = connect(
   state => {
+    let additionalParams = {};
+    if(state.taskView.parent_task) {
+      additionalParams.code = state.taskView.parent_task.code;
+      additionalParams.finance = state.taskView.parent_task.finance;
+    }
     return ({
     initialValues:  {
       executors: [],
-      parent_id: state.taskView.parent_id
+      parent_id: state.taskView.parent_id,
+      ...additionalParams
     }
   })}
 )(taskForm)

@@ -34,9 +34,10 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
     return [];
   }
   let datedLabors = {};
+
   for(var i = 0; i < Object.keys(elements).length;i++) {
     let elem = elements[Object.keys(elements)[i]];
-    if(elem.id == activeId) {
+    if(elem.id === activeId) {
       elem.active = true;
     } else {
       elem.active = false;
@@ -51,7 +52,7 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
       let hasUnaccepted = false;
       if(val) {
         for(var k = 0; k < val.length; k++) {
-          if(val[k].rawstatus ==0) {
+          if(val[k].rawstatus === 0) {
             hasUnaccepted = true;
             break;
           }
@@ -64,27 +65,30 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
           finalTimes[headers[j]].all += val.hours;
         }
       }
-      const commentsNumber = val ? val.reduce((sum, cur) => sum + cur.comments.length, 0) : 0;
-      datedLabors[headers[j]] = val ? datedLabors[headers[j]].concat(val.reduce((sum, cur) => sum.concat(cur), []).filter(x => x.rawstatus == 0)) :  datedLabors[headers[j]];
+      const commentsNumber = val ? val.timings.reduce((sum, cur) => sum + cur.comments.length, 0) : 0;
+      datedLabors[headers[j]] = val ? datedLabors[headers[j]].concat(val.timings.reduce((sum, cur) => sum.concat(cur), []).filter(x => x.rawstatus === 0)) :  datedLabors[headers[j]];
       let comments = <div className="noDisplay"/>;
       if(commentsNumber > 0) {
         comments = <div className="comments-number">{commentsNumber}</div>
       }
       td[j] = (
-        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''} ${elem.active && (headers[j] === props.currentDay || props.currentDay === false)? "active" : ''}`} width={tdWidth+"%"} onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}
+        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''}
+        ${elem.active && (headers[j] === props.currentDay || props.currentDay === false)? "active" : ''}`} width={tdWidth+"%"}
+          onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}
         {comments}</td>
       )
     }
     const executors = taskHelpers.createExecutors(elem.executors);
     rows[i] = (
       <tr key={i}>
-        <td width="30%" className={`tableCell ${elem.active? "active" : ''}`} onClick={rowClickHandler.bind(this, labors, elem.id)}> {Object.keys(elements)[i]} {executors} </td>
+        <td width="30%" className={`tableCell ${elem.active? "active" : ''}`} onClick={rowClickHandler.bind(this, labors, elem.id)}>
+          {Object.keys(elements)[i].split("|id|")[0]} {executors} </td>
         {td}
       </tr>
     )
   }
   let finalcell = [];
-  for(var j = 0; j < headers.length; j++) {
+  for(let j = 0; j < headers.length; j++) {
     const val = finalTimes[headers[j]];
     finalcell[j] = (
       <td key={98765+j} className="tableCell" width={tdWidth+"%"}>{val ? (val.my + "/" + val.all) : 0}</td>
@@ -96,7 +100,8 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
       {finalcell}
     </tr>
   )
-  return {rows: rows.concat(finalRow), datedLabors};
+  const finalRows = rows.concat(finalRow);
+  return {rows: finalRows, datedLabors};
 }
 
 

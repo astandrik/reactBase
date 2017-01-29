@@ -3,17 +3,10 @@ import {
     connect
 } from 'react-redux';
 import {
-    setLaborView,
     closeLabor,
     loadTask,
-    createComment,
-    loadLabor
-} from "../redux/actions/tasksActions";
-import {
-    openTrudModal,
-    closeTrudModal,
-    toggleRightPanel
-} from "../redux/actions/layoutActions";
+    createComment
+  } from "../redux/actions/tasksActions";
 import {editLabor} from "../redux/actions/tasksActions";
 import LaborToSend from "../Entities/Tasks/LaborToSend";
 

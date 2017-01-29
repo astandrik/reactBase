@@ -37,7 +37,6 @@ import {
     closeTrudModal
 } from "./layoutActions";
 import {
-  changeWeek,
   loadTableData
 } from "./tableActions";
 import {
@@ -63,7 +62,6 @@ export const setFinances = generateActionFunc(SET_FINANCES);
 export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
-export const changeTreeFilter = generateActionFunc(CHANGE_TREE_FILTER);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
 export const setFilters = generateActionFunc(SET_FILTERS);
 
@@ -163,7 +161,7 @@ export function editLabor(data, fromLabor) {
     dispatch(reset("taskInfoDialogForm"));
   }
   data.date = (new Date(data.startDate)).getTime() / 1000;
-  return fetchPost('/edit/time', data, handler);
+  return fetchPost('/edit/time', data, handler,errorHandler);
 }
 
 
@@ -194,7 +192,7 @@ export function loadFinances() {
 }
 
 const typeDict = {
-  "nonDistributed": "Нераспределенные задачи",
+  "nonDistributed": "Нераспределённые задачи",
   "my": "Мои задачи",
   "subordinate": "Задачи подчинённых",
   "all" : "Все задачи"
@@ -226,17 +224,18 @@ export function loadTree(params) {
       let tasks = new TaskTree(json.data.tree);
       if(type!== "all") {
         const name = typeDict[type];
-        const chosenTasks = tasks.tree.filter(x => x.name == name);
+        const chosenTasks = tasks.tree.filter(x => x.name === name);
         if(chosenTasks[0]) {
           dispatch(setTaskOpen({globalIndexes: [chosenTasks[0].globalIndex]}));
         }
         dispatch(setTasks({
-            tasks: chosenTasks
+            tasks: {tree: chosenTasks, treeNormalized: tasks.treeNormalized}
         }));
       } else {
         dispatch(setTaskOpen({globalIndexes: tasks.tree.map(x=>x.globalIndex)}));
         dispatch(setTasks({
-            tasks: tasks.tree
+            tasks: tasks,
+            treeNormalized: tasks.treeNormalized
         }));
       }
   }
@@ -274,4 +273,20 @@ export function acceptAllTimings(ids, task, fromTable) {
   if(ids.length > 0) {
     return fetchAsync(`/data/accepttime?ids=${ids.join(",")}`, handler);
   }
+}
+
+export function acceptTask(task) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadTask({id: task.id}));
+    dispatch(loadTasks());
+  }
+  return fetchAsync("/data/accepttask?id="+task.id, handler);
+}
+
+export function declineTask(task) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadTask({id: task.id}));
+    dispatch(loadTasks());
+  }
+  return fetchAsync("/data/declinetask?id="+task.id, handler);
 }

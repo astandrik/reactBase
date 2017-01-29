@@ -8,14 +8,14 @@ import thunk  from 'redux-thunk';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import './index.css';
-import { Router, Route, browserHistory, IndexRoute, IndexRedirect  } from 'react-router';
+import { Router, Route, browserHistory, IndexRedirect  } from 'react-router';
 
 import Reducers from './redux/reducers';
 let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-import {Home,TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes} from "./Routes/routes";
+import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";

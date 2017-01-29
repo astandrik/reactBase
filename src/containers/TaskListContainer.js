@@ -14,12 +14,10 @@ import {
     createTask,
     editTask,
     editLabor,
-    changeTreeFilter,
     setFilters,
     loadTasks
 } from "../redux/actions/tasksActions";
 import {
-  loadTableData,
   setCurrentDay
 } from "../redux/actions/tableActions";
 
@@ -29,11 +27,7 @@ import TaskToSend from "../Entities/Tasks/TaskToSend";
 const mapStateToProps = (state, ownProps) => {
     return {
         tasks: state.tasks,
-        taskView: state.taskView,
         rightPanelStatus: state.rightPanelStatus,
-        laborView: state.laborView,
-        tableData: state.tableData,
-        treeFilter: state.treeFilter,
         activeIndexes: state.activeIndexes,
         openedTasks: state.openedTasks,
         clientHeight: state.clientHeight
@@ -43,11 +37,12 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         loadTask: (task) => {
+            dispatch(activateTask({
+               globalIndex: task.globalIndex,
+               taskId: task.id
+            }));
             dispatch(loadTask({
                 id: task.id
-            }));
-            dispatch(activateTask({
-                globalIndex: task.globalIndex
             }));
             dispatch(setCurrentDay({day: false}));
         },
@@ -61,34 +56,8 @@ const mapDispatchToProps = (dispatch) => {
                 globalIndex: task.globalIndex
             }));
         },
-        handleNewTaskSubmit: (json) => {
-            let task = TaskToSend(json);
-            dispatch(createTask(task));
-        },
-        handleEditTaskSubmit: (json) => {
-            let task = TaskToSend(json);
-            dispatch(editTask(task, json));
-        },
         setClientHeight: (height) => {
           dispatch(setClientHeight({height}));
-        },
-        handleEditLaborSubmit: (json) => {
-          const labor = LaborToSend(json);
-          labor.status = 0;
-          dispatch(editLabor(labor, true));
-        },
-        handleAddNewTask: () => {
-            dispatch(setTaskView({
-                task: {
-                    type: "new"
-                }
-            }));
-            dispatch(toggleRightPanel({
-                status: 1
-            }));
-        },
-        filterChange: (value) => {
-          dispatch(changeTreeFilter({value}));
         }
     }
 }

@@ -20,8 +20,7 @@ const taskBindings = {
   currentTaskComment: taskReducers.setCurrentTaskComment,
   currentAddingTrudTask: taskReducers.addingTrudTask,
   codes: taskReducers.setCodes,
-  finances: taskReducers.setFinances,
-  treeFilter: taskReducers.changeTreeFilter,
+  finances: taskReducers.setFinances,  
   activeIndexes: taskReducers.setActiveIndexes,
   openedTasks: taskReducers.setOpenedTasks,
   currentTaskFilters: taskReducers.setFilters

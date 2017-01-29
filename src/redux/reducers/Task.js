@@ -17,7 +17,6 @@ import {
     CLOSE_LABOR,
     SET_GLOBAL_TASK_TYPE,
     SET_GROUPED_TABLE_LABORS,
-    CHANGE_TREE_FILTER,
     SET_FILTERS
 } from "../actions/tasksActions";
 import {
@@ -38,12 +37,6 @@ function findLaborById(labors, id) {
 }
 
 const defaultFilters = {
-  types: ["current"],
-  all_subs: 0,
-  sub_ids: []
-};
-
-const subordinateDefaultFilters = {
   types: ["current"],
   all_subs: 0,
   sub_ids: []
@@ -108,19 +101,11 @@ export function setCurrentTaskComment(state = "", action) {
 
 }
 
-export function changeTreeFilter(state = 0, action) {
-  switch (action.type) {
-    case CHANGE_TREE_FILTER:
-      return action.value;
-    default:
-      return state;
-  }
-}
-
 export function setTaskView(state = false, action) {
     switch (action.type) {
     case SET_TASK_VIEW:
         action.task.parent_id = action.parent_id || 0;
+        action.task.parent_task = action.parent_task || null;
         return action.task;
     case OPEN_DESCRIPTION:
         action.task.descriptionOpen = true;
@@ -202,15 +187,15 @@ export function setCurrentLabors(state = {}, action) {
 export function setActiveIndexes(state = {taskId: -1, globalIndex: -1}, action) {
   switch (action.type) {
     case ACTIVATE_TASK:
-      return {taskId: state.taskId, globalIndex: action.globalIndex};
-    case SET_TASK_VIEW:
-      return {taskId: action.task.id, globalIndex: state.globalIndex};
+      return {taskId: action.taskId ? action.taskId : state.taskId, globalIndex: action.globalIndex ? action.globalIndex : state.globalIndex};
     case TOGGLE_RIGHT_PANEL:
-      if(action.status == 0) {
+      if(action.status === 0) {
         return {taskId: -1, globalIndex: -1}
       } else {
         return state;
       }
+    case CLEAR_LAYOUT:
+      return {taskId: -1, globalIndex: -1}
     default:
       return state;
   }

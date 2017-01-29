@@ -1,9 +1,11 @@
 import moment from 'moment';
 import Labor from "./Labor";
 const statusDict = {
-  0: "Активна",
+  0: "Новая",
   1: "Завершена",
-  2: "Удалена"
+  2: "Удалена",
+  3: "Принята",
+  4: "Отклонена"
 }
 
 export default class Task {

@@ -32,7 +32,7 @@ svg.disabled path {
 }
 
 .laborBlock.new-task {
-  background: yellow;
+  background-color: rgba(255,255,0,0.6);
 }
 
 .laborBlock.accepted-task {

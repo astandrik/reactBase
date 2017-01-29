@@ -6,16 +6,18 @@ import right from "../../Icons/right.svg";
 import left from "../../Icons/left.svg";
 import moment from 'moment';
 import calendar from "../../Icons/calendar.svg";
-import LaborListContainer from "../../containers/LaborListContainer";
 import DatePicker from 'react-datepicker';
 import helpers from "./tableHelpers";
+import taskHelpers from "../Tasks/taskHelpers";
+import tableGenerator from "../utils/tableGenerator";
 import {RightPanelContainer} from "../../containers/Containers";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
+import RightTablePanelContainer from "../../containers/RightTablePanelContainer";
 
 
 const datepickerStyles = {
-  width: "70%",
+  width: "100%",
   display: "flex",
   float: "right",
   flexDirection: "row",
@@ -44,29 +46,53 @@ const datePicker = (props, range)=> (
 )
 
 function createTable (tableData, props) {
-  const rowsObj = helpers.generateRows(tableData, props.cellClickHandler, props.rowClickHandler, props);
-  const rows = rowsObj.rows;
-  const message = "Принять все трудозатраты за " + this.state.date + "?";
-  const headers = helpers.generateHeaders(tableData.headers, rowsObj.datedLabors, this.openConfirm.bind(this));
-  const range = helpers.getDateRange(props.currentWeek);
-  let rightPanel = <div containerStyle={{display:"none"}}/>;
-  if(props.rightPanelStatus && props.laborView) {
-    rightPanel = (
-      <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-        <RightPanelContainer>
-          <LaborInfoContainer labor={props.laborView}  onSubmit={props.handleEditLaborSubmit}/>
-        </RightPanelContainer>
-      </div>
-    )
-  } else if(props.rightPanelStatus) {
-    rightPanel = (
-      <div className={"rightPanelContainer " + (props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-        <RightPanelContainer>
-          <LaborListContainer  task={props.taskView} />
-        </RightPanelContainer>
-      </div>
+  let config = {};
+  let tdWidth = 1;
+  if(!tableData.headers) return <div className="noDisplay"/>;
+  config.renderRow = (td,name, elem) => {
+    const executors = taskHelpers.createExecutors(elem.executors);
+    return (
+      <tr key={elem.id}>
+        <td width="30%" className={`tableCell ${elem.id === props.activeIndexes.taskId? "active" : ''}`}
+          onClick={props.rowClickHandler.bind(this, elem.timings, elem.id)}>
+          {name} {executors} </td>
+        {td}
+      </tr>
     )
   }
+  config.renderCell = (val, day, width) => {
+    tdWidth = width;
+    let comments = <div className="noDisplay"/>;
+    if(val.commentsNumber > 0) {
+      comments = <div className="comments-number">{val.commentsNumber}</div>
+    }
+    return (
+      <td key={val.id+day} className={`tableCell ${val.hasUnaccepted ? 'has-unaccepted' : ''}` +
+      `${val.id === props.activeIndexes.taskId && (day === props.currentDay || props.currentDay === false)? "active" : ''}`} width={width+"%"}
+        onClick={props.cellClickHandler.bind(this, val.timings, val.id, day)}>{val.val}
+      {comments}</td>
+    )
+  };
+  const rowsObj = tableGenerator.generateRows(tableData, props, config, "dates");
+  const rows = rowsObj.rows;
+  const message = "Принять все трудозатраты за " + this.state.date + "?";
+  const headers = helpers.generateHeaders(tableData.headers, tableData.datedLabors, this.openConfirm.bind(this));
+  const range = helpers.getDateRange(props.currentWeek);
+  const rightPanelContainerStyle = this.props.rightPanelStatus ? {} : {maxWidth: "0"};
+  const rightPanelClass = this.props.rightPanelStatus  ? "" : "right-closed";
+  let finalcells = [];
+  for(let j = 0; j < tableData.headers.length; j++) {
+    const val = tableData.datedLabors[tableData.headers[j]].overall;
+    finalcells[j] = (
+      <td key={98765+j} className="tableCell" width={tdWidth+"%"}>{val}</td>
+    )
+  }
+  let finalRow = (
+    <tr key={1234567} className="overall-row">
+      <td width="30%" className="tableCell"> Итого </td>
+      {finalcells}
+    </tr>
+  )
   return (
     <Container>
       <div className="tableContainer">
@@ -80,13 +106,14 @@ function createTable (tableData, props) {
             </thead>
             <tbody>
               {rows}
+              {finalRow}
             </tbody>
           </table>
           <AddTrudModal isModalOpen={props.isTrudModalOpen} closeModal={props.closeModal.bind(this)} onSubmit={props.handleTrudSubmit} containerStyle={{maxHeight: '0'}}/>
         </div>
       </div>
       <div className={`splitter ${(props.rightPanelStatus ? "" : "noDisplay")}`}/>
-      {rightPanel}
+     <RightTablePanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
      <ConfirmModalContainer containerStyle={{maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={message} answer={this.acceptAnswer.bind(this)}/>
     </Container>
   )

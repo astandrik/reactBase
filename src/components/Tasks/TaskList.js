@@ -1,15 +1,13 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import {RightPanelContainer} from "../../containers/Containers";
 import Container from "../Container";
 import "../styles/TaskList.css";
-import TaskInfoContainer from "../../containers/TaskInfoContainer";
-import NewTaskInfoContainer from "../../containers/NewTaskInfoContainer";
-import LaborInfoContainer from "../../containers/LaborInfoContainer";
+import next from "../../Icons/next.svg";
+import RightTaskPanelContainer from "../../containers/RightTaskPanelContainer";
 import helpers from "./taskHelpers";
-import ValidationErrorsModalContainer from "../../containers/ModalContainers/ValidationErrorsModalContainer";
+import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
+import { List } from 'react-virtualized';
 import FilterModalContainer from "../../containers/ModalContainers/FilterModalContainer";
 
 const buttonContainerStyles = {
@@ -23,25 +21,20 @@ const fullSize = {
   height: "100%"
 }
 
+const taskStatusDict = {
+  0: "new-task",
+  1: "completed-task",
+  2: "deleted-task",
+  3: "approved-task",
+  4: "declined-task"
+};
+
+
 let tasksDict = {};
 let tasksIdDict = {};
 
-function fillTasksDict(tasks) {
-  tasks.forEach((x) => {
-    tasksDict[x.globalIndex] = x;
-    if(!tasksIdDict[x.id]) {
-      tasksIdDict[x.id] = [x];
-    } else {
-      tasksIdDict[x.id].push(x);
-    };
-    if(x.children) {
-      fillTasksDict(x.children);
-    }
-  })
-}
-
 function findAllTaskInTreeByIndexes(globalIndexes) {
-  if(globalIndexes[0] == -1) {
+  if(globalIndexes[0] === -1) {
     return [];
   } else {
     let elems = globalIndexes.map(x => tasksDict[x]);
@@ -50,7 +43,7 @@ function findAllTaskInTreeByIndexes(globalIndexes) {
 }
 
 function findAllTaskInTreeByIds(ids) {
-    if(ids[0] == -1) {
+    if(ids[0] === -1) {
       return [];
     } else {
       let elems = ids.reduce((sum,current) => sum.concat(tasksIdDict[current]), []);
@@ -58,14 +51,15 @@ function findAllTaskInTreeByIds(ids) {
     }
 }
 
-const generateMenuItems = helpers.generateMenuItems;
-
 function deactivateTasks() {
     for(var e in tasksDict) {
-        tasksDict[e].active = false;
-        tasksDict[e].opened = false;
+        if(1) {
+          tasksDict[e].active = false;
+          tasksDict[e].opened = false;
+        }
     }
 }
+
 
 const generateTaskContainers = helpers.generateTaskContainers;
 
@@ -106,13 +100,13 @@ export default class TaskList extends React.Component {
     })
   }
   render() {
-    tasksDict = {};
-    tasksIdDict= {};
     let propsTasks = this.props.tasks;
-    if(propsTasks.length ==0) {
+    const props = this.props;
+    if(propsTasks.length === 0) {
       return <div/>;
     }
-    fillTasksDict(propsTasks);
+    tasksIdDict= propsTasks.treeNormalized.byId;
+    tasksDict = propsTasks.treeNormalized.byGlobalId;
     deactivateTasks();
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
@@ -122,34 +116,53 @@ export default class TaskList extends React.Component {
       let items_ = findAllTaskInTreeByIndexes(this.props.openedTasks);
       items_.forEach(x=> x.opened = true);
     }
-    let taskContainers = generateTaskContainers(propsTasks, this.props, this.props.clientHeight);
-    let rightPanel = <div containerStyle={{display:"none"}}/>;
-    const handleChange = (event, index, value) => this.props.filterChange(value);
-    if(this.props.rightPanelStatus && this.props.laborView) {
-      rightPanel = (
-        <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer>
-            <LaborInfoContainer labor={this.props.laborView} onSubmit={this.props.handleEditLaborSubmit}/>
-          </RightPanelContainer>
-        </div>
-      )
-    } else if(this.props.rightPanelStatus && this.props.taskView && this.props.taskView.type === "new") {
-      rightPanel = (
-        <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer>
-            <NewTaskInfoContainer task={this.props.taskView} onSubmit={this.props.handleNewTaskSubmit}/>
-          </RightPanelContainer>
-        </div>
-      )
-    } else if(this.props.rightPanelStatus) {
-      rightPanel= (
-        <div className={"rightPanelContainer " + (this.props.rightPanelStatus ? "opened" : "closed")} style={fullSize}>
-          <RightPanelContainer>
-            <TaskInfoContainer task={this.props.taskView} onSubmit={this.props.handleEditTaskSubmit}/>
-          </RightPanelContainer>
+    const rightPanelContainerStyle = this.props.rightPanelStatus ? {} : {maxWidth: "0"};
+    const rightPanelClass = this.props.rightPanelStatus  ? "" : "right-closed";
+    let config = {};
+
+    config.listItemRender = (item) => {
+      return (
+        <div className={(item.level === 0 ? "task-header " : "") + "single-task " +
+          ` level_${item.level} ` + (item.active ? " active" : "") + " " + (taskStatusDict[item.rawstatus])} key={item.globalIndex}>
+          <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.name}</span>
+          <div>
+            {item.status ?  <div className="taskStatusTree">{item.status}</div> : <div className="noDisplay"/>}
+            {item.executors === undefined ? <div className="noDisplay"/> : helpers.createExecutors(item.executors)}
+            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
+              (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
+          </div>
         </div>
       )
     }
+    let taskContainers = listGenerator(propsTasks, this.props, config);
+
+    function rowRenderer ({
+        key,         // Unique key within array of rows
+        index,       // Index of row within collection
+        isScrolling, // The List is currently being scrolled
+        isVisible,   // This row is visible within the List (eg it is not an overscanned row)
+        style        // Style object to be applied to row (to position it)
+      }) {
+        return (
+          <div
+            key={key}
+            style={style}
+          >
+            {taskContainers[index]}
+          </div>
+        )
+      }
+
+    let tasksView = (
+      <List
+    width={500}
+    height={this.props.clientHeight - 60}
+    rowHeight={31}
+    rowCount={taskContainers.length}
+    rowRenderer={rowRenderer}
+    />
+    )
+
     return (
       <Container>
         <div className="tasksContainer" style={fullSize} ref="taskTree">
@@ -161,12 +174,12 @@ export default class TaskList extends React.Component {
               <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className="clickable-image clock filter-icon"/>
             </div>
           </div>
-          <div style={{marginTop:"20px"}}>
-            {taskContainers}
+          <div style={{marginTop:"7px"}}>
+            {tasksView}
           </div>
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
-        {rightPanel}
+        <RightTaskPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
         <FilterModalContainer isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
         anchorEl={this.state.anchorEl} applyFilters={this.props.applyFilters}
         filterValues={checkBoxValues} closeModal={this.closeFilter.bind(this)} containerStyle={{maxWidth: '0'}}/>

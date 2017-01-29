@@ -7,6 +7,7 @@ import helpers from "./taskHelpers";
 import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
 import Icon from "../../Icons/Icon";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
 const statusDict = {
   "Новая": "new-task",
@@ -35,13 +36,15 @@ const generateLaborsBlock = function(laborGroup,props) {
           </div>
           <div flex="1" style={{height:"100%"}}>
             <div style={{height:"100%"}} data-tip={labor.rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
-              <Icon name="acceptTrud" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")} onClick={props.acceptTrud.bind(this, labor)}/>
+              <Icon name="acceptTrud" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
+                onClick={this.startQuestion.bind(this,"accept", labor)}/>
             </div>
             <ReactTooltip place="top" type="dark" effect="float" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}/>
           </div>
           <div flex="1" style={{height:"100%"}}>
             <div data-tip={labor.rights.accept ? "Отклонить" : "Нет прав на отклонение"} style={{height:"100%"}}>
-              <Icon name="decline" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")} onClick={props.declineTrud.bind(this, labor)}/>
+              <Icon name="decline" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
+                onClick={this.startQuestion.bind(this,"decline", labor)}/>
             </div>
             <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
@@ -58,20 +61,71 @@ const generateLaborsBlock = function(laborGroup,props) {
   return labors;
 }
 
-export default (props) => {
-  let labors = [];
-  const groups = props.type === "table" ? props.groupsTable : props.groups;
-  for(var i = 0; i < Object.keys(groups).length; i++) {
-    labors[i] = generateLaborsBlock(groups[Object.keys(groups)[i]],props);
+export default class TrudTab extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        isModalOpen: false,
+        message: "Ebin))",
+        selectedLabor: null,
+        currentQuestion: () => {}
+    }
   }
-  labors = [].concat.apply([], labors);
-  if(labors.length > 0) {
-    return (
-      <div>
-        {labors}
-      </div>
-    )
-  } else {
-    return <div/>;
+  startQuestion(type, labor) {
+    if(type === "decline") {
+      this.setState({
+        selectedLabor: labor,
+        currentQuestion: this.declineAnswer,
+        message: "Уверены, что хотите отклонить трудозатрату?",
+        isModalOpen: true
+      });
+    } else {
+      this.setState({
+        selectedLabor: labor,
+        currentQuestion: this.acceptAnswer,
+        message: "Уверены, что хотите подтвердить трудозатрату?",
+        isModalOpen: true
+      });
+    }
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.acceptTrud(this.state.selectedLabor);
+    }
+  }
+  declineAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.declineTrud(this.state.selectedLabor)
+    }
+  }
+  openConfirm(date, labors) {
+    this.setState({isModalOpen: true});
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false});
+  }
+  render() {
+    const props = this.props;
+    let labors = [];
+    const groups = props.type === "table" ? props.groupsTable : props.groups;
+    for(var i = 0; i < Object.keys(groups).length; i++) {
+      labors[i] = generateLaborsBlock.call(this, groups[Object.keys(groups)[i]],props);
+    }
+    labors = [].concat.apply([], labors);
+    if(labors.length > 0) {
+      return (
+        <div>
+          <div>
+            {labors}
+          </div>
+          <ConfirmModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={this.state.message}
+            answer={this.state.currentQuestion.bind(this)}/>
+        </div>
+      )
+    } else {
+      return <div/>;
+    }
   }
 }

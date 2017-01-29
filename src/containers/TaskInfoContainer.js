@@ -8,7 +8,9 @@ import {
     setAddingTrudTask,
     createLabor,
     createComment,
-    setTaskView
+    setTaskView,
+    acceptTask,
+    declineTask
 } from "../redux/actions/tasksActions";
 import {
     openTrudModal,
@@ -57,7 +59,8 @@ const mapDispatchToProps = (dispatch) => {
               task: {
                   type: "new"
               },
-              parent_id: task.id
+              parent_id: task.id,
+              parent_task: task
           }));
           dispatch(toggleRightPanel({
               status: 1
@@ -71,6 +74,12 @@ const mapDispatchToProps = (dispatch) => {
           obj.comment = comment;
           obj.task_id = task.id;
           dispatch(createComment(obj,task));
+        },
+        acceptTask:(task)=> {
+          dispatch(acceptTask(task));
+        },
+        declineTask:(task) => {
+          dispatch(declineTask(task));
         }
     }
 }

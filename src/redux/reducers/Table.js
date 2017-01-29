@@ -15,7 +15,7 @@ export const monday = getMonday(new Date());
 
 export function setTableData(state = [], action) {
   switch (action.type) {
-    case GET_TABLE_DATA:
+    case GET_TABLE_DATA:    
       return action.tableData
     default:
       return state
