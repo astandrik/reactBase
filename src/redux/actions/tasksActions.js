@@ -139,10 +139,12 @@ export function loadLabor(labor) {
 }
 
 export function createLabor(data, task) {
-    const handler = (json,dispatch) => {
+    const handler = (json,dispatch, getState) => {
       dispatch(loadTask(task));
       dispatch(closeTrudModal());
       dispatch(reset('trudDialogForm'));
+      const currentWeek = getState().currentWeek;
+      dispatch(loadTableData({day: currentWeek}));
     }
     const errorHandler = (dispatch) => {
 
@@ -153,7 +155,7 @@ export function createLabor(data, task) {
 
 export function editLabor(data, fromLabor, fromTable) {
   const handler = (json, dispatch, getState) => {
-    const currentLabor = json.data;
+    const currentLabor = new Labor(json.data);
     const newVal = currentLabor.value;
     if(fromLabor) {
       const currentWeek = getState().currentWeek;
@@ -163,10 +165,18 @@ export function editLabor(data, fromLabor, fromTable) {
       let currentCell = tableData.laborsCellsByIds[currentLabor.id];
       let timing = currentCell.timings.filter(x => x.id == currentLabor.id)[0];
       const oldVal = timing.value;
-      currentCell.myHours += parseInt(newVal) - parseInt(oldVal);
-      currentCell.allHours += parseInt(newVal) - parseInt(oldVal);
-      timing.value = newVal;
-      dispatch(setTableData({tableData}));
+      if(timing.date == currentLabor.date) {
+        currentCell.myHours += parseInt(newVal) - parseInt(oldVal);
+        currentCell.allHours += parseInt(newVal) - parseInt(oldVal);
+        tableData.overallDated[currentLabor.date].overallMy +=  parseInt(newVal) - parseInt(oldVal);
+        tableData.overallDated[currentLabor.date].overallTotal +=  parseInt(newVal) - parseInt(oldVal);
+        timing.value = newVal;
+        timing.code = currentLabor.code;
+        dispatch(setTableData({tableData}));
+      } else {
+        const currentWeek = getState().currentWeek;
+        dispatch(loadTableData({day: currentWeek}));
+      }
     }
   }
   const errorHandler = (dispatch) => {
@@ -256,9 +266,11 @@ export function loadTree(params) {
 }
 
 export function createComment(data, task, fromLabor) {
-  const handler = (json,dispatch) => {
+  const handler = (json,dispatch, getState) => {
     if(fromLabor) {
+      const currentWeek = getState().currentWeek;
       dispatch(loadLabor({id: data.time_id}));
+      dispatch(loadTableData({day: currentWeek}));
     } else {
       dispatch(loadTask({id: data.task_id}));
     }
@@ -277,9 +289,10 @@ export function createComment(data, task, fromLabor) {
 export function acceptAllTimings(ids, task, fromTable) {
   const handler = (json, dispatch, getState) => {
       const currentWeek = getState().currentWeek;
-      dispatch(loadTableData({day: currentWeek}))
-      dispatch(loadTask({id: task.id}));
-      dispatch(setGrouped(task.id));
+      dispatch(loadTableData({day: currentWeek}));
+      if(task) {
+        dispatch(loadTask({id: task.id}));
+      }
   }
   if(ids.length > 0) {
     return fetchAsync(`/data/accepttime?ids=${ids.join(",")}`, handler);
@@ -302,20 +315,28 @@ export function declineTask(task) {
   return fetchAsync("/data/declinetask?id="+task.id, handler);
 }
 
-export function acceptTiming(labor) {
+export function acceptTiming(labor, fromLabor) {
   const handler = (json, dispatch, getState) => {
     const currentWeek = getState().currentWeek;
     dispatch(loadTableData({day: currentWeek}))
-    dispatch(loadTask({id: labor.task_id}));
+    if(fromLabor) {
+      dispatch(loadLabor({id: labor.id}));
+    } else {
+      dispatch(loadTask({id: labor.task_id}));
+    }
   }
   return fetchAsync("/data/accepttime?ids=" + labor.id, handler);
 }
 
-export function declineTiming(labor) {
+export function declineTiming(labor, fromLabor) {
   const handler = (json, dispatch, getState) => {
     const currentWeek = getState().currentWeek;
     dispatch(loadTableData({day: currentWeek}))
-    dispatch(loadTask({id: labor.task_id}));
+    if(fromLabor) {
+      dispatch(loadLabor({id: labor.id}));
+    } else {
+      dispatch(loadTask({id: labor.task_id}));
+    }
   }
   return fetchAsync("/data/declinetime?ids=" + labor.id, handler);
 }

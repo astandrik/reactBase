@@ -19,15 +19,20 @@ function getDates(startDate, stopDate) {
 
 export function copyLaborsCells(tableData) {
     let laborsCellsByIds = {};
+    let datedLabors = {};
     const data = tableData.data;
     for(var e in data) {
       for(var k in data[e].dates) {
+        if(!datedLabors[k]) {
+          datedLabors[k] = []
+        }
+        datedLabors[k] = datedLabors[k].concat(data[e].dates[k].timings);
         for(let i =0; i < data[e].dates[k].timings.length; i++) {
           laborsCellsByIds[data[e].dates[k].timings[i].id] = data[e].dates[k];
         }
       }
     }
-    return laborsCellsByIds;
+    return {laborsCellsByIds, datedLabors};
 }
 
 export class TableData {
@@ -73,10 +78,10 @@ export class TableData {
             datedLabors[dateArray[j]].push(currentTimings[k]);
             let val = currentTimings[k].value;
             if(!isNaN(parseFloat(val))) {
-              hours = parseFloat(val);
+              hours += parseFloat(val);
               overallTotal += parseFloat(val);
               if(currentTimings[k].author.id === pingedUser) {
-                myHours = parseFloat(val);
+                myHours += parseFloat(val);
                 overallMy += parseFloat(val);
               }
             }

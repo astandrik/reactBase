@@ -56,9 +56,10 @@ export const generateLaborsFromTableData = (data, task_id, day) => {
 }
 
 export function setGrouped(task_id) {
-  return function(dispatch, getState) {
+  return function(dispatch, getState) {    
+    let table = getState().tableData;
     const day = getState().currentDay;
-    const labors = generateLaborsFromTableData(getState().tableData, task_id, day);
+    const labors = generateLaborsFromTableData(table, task_id, day);
     const groups = groupLabors(labors);
     dispatch(setGroupedTableLabors({groups}));
   }

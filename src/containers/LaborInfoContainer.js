@@ -7,7 +7,7 @@ import {
     loadTask,
     createComment
   } from "../redux/actions/tasksActions";
-import {editLabor} from "../redux/actions/tasksActions";
+import {editLabor, acceptTiming, declineTiming} from "../redux/actions/tasksActions";
 import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state, ownProps) => {
@@ -27,14 +27,10 @@ const mapDispatchToProps = (dispatch) => {
           dispatch(createComment(obj,{id: labor.task_id}, true));
         },
         acceptTrud: (trud) => {
-          let labor = LaborToSend(trud);
-          labor.status = 1;
-          dispatch(editLabor(labor, true));
+          dispatch(acceptTiming(trud, true));
         },
         declineTrud: (trud) => {
-          let labor = LaborToSend(trud);
-          labor.status = 2;
-          dispatch(editLabor(labor, true));
+          dispatch(declineTiming(trud, true));
         },
         returnToTask: (trud) => {
           dispatch(closeLabor());

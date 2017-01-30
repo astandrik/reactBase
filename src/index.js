@@ -34,11 +34,10 @@ var loadRepo = {
   subordinates: () => store.dispatch(getSubordinates({})),
   setGlobalTaskType: (type) => store.dispatch(setGlobalTaskType({routeType: type})),
   clearLayout: () => store.dispatch(clearLayout()),
-  pingLogin: () => store.dispatch(pingLogin()),
+  pingLogin: (renderFunc) => store.dispatch(pingLogin(renderFunc)),
   logout: () => store.dispatch(logout())
 }
 
-const checkLogin = loadRepo.pingLogin;
 
 const TasksRouter = TaskRoutes({loadRepo:loadRepo});
 const ReportRouter = ReportRoutes({loadRepo:loadRepo});
@@ -47,25 +46,30 @@ const StatisticsRouter = StatisticsRoutes({loadRepo:loadRepo});
 const LoginRouter = LoginRoutes({loadRepo:loadRepo})
 const LogoutRouter = LogoutRoutes({loadRepo: loadRepo});
 
-const Root = () => (
-    <Provider store={store}>
-      <MuiThemeProvider>
-        <Router history={browserHistory}>
-          <Route path="/" component={LayoutContainer} onEnter={checkLogin}>
-            {TasksRouter}
-            {ReportRouter}
-            {SubordinatesRouter}
-            {StatisticsRouter}
-            {LoginRouter}
-            {LogoutRouter}
-          </Route>
-      </Router>
-      </MuiThemeProvider>
-    </Provider>
-);
 
-ReactDOM.render(
-  <Root />,
-  document.getElementById('root')
-);
+const renderFunc = () => {
+  const Root = () => (
+      <Provider store={store}>
+        <MuiThemeProvider>
+          <Router history={browserHistory}>
+            <Route path="/" component={LayoutContainer}>
+              {TasksRouter}
+              {ReportRouter}
+              {SubordinatesRouter}
+              {StatisticsRouter}
+              {LoginRouter}
+              {LogoutRouter}
+            </Route>
+        </Router>
+        </MuiThemeProvider>
+      </Provider>
+  );
+
+  ReactDOM.render(
+    <Root />,
+    document.getElementById('root')
+  );
+}
+
+const checkLogin = loadRepo.pingLogin.call(this, renderFunc);
 

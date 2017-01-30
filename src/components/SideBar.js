@@ -32,7 +32,7 @@ function createChildren(items, marginLeft) {
 
 const Search = (props) => {
   return (
-    <input className="search-side-input" onChange={props.changeSearchQuery} placeholder="Поиск..."/>
+    <input disabled className="search-side-input" onChange={props.changeSearchQuery} placeholder="Поиск..."/>
   )
 }
 

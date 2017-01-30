@@ -14,6 +14,11 @@ export const setLoggedUser = generateActionFunc(SET_USER);
 export const setPingedUser = generateActionFunc(SET_PINGED_USER);
 export const setSubordinates = generateActionFunc(SET_SUBORDINATES);
 
+function isFunction(functionToCheck) {
+ var getType = {};
+ return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
 export function logout () {
   const handler =  function (json, dispatch, getState) {
       dispatch(pingLogin());
@@ -21,11 +26,14 @@ export function logout () {
   return fetchAsync(`/data/logout`, handler);
 }
 
-export function pingLogin() {
+export function pingLogin(renderFunc) {
   const handler =  function (json, dispatch, getState) {
     dispatch(setPingedUser({
         id: json.data.id
     }));
+    if(isFunction(renderFunc)) {
+        renderFunc();
+    };
     if(!json.data.id) {
       browserHistory.push('/login');
     } else {

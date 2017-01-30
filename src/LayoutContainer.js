@@ -7,8 +7,8 @@ import {
 import ValidationErrorsModalContainer from "./containers/ModalContainers/ValidationErrorsModalContainer";
 
 
-const RouterCreator = function(name, to, hashtag) {
-  return {name, to, hashtag};
+const RouterCreator = function(name, to, fake, hashtag) {
+  return {name, to, fake, hashtag};
 }
 
 const sidenavRoutes = [
@@ -18,13 +18,13 @@ const sidenavRoutes = [
   ,RouterCreator("Задачи подчиненных", "/tasks/subordinate/table")]
   },
   RouterCreator("Мои сотрудники", '/subordinates'),
-  RouterCreator("Мои отчеты", '/reports'),
-  RouterCreator("Статистика", '/statistics'),
+  RouterCreator("Мои отчеты", '/reports', true),
+  RouterCreator("Статистика", '/statistics', true),
   {name: "Администрирование", to:"admin", fake:true, children: [
-    RouterCreator("Коды работ", "/workCodes"),
-    RouterCreator("Статьи расходов", "/finances"),
-    RouterCreator("Штатная структура", "/structure"),
-    RouterCreator("Список сотрудников", "/userList")
+    RouterCreator("Коды работ", "/workCodes", true),
+    RouterCreator("Статьи расходов", "/finances", true),
+    RouterCreator("Штатная структура", "/structure", true),
+    RouterCreator("Список сотрудников", "/userList",true)
   ]},
   {name: "Выход", to: "logout"}
 ];

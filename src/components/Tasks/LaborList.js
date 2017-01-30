@@ -6,6 +6,7 @@ import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
 import moment from 'moment';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
+import ReactTooltip from 'react-tooltip'
 
 export default class Labors extends React.Component {
   constructor(props) {
@@ -39,13 +40,19 @@ export default class Labors extends React.Component {
   if(task.rights) {
   addTrudButton = (task) => (
       <div className={"addTrudButtonContainer "}>
-        <div className={`addTrudButton ${task.rights.time ? "" : " disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
+        <div  data-tip={ task.rights.time ? "" : "Недостаточно прав"}>
+        <div
+          className={`addTrudButton ${task.rights.time ? "" : " disabled"}`}
+          onClick={props.openTrudModal.bind(this, task)}>
           Добавить трудозату
         </div>
-        <div>
-          <div className={`addTrudButton ${canAcceptAll ? "" : " disabled"}`} onClick={this.openConfirm.bind(this)}>
+      </div>
+        <ReactTooltip place="top" type="dark" effect="float"/>
+        <div  data-tip={ task.rights.accept ? "" : "Недостаточно прав"}>
+          <div data-tip={ task.rights.accept ? "" : "Недостаточно прав"} className={`addTrudButton ${canAcceptAll ? "" : " disabled"}`} onClick={this.openConfirm.bind(this)}>
             Принять все
           </div>
+          <ReactTooltip place="top" type="dark" effect="float"/>
         </div>
       </div>
     )

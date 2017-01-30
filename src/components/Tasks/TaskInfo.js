@@ -10,6 +10,7 @@ import DPicker from "../formComponents/DatePicker";
 import helpers from "./taskHelpers";
 import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
+import ReactTooltip from 'react-tooltip'
 import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
 import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
@@ -32,10 +33,12 @@ const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover,activePanel}) 
 );
 
 const addTrudButtonF = (props) => ((task) => (
-  <div flex="2" className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
-    <div className={`addTrudButton ${task.rights.time ? "" : "disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
+  <div data-tip={ task.rights.time ? "" : "Недостаточно прав"}  flex="2" className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
+    <div
+      className={`addTrudButton ${task.rights.time ? "" : "disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
       Добавить трудозату
     </div>
+    { task.rights.time ? <div className="noDisplay"/> : <ReactTooltip place="top" type="dark" effect="float"/>}
   </div>
 ));
 

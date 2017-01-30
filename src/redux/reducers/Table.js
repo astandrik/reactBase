@@ -19,7 +19,9 @@ export function setTableData(state = [], action) {
   switch (action.type) {
     case SET_TABLE_DATA:
       let newData = JSON.parse(JSON.stringify(action.tableData));
-      newData.laborsCellsByIds = copyLaborsCells(newData);
+      const copy = copyLaborsCells(newData);
+      newData.laborsCellsByIds = copy.laborsCellsByIds;
+      newData.datedLabors = copy.datedLabors;
       return newData;
     default:
       return state
