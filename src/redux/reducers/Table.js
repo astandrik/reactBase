@@ -1,5 +1,5 @@
 import {
-  GET_TABLE_DATA,
+  SET_TABLE_DATA,
   SET_WEEK,
   SET_DAY
 } from "../actions/tableActions";
@@ -13,10 +13,14 @@ function getMonday(d) {
 
 export const monday = getMonday(new Date());
 
+import {copyLaborsCells} from "../../Entities/Table/TableData";
+
 export function setTableData(state = [], action) {
   switch (action.type) {
-    case GET_TABLE_DATA:    
-      return action.tableData
+    case SET_TABLE_DATA:
+      let newData = JSON.parse(JSON.stringify(action.tableData));
+      newData.laborsCellsByIds = copyLaborsCells(newData);
+      return newData;
     default:
       return state
   }

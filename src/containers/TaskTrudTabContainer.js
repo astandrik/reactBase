@@ -1,6 +1,6 @@
 import TaskTrudTab from "../components/Tasks/TaskTrudTab";
 import { connect } from 'react-redux';
-import {openLaborComment, loadLabor,editLabor} from "../redux/actions/tasksActions";
+import {openLaborComment, loadLabor,editLabor, acceptTiming, declineTiming} from "../redux/actions/tasksActions";
 import LaborToSend from "../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
@@ -20,14 +20,10 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(loadLabor(labor));
     },
     acceptTrud: (trud) => {
-      let labor = LaborToSend(trud);
-      labor.status = 1;
-      dispatch(editLabor(labor));
+      dispatch(acceptTiming(trud));
     },
     declineTrud: (trud) => {
-      let labor = LaborToSend(trud);
-      labor.status = 2;
-      dispatch(editLabor(labor));
+      dispatch(declineTiming(trud));
     }
   }
 }

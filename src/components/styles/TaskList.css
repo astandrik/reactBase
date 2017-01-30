@@ -10,12 +10,17 @@
 }
 
 .tasksContainer .ReactVirtualized__Grid  {
-  width: 100%!important;
   outline: none!important;
+  overflow-x: hidden!important;
 }
 
 .taskDropdown>div:first-child>div:nth-child(2) {
   line-height: 36px!important
+}
+
+.autoresizer-list-container > div:first-child {
+  width: 100%!important;
+  height: 100%!important;
 }
 
 .single-task.new-task {

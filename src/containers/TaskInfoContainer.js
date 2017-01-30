@@ -10,7 +10,8 @@ import {
     createComment,
     setTaskView,
     acceptTask,
-    declineTask
+    declineTask,
+    completeTask
 } from "../redux/actions/tasksActions";
 import {
     openTrudModal,
@@ -80,6 +81,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         declineTask:(task) => {
           dispatch(declineTask(task));
+        },
+        completeTask:(task) => {
+          dispatch(completeTask(task));
+        },
+        copyTask: () => {
+
         }
     }
 }

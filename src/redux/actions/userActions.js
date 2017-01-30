@@ -1,13 +1,57 @@
 import {
     generateActionFunc,
-    fetchAsync
+    fetchAsync,
+    fetchPost
 } from "./actionHelper.js";
+import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./tasksActions";
+import { browserHistory } from 'react-router';
 
 export const SET_USER = "SET_USER";
 export const SET_SUBORDINATES = "SET_SUBORDINATES";
+export const SET_PINGED_USER = "SET_PINGED_USER";
 
 export const setLoggedUser = generateActionFunc(SET_USER);
+export const setPingedUser = generateActionFunc(SET_PINGED_USER);
 export const setSubordinates = generateActionFunc(SET_SUBORDINATES);
+
+export function logout () {
+  const handler =  function (json, dispatch, getState) {
+      dispatch(pingLogin());
+  }
+  return fetchAsync(`/data/logout`, handler);
+}
+
+export function pingLogin() {
+  const handler =  function (json, dispatch, getState) {
+    dispatch(setPingedUser({
+        id: json.data.id
+    }));
+    if(!json.data.id) {
+      browserHistory.push('/login');
+    } else {
+      dispatch(getCurrentUser({}));
+      dispatch(loadWorkCodes());
+      dispatch(loadFinances());
+      dispatch(getSubordinates({}));
+      let location = browserHistory.getCurrentLocation();
+      if(location.pathname == "/login" || location.pathname == "/") {
+        location = "/tasks/my/table";
+      }
+      browserHistory.push(location);
+    }
+  }
+  return fetchAsync(`/data/ping`, handler);
+}
+
+export function validateLoginData(obj) {
+  const handler = (json,dispatch) => {
+    dispatch(pingLogin());
+  }
+  const errorHandler = (dispatch) => {
+
+  }
+  return fetchPost(`/data/auth`, obj, handler, errorHandler);
+}
 
 export function getSubordinates() {
     const handler2 = (data, json, dispatch) => {

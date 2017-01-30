@@ -26,8 +26,8 @@
   justify-content: center;
 }
 
-.overall-row td {
-    background: #DDDDDD;
+.overall-row td{
+    background-color: rgba(200,200,200,0.5);
 }
 
 .taskTable tr{
@@ -60,7 +60,7 @@
 }
 
 .tableCell.active {
-  background-color: #B3F2F2;
+  background-color: rgba(179,242,242,0.6);
 }
 
 .taskTable td:first-child{

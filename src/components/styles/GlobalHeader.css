@@ -25,6 +25,18 @@
     user-select: none;
 }
 
+.header-filter-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.header-filter-container > div:nth-child(2){
+  position: absolute;
+  right: 15px;
+  top: 48px;
+}
+
 .underlinedLink {
   text-decoration: underline!important;
   font-style: italic;

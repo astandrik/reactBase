@@ -14,7 +14,6 @@ export default class Labor {
     }
     const rights = json.rights;
     this.rights = {
-      create: ~rights.indexOf("create"),
       update: ~rights.indexOf("update"),
       comment: ~rights.indexOf("comment"),
       accept: ~rights.indexOf("accept"),
@@ -30,9 +29,5 @@ export default class Labor {
         label: json.code.value,
         value: json.code.id
     };
-    this.finance = {
-      label: json.finance.value,
-      value: json.finance.id
-    }
   }
 }

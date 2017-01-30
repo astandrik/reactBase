@@ -49,9 +49,6 @@ const dialog = (props) => {
           <Panel label="Код работ">
             <WorkCodeField codes={props.codes}/>
           </Panel>
-          <Panel label="Статья финансирования">
-            <FinancesField finances={props.finances}/>
-          </Panel>
       </Container>
       <div className="taskDate">
         <span> Дата: </span>

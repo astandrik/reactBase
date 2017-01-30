@@ -9,7 +9,9 @@ import {
     OPEN_ERRORS_MODAL,
     CLOSE_ERRORS_MODAL,
     SET_CLIENT_HEIGHT,
-    CLEAR_LAYOUT
+    CLEAR_LAYOUT,
+    SET_SEARH_QUERY,
+    SET_FILTERS
 } from "../actions/layoutActions";
 
 import {
@@ -24,6 +26,25 @@ export function fetchStatusChange(state = false, action) {
         return state;
     }
 }
+
+const defaultFilters = {
+  types: ["current"],
+  all_subs: 0,
+  sub_ids: []
+};
+
+
+export function setFilters(state = defaultFilters, action) {
+  switch (action.type) {
+    case SET_FILTERS:
+      return action.filters;
+    case CLEAR_LAYOUT:
+      return defaultFilters;
+    default:
+      return state;
+  }
+}
+
 
 export function setClientHeight(state = 100, action) {
   switch (action.type) {
@@ -68,6 +89,15 @@ export function isErrorsModalOpened(state = false, action) {
       return false;
   default:
       return state;
+  }
+}
+
+export function setSearchQuery(state = "", action) {
+  switch (action.type) {
+    case SET_SEARH_QUERY:
+      return action.query
+    default:
+      return state
   }
 }
 

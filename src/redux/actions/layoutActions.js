@@ -9,6 +9,8 @@ export const OPEN_ERRORS_MODAL = "OPEN_ERRORS_MODAL";
 export const CLOSE_ERRORS_MODAL = "CLOSE_ERRORS_MODAL";
 export const SET_CLIENT_HEIGHT = "SET_CLIENT_HEIGHT";
 export const CLEAR_LAYOUT = "CLEAR_LAYOUT";
+export const SET_FILTERS = "SET_FILTERS";
+export const SET_SEARH_QUERY = "SET_SEARH_QUERY";
 import {
     generateActionFunc
 } from "./actionHelper.js";
@@ -23,3 +25,5 @@ export const closeTrudModal = generateActionFunc(CLOSE_TRUD_MODAL);
 export const openErrorsModal = generateActionFunc(OPEN_ERRORS_MODAL);
 export const closeErrorsModal = generateActionFunc(CLOSE_ERRORS_MODAL);
 export const setClientHeight = generateActionFunc(SET_CLIENT_HEIGHT);
+export const setSearchQuery = generateActionFunc(SET_SEARH_QUERY);
+export const setFilters = generateActionFunc(SET_FILTERS);

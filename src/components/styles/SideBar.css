@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  overflow-y: auto;
 }
 
 .side-bar .list-element div{
@@ -28,4 +29,7 @@
   margin-top: 20px;
   border-radius: 10px;
   width: 90%;
+}
+.side-bar button svg {
+  fill: white!important;
 }

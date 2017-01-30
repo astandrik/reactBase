@@ -4,7 +4,9 @@ export default function(json) {
   newJson.finance_id = json.finance ? (json.finance.id ? json.finance.id : (json.finance.value ? json.finance.value : json.finance)) : 0;
   newJson.status = json.rawstatus ? json.rawstatus : 0;
   delete newJson.finance;
-  newJson.executors = json.executors ? json.executors.map(x => x.value) : [];
+  delete newJson.status;
+  delete newJson.rawstatus;
+  newJson.executors = json.executors ? json.executors.map(x => x.id || x.value) : [];
   if(newJson.executors.length === 0) {
     delete newJson.executors;
   }

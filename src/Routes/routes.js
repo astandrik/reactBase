@@ -4,6 +4,7 @@ import {Reports} from "./Reports";
 import {Subordinates} from "./Subordinates";
 import {TasksTable} from "./TasksTable";
 import {Statistics} from "./Statistics"
+import Login from "./Login";
 import React from 'react';
 import { Route } from 'react-router';
 const TaskRoutes = (props) => {
@@ -44,6 +45,18 @@ const SubordinatesRoutes = (props) => {
   )
 }
 
+const LoginRoutes = (props) => {
+  return (
+    <Route path="login" component={Login}/>
+  )
+}
+
+const LogoutRoutes = (props) => {
+  return (
+    <Route path="logout" onEnter={props.loadRepo.logout}/>
+  )
+}
+
 const StatisticsRoutes = (props) => {
   const statisticsEnter = () => {
     props.loadRepo.tabs([]);
@@ -55,4 +68,4 @@ const StatisticsRoutes = (props) => {
   )
 }
 
-export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes};
+export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes};

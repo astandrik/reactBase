@@ -14,7 +14,6 @@ import {
     createTask,
     editTask,
     editLabor,
-    setFilters,
     loadTasks
 } from "../redux/actions/tasksActions";
 import {
@@ -46,11 +45,6 @@ const mapDispatchToProps = (dispatch) => {
             }));
             dispatch(setCurrentDay({day: false}));
         },
-        applyFilters:(filters) => {
-          const filt = {sub_ids: filters.subs, types: filters.types, all_subs: filters.allSubs};
-          dispatch(setFilters({filters: filt}));
-          dispatch(loadTasks());
-        },
         toggleTaskOpen: (task) => {
             dispatch(toggleTaskOpen({
                 globalIndex: task.globalIndex
@@ -58,6 +52,16 @@ const mapDispatchToProps = (dispatch) => {
         },
         setClientHeight: (height) => {
           dispatch(setClientHeight({height}));
+        },
+        handleAddNewTask: () => {
+            dispatch(setTaskView({
+                task: {
+                    type: "new"
+                }
+            }));
+            dispatch(toggleRightPanel({
+                status: 1
+            }));
         }
     }
 }

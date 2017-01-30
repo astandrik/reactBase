@@ -46,7 +46,8 @@
 }
 
 .login-panel > input{
-  max-width: 200px;
+  max-width: 300px;
+  height: 20px;
 }
 
 .login-panel > button {

@@ -39,7 +39,8 @@ export function fetchPost(url, data, handler, errorHandler) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/x-www-form-urlencoded'
                 },
-                body: formBody
+                body: formBody,
+                credentials: 'include'
             }).then(response => response.json(), error => {
                 debugger;
             })
@@ -67,7 +68,10 @@ export function fetchAsync(url, handler) {
         dispatch(changeFetchingStatus({
             status: true
         }));
-        return fetch(url)
+        return fetch(url,{
+          method: "GET",
+          credentials: 'include'
+        })
             .then(response => response.json())
             .then(json => {
                 dispatch(changeFetchingStatus({

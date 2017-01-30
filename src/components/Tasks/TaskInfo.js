@@ -42,21 +42,20 @@ const addTrudButtonF = (props) => ((task) => (
 const popoverMenu = (props, context) => {
   let menuItems = [];
   const task = props.task;
-  if(task.rights.create) {
-    menuItems.push(<MenuItem key={1} onClick={props.handleAddNewSubTask.bind(this, props.task)} primaryText="Cоздать подзадачу" />)
-  }
+  menuItems.push(<MenuItem key={1} onClick={props.handleAddNewSubTask.bind(context, props.task)} primaryText="Cоздать подзадачу" />)
   if(task.rights.accept) {
-    menuItems.push(<MenuItem key={2} onClick={props.declineTask.bind(this, props.task)} primaryText="Отклонить задачу" />)
+    menuItems.push(<MenuItem key={2} onClick={props.declineTask.bind(context, props.task)} primaryText="Отклонить задачу" />)
   }
   if(task.rights.accept && task.rawstatus === 0) {
-    menuItems.push(<MenuItem key={3} onClick={props.acceptTask.bind(this, props.task)} primaryText="Подтвердить задачу" />)
+    menuItems.push(<MenuItem key={3} onClick={props.acceptTask.bind(context, props.task)} primaryText="Подтвердить задачу" />)
+  }
+  if(task.rights.accept && task.rawstatus !== 0) {
+    menuItems.push(<MenuItem key={4} onClick={props.completeTask.bind(context, props.task)} primaryText="Завершить задачу" />)
   }
   if(task.rights.delete) {
-    menuItems.push(<MenuItem key={4} onClick={props.deleteTask.bind(this, props.task)} primaryText="Удалить задачу" />)
+    menuItems.push(<MenuItem key={4} onClick={props.deleteTask.bind(context, props.task)} primaryText="Удалить задачу" />)
   }
-  if(task.rights.delete) {
-    menuItems.push(<MenuItem key={4} onClick={props.copyTask.bind(this, props.task)} primaryText="Копировать задачу" />)
-  }
+  menuItems.push(<MenuItem key={4} onClick={props.copyTask.bind(context, props.task)} primaryText="Копировать задачу" />)
   return (<Popover
          open={context.state.open}
          anchorEl={context.refs.ellipsis}
@@ -92,7 +91,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
      open: false,
      executorsFieldActive: false
     };
-    this.handleDebounce = debounce(this.handleEdit, 500);
+    this.handleDebounce = debounce(this.handleEdit, 400);
   }
   handleEdit(e) {
     setTimeout(() => {this.refs.sbmt.click()});

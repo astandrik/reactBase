@@ -17,15 +17,31 @@ function getDates(startDate, stopDate) {
     return dateArray;
 }
 
-export default class TableData {
-  constructor(json, first, last, currentUser) {
+export function copyLaborsCells(tableData) {
+    let laborsCellsByIds = {};
+    const data = tableData.data;
+    for(var e in data) {
+      for(var k in data[e].dates) {
+        for(let i =0; i < data[e].dates[k].timings.length; i++) {
+          laborsCellsByIds[data[e].dates[k].timings[i].id] = data[e].dates[k];
+        }
+      }
+    }
+    return laborsCellsByIds;
+}
+
+export class TableData {
+  constructor(json, first, last, pingedUser) {
     const dataInfo = json.data.tasks;
+    let laborsCellsByIds = {};
     let datedLabors = {};
+    let overallDated = {};
     const dateArray = getDates(first, last).map(x=> {
       const date =  moment(x).format('DD.MM');
       datedLabors[date] = [];
-      datedLabors[date].overallMy = 0;
-      datedLabors[date].overallTotal = 0;
+      overallDated[date] = {};
+      overallDated[date].overallMy = 0;
+      overallDated[date].overallTotal = 0;
       return date;
     });
     let datedTaskLabors = {};
@@ -51,36 +67,38 @@ export default class TableData {
         let currentTimings = timings.filter(x => x.date === dateArray[j]);
         let overallMy = 0;
         let overallTotal = 0;
+        let hours = 0;
+        let myHours = 0;
         for(let k = 0; k < currentTimings.length; k++) {
             datedLabors[dateArray[j]].push(currentTimings[k]);
-            let hours = 0;
-            let myHours = 0;
             let val = currentTimings[k].value;
             if(!isNaN(parseFloat(val))) {
-              hours += parseFloat(val);
+              hours = parseFloat(val);
               overallTotal += parseFloat(val);
-              if(currentTimings[k].author.id === currentUser.id) {
-                myHours += parseFloat(val);
+              if(currentTimings[k].author.id === pingedUser) {
+                myHours = parseFloat(val);
                 overallMy += parseFloat(val);
               }
             }
-          datedTaskLabors[taskName].dates[currentTimings[k].date].val = `${myHours}/${hours}`;
-          datedTaskLabors[taskName].dates[currentTimings[k].date].timings = currentTimings;
-          datedTaskLabors[taskName].dates[currentTimings[k].date].hasUnaccepted = currentTimings.some(x => x.rawstatus === 0);
-          datedTaskLabors[taskName].dates[currentTimings[k].date].commentsNumber = currentTimings.reduce((s,c) => s+c.comments.length,0);
+          if(!laborsCellsByIds[currentTimings[k].id]) {
+             laborsCellsByIds[currentTimings[k].id] = {};
+          }
+          laborsCellsByIds[currentTimings[k].id] = datedTaskLabors[taskName].dates[dateArray[j]];
         }
-        datedLabors[dateArray[j]].overallMy += overallMy;
-        datedLabors[dateArray[j]].overallTotal += overallTotal;
+        datedTaskLabors[taskName].dates[dateArray[j]].myHours = myHours;
+        datedTaskLabors[taskName].dates[dateArray[j]].allHours = hours;
+        datedTaskLabors[taskName].dates[dateArray[j]].timings = currentTimings;
+        datedTaskLabors[taskName].dates[dateArray[j]].hasUnaccepted = currentTimings.some(x => x.rawstatus === 0);
+        datedTaskLabors[taskName].dates[dateArray[j]].commentsNumber = currentTimings.reduce((s,c) => s+c.comments.length,0);
+        overallDated[dateArray[j]].overallMy += overallMy;
+        overallDated[dateArray[j]].overallTotal += overallTotal;
       }
     }
-    for(let i = 0; i < dateArray.length; i++) {
-      datedLabors[dateArray[i]].overall = `${datedLabors[dateArray[i]].overallMy}/${datedLabors[dateArray[i]].overallTotal}`;
-    }
     let data = {};
-    data.headers = dateArray;
-    data.data = datedTaskLabors;
-    this.headers = data.headers;
-    this.data = data.data;
+    this.headers = dateArray;
+    this.data = datedTaskLabors;
     this.datedLabors = datedLabors;
+    this.overallDated = overallDated;
+    this.laborsCellsByIds = laborsCellsByIds;
   }
 }

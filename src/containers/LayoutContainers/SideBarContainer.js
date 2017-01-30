@@ -1,5 +1,7 @@
 import SideBar from "../../components/SideBar";
 import { connect } from 'react-redux';
+import {setSearchQuery} from "../../redux/actions/layoutActions";
+import { browserHistory } from 'react-router';
 
 const mapStateToProps = (state,ownProps) => {
   return {
@@ -10,6 +12,9 @@ const mapStateToProps = (state,ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    changeSearchQuery: (query) => {
+      setSearchQuery({query});
+    }
   }
 }
 

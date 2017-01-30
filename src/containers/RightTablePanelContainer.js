@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
     handleEditLaborSubmit: (json) => {
       const labor = LaborToSend(json);
       labor.status = 0;
-      dispatch(editLabor(labor,true));
+      dispatch(editLabor(labor,true, true));
     }
   }
 }

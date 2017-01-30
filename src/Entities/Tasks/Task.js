@@ -13,7 +13,6 @@ export default class Task {
         const task = json;
         const rights = task.rights;
         this.rights = {
-          create: ~rights.indexOf("create"),
           update: ~rights.indexOf("update"),
           comment: ~rights.indexOf("comment"),
           time: ~rights.indexOf("time"),
@@ -47,6 +46,8 @@ export default class Task {
         this.finance = {
           label: task.finance.value,
           value: task.finance.id
-        }
+        };
+        this.rawExecutors = this.executors ? this.executors.map(x => ({id: x.id, name: x.name})) : [];
+        this.executors = this.executors ? this.executors.map(x => ({value: x.id, label: x.name})) : [];
     }
 }

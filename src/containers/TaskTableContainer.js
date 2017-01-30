@@ -2,7 +2,7 @@ import TaskTable from "../components/Table/TaskTable";
 import { connect } from 'react-redux';
 import {setAddingTrudTask,loadTask, editLabor, acceptAllTimings, activateTask} from "../redux/actions/tasksActions";
 import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
-import {changeWeek, setCurrentWeek, setCurrentDay} from "../redux/actions/tableActions";
+import {changeWeek, setCurrentWeek, setCurrentDay, loadTableData} from "../redux/actions/tableActions";
 import {reset} from 'redux-form';
 
 import LaborToSend from "../Entities/Tasks/LaborToSend";
@@ -28,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setCurrentDay({day: date}));
       if(data && data.length) {
         dispatch(loadTask({id}));
-        dispatch(toggleRightPanel({status: 1}));      
+        dispatch(toggleRightPanel({status: 1}));
       } else {
         dispatch(openTrudModal());
         const taskCallback = (task) => {

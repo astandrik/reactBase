@@ -53,7 +53,7 @@ function createTable (tableData, props) {
     const executors = taskHelpers.createExecutors(elem.executors);
     return (
       <tr key={elem.id}>
-        <td width="30%" className={`tableCell ${elem.id === props.activeIndexes.taskId? "active" : ''}`}
+        <td width="30%" className={`tableCell ${elem.id === props.activeIndexes.taskId? " active" : ''}`}
           onClick={props.rowClickHandler.bind(this, elem.timings, elem.id)}>
           {name} {executors} </td>
         {td}
@@ -67,9 +67,9 @@ function createTable (tableData, props) {
       comments = <div className="comments-number">{val.commentsNumber}</div>
     }
     return (
-      <td key={val.id+day} className={`tableCell ${val.hasUnaccepted ? 'has-unaccepted' : ''}` +
-      `${val.id === props.activeIndexes.taskId && (day === props.currentDay || props.currentDay === false)? "active" : ''}`} width={width+"%"}
-        onClick={props.cellClickHandler.bind(this, val.timings, val.id, day)}>{val.val}
+      <td key={val.id+day} className={`tableCell ${val.hasUnaccepted ? ' has-unaccepted' : ''}` +
+      `${val.id === props.activeIndexes.taskId && (day === props.currentDay || props.currentDay === false)? " active" : ''}`} width={width+"%"}
+        onClick={props.cellClickHandler.bind(this, val.timings, val.id, day)}>{val.allHours ? (val.myHours + "/" + val.allHours) : 0}
       {comments}</td>
     )
   };
@@ -82,9 +82,10 @@ function createTable (tableData, props) {
   const rightPanelClass = this.props.rightPanelStatus  ? "" : "right-closed";
   let finalcells = [];
   for(let j = 0; j < tableData.headers.length; j++) {
-    const val = tableData.datedLabors[tableData.headers[j]].overall;
+    const valMy = tableData.overallDated[tableData.headers[j]].overallMy;
+    const valTotal = tableData.overallDated[tableData.headers[j]].overallTotal;
     finalcells[j] = (
-      <td key={98765+j} className="tableCell" width={tdWidth+"%"}>{val}</td>
+      <td key={98765+j} className="tableCell" width={tdWidth+"%"}>{valTotal ? (valMy + "/" + valTotal) : 0}</td>
     )
   }
   let finalRow = (

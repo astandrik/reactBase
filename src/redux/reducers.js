@@ -20,10 +20,9 @@ const taskBindings = {
   currentTaskComment: taskReducers.setCurrentTaskComment,
   currentAddingTrudTask: taskReducers.addingTrudTask,
   codes: taskReducers.setCodes,
-  finances: taskReducers.setFinances,  
+  finances: taskReducers.setFinances,
   activeIndexes: taskReducers.setActiveIndexes,
   openedTasks: taskReducers.setOpenedTasks,
-  currentTaskFilters: taskReducers.setFilters
 }
 
 const layoutBindings = {
@@ -35,7 +34,9 @@ const layoutBindings = {
     currentTitle: layoutReducers.setCurrentTitle,
     isErrorsModalOpen: layoutReducers.isErrorsModalOpened,
     globalTaskType: layoutReducers.setGlobalTaskType,
-    clientHeight: layoutReducers.setClientHeight
+    clientHeight: layoutReducers.setClientHeight,
+    searchQuery: layoutReducers.setSearchQuery,
+    currentTaskFilters: layoutReducers.setFilters
 }
 
 const tableBindings = {
@@ -47,6 +48,7 @@ const tableBindings = {
 const userBindings = {
     user: userReducers.userSet,
     subordinates: userReducers.setSubordinates,
+    pingedUser: userReducers.setPingedUser
 }
 
 export default combineReducers({

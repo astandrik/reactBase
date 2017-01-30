@@ -7,8 +7,7 @@ import RightTaskPanelContainer from "../../containers/RightTaskPanelContainer";
 import helpers from "./taskHelpers";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
-import { List } from 'react-virtualized';
-import FilterModalContainer from "../../containers/ModalContainers/FilterModalContainer";
+import { List, AutoSizer } from 'react-virtualized';
 
 const buttonContainerStyles = {
   display: "flex",
@@ -74,30 +73,12 @@ export default class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
-    this.state = {
-      isFilterModalOpen: false
-    }
-
-  }
-  closeFilter() {
-    this.setState({isFilterModalOpen: false})
   }
   componentDidUpdate() {
     const ref = this.refs.taskTree;
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
-  }
-  getFilterParent() {
-    return document.querySelector('.tasksContainer');
-  }
-  handleTouchTap (event) {
-    // This prevents ghost click.
-    event.preventDefault();
-    this.setState({
-      isFilterModalOpen: true,
-      anchorEl: event.currentTarget,
-    })
   }
   render() {
     let propsTasks = this.props.tasks;
@@ -154,15 +135,18 @@ export default class TaskList extends React.Component {
       }
 
     let tasksView = (
-      <List
-    width={500}
-    height={this.props.clientHeight - 60}
-    rowHeight={31}
-    rowCount={taskContainers.length}
-    rowRenderer={rowRenderer}
-    />
-    )
-
+      <AutoSizer>
+       {({ height, width }) => (
+          <List
+        width={width}
+        height={height}
+        rowHeight={31}
+        rowCount={taskContainers.length}
+        rowRenderer={rowRenderer}
+        />
+      )}
+    </AutoSizer>
+  )
     return (
       <Container>
         <div className="tasksContainer" style={fullSize} ref="taskTree">
@@ -170,19 +154,13 @@ export default class TaskList extends React.Component {
             <div>
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>
             </div>
-            <div>
-              <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className="clickable-image clock filter-icon"/>
-            </div>
           </div>
-          <div style={{marginTop:"7px"}}>
+          <div style={{marginTop:"7px", height:"calc(100% - 40px)"}} className="autoresizer-list-container">
             {tasksView}
           </div>
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
         <RightTaskPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
-        <FilterModalContainer isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
-        anchorEl={this.state.anchorEl} applyFilters={this.props.applyFilters}
-        filterValues={checkBoxValues} closeModal={this.closeFilter.bind(this)} containerStyle={{maxWidth: '0'}}/>
       </Container>
     );
   }

@@ -15,9 +15,9 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes} from "./Routes/routes";
+import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes} from "./Routes/routes";
 
-import {getCurrentUser,getSubordinates} from "./redux/actions/userActions";
+import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
@@ -33,29 +33,31 @@ var loadRepo = {
   finances: () => store.dispatch(loadFinances()),
   subordinates: () => store.dispatch(getSubordinates({})),
   setGlobalTaskType: (type) => store.dispatch(setGlobalTaskType({routeType: type})),
-  clearLayout: () => store.dispatch(clearLayout())
+  clearLayout: () => store.dispatch(clearLayout()),
+  pingLogin: () => store.dispatch(pingLogin()),
+  logout: () => store.dispatch(logout())
 }
-loadRepo.user();
-loadRepo.workCodes();
-loadRepo.finances();
-loadRepo.subordinates();
 
+const checkLogin = loadRepo.pingLogin;
 
 const TasksRouter = TaskRoutes({loadRepo:loadRepo});
 const ReportRouter = ReportRoutes({loadRepo:loadRepo});
 const SubordinatesRouter = SubordinatesRoutes({loadRepo:loadRepo});
 const StatisticsRouter = StatisticsRoutes({loadRepo:loadRepo});
+const LoginRouter = LoginRoutes({loadRepo:loadRepo})
+const LogoutRouter = LogoutRoutes({loadRepo: loadRepo});
 
 const Root = () => (
     <Provider store={store}>
       <MuiThemeProvider>
         <Router history={browserHistory}>
-          <Route path="/" component={LayoutContainer}>
-            <IndexRedirect to="/tasks/my/table"/>
+          <Route path="/" component={LayoutContainer} onEnter={checkLogin}>
             {TasksRouter}
             {ReportRouter}
             {SubordinatesRouter}
             {StatisticsRouter}
+            {LoginRouter}
+            {LogoutRouter}
           </Route>
       </Router>
       </MuiThemeProvider>

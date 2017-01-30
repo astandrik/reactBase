@@ -9,8 +9,7 @@ const mapStateToProps = (state, ownProps) => {
         isTrudModalOpen: ownProps.isTrudModalOpen,
         closeModal: ownProps.closeModal,
         handleTrudSubmit: ownProps.handleTrudSubmit,
-        codes: state.codes,
-        finances: state.finances
+        codes: state.codes
     }
 }
 

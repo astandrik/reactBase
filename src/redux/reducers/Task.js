@@ -16,8 +16,7 @@ import {
     SET_TASK_OPEN,
     CLOSE_LABOR,
     SET_GLOBAL_TASK_TYPE,
-    SET_GROUPED_TABLE_LABORS,
-    SET_FILTERS
+    SET_GROUPED_TABLE_LABORS
 } from "../actions/tasksActions";
 import {
   TOGGLE_RIGHT_PANEL,
@@ -45,17 +44,6 @@ const defaultFilters = {
 export function setDefaultFilters(state = defaultFilters, action) {
   switch (action.type) {
     case SET_GLOBAL_TASK_TYPE:
-      return action.filters;
-    case CLEAR_LAYOUT:
-      return defaultFilters;
-    default:
-      return state;
-  }
-}
-
-export function setFilters(state = defaultFilters, action) {
-  switch (action.type) {
-    case SET_FILTERS:
       return action.filters;
     case CLEAR_LAYOUT:
       return defaultFilters;
@@ -219,10 +207,21 @@ export function setOpenedTasks(state=[], action) {
   }
 }
 
+
+import {normalizeTree} from "../../Entities/Tasks/TaskTree";
+
 export function setTasks(state = [], action) {
     switch (action.type) {
     case SET_TASKS:
-        return action.tasks;
+    let tasks = {
+      byId: {},
+      byGlobalId: {}
+    };
+        let newTasks = {};
+        newTasks.tree = JSON.parse(JSON.stringify(action.tasks.tree));
+        normalizeTree(newTasks.tree, 0,0, tasks);        
+        newTasks.treeNormalized = tasks;
+        return newTasks;
     default:
         return state;
     }

@@ -35,7 +35,7 @@ export default class Labors extends React.Component {
   }
   const newLabors = task.timings ? task.timings.filter(x=> x.rawstatus===0) : [];
   const canAcceptAll = (newLabors.length > 0) && newLabors.every(x => x.rights.accept);
-  let addTrudButton = <div className="noDisplay"/>;
+  let addTrudButton = () => <div className="noDisplay"/>;
   if(task.rights) {
   addTrudButton = (task) => (
       <div className={"addTrudButtonContainer "}>

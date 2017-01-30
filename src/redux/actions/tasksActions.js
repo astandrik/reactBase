@@ -21,14 +21,13 @@ export const SET_GLOBAL_TASK_TYPE = "SET_GLOBAL_TASK_TYPE";
 export const SET_LABOR_VIEW = "SET_LABOR_VIEW";
 export const CLOSE_LABOR = "CLOSE_LABOR";
 export const SET_TASK_OPEN = "SET_TASK_OPEN";
-export const SET_FILTERS = "SET_FILTERS";
 export const CHANGE_TREE_FILTER = "CHANGE_TREE_FILTER";
 
 import {
     reset
 } from 'redux-form';
 import Task from "../../Entities/Tasks/Task";
-import TaskTree from "../../Entities/Tasks/TaskTree";
+import {TaskTree} from "../../Entities/Tasks/TaskTree";
 import moment from "moment";
 import _ from "lodash";
 import Labor from "../../Entities/Tasks/Labor";
@@ -37,7 +36,9 @@ import {
     closeTrudModal
 } from "./layoutActions";
 import {
-  loadTableData
+  loadTableData,
+  setGrouped,
+  setTableData
 } from "./tableActions";
 import {
     generateActionFunc,
@@ -63,7 +64,6 @@ export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
-export const setFilters = generateActionFunc(SET_FILTERS);
 
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
@@ -76,15 +76,12 @@ export function groupLabors(labors) {
 export function loadTask(obj, callback) {
     const handler = function (json, dispatch, getState) {
         const task = new Task(json.data);
-        task.rawExecutors = task.executors ? task.executors.map(x => ({id: x.id, name: x.name})) : [];
-        task.executors = task.executors ? task.executors.map(x => ({value: x.id, label: x.name})) : [];
         dispatch(setTaskView({task, parent_id: task.parent_id || 0}));
         dispatch(toggleRightPanel({status: 1}));
         const labors = json.data.timings.map((x) => new Labor(x));
         const groups = groupLabors(labors);
         dispatch(setGroupedLabors({groups}));
-        const currentWeek = getState().currentWeek;
-        dispatch(loadTableData({day: currentWeek}, task.id));
+        dispatch(setGrouped(task.id));
         if(callback) {
           callback(task);
         }
@@ -105,9 +102,17 @@ export function createTask(data) {
 
 export function editTask(data, task) {
   const handler = (json,dispatch, getState) => {
-    dispatch(loadTasks());
-    const currentWeek = getState().currentWeek;
-    dispatch(loadTableData({day: currentWeek}, task.id))
+    let tasks = getState().tasks;
+    if(tasks) {
+      let newTasks = tasks.treeNormalized.byId[json.data.id];
+      for(let i = 0; i< newTasks.length; i++) {
+        const t = new Task(json.data);
+        newTasks[i].name = t.name;
+        newTasks[i].executors = t.executors;
+      }
+      tasks.changed = !tasks.changed;
+      dispatch(setTasks({tasks}));
+    }
   }
   const errorHandler = (dispatch) => {
     dispatch(loadTask(task));
@@ -146,14 +151,22 @@ export function createLabor(data, task) {
     return fetchPost(`/create/time`, data, handler, errorHandler);
 }
 
-export function editLabor(data, fromLabor) {
+export function editLabor(data, fromLabor, fromTable) {
   const handler = (json, dispatch, getState) => {
+    const currentLabor = json.data;
+    const newVal = currentLabor.value;
     if(fromLabor) {
-      dispatch(loadLabor(data));
       const currentWeek = getState().currentWeek;
-      dispatch(loadTableData({day: currentWeek}, data.task_id));
-    } else {
-      dispatch(loadTask({id: data.task_id}));
+    }
+    if(fromTable) {
+      let tableData = getState().tableData;
+      let currentCell = tableData.laborsCellsByIds[currentLabor.id];
+      let timing = currentCell.timings.filter(x => x.id == currentLabor.id)[0];
+      const oldVal = timing.value;
+      currentCell.myHours += parseInt(newVal) - parseInt(oldVal);
+      currentCell.allHours += parseInt(newVal) - parseInt(oldVal);
+      timing.value = newVal;
+      dispatch(setTableData({tableData}));
     }
   }
   const errorHandler = (dispatch) => {
@@ -263,12 +276,10 @@ export function createComment(data, task, fromLabor) {
 
 export function acceptAllTimings(ids, task, fromTable) {
   const handler = (json, dispatch, getState) => {
-    if(fromTable) {
       const currentWeek = getState().currentWeek;
       dispatch(loadTableData({day: currentWeek}))
-    } else {
       dispatch(loadTask({id: task.id}));
-    }
+      dispatch(setGrouped(task.id));
   }
   if(ids.length > 0) {
     return fetchAsync(`/data/accepttime?ids=${ids.join(",")}`, handler);
@@ -289,4 +300,30 @@ export function declineTask(task) {
     dispatch(loadTasks());
   }
   return fetchAsync("/data/declinetask?id="+task.id, handler);
+}
+
+export function acceptTiming(labor) {
+  const handler = (json, dispatch, getState) => {
+    const currentWeek = getState().currentWeek;
+    dispatch(loadTableData({day: currentWeek}))
+    dispatch(loadTask({id: labor.task_id}));
+  }
+  return fetchAsync("/data/accepttime?ids=" + labor.id, handler);
+}
+
+export function declineTiming(labor) {
+  const handler = (json, dispatch, getState) => {
+    const currentWeek = getState().currentWeek;
+    dispatch(loadTableData({day: currentWeek}))
+    dispatch(loadTask({id: labor.task_id}));
+  }
+  return fetchAsync("/data/declinetime?ids=" + labor.id, handler);
+}
+
+export function completeTask(task) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadTask({id: task.id}));
+    dispatch(loadTasks());
+  }
+  return fetchAsync("data/completetask?id=" + task.id, handler);
 }

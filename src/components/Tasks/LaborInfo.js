@@ -57,7 +57,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
      open: false,
      executorsFieldActive: false
     };
-    this.handleDebounce = debounce(this.handleEdit, 500);
+    this.handleDebounce = debounce(this.handleEdit, 400);
   }
   handleEdit(e) {
     setTimeout(() => {this.refs.sbmt.click()});
@@ -97,9 +97,6 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   </Panel>
                   <Panel label="Код работ">
                     <WorkCodeField codes={this.props.codes} debouncedUpdate={this.handleEdit.bind(this)}/>
-                  </Panel>
-                  <Panel label="Статья финансирования">
-                    <FinancesField finances={this.props.finances} debouncedUpdate={this.handleEdit.bind(this)}/>
                   </Panel>
                 </Container>
                 <div>
