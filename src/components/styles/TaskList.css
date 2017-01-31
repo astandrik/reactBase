@@ -18,9 +18,9 @@
   line-height: 36px!important
 }
 
-.autoresizer-list-container > div:first-child {
+.tasksContainer .ReactVirtualized__Grid  {
   width: 100%!important;
-  height: 100%!important;
+  outline: none!important;
 }
 
 .single-task.new-task {

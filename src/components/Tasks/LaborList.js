@@ -2,7 +2,7 @@ import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
 import calendar from "../../Icons/calendar.svg";
-import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
+import TaskTrudTabContainer from "../../containers/Task/TaskTrudTabContainer";
 import moment from 'moment';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";

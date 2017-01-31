@@ -6,6 +6,7 @@ import * as layoutReducers from "./reducers/Layout";
 import * as tableReducers from "./reducers/Table";
 import * as userReducers from "./reducers/User";
 import * as errorReducers from "./reducers/Errors";
+import * as departmentReducers from "./reducers/Admin/Department";
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -51,11 +52,18 @@ const userBindings = {
     pingedUser: userReducers.setPingedUser
 }
 
+const adminReducers = {
+  departments: departmentReducers.setDepartmentTree,
+  department: departmentReducers.setDepartment,
+  flatDepartments: departmentReducers.setFlatDepartments
+}
+
 export default combineReducers({
     ...taskBindings,
     ...layoutBindings,
     ...tableBindings,
     ...userBindings,
+    ...adminReducers,
     form: formReducer,
     validationErrors: errorReducers.setValidationErrors
 })

@@ -4,6 +4,11 @@ import Select from 'react-select';
 // Be sure to include styles at some point, probably during your bootstrapping
 import 'react-select/dist/react-select.css';
 
+function searchForData(id, data) {
+  const val = data.filter(x => x.value === id)[0];
+  return val;
+}
+
 export default class SelectInput extends React.Component {
     onChange(event) {
         if (this.props.input.onChange) {
@@ -29,6 +34,9 @@ export default class SelectInput extends React.Component {
       }
     }
     render() {
+        if(!this.props.input.value.label) {
+          this.props.input.value = searchForData(this.props.input.value.value, this.props.options);
+        }
         return ( <Select {...this.props} value={this.props.input.value || ''}
             onBlur={this.onBlur.bind(this)}
             onChange={this.onChange.bind(this)}

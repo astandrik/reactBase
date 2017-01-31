@@ -13,7 +13,7 @@ import tableGenerator from "../utils/tableGenerator";
 import {RightPanelContainer} from "../../containers/Containers";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
-import RightTablePanelContainer from "../../containers/RightTablePanelContainer";
+import RightTablePanelContainer from "../../containers/Table/RightTablePanelContainer";
 
 
 const datepickerStyles = {
@@ -52,7 +52,7 @@ function createTable (tableData, props) {
   config.renderRow = (td,name, elem) => {
     const executors = taskHelpers.createExecutors(elem.executors);
     return (
-      <tr key={elem.id}>
+      <tr key={elem.id} className={elem.status===0 ? "unaccepted-task" : "" }>
         <td width="30%" className={`tableCell ${elem.id === props.activeIndexes.taskId? " active" : ''}`}
           onClick={props.rowClickHandler.bind(this, elem.timings, elem.id)}>
           {name} {executors} </td>

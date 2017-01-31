@@ -1,11 +1,11 @@
-import TaskTable from "../components/Table/TaskTable";
+import TaskTable from "../../components/Table/TaskTable";
 import { connect } from 'react-redux';
-import {setAddingTrudTask,loadTask, editLabor, acceptAllTimings, activateTask} from "../redux/actions/tasksActions";
-import {openTrudModal, closeTrudModal, toggleRightPanel} from "../redux/actions/layoutActions";
-import {changeWeek, setCurrentWeek, setCurrentDay, loadTableData} from "../redux/actions/tableActions";
+import {setAddingTrudTask,loadTask, editLabor, acceptAllTimings, activateTask} from "../../redux/actions/tasksActions";
+import {openTrudModal, closeTrudModal, toggleRightPanel} from "../../redux/actions/layoutActions";
+import {changeWeek, setCurrentWeek, setCurrentDay, loadTableData} from "../../redux/actions/tableActions";
 import {reset} from 'redux-form';
 
-import LaborToSend from "../Entities/Tasks/LaborToSend";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {

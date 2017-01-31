@@ -1,4 +1,5 @@
-import 'babel-polyfill';
+import "babel-polyfill";
+require('isomorphic-fetch');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -15,10 +16,12 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
-import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes} from "./Routes/routes";
+import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,
+StructureRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";
+import {loadDepTree,loadFlatDepartments} from "./redux/actions/Admin/departmentActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
@@ -35,7 +38,9 @@ var loadRepo = {
   setGlobalTaskType: (type) => store.dispatch(setGlobalTaskType({routeType: type})),
   clearLayout: () => store.dispatch(clearLayout()),
   pingLogin: (renderFunc) => store.dispatch(pingLogin(renderFunc)),
-  logout: () => store.dispatch(logout())
+  logout: () => store.dispatch(logout()),
+  departments: () => store.dispatch(loadDepTree()),
+  flatDepartments: () => store.dispatch(loadFlatDepartments())
 }
 
 
@@ -45,6 +50,7 @@ const SubordinatesRouter = SubordinatesRoutes({loadRepo:loadRepo});
 const StatisticsRouter = StatisticsRoutes({loadRepo:loadRepo});
 const LoginRouter = LoginRoutes({loadRepo:loadRepo})
 const LogoutRouter = LogoutRoutes({loadRepo: loadRepo});
+const StructureRouter = StructureRoutes({loadRepo: loadRepo});
 
 
 const renderFunc = () => {
@@ -59,6 +65,7 @@ const renderFunc = () => {
               {StatisticsRouter}
               {LoginRouter}
               {LogoutRouter}
+              {StructureRouter}
             </Route>
         </Router>
         </MuiThemeProvider>

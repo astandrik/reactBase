@@ -1,5 +1,5 @@
-import TaskInfo from "../components/Tasks/TaskInfo";
-import TaskToSend from "../Entities/Tasks/TaskToSend";
+import TaskInfo from "../../components/Tasks/TaskInfo";
+import TaskToSend from "../../Entities/Tasks/TaskToSend";
 import {
     connect
 } from 'react-redux';
@@ -14,12 +14,12 @@ import {
     declineTask,
     completeTask,
     createTask
-} from "../redux/actions/tasksActions";
+} from "../../redux/actions/tasksActions";
 import {
     openTrudModal,
     closeTrudModal,
     toggleRightPanel
-} from "../redux/actions/layoutActions";
+} from "../../redux/actions/layoutActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
         executors: state.subordinates
     }
 }
-import LaborToSend from "../Entities/Tasks/LaborToSend";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
 
 const mapDispatchToProps = (dispatch) => {
     return {

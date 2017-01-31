@@ -1,11 +1,11 @@
-import TaskList from "../components/Tasks/TaskList";
+import TaskList from "../../components/Tasks/TaskList";
 import {
     connect
 } from 'react-redux';
 import {
     toggleRightPanel,
     setClientHeight
-} from "../redux/actions/layoutActions";
+} from "../../redux/actions/layoutActions";
 import {
     loadTask,
     activateTask,
@@ -15,13 +15,13 @@ import {
     editTask,
     editLabor,
     loadTasks
-} from "../redux/actions/tasksActions";
+} from "../../redux/actions/tasksActions";
 import {
   setCurrentDay
-} from "../redux/actions/tableActions";
+} from "../../redux/actions/tableActions";
 
-import LaborToSend from "../Entities/Tasks/LaborToSend";
-import TaskToSend from "../Entities/Tasks/TaskToSend";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
+import TaskToSend from "../../Entities/Tasks/TaskToSend";
 
 const mapStateToProps = (state, ownProps) => {
     return {

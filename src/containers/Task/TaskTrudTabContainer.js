@@ -1,7 +1,7 @@
-import TaskTrudTab from "../components/Tasks/TaskTrudTab";
+import TaskTrudTab from "../../components/Tasks/TaskTrudTab";
 import { connect } from 'react-redux';
-import {openLaborComment, loadLabor,editLabor, acceptTiming, declineTiming} from "../redux/actions/tasksActions";
-import LaborToSend from "../Entities/Tasks/LaborToSend";
+import {openLaborComment, loadLabor,editLabor, acceptTiming, declineTiming} from "../../redux/actions/tasksActions";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {

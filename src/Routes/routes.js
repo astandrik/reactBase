@@ -4,6 +4,7 @@ import {Reports} from "./Reports";
 import {Subordinates} from "./Subordinates";
 import {TasksTable} from "./TasksTable";
 import {Statistics} from "./Statistics"
+import {StateStructureList} from "./Structure";
 import Login from "./Login";
 import React from 'react';
 import { Route } from 'react-router';
@@ -19,6 +20,16 @@ const TaskRoutes = (props) => {
     <Route path="list" onEnter={taskEnter} component={TaskList}/>
     <Route path="table" onEnter={tableEnter} component={TasksTable}/>
   </Route>
+  )
+}
+
+const StructureRoutes = (props) => {
+  const structureEnter = () => {
+    props.loadRepo.departments();
+    props.loadRepo.flatDepartments();
+  }
+  return (
+    <Route path="structure" components={StateStructureList} onEnter={structureEnter} />
   )
 }
 
@@ -68,4 +79,4 @@ const StatisticsRoutes = (props) => {
   )
 }
 
-export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes};
+export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,StructureRoutes};

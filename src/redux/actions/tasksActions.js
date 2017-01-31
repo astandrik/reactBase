@@ -346,5 +346,5 @@ export function completeTask(task) {
     dispatch(loadTask({id: task.id}));
     dispatch(loadTasks());
   }
-  return fetchAsync("data/completetask?id=" + task.id, handler);
+  return fetchAsync("/data/completetask?id=" + task.id, handler);
 }

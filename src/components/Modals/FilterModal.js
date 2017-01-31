@@ -80,7 +80,7 @@ const filterModal = class filter extends React.Component {
     this.props.applyFilters(this.state.currentTaskFilters);
   }
   render() {
-    const props = this.props;    
+    const props = this.props;
     const checkBoxValues = props.filterValues;
     let checkBoxes = [];
     let currentTaskFilters = this.state.currentTaskFilters;
@@ -114,13 +114,13 @@ const filterModal = class filter extends React.Component {
       >
       <Container vertical="true" style={{justifyContent: "spaceBetween"}} >
         <Container>
-          <div className="filter-modal-container" flex="2">
+          <div className="filter-modal-container" flex="4">
             <span className="modal-header">Задачи</span>
             <div className="filter-checkboxes-container">
               { checkBoxes}
             </div>
           </div>
-          <div className="filter-modal-container" flex="3">
+          <div className="filter-modal-container" flex="7">
             <span className="modal-header">Сотрудники</span>
             <RadioButtonGroup className="subs-choose-radio" name="user_type" valueSelected={defaultValue} onChange={this.radiogroupChanged.bind(this)}>
               <RadioButton

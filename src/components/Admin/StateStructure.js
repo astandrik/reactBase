@@ -1,10 +1,8 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 import Container from "../Container";
-import "../styles/TaskList.css";
 import next from "../../Icons/next.svg";
-import RightTaskPanelContainer from "../../containers/Task/RightTaskPanelContainer";
-import helpers from "./taskHelpers";
+import RightDepartmentPanelContainer from "../../containers/Admin/RightDepartmentPanelContainer";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
@@ -19,15 +17,6 @@ const fullSize = {
   width:"100%",
   height: "100%"
 }
-
-const taskStatusDict = {
-  0: "new-task",
-  1: "completed-task",
-  2: "deleted-task",
-  3: "approved-task",
-  4: "declined-task"
-};
-
 
 let tasksDict = {};
 let tasksIdDict = {};
@@ -60,8 +49,6 @@ function deactivateTasks() {
 }
 
 
-const generateTaskContainers = helpers.generateTaskContainers;
-
 
 export default class TaskList extends React.Component {
   constructor(props) {
@@ -75,13 +62,13 @@ export default class TaskList extends React.Component {
     }
   }
   render() {
-    let propsTasks = this.props.tasks;
+    let departments = this.props.departments;
     const props = this.props;
-    if(propsTasks.length === 0) {
+    if(departments.length === 0) {
       return <div/>;
     }
-    tasksIdDict= propsTasks.treeNormalized.byId;
-    tasksDict = propsTasks.treeNormalized.byGlobalId;
+    tasksIdDict= departments.treeNormalized.byId;
+    tasksDict = departments.treeNormalized.byGlobalId;
     deactivateTasks();
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
@@ -97,19 +84,18 @@ export default class TaskList extends React.Component {
 
     config.listItemRender = (item) => {
       return (
-        <div className={(item.level === 0 ? "task-header " : "") + "single-task " +
-          ` level_${item.level} ` + (item.active ? " active" : "") + " " + (taskStatusDict[item.rawstatus])} key={item.globalIndex}>
-          <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.name}</span>
+        <div className={"single-task " +
+          ` level_${item.level} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
+          <span className="taskLabel" onClick={props.loadDepartment.bind(this,item)}>{item.name}</span>
           <div>
             {item.status ?  <div className="taskStatusTree">{item.status}</div> : <div className="noDisplay"/>}
-            {item.executors === undefined ? <div className="noDisplay"/> : helpers.createExecutors(item.executors)}
             <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
               (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
           </div>
         </div>
       )
     }
-    let taskContainers = listGenerator(propsTasks, this.props, config);
+    let taskContainers = listGenerator(departments, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows
@@ -148,7 +134,7 @@ export default class TaskList extends React.Component {
           {tasksView}
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
-        <RightTaskPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
+        <RightDepartmentPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
       </Container>
     );
   }

@@ -1,4 +1,4 @@
-import RightTablePanel from "../components/Table/RightTablePanel";
+import RightTablePanel from "../../components/Table/RightTablePanel";
 import { connect } from 'react-redux';
 import {
     loadTask,
@@ -10,13 +10,13 @@ import {
     editLabor,
     setFilters,
     loadTasks
-} from "../redux/actions/tasksActions";
+} from "../../redux/actions/tasksActions";
 import {
     toggleRightPanel,
     setClientHeight
-} from "../redux/actions/layoutActions";
-import LaborToSend from "../Entities/Tasks/LaborToSend";
-import TaskToSend from "../Entities/Tasks/TaskToSend";
+} from "../../redux/actions/layoutActions";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
+import TaskToSend from "../../Entities/Tasks/TaskToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {

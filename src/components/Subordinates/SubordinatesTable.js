@@ -13,7 +13,7 @@ import tableGenerator from "../utils/tableGenerator";
 import {RightPanelContainer} from "../../containers/Containers";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
-import RightTablePanelContainer from "../../containers/RightTablePanelContainer";
+import RightTablePanelContainer from "../../containers/Table/RightTablePanelContainer";
 
 
 const datepickerStyles = {

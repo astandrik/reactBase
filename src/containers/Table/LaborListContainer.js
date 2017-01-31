@@ -1,9 +1,9 @@
-import LaborList from "../components/Tasks/LaborList";
+import LaborList from "../../components/Tasks/LaborList";
 import { connect } from 'react-redux';
-import {setActiveTaskTab, openDescription,setAddingTrudTask, createLabor, acceptAllTimings} from "../redux/actions/tasksActions";
-import {openTrudModal,closeTrudModal} from "../redux/actions/layoutActions";
+import {setActiveTaskTab, openDescription,setAddingTrudTask, createLabor, acceptAllTimings} from "../../redux/actions/tasksActions";
+import {openTrudModal,closeTrudModal} from "../../redux/actions/layoutActions";
 import {reset} from 'redux-form';
-import LaborToSend from "../Entities/Tasks/LaborToSend";
+import LaborToSend from "../../Entities/Tasks/LaborToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {

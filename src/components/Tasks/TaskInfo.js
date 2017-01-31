@@ -1,8 +1,8 @@
 import React from "react";
 import Container from "../Container";
 import "../styles/TaskInfo.css";
-import TaskTrudTabContainer from "../../containers/TaskTrudTabContainer";
-import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
+import TaskTrudTabContainer from "../../containers/Task/TaskTrudTabContainer"
+import TaskCommentsTabContainer from "../../containers/Task/TaskCommentsTabContainer";
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {connect} from 'react-redux';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";

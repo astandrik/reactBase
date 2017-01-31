@@ -4,11 +4,26 @@ import SpinnerContainer from "./LayoutContainers/SpinnerContainer";
 import SideBarContainer from "./LayoutContainers/SideBarContainer";
 import GlobalHeaderContainer from "./LayoutContainers/GlobalHeaderContainer";
 import RightPanelContainer from "./LayoutContainers/RightPanelContainer";
-import TaskListContainer from "./TaskListContainer";
-import TaskTableContainer from "./TaskTableContainer";
+
+import TaskListContainer from "./Task/TaskListContainer";
+import TaskInfoContainer from "./Task/TaskInfoContainer";
+import TaskTrudTabContainer from "./Task/TaskTrudTabContainer";
+import TaskCommentsTabContainer from "./Task/TaskCommentsTabContainer";
+import RightTaskPanelContainer from "./Task/RightTaskPanelContainer";
+import NewTaskInfoContainer from "./Task/NewTaskInfoContainer";
+
+import TaskTableContainer from "./Table/TaskTableContainer";
+import RightTablePanelContainer from "./Table/RightTablePanelContainer";
+import LaborListContainer from "./Table/LaborListContainer";
+
 import ReportsTableContainer from "./ReportsTableContainer";
 import SubordinatesTableContainer from "./SubordinatesTableContainer";
 import StatisticsContainer from "./StatisticsContainer";
 
-export {SpinnerContainer,ToolbarContainer,LeftNavContainer, TaskListContainer,GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer,
-ReportsTableContainer, SubordinatesTableContainer,StatisticsContainer}
+import StateStructureContainer from "./Admin/StateStructureContainer";
+
+export {SpinnerContainer,ToolbarContainer,LeftNavContainer,
+  TaskListContainer, TaskInfoContainer,TaskTrudTabContainer,
+  TaskCommentsTabContainer,RightTaskPanelContainer,NewTaskInfoContainer,
+  GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer,
+ReportsTableContainer, SubordinatesTableContainer,StatisticsContainer, StateStructureContainer};

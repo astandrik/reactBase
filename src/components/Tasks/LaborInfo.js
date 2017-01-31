@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form';
 import {connect} from 'react-redux';
 import DPicker from "../formComponents/DatePicker";
 import {debounce} from "../../helperFunctions";
-import TaskCommentsTabContainer from "../../containers/TaskCommentsTabContainer";
+import TaskCommentsTabContainer from "../../containers/Task/TaskCommentsTabContainer";
 import {WorkCodeField, FinancesField,NameField, Panel, HoursField} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
 import ReactTooltip from 'react-tooltip'

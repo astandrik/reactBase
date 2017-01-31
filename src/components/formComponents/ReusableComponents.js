@@ -22,8 +22,21 @@ export const FinancesField = ({finances,debouncedUpdate}) => (
       component={prp =>
           <SelectInput
               {...prp}
-              placeholder="Статья финансирования"
+              placeholder="Родительский узел"
               options={finances}
+          />
+      }/>
+);
+
+export const DepartmentParentField = ({departments,debouncedUpdate}) => (
+  <Field
+      name="parent"
+      newOnChange={debouncedUpdate}
+      component={prp =>
+          <SelectInput
+              {...prp}
+              placeholder="Статья финансирования"
+              options={departments}
           />
       }/>
 );
@@ -48,8 +61,8 @@ export const NameField = ({input}) => {
     return (<input {...input}   className="fieldValue taskHeader" placeholder="Название задачи"/>);
   }
 
-export const DescriptionField = ({input}) => {
-    return (<textarea {...input}  placeholder="Описание задачи" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
+export const DescriptionField = ({input, placeholder}) => {
+    return (<textarea  {...input} placeholder= {placeholder ? placeholder : "Описание задачи"}   style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
 }
 
 export const HoursField = ({input}) => {

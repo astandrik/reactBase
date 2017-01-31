@@ -18,8 +18,8 @@ const tabStyles = {
 
 const checkBoxValues=[
   {value: "all", label:"Все задачи"},
-  {value: "current", label:"Текущие задачи"},
-  {value: "unaccepted", label:"Неакцептированные задачи"},
+  {value: "current", label:"Подтвержденные задачи"},
+  {value: "unaccepted", label:"Неподтвержденные задачи"},
   {value: "completes", label:"Завершенные задачи"},
 ];
 

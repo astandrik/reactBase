@@ -1,7 +1,7 @@
 import React from "react";
 import {RightPanelContainer} from "../../containers/Containers";
-import TaskInfoContainer from "../../containers/TaskInfoContainer";
-import NewTaskInfoContainer from "../../containers/NewTaskInfoContainer";
+import TaskInfoContainer from "../../containers/Task/TaskInfoContainer";
+import NewTaskInfoContainer from "../../containers/Task/NewTaskInfoContainer";
 import LaborInfoContainer from "../../containers/LaborInfoContainer";
 
 const fullSize = {

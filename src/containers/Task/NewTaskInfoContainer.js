@@ -1,15 +1,17 @@
-import TaskCommentsTab from "../components/Tasks/TaskCommentsTab";
+import NewTaskInfo from "../../components/Tasks/NewTaskInfo";
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    comments: ownProps.task.comments,
-    task: ownProps.task
+    codes: state.codes,
+    finances: state.finances,
+    executors: state.subordinates
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+
   }
 }
 
@@ -17,6 +19,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TaskCommentsTab)
+)(NewTaskInfo)
 
 export default Visible;

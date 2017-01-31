@@ -27,7 +27,7 @@
 }
 
 .filter-popover {
-  min-width: 600px;
+  min-width: 650px;
   min-height: 200px;
   border: 1px solid rgb(204, 204, 204);
     background: #EEEEEE!important;
@@ -51,11 +51,11 @@
 }
 
 .filter-popover > div {
-  min-width: 600px;
+  min-width: 750px;
   min-height: 200px;
 }
 .filter-popover > div >div>div {
-  min-width: 600px;
+  min-width: 750px;
   min-height: 200px;
 }
 
@@ -79,7 +79,7 @@
   width:66%!important;
 }
 
-.filter-modal-container .subs-choose-radio {
+.filter-modal-container {
   font-size: 14px;
 }
 
