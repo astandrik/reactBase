@@ -1,4 +1,5 @@
 import TaskInfo from "../components/Tasks/TaskInfo";
+import TaskToSend from "../Entities/Tasks/TaskToSend";
 import {
     connect
 } from 'react-redux';
@@ -11,7 +12,8 @@ import {
     setTaskView,
     acceptTask,
     declineTask,
-    completeTask
+    completeTask,
+    createTask
 } from "../redux/actions/tasksActions";
 import {
     openTrudModal,
@@ -85,8 +87,9 @@ const mapDispatchToProps = (dispatch) => {
         completeTask:(task) => {
           dispatch(completeTask(task));
         },
-        copyTask: () => {
-
+        copyTask: (task) => {
+          let json = TaskToSend(task);
+          dispatch(createTask(json));
         }
     }
 }

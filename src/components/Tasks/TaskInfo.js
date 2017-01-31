@@ -56,9 +56,9 @@ const popoverMenu = (props, context) => {
     menuItems.push(<MenuItem key={4} onClick={props.completeTask.bind(context, props.task)} primaryText="Завершить задачу" />)
   }
   if(task.rights.delete) {
-    menuItems.push(<MenuItem key={4} onClick={props.deleteTask.bind(context, props.task)} primaryText="Удалить задачу" />)
+    menuItems.push(<MenuItem key={5} onClick={props.deleteTask.bind(context, props.task)} primaryText="Удалить задачу" />)
   }
-  menuItems.push(<MenuItem key={4} onClick={props.copyTask.bind(context, props.task)} primaryText="Копировать задачу" />)
+  menuItems.push(<MenuItem key={6} onClick={props.copyTask.bind(context, props.task)} primaryText="Копировать задачу" />);
   return (<Popover
          open={context.state.open}
          anchorEl={context.refs.ellipsis}
