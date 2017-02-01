@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {debounce} from "../../helperFunctions";
 import Icon from "../../Icons/Icon";
 import {DescriptionField, Panel, NameField, DepartmentParentField} from "../formComponents/ReusableComponents";
+import FlatButton from 'material-ui/FlatButton';
 
 
 const codeBlockStyle = {
@@ -19,7 +20,7 @@ const descriptionBlockStyle = {
   minHeight: "200px"
 }
 
-const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
+const  DepartmentInfoComponent =  class NewDepartmentInfo extends React.Component {
   constructor(props) {
    super(props);
     this.handleDebounce = debounce(this.handleEdit, 400);
@@ -31,11 +32,8 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
     const props=this.props;
     const department = props.department;
     const {handleSubmit} = props;
-    if(!department.name) {
-      return <div/>;
-    } else {
       return (
-        <form onSubmit={handleSubmit} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
+        <form onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           <Container vertical={true}>
             <div className="infoHeader" flex="1">
 
@@ -51,14 +49,15 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
                     </span>
                 </div>
                 <Panel label="Родительский узел">
-                  <DepartmentParentField departments={props.departments} debouncedUpdate={this.handleEdit.bind(this)}/>
+                  <DepartmentParentField departments={props.departments}/>
                 </Panel>
             </Container>
           </Container>
-          <input type="submit"  ref="sbmt" style={{display:"none"}}/>
+          <div style={{borderTop:"1px solid black", minHeight: "36px"}}>
+            <FlatButton type="submit" label="Создать" />
+          </div>
         </form>
         )
-      }
     }
 }
 
@@ -71,7 +70,6 @@ const selector = formValueSelector('departmentInfoDialogForm');
 taskForm = connect(
   state => {
     return ({
-    initialValues: state.Admin.department
   })}
 )(taskForm);
 

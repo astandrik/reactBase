@@ -27,9 +27,9 @@ const mapStateToProps = (state, ownProps) => {
         trudTask: state.currentAddingTrudTask,
         activeTab: state.activeTaskTab,
         isTrudModalOpen: state.isTrudModalOpen,
-        codes: state.codes,
-        finances: state.finances,
-        executors: state.subordinates
+        codes: state.codes.tree,
+        finances: state.finances.tree,
+        executors: state.User.subordinates
     }
 }
 import LaborToSend from "../../Entities/Tasks/LaborToSend";

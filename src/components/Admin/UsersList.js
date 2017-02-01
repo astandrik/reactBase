@@ -1,11 +1,10 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 import Container from "../Container";
-import next from "../../Icons/next.svg";
-import RightDepartmentPanelContainer from "../../containers/Admin/RightDepartmentPanelContainer";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
+import RightUserPanelContainer from "../../containers/Admin/RightUserPanelContainer";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -49,8 +48,26 @@ function deactivateTasks() {
 }
 
 
+const roleDict = {
+  0: "Пользователь",
+  1: "Администратор",
+  2: "Забанен",
+  "-1": "Роль"
+}
 
-export default class TaskList extends React.Component {
+const headers = {
+  id: -1,
+  number: "Табельный номер",
+  name: "ФИО",
+  login: "Логин в Active Directory",
+  department_name: "Отделение ШС",
+  position: "Должность",
+  role: -1,
+  isHeader: true
+};
+
+
+export default class UsersList extends React.Component {
   constructor(props) {
     super(props);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
@@ -62,39 +79,40 @@ export default class TaskList extends React.Component {
     }
   }
   render() {
-    let departments = this.props.departments;
+    let users = this.props.users;
     const props = this.props;
-    if(departments.length === 0) {
+    if(users.length === 0) {
       return <div/>;
     }
-    tasksIdDict= departments.treeNormalized.byId;
-    tasksDict = departments.treeNormalized.byGlobalId;
+    if(users.tree[0].isHeader !== true) {
+      users.tree.unshift(headers);
+    }
+    tasksIdDict= users.treeNormalized.byId;
+    tasksDict = users.treeNormalized.byGlobalId;
     deactivateTasks();
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
       items_.forEach(x=> x.active = true);
     }
-    if(this.props.openedTasks.length > 0) {
-      let items_ = findAllTaskInTreeByIndexes(this.props.openedTasks);
-      items_.forEach(x=> x.opened = true);
-    }
+    tasksIdDict= users.treeNormalized.byId;
+    tasksDict = users.treeNormalized.byGlobalId;
     const rightPanelContainerStyle = this.props.rightPanelStatus ? {} : {maxWidth: "0"};
     const rightPanelClass = this.props.rightPanelStatus  ? "" : "right-closed";
     let config = {};
-
     config.listItemRender = (item) => {
       return (
         <div className={"single-task " +
-          ` level_${item.level} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
-          <span className="taskLabel" onClick={props.loadDepartment.bind(this,item)}>{item.name}</span>
-          <div>
-            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
-              (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
-          </div>
+          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "} key={item.globalIndex} onClick={props.loadUser.bind(this,item)}>
+          <span className="taskLabel">{item.number}</span>
+          <span className="taskLabel">{item.name}</span>
+          <span className="taskLabel">{item.login}</span>
+          <span className="taskLabel">{item.department_name}</span>
+          <span className="taskLabel">{item.position}</span>
+          <span className="taskLabel">{roleDict[item.role]}</span>
         </div>
       )
     }
-    let taskContainers = listGenerator(departments, this.props, config);
+    let taskContainers = listGenerator(users, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows
@@ -127,13 +145,13 @@ export default class TaskList extends React.Component {
         <div className="tasksContainer" style={fullSize} ref="taskTree">
           <div style={buttonContainerStyles}>
             <div>
-              <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewDepartment}/>
+              <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewUser}/>
             </div>
           </div>
           {tasksView}
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
-        <RightDepartmentPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
+        <RightUserPanelContainer flex="0.7" containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
       </Container>
     );
   }

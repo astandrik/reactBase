@@ -1,11 +1,11 @@
-import DepartmentInfo from "../../components/Admin/DepartmentInfo";
+import UserInfo from "../../components/Admin/UserInfo";
 import {
     connect
 } from 'react-redux';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        department: ownProps.department,
+        user: ownProps.user,
         departments: state.Admin.flatDepartments
     }
 }
@@ -22,6 +22,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
     mapStateToProps,
     mapDispatchToProps
-)(DepartmentInfo)
+)(UserInfo)
 
 export default Visible;

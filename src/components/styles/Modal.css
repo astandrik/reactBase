@@ -12,6 +12,10 @@
     padding: 20px;
 }
 
+.noEvents {
+  pointer-events: none;
+}
+
 .small-modal {
   position: absolute;
     border: 1px solid rgb(204, 204, 204);

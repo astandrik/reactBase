@@ -4,6 +4,7 @@ import {
     fetchPost
 } from "./actionHelper.js";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./tasksActions";
+import {loadFlatDepartments} from "./Admin/departmentActions";
 import { browserHistory } from 'react-router';
 
 export const SET_USER = "SET_USER";
@@ -23,7 +24,7 @@ export function logout () {
   const handler =  function (json, dispatch, getState) {
       dispatch(pingLogin());
   }
-  return fetchAsync(`/data/logout`, handler);
+  return fetchAsync(`/account/logout`, handler);
 }
 
 export function pingLogin(renderFunc) {
@@ -41,6 +42,7 @@ export function pingLogin(renderFunc) {
       dispatch(loadWorkCodes());
       dispatch(loadFinances());
       dispatch(getSubordinates({}));
+      dispatch(loadFlatDepartments());
       let location = browserHistory.getCurrentLocation();
       if(location.pathname == "/login" || location.pathname == "/") {
         location = "/tasks/my/table";
@@ -48,7 +50,7 @@ export function pingLogin(renderFunc) {
       browserHistory.push(location);
     }
   }
-  return fetchAsync(`/data/ping`, handler);
+  return fetchAsync(`/account/ping`, handler);
 }
 
 export function validateLoginData(obj) {
@@ -58,31 +60,18 @@ export function validateLoginData(obj) {
   const errorHandler = (dispatch) => {
 
   }
-  return fetchPost(`/data/auth`, obj, handler, errorHandler);
+  return fetchPost(`/account/auth`, obj, handler, errorHandler);
 }
 
 export function getSubordinates() {
-    const handler2 = (data, json, dispatch) => {
-      const user = {
-          label: json.data.user.name,
-          value: json.data.user.id
-      };
-      let subs = data.concat([user]);
-      let dict = {};
-      subs.forEach(x => {
-        dict[x.value] = x;
-      });
-      subs.dict = dict;
-      dispatch(setSubordinates({
-          subordinates: subs
-      }));
-    }
     const handler = (json, dispatch) => {
         const data = json.data.subordinates.map(x => ({
             label: x.name,
             value: x.id
         }));
-        dispatch(fetchAsync(`/data/me`, handler2.bind(this,data)));
+        dispatch(setSubordinates({
+            subordinates: data
+        }));
     };
     return fetchAsync('/data/subordinates', handler);
 }
@@ -99,5 +88,5 @@ export function getCurrentUser() {
             user
         }));
     }
-    return fetchAsync(`/data/me`, handler);
+    return fetchAsync(`/account/me`, handler);
 }

@@ -87,6 +87,18 @@
 .taskLabel {
     line-height: 40px;
     flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-list-row  {
+  pointer-events: none;
+}
+
+.header-list-row > .taskLabel {
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 .taskLabel:hover {

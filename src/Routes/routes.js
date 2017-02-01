@@ -4,7 +4,7 @@ import {Reports} from "./Reports";
 import {Subordinates} from "./Subordinates";
 import {TasksTable} from "./TasksTable";
 import {Statistics} from "./Statistics"
-import {StateStructureList} from "./Structure";
+import {StateStructureList,UsersList,CodesList, FinancesList} from "./Admin";
 import Login from "./Login";
 import React from 'react';
 import { Route } from 'react-router';
@@ -15,8 +15,11 @@ const TaskRoutes = (props) => {
   const tableEnter = () => {
     props.loadRepo.tableData();
   };
+  const mainTasksEnter = () => {
+    props.loadRepo.clearLayout();
+  }
   return (
-  <Route path="tasks/:type" loadRepo={props.loadRepo} component={Tasks}>
+  <Route path="tasks/:type" loadRepo={props.loadRepo} component={Tasks} onEnter={mainTasksEnter}>
     <Route path="list" onEnter={taskEnter} component={TaskList}/>
     <Route path="table" onEnter={tableEnter} component={TasksTable}/>
   </Route>
@@ -26,12 +29,52 @@ const TaskRoutes = (props) => {
 const StructureRoutes = (props) => {
   const structureEnter = () => {
     props.loadRepo.departments();
-    props.loadRepo.flatDepartments();
+    props.loadRepo.tabs([]);
+    props.loadRepo.setCurrentTitle("Штатная структура");
+    props.loadRepo.clearLayout();
   }
   return (
-    <Route path="structure" components={StateStructureList} onEnter={structureEnter} />
+    <Route path="admin/structure" components={StateStructureList} onEnter={structureEnter} />
   )
 }
+
+const UsersRoutes = (props) => {
+  const usersEnter = () => {
+    props.loadRepo.users();
+    props.loadRepo.tabs([]);
+    props.loadRepo.setCurrentTitle("Список сотрудников");
+    props.loadRepo.clearLayout();
+  }
+  return (
+    <Route path="admin/users" components={UsersList} onEnter={usersEnter} />
+  )
+}
+
+const CodesRoutes = (props) => {
+  const codesEnter = () => {
+    props.loadRepo.workCodes();
+    props.loadRepo.tabs([]);
+    props.loadRepo.setCurrentTitle("Коды работ");
+    props.loadRepo.clearLayout();
+  }
+  return (
+    <Route path="admin/workCodes" components={CodesList} onEnter={codesEnter} />
+  )
+}
+
+
+const FinancesRoutes = (props) => {
+  const financesEnter = () => {
+    props.loadRepo.finances();
+    props.loadRepo.tabs([]);
+    props.loadRepo.setCurrentTitle("Коды работ");
+    props.loadRepo.clearLayout();
+  }
+  return (
+    <Route path="admin/finances" components={FinancesList} onEnter={financesEnter} />
+  )
+}
+
 
 const ReportRoutes = (props) => {
   const reportsEnter = () => {
@@ -79,4 +122,5 @@ const StatisticsRoutes = (props) => {
   )
 }
 
-export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,StructureRoutes};
+export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,StructureRoutes,
+UsersRoutes, CodesRoutes, FinancesRoutes};

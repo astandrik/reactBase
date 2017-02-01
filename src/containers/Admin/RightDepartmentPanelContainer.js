@@ -1,54 +1,31 @@
 import RightDepartmentPanel from "../../components/Admin/RightDepartmentPanel";
 import { connect } from 'react-redux';
 import {
-    loadTask,
-    activateTask,
-    toggleTaskOpen,
-    setTaskView,
-    createTask,
-    editTask,
-    editLabor,
-    setFilters,
-    loadTasks
-} from "../../redux/actions/tasksActions";
+  editDepartment,
+  createDepartment
+} from "../../redux/actions/Admin/departmentActions";
 import {
     toggleRightPanel,
     setClientHeight
 } from "../../redux/actions/layoutActions";
-import LaborToSend from "../../Entities/Tasks/LaborToSend";
-import TaskToSend from "../../Entities/Tasks/TaskToSend";
+import DepartmentToSend from "../../Entities/Admin/DepartmentToSend";
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    department: state.department
+    department: state.Admin.department
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleNewTaskSubmit: (json) => {
-        let task = TaskToSend(json);
-        dispatch(createTask(task));
+    handleDepartmentEditSubmit: (json) => {
+        let dep = new DepartmentToSend(json);
+        dispatch(editDepartment(dep, json));
     },
-    handleEditTaskSubmit: (json) => {
-        let task = TaskToSend(json);
-        dispatch(editTask(task, json));
+    handleDepartmentNewSubmit: (json) => {
+        let dep = new DepartmentToSend(json);
+        dispatch(createDepartment(dep, json));
     },
-    handleEditLaborSubmit: (json) => {
-      const labor = LaborToSend(json);
-      labor.status = 0;
-      dispatch(editLabor(labor, true));
-    },
-    handleAddNewTask: () => {
-        dispatch(setTaskView({
-            task: {
-                type: "new"
-            }
-        }));
-        dispatch(toggleRightPanel({
-            status: 1
-        }));
-    }
   }
 }
 

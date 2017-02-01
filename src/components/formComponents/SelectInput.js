@@ -34,10 +34,11 @@ export default class SelectInput extends React.Component {
       }
     }
     render() {
-        if(!this.props.input.value.label) {
-          this.props.input.value = searchForData(this.props.input.value.value, this.props.options);
+        let val = this.props.input.value;
+        if(val.value) {
+          val = val.value;
         }
-        return ( <Select {...this.props} value={this.props.input.value || ''}
+        return ( <Select {...this.props} value={val || ''}
             onBlur={this.onBlur.bind(this)}
             onChange={this.onChange.bind(this)}
             options={

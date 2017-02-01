@@ -28,7 +28,7 @@ export const setCurrentDay = generateActionFunc(SET_DAY);
 export function changeWeek(obj) {
   const range = getDateRange(obj.day);
   const handler = function(json, dispatch, getState) {
-    const tableData = new TableData(json, range.first, range.last, getState().pingedUser);
+    const tableData = new TableData(json, range.first, range.last, getState().User.pingedUser);
     dispatch(setTableData({tableData}));
   }
   return fetchAsync(`/data/tasks?date_from=${ Math.floor((+range.first)/1000)}&date_to=${Math.floor((+range.last)/1000)}`, handler);
@@ -56,9 +56,9 @@ export const generateLaborsFromTableData = (data, task_id, day) => {
 }
 
 export function setGrouped(task_id) {
-  return function(dispatch, getState) {    
-    let table = getState().tableData;
-    const day = getState().currentDay;
+  return function(dispatch, getState) {
+    let table = getState().Table.tableData;
+    const day = getState().Table.currentDay;
     const labors = generateLaborsFromTableData(table, task_id, day);
     const groups = groupLabors(labors);
     dispatch(setGroupedTableLabors({groups}));
@@ -69,7 +69,7 @@ export function setGrouped(task_id) {
 export function loadTableData(obj, task_id) {
   const range = getDateRange(obj.day);
   const handler = function(json, dispatch, getState) {
-    const pingedUser =  getState().pingedUser;
+    const pingedUser =  getState().User.pingedUser;
     const globalType = getState().globalTaskType;
     const currentTask = getState().taskView;
     let tableData = new TableData(json, range.first, range.last, pingedUser);

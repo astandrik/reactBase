@@ -4,7 +4,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {connect} from 'react-redux';
 import {debounce} from "../../helperFunctions";
 import Icon from "../../Icons/Icon";
-import {DescriptionField, Panel, NameField, DepartmentParentField} from "../formComponents/ReusableComponents";
+import {StandardField, Panel, DepartmentField} from "../formComponents/ReusableComponents";
 
 
 const codeBlockStyle = {
@@ -19,7 +19,7 @@ const descriptionBlockStyle = {
   minHeight: "200px"
 }
 
-const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
+const  UserInfoComponent =  class UserInfo extends React.Component {
   constructor(props) {
    super(props);
     this.handleDebounce = debounce(this.handleEdit, 400);
@@ -29,9 +29,9 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
   }
   render () {
     const props=this.props;
-    const department = props.department;
+    const user = props.user;
     const {handleSubmit} = props;
-    if(!department.name) {
+    if(!user.name) {
       return <div/>;
     } else {
       return (
@@ -41,17 +41,20 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
 
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
-                <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
-                  <Field name="name"  component={NameField} />
-                </h2>
-                <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
-                  <span className="panelLabel"> Описание </span>
-                    <span  className="panelText fullWidth">
-                      <Field className="fieldValue" name="description" placeholder="Описание" component={DescriptionField}/>
-                    </span>
-                </div>
-                <Panel label="Родительский узел">
-                  <DepartmentParentField departments={props.departments} debouncedUpdate={this.handleEdit.bind(this)}/>
+                <Panel label="ФИО">
+                  <Field name="name" component={StandardField} placeholder="ФИО пользователя"/>
+                </Panel>
+                <Panel label="Логин в Active Directory">
+                  <Field name="login" component={StandardField} placeholder="Логин в Active Directory"/>
+                </Panel>
+                <Panel label="Отделение штатной структуры">
+                  <DepartmentField departments={props.departments} debouncedUpdate={this.handleEdit.bind(this)}/>
+                </Panel>
+                <Panel label="Должность">
+                  <Field name="position" component={StandardField} placeholder="Должность"/>
+                </Panel>
+                <Panel label="Табельный номер">
+                  <Field name="number" component={StandardField} placeholder="Табельный номер"/>
                 </Panel>
             </Container>
           </Container>
@@ -63,15 +66,15 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
 }
 
 let taskForm = reduxForm({
-  form: "departmentInfoDialogForm",
+  form: "userInfoDialogForm",
   enableReinitialize: true
-})(DepartmentInfoComponent);
+})(UserInfoComponent);
 
-const selector = formValueSelector('departmentInfoDialogForm');
+const selector = formValueSelector('userInfoDialogForm');
 taskForm = connect(
   state => {
     return ({
-    initialValues: state.Admin.department
+    initialValues: state.Admin.userView
   })}
 )(taskForm);
 

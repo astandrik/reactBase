@@ -21,10 +21,10 @@ const sidenavRoutes = [
   RouterCreator("Мои отчеты", '/reports', true),
   RouterCreator("Статистика", '/statistics', true),
   {name: "Администрирование", to:"admin", fake:true, children: [
-    RouterCreator("Коды работ", "/workCodes", true),
-    RouterCreator("Статьи расходов", "/finances", true),
-    RouterCreator("Штатная структура", "/structure"),
-    RouterCreator("Список сотрудников", "/userList",true)
+    RouterCreator("Коды работ", "/admin/workCodes"),
+    RouterCreator("Статьи расходов", "/admin/finances"),
+    RouterCreator("Штатная структура", "/admin/structure"),
+    RouterCreator("Список сотрудников", "/admin/users")
   ]},
   {name: "Выход", to: "logout"}
 ];
@@ -98,7 +98,7 @@ const mapStateToProps = (state,ownProps) => {
     children: ownProps.children,
     isErrorsModalOpen: state.isErrorsModalOpen,
     tabs: state.tabs,
-    pingedUser: state.pingedUser
+    pingedUser: state.User.pingedUser
   }
 }
 

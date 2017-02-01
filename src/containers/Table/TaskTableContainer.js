@@ -11,11 +11,11 @@ const mapStateToProps = (state,ownProps) => {
   return {
     tasks: state.tasks,
     rightPanelStatus: state.rightPanelStatus,
-    tableData: state.tableData,
-    currentWeek: state.currentWeek,
+    tableData: state.Table.tableData,
+    currentWeek: state.Table.currentWeek,
     isTrudModalOpen: state.isTrudModalOpen,
     activeIndexes: state.activeIndexes,
-    currentDay: state.currentDay
+    currentDay: state.Table.currentDay
   }
 }
 
@@ -38,10 +38,10 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     rowClickHandler: (data, id) => {
-      dispatch(activateTask({
-         taskId: id
-      }));
       if(data && data.length) {
+        dispatch(activateTask({
+           taskId: id
+        }));
         dispatch(setCurrentDay({day: false}));
         dispatch(loadTask({id}));
         dispatch(toggleRightPanel({status: 1}));

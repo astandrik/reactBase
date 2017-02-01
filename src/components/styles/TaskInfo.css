@@ -47,6 +47,11 @@
   border-bottom: 1px solid black;
 }
 
+.standard-field {
+  height:30px;
+  
+}
+
 .fieldValue:focus {
   outline: none;
 }

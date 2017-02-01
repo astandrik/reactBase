@@ -1,8 +1,6 @@
 import React from "react";
 import RaisedButton from 'material-ui/RaisedButton';
 import Container from "../Container";
-import next from "../../Icons/next.svg";
-import RightDepartmentPanelContainer from "../../containers/Admin/RightDepartmentPanelContainer";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
@@ -48,12 +46,31 @@ function deactivateTasks() {
     }
 }
 
+const headers = {
+  id: -1,
+  label: "Название",
+  description: "Описание",
+  isHeader: true
+};
 
-
-export default class TaskList extends React.Component {
+export default class FinancesList extends React.Component {
   constructor(props) {
     super(props);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.state = {
+      activeEditing: false,
+      description: "",
+      label: "",
+      id: ""
+    }
+  }
+  activateCodeEditing(item) {
+    this.setState({
+      activeEditing: item.id,
+      description: item.description || "",
+      label: item.label || "",
+      id: item.id
+    })
   }
   componentDidUpdate() {
     const ref = this.refs.taskTree;
@@ -61,40 +78,80 @@ export default class TaskList extends React.Component {
       this.props.setClientHeight(ref.clientHeight);
     }
   }
+  changeState(event) {
+    const newVal = event.target.value;
+    const name = event.target.name;
+    let newState = {};
+    newState[name] = newVal;
+    this.setState(newState);
+  }
+  commitChanges() {
+    if(this.state.activeEditing==="new") {
+      this.props.createFinance(this.state);
+    } else {
+      this.props.editFinance(this.state);
+    }
+    this.setState({
+      activeEditing: false,
+      description: "",
+      label: "",
+      id: ""
+    })
+  }
+  addNewCode() {
+    this.setState({
+      activeEditing: "new",
+      description: "",
+      label: "",
+      id: ""
+    })
+  }
   render() {
-    let departments = this.props.departments;
+    let finances = this.props.finances;
     const props = this.props;
-    if(departments.length === 0) {
+    if(finances.length === 0) {
       return <div/>;
     }
-    tasksIdDict= departments.treeNormalized.byId;
-    tasksDict = departments.treeNormalized.byGlobalId;
+
+    if(finances.tree[0].isHeader !== true) {
+      finances.tree.unshift(headers);
+    }
+    if(this.state.activeEditing === "new" && finances.tree[finances.tree.length -1].id !== "new") {
+      let emptyCode = {
+        description: "",
+        label: "",
+        id: "new"
+      }
+      finances.tree.push({
+        ...emptyCode
+      });
+    }
+    tasksIdDict= finances.treeNormalized.byId;
+    tasksDict = finances.treeNormalized.byGlobalId;
     deactivateTasks();
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
       items_.forEach(x=> x.active = true);
     }
-    if(this.props.openedTasks.length > 0) {
-      let items_ = findAllTaskInTreeByIndexes(this.props.openedTasks);
-      items_.forEach(x=> x.opened = true);
-    }
+    tasksIdDict= finances.treeNormalized.byId;
+    tasksDict = finances.treeNormalized.byGlobalId;
     const rightPanelContainerStyle = this.props.rightPanelStatus ? {} : {maxWidth: "0"};
     const rightPanelClass = this.props.rightPanelStatus  ? "" : "right-closed";
     let config = {};
-
+    const self = this;
     config.listItemRender = (item) => {
       return (
         <div className={"single-task " +
-          ` level_${item.level} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
-          <span className="taskLabel" onClick={props.loadDepartment.bind(this,item)}>{item.name}</span>
-          <div>
-            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
-              (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
-          </div>
+          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
+          {self.state.activeEditing == item.id  ? <input name="label" value={self.state.label} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.label}</span>}
+          {self.state.activeEditing == item.id ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
+          {self.state.activeEditing == item.id  ?
+            <Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/>
+            : <Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/>}
         </div>
       )
     }
-    let taskContainers = listGenerator(departments, this.props, config);
+    let taskContainers = listGenerator(finances, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows
@@ -127,13 +184,11 @@ export default class TaskList extends React.Component {
         <div className="tasksContainer" style={fullSize} ref="taskTree">
           <div style={buttonContainerStyles}>
             <div>
-              <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewDepartment}/>
+              <RaisedButton className="addButton" label="Добавить" onClick={this.addNewCode.bind(this)}/>
             </div>
           </div>
           {tasksView}
         </div>
-        <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
-        <RightDepartmentPanelContainer containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>
       </Container>
     );
   }

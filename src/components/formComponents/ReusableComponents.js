@@ -22,7 +22,7 @@ export const FinancesField = ({finances,debouncedUpdate}) => (
       component={prp =>
           <SelectInput
               {...prp}
-              placeholder="Родительский узел"
+              placeholder="Статья финансирования"
               options={finances}
           />
       }/>
@@ -35,7 +35,21 @@ export const DepartmentParentField = ({departments,debouncedUpdate}) => (
       component={prp =>
           <SelectInput
               {...prp}
-              placeholder="Статья финансирования"
+              placeholder="Родительский узел"
+              options={departments}
+          />
+      }/>
+);
+
+
+export const DepartmentField = ({departments,debouncedUpdate}) => (
+  <Field
+      name="department"
+      newOnChange={debouncedUpdate}
+      component={prp =>
+          <SelectInput
+              {...prp}
+              placeholder="Отделение штатной структуры"
               options={departments}
           />
       }/>
@@ -61,17 +75,20 @@ export const NameField = ({input}) => {
     return (<input {...input}   className="fieldValue taskHeader" placeholder="Название задачи"/>);
   }
 
+  export const StandardField = ({input, placeholder}) => {
+      return (<input {...input} placeholder= {placeholder ? placeholder : ""}   className="fieldValue standard-field"/>);
+    }
 export const DescriptionField = ({input, placeholder}) => {
-    return (<textarea  {...input} placeholder= {placeholder ? placeholder : "Описание задачи"}   style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
+    return (<textarea  {...input}   style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
 }
 
 export const HoursField = ({input}) => {
     return (<input {...input}   className="formInput" placeholder="Количество часов"/>);
   }
 
-export const Panel = ({children , label}) => {
+export const Panel = ({children , label, disabled}) => {
   return (
-  <div className="taskPanel">
+  <div className={(disabled ? "noEvents " : "") + " taskPanel"}>
     <span className="panelLabel"> {label} </span>
     {children}
   </div>

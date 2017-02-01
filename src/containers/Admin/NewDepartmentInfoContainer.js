@@ -1,11 +1,10 @@
-import NewTaskInfo from "../../components/Tasks/NewTaskInfo";
+import NewDepartmentInfo from "../../components/Admin/NewDepartmentInfo";
 import { connect } from 'react-redux';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    codes: state.codes.tree,
-    finances: state.finances.tree,
-    executors: state.subordinates
+    user: ownProps.user,
+    departments: state.Admin.flatDepartments
   }
 }
 
@@ -19,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewTaskInfo)
+)(NewDepartmentInfo)
 
 export default Visible;

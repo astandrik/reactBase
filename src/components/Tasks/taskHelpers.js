@@ -50,7 +50,7 @@ helpers.createExecutors = function(executors) {
   if(executors && executors.length > 0) {
     executors.forEach((x,i) => {
       const name = x.name ? x.name.split(' ').map(x=>x[0].toUpperCase()) : x.label.split(' ').map(x=>x[0].toUpperCase());
-      executorDivs.push(<div className="singleExecutor" key={x.id || x.value}><span data-tip={x.name}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+      executorDivs.push(<div className="singleExecutor" key={x.id || x.value}><span data-tip={x.name || x.label}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
     });
   } else {
       executorDivs.push(<div className="singleExecutor non-distributed" key={-1}><span data-tip={"Не распределено"}>Н</span><ReactTooltip place="top" type="dark" effect="float"/></div>)

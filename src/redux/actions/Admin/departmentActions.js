@@ -45,7 +45,6 @@ export function loadDepTree() {
 export function loadDepartment(department) {
   const handler = (json, dispatch, getState) => {
     const department = new Department(json.data);
-    dispatch(toggleRightPanel({status: 1}));
     dispatch(setDepartment({department}));
   }
   return fetchAsync(`/get/department?id=` + department.id, handler);
@@ -56,5 +55,22 @@ export function loadFlatDepartments() {
     const mapped = json.data.departments.map(x => ({label: x.name, value: x.id}));
     dispatch(setFlatDepartments({departments: mapped}));
   }
-  return fetchAsync(`/data/departments`, handler);
+  return fetchAsync(`/all/departments`, handler);
+}
+
+export function editDepartment (data) {
+  const handler = (json,dispatch, getState) => {
+      dispatch(loadDepTree());
+      dispatch(loadFlatDepartments());
+  }
+  return fetchPost(`/edit/department`, data, handler);
+}
+
+
+export function createDepartment (data) {
+  const handler = (json,dispatch, getState) => {
+      dispatch(loadDepTree());
+      dispatch(loadFlatDepartments());
+  }
+  return fetchPost(`/create/department`, data, handler);
 }

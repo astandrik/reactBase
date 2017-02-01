@@ -10,12 +10,13 @@ import {
 import { connect } from 'react-redux';
 import {
     loadDepartment,
+    setDepartment
 } from "../../redux/actions/Admin/departmentActions";
 
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    departments: state.departments,
+    departments: state.Admin.departments,
     clientHeight: state.clientHeight,
     activeIndexes: state.activeIndexes,
     openedTasks: state.openedTasks,
@@ -39,6 +40,16 @@ const mapDispatchToProps = (dispatch) => {
     },
     setClientHeight: (height) => {
       dispatch(setClientHeight({height}));
+    },
+    handleAddNewDepartment: () => {
+        dispatch(setDepartment({
+            department: {
+                type: "new"
+            }
+        }));
+        dispatch(toggleRightPanel({
+            status: 1
+        }));
     }
   }
 }

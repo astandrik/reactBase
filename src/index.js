@@ -17,11 +17,12 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,
-StructureRoutes} from "./Routes/routes";
+StructureRoutes, UsersRoutes, CodesRoutes,FinancesRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";
 import {loadDepTree,loadFlatDepartments} from "./redux/actions/Admin/departmentActions";
+import {getUsers} from "./redux/actions/Admin/usersActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
@@ -30,7 +31,7 @@ var loadRepo = {
   user: (user) => store.dispatch(getCurrentUser({})),
   tasks: ()=>store.dispatch(loadTasks()),
   tabs: (tabs)=>store.dispatch(setTabs({tabs})),
-  tableData: ()=>store.dispatch(loadTableData({day: store.getState().currentWeek})),
+  tableData: ()=>store.dispatch(loadTableData({day: store.getState().Table.currentWeek})),
   setCurrentTitle: (title) => store.dispatch(setCurrentTitle({title:title})),
   workCodes: () => store.dispatch(loadWorkCodes()),
   finances: () => store.dispatch(loadFinances()),
@@ -40,7 +41,8 @@ var loadRepo = {
   pingLogin: (renderFunc) => store.dispatch(pingLogin(renderFunc)),
   logout: () => store.dispatch(logout()),
   departments: () => store.dispatch(loadDepTree()),
-  flatDepartments: () => store.dispatch(loadFlatDepartments())
+  flatDepartments: () => store.dispatch(loadFlatDepartments()),
+  users: () => store.dispatch(getUsers(store.getState().Admin.usersPage))
 }
 
 
@@ -51,6 +53,9 @@ const StatisticsRouter = StatisticsRoutes({loadRepo:loadRepo});
 const LoginRouter = LoginRoutes({loadRepo:loadRepo})
 const LogoutRouter = LogoutRoutes({loadRepo: loadRepo});
 const StructureRouter = StructureRoutes({loadRepo: loadRepo});
+const UsersRouter = UsersRoutes({loadRepo: loadRepo});
+const CodesRouter = CodesRoutes({loadRepo: loadRepo});
+const FinancesRouter = FinancesRoutes({loadRepo: loadRepo});
 
 
 const renderFunc = () => {
@@ -66,6 +71,9 @@ const renderFunc = () => {
               {LoginRouter}
               {LogoutRouter}
               {StructureRouter}
+              {UsersRouter}
+              {CodesRouter}
+              {FinancesRouter}
             </Route>
         </Router>
         </MuiThemeProvider>

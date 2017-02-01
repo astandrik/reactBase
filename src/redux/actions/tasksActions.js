@@ -51,7 +51,7 @@ export const setTasks = generateActionFunc(SET_TASKS);
 export const setLabor = generateActionFunc(SET_CURRRENT_LABOR);
 export const setTaskView = generateActionFunc(SET_TASK_VIEW);
 export const toggleTaskOpen = generateActionFunc(TOGGLE_TASK_OPEN);
-export const activateTask = generateActionFunc(ACTIVATE_TASK);
+export const activateTaskList = generateActionFunc(ACTIVATE_TASK);
 export const setActiveTaskTab = generateActionFunc(SET_ACTIVE_TASK_TAB);
 export const openLaborComment = generateActionFunc(OPEN_LABOR_COMMENT);
 export const openDescription = generateActionFunc(OPEN_DESCRIPTION);
@@ -65,6 +65,19 @@ export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
 
+export function activateTask(obj) {
+  return function(dispatch, getState) {
+    const currentIndexes = getState().activeIndexes;
+    if(currentIndexes.taskId === obj.taskId && currentIndexes.globalIndex == obj.globalIndex) {
+      dispatch(toggleRightPanel({status: 0}));
+      dispatch(activateTaskList({taskId: -1, globalIndex: -1}));
+    } else {
+      dispatch(activateTaskList(obj));
+      dispatch(toggleRightPanel({status: 1}));
+    }
+  }
+}
+
 export function groupLabors(labors) {
     labors.sort((a, b) => a.startDate < b.startDate ? 1 : -1);
     let groups = _.groupBy(labors, function (labor) {
@@ -77,7 +90,6 @@ export function loadTask(obj, callback) {
     const handler = function (json, dispatch, getState) {
         const task = new Task(json.data);
         dispatch(setTaskView({task, parent_id: task.parent_id || 0}));
-        dispatch(toggleRightPanel({status: 1}));
         const labors = json.data.timings.map((x) => new Labor(x));
         const groups = groupLabors(labors);
         dispatch(setGroupedLabors({groups}));
@@ -143,7 +155,7 @@ export function createLabor(data, task) {
       dispatch(loadTask(task));
       dispatch(closeTrudModal());
       dispatch(reset('trudDialogForm'));
-      const currentWeek = getState().currentWeek;
+      const currentWeek = getState().Table.currentWeek;
       dispatch(loadTableData({day: currentWeek}));
     }
     const errorHandler = (dispatch) => {
@@ -158,7 +170,7 @@ export function editLabor(data, fromLabor, fromTable) {
     const currentLabor = new Labor(json.data);
     const newVal = currentLabor.value;
     if(fromLabor) {
-      const currentWeek = getState().currentWeek;
+      const currentWeek = getState().Table.currentWeek;
     }
     if(fromTable) {
       let tableData = getState().tableData;
@@ -174,7 +186,7 @@ export function editLabor(data, fromLabor, fromTable) {
         timing.code = currentLabor.code;
         dispatch(setTableData({tableData}));
       } else {
-        const currentWeek = getState().currentWeek;
+        const currentWeek = getState().Table.currentWeek;
         dispatch(loadTableData({day: currentWeek}));
       }
     }
@@ -187,31 +199,30 @@ export function editLabor(data, fromLabor, fromTable) {
   return fetchPost('/edit/time', data, handler,errorHandler);
 }
 
+import {CodesTree} from  "../../Entities/Admin/Codes";
+import Code from  "../../Entities/Admin/Code";
 
 export function loadWorkCodes() {
     const handler = (data, dispatch) => {
-        let codes = data.data.codes.map(x => ({
-            label: x.value,
-            value: x.id
-        }));
+        let codes = new CodesTree(data.data.codes);
         dispatch(setCodes({
             codes
         }));
     }
-    return fetchAsync(`/data/codes`, handler);
+    return fetchAsync(`/all/codes`, handler);
 }
+
+import {FinancesTree} from  "../../Entities/Admin/Finances";
+import Finance from  "../../Entities/Admin/Finance";
 
 export function loadFinances() {
     const handler = (data, dispatch) => {
-        let finances = data.data.finances.map(x => ({
-            label: x.value,
-            value: x.id
-        }));
+        let finances =  new FinancesTree(data.data.finances);
         dispatch(setFinances({
             finances
         }));
     }
-    return fetchAsync(`/data/finances`, handler);
+    return fetchAsync(`/all/finances`, handler);
 }
 
 const typeDict = {
@@ -268,7 +279,7 @@ export function loadTree(params) {
 export function createComment(data, task, fromLabor) {
   const handler = (json,dispatch, getState) => {
     if(fromLabor) {
-      const currentWeek = getState().currentWeek;
+      const currentWeek = getState().Table.currentWeek;
       dispatch(loadLabor({id: data.time_id}));
       dispatch(loadTableData({day: currentWeek}));
     } else {
@@ -288,7 +299,7 @@ export function createComment(data, task, fromLabor) {
 
 export function acceptAllTimings(ids, task, fromTable) {
   const handler = (json, dispatch, getState) => {
-      const currentWeek = getState().currentWeek;
+      const currentWeek = getState().Table.currentWeek;
       dispatch(loadTableData({day: currentWeek}));
       if(task) {
         dispatch(loadTask({id: task.id}));
@@ -317,7 +328,7 @@ export function declineTask(task) {
 
 export function acceptTiming(labor, fromLabor) {
   const handler = (json, dispatch, getState) => {
-    const currentWeek = getState().currentWeek;
+    const currentWeek = getState().Table.currentWeek;
     dispatch(loadTableData({day: currentWeek}))
     if(fromLabor) {
       dispatch(loadLabor({id: labor.id}));
@@ -330,7 +341,7 @@ export function acceptTiming(labor, fromLabor) {
 
 export function declineTiming(labor, fromLabor) {
   const handler = (json, dispatch, getState) => {
-    const currentWeek = getState().currentWeek;
+    const currentWeek = getState().Table.currentWeek;
     dispatch(loadTableData({day: currentWeek}))
     if(fromLabor) {
       dispatch(loadLabor({id: labor.id}));

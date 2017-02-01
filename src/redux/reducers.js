@@ -7,6 +7,7 @@ import * as tableReducers from "./reducers/Table";
 import * as userReducers from "./reducers/User";
 import * as errorReducers from "./reducers/Errors";
 import * as departmentReducers from "./reducers/Admin/Department";
+import * as usersReducers from "./reducers/Admin/Users";
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -40,30 +41,32 @@ const layoutBindings = {
     currentTaskFilters: layoutReducers.setFilters
 }
 
-const tableBindings = {
+const Table = combineReducers({
     tableData: tableReducers.setTableData,
     currentWeek: tableReducers.setCurrentWeek,
     currentDay: tableReducers.setCurrentDay,
-}
+})
 
-const userBindings = {
+const User = combineReducers({
     user: userReducers.userSet,
     subordinates: userReducers.setSubordinates,
     pingedUser: userReducers.setPingedUser
-}
-
-const adminReducers = {
+})
+const Admin = combineReducers({
   departments: departmentReducers.setDepartmentTree,
   department: departmentReducers.setDepartment,
-  flatDepartments: departmentReducers.setFlatDepartments
-}
+  flatDepartments: departmentReducers.setFlatDepartments,
+  users: usersReducers.setUsers,
+  userView: usersReducers.setUser,
+  usersPage: usersReducers.setUsersPage
+})
 
 export default combineReducers({
     ...taskBindings,
     ...layoutBindings,
-    ...tableBindings,
-    ...userBindings,
-    ...adminReducers,
+    Table,
+    User,
+    Admin,
     form: formReducer,
     validationErrors: errorReducers.setValidationErrors
 })
