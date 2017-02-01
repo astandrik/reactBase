@@ -88,7 +88,7 @@ export default class CodesList extends React.Component {
     newState[name] = newVal;
     this.setState(newState);
   }
-  commitChanges() {    
+  commitChanges() {
     if(this.state.activeEditing==="new") {
       this.props.createCode(this.state);
     } else {
@@ -118,9 +118,6 @@ export default class CodesList extends React.Component {
       return <div/>;
     }
 
-    if(codes.tree[0].isHeader !== true) {
-      codes.tree.unshift(headers);
-    }
     if(this.state.activeEditing === "new" && codes.tree[codes.tree.length -1].id !== "new") {
       let emptyCode = {
         description: "",
@@ -146,19 +143,26 @@ export default class CodesList extends React.Component {
     let config = {};
     const self = this;
     config.listItemRender = (item) => {
+      const beingEdited =self.state.activeEditing == item.id;
       return (
-        <div className={"single-task " +
-          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
-          {self.state.activeEditing == item.id  ? <input name="label" value={self.state.label} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.label}</span>}
-          {self.state.activeEditing == item.id ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
-          {self.state.activeEditing == item.id  ? <input name="week_limit" value={self.state.week_limit} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.week_limit}</span>}
-          {self.state.activeEditing == item.id  ?
+        <div onClick={beingEdited ? () => {} : props.activateCode.bind(this,item)} className={"single-task " +
+          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "}  key={item.globalIndex}>
+          { beingEdited ? <input name="label" value={self.state.label} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.label}</span>}
+          {beingEdited ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
+          {beingEdited? <input name="week_limit" value={self.state.week_limit} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.week_limit}</span>}
+          {beingEdited  ?
             <Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/>
             : <Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/>}
         </div>
       )
     }
-    let taskContainers = listGenerator(codes, this.props, config);
+    const treeWithHeaders = [headers].concat(codes.tree);
+    const treeNormalized = codes.treeNormalized;
+    let newCodes = {
+      tree: treeWithHeaders,
+      treeNormalized : treeNormalized
+    };
+    let taskContainers = listGenerator(newCodes, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows

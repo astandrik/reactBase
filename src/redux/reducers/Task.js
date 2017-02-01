@@ -174,7 +174,7 @@ export function setCurrentLabors(state = {}, action) {
 
 export function setActiveIndexes(state = {taskId: -1, globalIndex: -1}, action) {
   switch (action.type) {
-    case ACTIVATE_TASK:      
+    case ACTIVATE_TASK:
       return {taskId: action.taskId ? action.taskId : state.taskId, globalIndex: action.globalIndex ? action.globalIndex : state.globalIndex};
     case TOGGLE_RIGHT_PANEL:
       if(action.status === 0) {

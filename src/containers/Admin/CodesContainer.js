@@ -32,6 +32,12 @@ const mapDispatchToProps = (dispatch) => {
       },
       createCode: (code) => {
         dispatch(createCode(code));
+      },
+      activateCode: (code) => {
+        dispatch(activateTask({
+           globalIndex: code.globalIndex,
+           taskId: code.id
+        }));
       }
     }
 }

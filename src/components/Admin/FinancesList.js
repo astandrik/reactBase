@@ -113,9 +113,6 @@ export default class FinancesList extends React.Component {
       return <div/>;
     }
 
-    if(finances.tree[0].isHeader !== true) {
-      finances.tree.unshift(headers);
-    }
     if(this.state.activeEditing === "new" && finances.tree[finances.tree.length -1].id !== "new") {
       let emptyCode = {
         description: "",
@@ -140,18 +137,25 @@ export default class FinancesList extends React.Component {
     let config = {};
     const self = this;
     config.listItemRender = (item) => {
+      const beingEdited =self.state.activeEditing == item.id;
       return (
-        <div className={"single-task " +
-          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "} key={item.globalIndex}>
-          {self.state.activeEditing == item.id  ? <input name="label" value={self.state.label} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.label}</span>}
-          {self.state.activeEditing == item.id ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
-          {self.state.activeEditing == item.id  ?
+        <div onClick={beingEdited ? () => {} : props.activateFinance.bind(this,item)}  className={"single-task " +
+          ` ${item.isHeader ? " header-list-row " : ""} ` + (item.active ? " active" : "") + " "}  key={item.globalIndex}>
+          {beingEdited  ? <input name="label" value={self.state.label} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.label}</span>}
+          {beingEdited ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
+          {beingEdited  ?
             <Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/>
             : <Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/>}
         </div>
       )
     }
-    let taskContainers = listGenerator(finances, this.props, config);
+    const treeWithHeaders =  [headers].concat(finances.tree);
+    const treeNormalized = finances.treeNormalized;
+    let newFinances = {
+      tree: treeWithHeaders,
+      treeNormalized : treeNormalized
+    };
+    let taskContainers = listGenerator(newFinances, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows

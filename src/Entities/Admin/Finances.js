@@ -30,6 +30,7 @@ export class FinancesTree {
     };
     const tree = json;
     this.tree = parseTree(tree);
+    normalizeTree(this.tree, tasks);
     this.treeNormalized = tasks;
   }
 }
