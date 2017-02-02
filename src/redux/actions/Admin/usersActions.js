@@ -16,16 +16,70 @@ export const setUsers = generateActionFunc(SET_USERS);
 export const setUser = generateActionFunc(SET_USER_VIEW);
 export const setUsersPage = generateActionFunc(SET_USERS_PAGE);
 
-const limit = 40;
+const limit = 30;
 
-export function getUsers(page) {
-  const currentOffset = page*limit;
-  const handler = (json, dispatch, getState) => {
-    const users = new UsersTree(json.data.users);
-    dispatch(setUsers(users));
+export function getUsers() {
+  return (dispatch, getState) => {
+    const page = getState().Admin.usersPage;
+    const currentOffset = page*limit;
+    const handler = (json, dispatch, getState) => {
+      const users = new UsersTree(json.data.users);
+      dispatch(setUsers(users));
+    }
+    dispatch(fetchAsync(`/all/users?limit=${limit}&offset=${currentOffset}`,handler));
   }
-  return fetchAsync(`/all/users?limit=${limit}&offset=${currentOffset}`,handler);
 }
+
+export function promote(user) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadUser(user));
+    dispatch(getUsers());
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadUser(user));
+    dispatch(reset("userInfoDialogForm"));
+  }
+  return fetchAsync(`/account/promote?id=${user.id}`, handler, errorHandler);
+}
+
+export function demote(user) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadUser(user));
+    dispatch(getUsers());
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadUser(user));
+    dispatch(reset("userInfoDialogForm"));
+  }
+  return fetchAsync(`/account/demote?id=${user.id}`, handler, errorHandler);
+}
+
+
+export function ban(user) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadUser(user));
+    dispatch(getUsers());
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadUser(user));
+    dispatch(reset("userInfoDialogForm"));
+  }
+  return fetchAsync(`/account/ban?id=${user.id}`, handler, errorHandler);
+}
+
+export function unban(user) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadUser(user));
+    dispatch(getUsers());
+  }
+  const errorHandler = (dispatch) => {
+    dispatch(loadUser(user));
+    dispatch(reset("userInfoDialogForm"));
+  }
+  return fetchAsync(`/account/unban?id=${user.id}`, handler, errorHandler);
+}
+
+
 
 export function loadUser(user) {
   const handler = (json, dispatch, getState) => {
@@ -35,10 +89,22 @@ export function loadUser(user) {
   return fetchAsync(`/get/user?id=` + user.id, handler);
 }
 
+
 export function editUser(data) {
   const handler = (json,dispatch, getState) => {
       const page = getState().usersPage;
-      dispatch(getUsers(page));
+      if((data.role !== 2 && data.role !== "-22") && data.is_banned === true) {
+        dispatch(ban(data));
+      } else if((data.role === 2 || data.role === "-22") && !data.is_banned) {
+        dispatch(unban(data));
+      } else if((data.role !== 1 && data.role !== "-21") && data.is_admin) {
+          dispatch(promote(data));
+      } else if((data.role === 1 || data.role === "-21") && !data.is_admin) {
+          dispatch(demote(data));
+      }else {
+        dispatch(loadUser(data));
+        dispatch(getUsers());
+      }
   }
   const errorHandler = (dispatch) => {
     dispatch(loadUser(data));
@@ -50,8 +116,14 @@ export function editUser(data) {
 export function createUser(data) {
     const handler = (json,dispatch, getState) => {
       const page = getState().usersPage;
-      dispatch(getUsers(page));
-      dispatch(loadUser(json.data));
+      if(data.is_banned) {
+          dispatch(ban(json.data));
+      } else if(data.is_admin) {
+          dispatch(promote(json.data));
+      } else {
+        dispatch(getUsers());
+        dispatch(loadUser(json.data));
+      }
     }
     return fetchPost(`/create/user`, data, handler);
 }

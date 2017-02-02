@@ -26,12 +26,10 @@ export const setCurrentWeek = generateActionFunc(SET_WEEK);
 export const setCurrentDay = generateActionFunc(SET_DAY);
 
 export function changeWeek(obj) {
-  const range = getDateRange(obj.day);
-  const handler = function(json, dispatch, getState) {
-    const tableData = new TableData(json, range.first, range.last, getState().User.pingedUser);
-    dispatch(setTableData({tableData}));
+  return (dispatch, getState) => {
+    dispatch(setCurrentWeek({day: obj.day}));
+    dispatch(loadTableData());
   }
-  return fetchAsync(`/data/tasks?date_from=${ Math.floor((+range.first)/1000)}&date_to=${Math.floor((+range.last)/1000)}`, handler);
 }
 
 export const generateLaborsFromTableData = (data, task_id, day) => {
@@ -65,8 +63,36 @@ export function setGrouped(task_id) {
   }
 }
 
-
 export function loadTableData(obj, task_id) {
+    return (dispatch, getState) => {
+      let day = -1;
+      if(obj) {
+        day = obj.day;
+      } else {
+        day = getState().Table.currentWeek;
+      }
+      const range = getDateRange(day);
+      const params = getState().currentTaskFilters;
+      let par = {};
+      let paramArr = [];
+      par.type = params.type;
+      par.user_ids  = params.sub_ids ? params.sub_ids.join(",") : "";
+      par.all_subs = params.all_subs;
+      par.status = params.statuses.join(",");
+      par.date_from = Math.floor((+range.first)/1000);
+      par.date_to = Math.floor((+range.last)/1000);
+      for(var e in par) {
+        if(par[e]) {
+          paramArr.push(`${e}=${par[e]}`);
+        }
+      }
+      dispatch(loadTable({day: day}, task_id, paramArr))
+    }
+}
+
+
+
+export function loadTable(obj, task_id, params) {
   const range = getDateRange(obj.day);
   const handler = function(json, dispatch, getState) {
     const pingedUser =  getState().User.pingedUser;
@@ -78,6 +104,6 @@ export function loadTableData(obj, task_id) {
       dispatch(setGrouped(currentTask.id));
     }
   }
-  return fetchAsync(`/data/tasks?date_from=${ Math.floor((+range.first)/1000)}&date_to=${Math.floor((+range.last)/1000)}`, handler);
+  return fetchAsync(`/data/tasks?${params.join("&")}`, handler);
 }
 

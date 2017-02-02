@@ -7,11 +7,12 @@ import {
     CLOSE_TRUD_MODAL,
     SET_CURRENT_TITLE,
     OPEN_ERRORS_MODAL,
+    SET_LOCATION,
     CLOSE_ERRORS_MODAL,
     SET_CLIENT_HEIGHT,
     CLEAR_LAYOUT,
     SET_SEARH_QUERY,
-    SET_FILTERS
+    SET_FILTERS,
 } from "../actions/layoutActions";
 
 import {
@@ -27,19 +28,58 @@ export function fetchStatusChange(state = false, action) {
     }
 }
 
-const defaultFilters = {
-  types: ["current"],
-  all_subs: 0,
-  sub_ids: []
+
+const defaultAllFilters = {
+  type: 0
 };
 
+const defaultMyFilters = {
+  type: 1
+}
 
-export function setFilters(state = defaultFilters, action) {
+const defaultNonDistFilter = {
+  type: 2
+}
+
+const defaultSubsFilters = {
+  type: 3
+}
+
+const defaultFilters = {
+  statuses: ["3"],
+  all_subs: 0,
+  sub_ids: []
+}
+
+const filtersDict = {
+  "all" : defaultAllFilters,
+  "my": defaultMyFilters,
+  "nonDistributed": defaultNonDistFilter,
+  "subordinate": defaultSubsFilters
+}
+
+export function setFilters(state = {}, action) {
   switch (action.type) {
+    case SET_GLOBAL_TASK_TYPE:
+      if(state.type !== filtersDict[action.routeType].type) {
+        const defFilters = Object.assign({},{type: filtersDict[action.routeType].type},JSON.parse(JSON.stringify(defaultFilters)));
+        return defFilters;
+      } else {
+        return state;
+      }
     case SET_FILTERS:
-      return action.filters;
+      return Object.assign({}, state, action.filters);
     case CLEAR_LAYOUT:
       return defaultFilters;
+    default:
+      return state;
+  }
+}
+
+export function setLocation(state = "/", action) {
+  switch (action.type) {
+    case SET_LOCATION:
+      return action.location;
     default:
       return state;
   }

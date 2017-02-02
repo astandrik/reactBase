@@ -35,16 +35,40 @@ function findLaborById(labors, id) {
     return elem;
 }
 
+const defaultAllFilters = {
+  type: 0
+};
+
+const defaultMyFilters = {
+  type: 1
+}
+
+const defaultNonDistFilter = {
+  type: 2
+}
+
+const defaultSubsFilters = {
+  type: 3
+}
+
 const defaultFilters = {
-  types: ["current"],
+  statuses: ["3"],
   all_subs: 0,
   sub_ids: []
-};
+}
+
+const filtersDict = {
+  "all" : defaultAllFilters,
+  "my": defaultMyFilters,
+  "nonDistributed": defaultNonDistFilter,
+  "subordinate": defaultSubsFilters
+}
 
 export function setDefaultFilters(state = defaultFilters, action) {
   switch (action.type) {
     case SET_GLOBAL_TASK_TYPE:
-      return action.filters;
+      const defFilters = Object.assign({},{type: filtersDict[action.routeType].type},JSON.parse(JSON.stringify(defaultFilters)));
+      return defFilters;
     case CLEAR_LAYOUT:
       return defaultFilters;
     default:

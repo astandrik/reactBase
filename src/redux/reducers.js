@@ -8,6 +8,8 @@ import * as userReducers from "./reducers/User";
 import * as errorReducers from "./reducers/Errors";
 import * as departmentReducers from "./reducers/Admin/Department";
 import * as usersReducers from "./reducers/Admin/Users";
+import * as financesReducers from "./reducers/Admin/Finances";
+import * as codesReducers from "./reducers/Admin/Codes";
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -38,7 +40,9 @@ const layoutBindings = {
     globalTaskType: layoutReducers.setGlobalTaskType,
     clientHeight: layoutReducers.setClientHeight,
     searchQuery: layoutReducers.setSearchQuery,
-    currentTaskFilters: layoutReducers.setFilters
+    currentTaskFilters: layoutReducers.setFilters,
+    defaultFilters: taskReducers.setDefaultFilters,
+    currentLocation: layoutReducers.setLocation
 }
 
 const Table = combineReducers({
@@ -58,7 +62,12 @@ const Admin = combineReducers({
   flatDepartments: departmentReducers.setFlatDepartments,
   users: usersReducers.setUsers,
   userView: usersReducers.setUser,
-  usersPage: usersReducers.setUsersPage
+  usersPage: usersReducers.setUsersPage,
+  financesPage: financesReducers.setFinancesPage,
+  codesPage: codesReducers.setCodesPage,
+  codesTable: codesReducers.setCodesTable,
+  financesTable: financesReducers.setFinancesTable
+
 })
 
 export default combineReducers({

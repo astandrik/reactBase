@@ -7,7 +7,9 @@ import {
 } from "../../redux/actions/tasksActions";
   import {
     editFinance,
-    createFinance
+    createFinance,
+    setFinancesPage,
+    loadFinancesTable
   } from "../../redux/actions/Admin/financesActions";
 
 import {
@@ -16,9 +18,10 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        finances: state.finances,
+        finances: state.Admin.financesTable,
         clientHeight: state.clientHeight,
-        activeIndexes: state.activeIndexes
+        activeIndexes: state.activeIndexes,
+        pageNumber: state.Admin.financesPage
     }
 }
 
@@ -33,11 +36,23 @@ const mapDispatchToProps = (dispatch) => {
       createFinance: (code) => {
         dispatch(createFinance(code));
       },
-      activateFinance: (finance) => {        
+      activateFinance: (finance) => {
         dispatch(activateTask({
            globalIndex: finance.globalIndex,
            taskId: finance.id
         }));
+      },
+      prevPage: (page) => {
+        if(page > 0) {
+          dispatch(setFinancesPage({page:(page-1)}));
+          dispatch(loadFinancesTable());
+        }
+      },
+      nextPage: (page) => {
+        if(true) {
+          dispatch(setFinancesPage({page:(page+1)}));
+          dispatch(loadFinancesTable());
+        }
       }
     }
 }

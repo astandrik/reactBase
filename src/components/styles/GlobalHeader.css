@@ -45,3 +45,7 @@
 .navbar-link-active {
   color:red;
 }
+
+.active-filter {
+    fill: #02ceff;
+}

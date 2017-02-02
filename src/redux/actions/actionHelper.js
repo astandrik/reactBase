@@ -47,7 +47,7 @@ export function fetchPost(url, data, handler, errorHandler) {
             .then(json => {
                 dispatch(changeFetchingStatus({
                     status: false
-                }));
+                }));    
                 if (json.data === false) {
                     dispatch(showValidationErrors({
                         errors: json.error
@@ -63,7 +63,7 @@ export function fetchPost(url, data, handler, errorHandler) {
     }
 }
 
-export function fetchAsync(url, handler) {
+export function fetchAsync(url, handler, errorHandler) {
     return function (dispatch, getState) {
         dispatch(changeFetchingStatus({
             status: true
@@ -77,7 +77,17 @@ export function fetchAsync(url, handler) {
                 dispatch(changeFetchingStatus({
                     status: false
                 }));
-                handler(json, dispatch, getState);
+                if (json.data === false) {
+                    dispatch(showValidationErrors({
+                        errors: json.error
+                    }));
+                    dispatch(openErrorsModal({}));
+                    if(errorHandler) {
+                      errorHandler(dispatch);
+                    }
+                } else {
+                  handler(json, dispatch, getState);
+                }
             })
     }
 }

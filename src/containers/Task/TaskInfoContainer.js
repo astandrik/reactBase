@@ -27,8 +27,8 @@ const mapStateToProps = (state, ownProps) => {
         trudTask: state.currentAddingTrudTask,
         activeTab: state.activeTaskTab,
         isTrudModalOpen: state.isTrudModalOpen,
-        codes: state.codes.tree,
-        finances: state.finances.tree,
+        codes: state.codes,
+        finances: state.finances,
         executors: state.User.subordinates
     }
 }

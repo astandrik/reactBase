@@ -7,7 +7,9 @@ import {
 } from "../../redux/actions/tasksActions";
   import {
     editCode,
-    createCode
+    createCode,
+    setCodesPage,
+    loadCodes
   } from "../../redux/actions/Admin/codesActions";
 
 import {
@@ -16,9 +18,10 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        codes: state.codes,
+        codes: state.Admin.codesTable,
         clientHeight: state.clientHeight,
-        activeIndexes: state.activeIndexes
+        activeIndexes: state.activeIndexes,
+        pageNumber: state.Admin.codesPage
     }
 }
 
@@ -38,6 +41,18 @@ const mapDispatchToProps = (dispatch) => {
            globalIndex: code.globalIndex,
            taskId: code.id
         }));
+      },
+      prevPage: (page) => {
+        if(page > 0) {
+          dispatch(setCodesPage({page:(page-1)}));
+          dispatch(loadCodes());
+        }
+      },
+      nextPage: (page) => {
+        if(true) {
+          dispatch(setCodesPage({page:(page+1)}));
+          dispatch(loadCodes());
+        }
       }
     }
 }

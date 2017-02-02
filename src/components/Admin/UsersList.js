@@ -5,6 +5,7 @@ import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
 import RightUserPanelContainer from "../../containers/Admin/RightUserPanelContainer";
+import {PagesPicker} from "../formComponents/ReusableComponents";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -19,6 +20,8 @@ const fullSize = {
 
 let tasksDict = {};
 let tasksIdDict = {};
+
+
 
 function findAllTaskInTreeByIndexes(globalIndexes) {
   if(globalIndexes[0] === -1) {
@@ -51,8 +54,11 @@ function deactivateTasks() {
 const roleDict = {
   0: "Пользователь",
   1: "Администратор",
-  2: "Забанен",
-  "-1": "Роль"
+  2: "Заблокирован",
+  "-1": "Роль",
+  "-2": 'Руководитель',
+  "-21": "Руководитель/Администратор",
+   "-22": "Заблокирован/Руководитель"
 }
 
 const headers = {
@@ -78,14 +84,11 @@ export default class UsersList extends React.Component {
       this.props.setClientHeight(ref.clientHeight);
     }
   }
-  render() {
+  render() {    
     let users = this.props.users;
     const props = this.props;
     if(users.length === 0) {
       return <div/>;
-    }
-    if(users.tree[0].isHeader !== true) {
-      users.tree.unshift(headers);
     }
     tasksIdDict= users.treeNormalized.byId;
     tasksDict = users.treeNormalized.byGlobalId;
@@ -112,7 +115,13 @@ export default class UsersList extends React.Component {
         </div>
       )
     }
-    let taskContainers = listGenerator(users, this.props, config);
+    const treeWithHeaders = [headers].concat(users.tree);
+    const treeNormalized = users.treeNormalized;
+    let newUsers = {
+      tree: treeWithHeaders,
+      treeNormalized : treeNormalized
+    };
+    let taskContainers = listGenerator(newUsers, this.props, config);
 
     function rowRenderer ({
         key,         // Unique key within array of rows
@@ -134,7 +143,7 @@ export default class UsersList extends React.Component {
     let tasksView = (
       <List
      width={500}
-    height={this.props.clientHeight - 40}
+    height={this.props.clientHeight - 65}
     rowHeight={31}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
@@ -149,6 +158,7 @@ export default class UsersList extends React.Component {
             </div>
           </div>
           {tasksView}
+          <PagesPicker prevPage={props.prevPage.bind(this, props.pageNumber)} nextPage={props.nextPage.bind(this, props.pageNumber)} pageNumber={props.pageNumber}/>
         </div>
         <div className={`splitter ${(this.props.rightPanelStatus ? "" : "noDisplay")}`}/>
         <RightUserPanelContainer flex="0.7" containerStyle={rightPanelContainerStyle} className={rightPanelClass}/>

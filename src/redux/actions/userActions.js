@@ -39,10 +39,6 @@ export function pingLogin(renderFunc) {
       browserHistory.push('/login');
     } else {
       dispatch(getCurrentUser({}));
-      dispatch(loadWorkCodes());
-      dispatch(loadFinances());
-      dispatch(getSubordinates({}));
-      dispatch(loadFlatDepartments());
       let location = browserHistory.getCurrentLocation();
       if(location.pathname == "/login" || location.pathname == "/") {
         location = "/tasks/my/table";

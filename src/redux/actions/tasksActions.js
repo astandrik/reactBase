@@ -199,12 +199,9 @@ export function editLabor(data, fromLabor, fromTable) {
   return fetchPost('/edit/time', data, handler,errorHandler);
 }
 
-import {CodesTree} from  "../../Entities/Admin/Codes";
-import Code from  "../../Entities/Admin/Code";
-
 export function loadWorkCodes() {
     const handler = (data, dispatch) => {
-        let codes = new CodesTree(data.data.codes);
+        let codes = data.data.codes.map(x => ({value: x.id, label: x.value}));
         dispatch(setCodes({
             codes
         }));
@@ -212,12 +209,10 @@ export function loadWorkCodes() {
     return fetchAsync(`/all/codes`, handler);
 }
 
-import {FinancesTree} from  "../../Entities/Admin/Finances";
-import Finance from  "../../Entities/Admin/Finance";
 
 export function loadFinances() {
     const handler = (data, dispatch) => {
-        let finances =  new FinancesTree(data.data.finances);
+        let finances =  data.data.finances.map(x => ({value: x.id, label: x.value}));
         dispatch(setFinances({
             finances
         }));
@@ -239,9 +234,10 @@ export function loadTasks() {
       const params = getState().currentTaskFilters;
       let par = {};
       let paramArr = [];
-      par.sub_ids = params.sub_ids ? params.sub_ids.join(",") : "";
+      par.type = params.type;
+      par.user_ids  = params.sub_ids ? params.sub_ids.join(",") : "";
       par.all_subs = params.all_subs;
-      par.types = params.types.join(",");
+      par.status = params.statuses.join(",");
       for(var e in par) {
         if(par[e]) {
           paramArr.push(`${e}=${par[e]}`);

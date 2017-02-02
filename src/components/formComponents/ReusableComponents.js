@@ -1,6 +1,8 @@
 import React from 'react';
 import SelectInput from "./SelectInput";
 import { Field } from 'redux-form';
+import right from "../../Icons/right.svg";
+import left from "../../Icons/left.svg";
 
 export const WorkCodeField = ({codes,debouncedUpdate}) => (
   <Field
@@ -27,6 +29,27 @@ export const FinancesField = ({finances,debouncedUpdate}) => (
           />
       }/>
 );
+
+const datepickerStyles = {
+  width: "100%",
+  display: "flex",
+  float: "right",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  background: "white"
+}
+
+export const PagesPicker = (props)=> {  
+  return (
+    <div style={datepickerStyles}>
+      <img className="clickable-image left" onClick={props.prevPage.bind(this)}  src={left} alt="logo" />
+      <div className="dateContainer">
+        <span className="page-number">{props.pageNumber}</span>
+      </div>
+      <img className="clickable-image right" onClick={props.nextPage.bind(this)}  src={right} alt="logo" />
+    </div>
+  )
+}
 
 export const DepartmentParentField = ({departments,debouncedUpdate}) => (
   <Field

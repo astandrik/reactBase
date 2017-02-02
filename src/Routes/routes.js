@@ -15,8 +15,13 @@ const TaskRoutes = (props) => {
   const tableEnter = () => {
     props.loadRepo.tableData();
   };
-  const mainTasksEnter = () => {
+  const mainTasksEnter = (ev) => {
     props.loadRepo.clearLayout();
+    props.loadRepo.workCodes();
+    props.loadRepo.finances();
+    props.loadRepo.subordinates();
+    const type = ev.params.type;
+    props.loadRepo.setGlobalTaskType(type);
   }
   return (
   <Route path="tasks/:type" loadRepo={props.loadRepo} component={Tasks} onEnter={mainTasksEnter}>
@@ -28,6 +33,7 @@ const TaskRoutes = (props) => {
 
 const StructureRoutes = (props) => {
   const structureEnter = () => {
+    props.loadRepo.flatDepartments();
     props.loadRepo.departments();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Штатная структура");
@@ -44,6 +50,7 @@ const UsersRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Список сотрудников");
     props.loadRepo.clearLayout();
+    props.loadRepo.flatDepartments();
   }
   return (
     <Route path="admin/users" components={UsersList} onEnter={usersEnter} />
@@ -52,7 +59,7 @@ const UsersRoutes = (props) => {
 
 const CodesRoutes = (props) => {
   const codesEnter = () => {
-    props.loadRepo.workCodes();
+    props.loadRepo.codesTable();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Коды работ");
     props.loadRepo.clearLayout();
@@ -65,9 +72,9 @@ const CodesRoutes = (props) => {
 
 const FinancesRoutes = (props) => {
   const financesEnter = () => {
-    props.loadRepo.finances();
+    props.loadRepo.financesTable();
     props.loadRepo.tabs([]);
-    props.loadRepo.setCurrentTitle("Коды работ");
+    props.loadRepo.setCurrentTitle("Статьи финансирования");
     props.loadRepo.clearLayout();
   }
   return (
@@ -93,6 +100,9 @@ const SubordinatesRoutes = (props) => {
     props.loadRepo.setCurrentTitle("Мои сотрудники");
     props.loadRepo.clearLayout();
     props.loadRepo.tableData();
+    props.loadRepo.workCodes();
+    props.loadRepo.finances();
+    props.loadRepo.subordinates();
   }
   return (
     <Route path="subordinates" component={Subordinates}  onEnter={subordinatesEnter}/>

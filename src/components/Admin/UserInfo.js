@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {debounce} from "../../helperFunctions";
 import Icon from "../../Icons/Icon";
 import {StandardField, Panel, DepartmentField} from "../formComponents/ReusableComponents";
+const  { DOM: { input, select, textarea } } = React
 
 
 const codeBlockStyle = {
@@ -56,8 +57,27 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
                 <Panel label="Табельный номер">
                   <Field name="number" component={StandardField} placeholder="Табельный номер"/>
                 </Panel>
+                <Panel>
+                  <label htmlFor="employed">Руководитель</label>
+                  <div>
+                    <Field name="is_chief" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
+                <Panel>
+                  <label htmlFor="employed">Администратор</label>
+                  <div>
+                    <Field name="is_admin" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
+                <Panel>
+                  <label htmlFor="employed">Заблокирован</label>
+                  <div>
+                    <Field name="is_banned" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
             </Container>
           </Container>
+            <Field name="role" id="employed" component="input" type="text" className="noDisplay"/>
           <input type="submit"  ref="sbmt" style={{display:"none"}}/>
         </form>
         )

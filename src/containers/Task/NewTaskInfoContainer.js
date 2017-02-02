@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    codes: state.codes.tree,
-    finances: state.finances.tree,
-    executors: state.subordinates
+    codes: state.codes,
+    finances: state.finances,
+    executors: state.User.subordinates
   }
 }
 

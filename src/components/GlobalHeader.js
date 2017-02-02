@@ -17,10 +17,10 @@ const tabStyles = {
 }
 
 const checkBoxValues=[
-  {value: "all", label:"Все задачи"},
-  {value: "current", label:"Подтвержденные задачи"},
-  {value: "unaccepted", label:"Неподтвержденные задачи"},
-  {value: "completes", label:"Завершенные задачи"},
+  {value: "0,1,2,3,4", label:"Все задачи"},
+  {value: "3", label:"Подтвержденные задачи"},
+  {value: "0", label:"Неподтвержденные задачи"},
+  {value: "1", label:"Завершенные задачи"},
 ];
 
 const filterContainerStyle = {
@@ -36,6 +36,27 @@ const createTabs = function(tabs) {
     )
   }
   return tabElements;
+}
+
+function compareFilters(filter1, filter2) {
+  if(!filter1.statuses || !filter2.statuses) {
+    return false;
+  }
+  if(filter1.statuses.length !== filter2.statuses.length || filter1.sub_ids.length !== filter2.sub_ids.length || filter1.type !== filter2.type
+  || filter1.all_subordinates !== filter2.all_subordinates) {
+    return true;
+  }
+  for(let i = 0; i < filter1.statuses.length; i++) {
+    if(!~filter2.statuses.indexOf(filter1.statuses[i])) {
+      return true;
+    }
+  }
+  for(let i = 0; i < filter1.sub_ids.length; i++) {
+    if(!~filter2.sub_ids.indexOf(filter1.sub_ids[i])) {
+      return true;
+    }
+  }
+  return false;
 }
 
 export default class GlobalHeader extends React.Component {
@@ -61,6 +82,9 @@ export default class GlobalHeader extends React.Component {
   }
   render() {
     let tabs = "";
+    const props = this.props;
+    let filterChanged = compareFilters(props.defaultFilters, props.currentTaskFilters);
+
     if(this.props.tabs) {
       tabs = (
         <div style={tabStyles}>
@@ -78,12 +102,12 @@ export default class GlobalHeader extends React.Component {
           <div className="header-filter-container">
             <h2 style={{textAlign: "center", marginBottom:"0px", marginTop: "5px"}}>{this.props.currentTitle}</h2>
             <div>
-              <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className="clickable-image clock filter-icon"/>
+              <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className={`clickable-image clock filter-icon ${filterChanged ? "active-filter" : ""}`}/>
             </div>
           </div>
           {tabs}
           <FilterModalContainer isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
-          anchorEl={this.state.anchorEl} applyFilters={this.props.applyFilters}
+          anchorEl={this.state.anchorEl}
           filterValues={checkBoxValues} closeModal={this.closeFilter.bind(this)} containerStyle={{maxWidth: '0'}}/>
         </div>
       );

@@ -4,6 +4,7 @@ import Container from "../Container";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
+import {PagesPicker} from "../formComponents/ReusableComponents";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -177,7 +178,7 @@ export default class FinancesList extends React.Component {
     let tasksView = (
       <List
      width={500}
-    height={this.props.clientHeight - 40}
+    height={this.props.clientHeight - 65}
     rowHeight={31}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
@@ -192,6 +193,7 @@ export default class FinancesList extends React.Component {
             </div>
           </div>
           {tasksView}
+          <PagesPicker prevPage={props.prevPage.bind(this, props.pageNumber)} nextPage={props.nextPage.bind(this, props.pageNumber)} pageNumber={props.pageNumber}/>
         </div>
       </Container>
     );

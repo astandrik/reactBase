@@ -22,6 +22,12 @@
   width: 100%;
 }
 
+.form-checkbox {
+  width: 20px;
+   height: 20px;
+   display: block;
+}
+
 .fullWidth {
   width:100%;
 }
@@ -49,7 +55,7 @@
 
 .standard-field {
   height:30px;
-  
+
 }
 
 .fieldValue:focus {

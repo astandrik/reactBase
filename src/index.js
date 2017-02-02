@@ -20,9 +20,11 @@ import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes
 StructureRoutes, UsersRoutes, CodesRoutes,FinancesRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
-import {setTabs, setCurrentTitle, clearLayout} from "./redux/actions/layoutActions";
+import {setTabs, setCurrentTitle, clearLayout, setLocation} from "./redux/actions/layoutActions";
 import {loadDepTree,loadFlatDepartments} from "./redux/actions/Admin/departmentActions";
 import {getUsers} from "./redux/actions/Admin/usersActions";
+import {loadCodes} from "./redux/actions/Admin/codesActions";
+import {loadFinancesTable} from "./redux/actions/Admin/financesActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
@@ -42,8 +44,15 @@ var loadRepo = {
   logout: () => store.dispatch(logout()),
   departments: () => store.dispatch(loadDepTree()),
   flatDepartments: () => store.dispatch(loadFlatDepartments()),
-  users: () => store.dispatch(getUsers(store.getState().Admin.usersPage))
+  users: () => store.dispatch(getUsers()),
+  codesTable: () => store.dispatch(loadCodes()),
+  financesTable: () => store.dispatch(loadFinancesTable()),
+  setLocation: (location) => store.dispatch(setLocation({location}))
 }
+
+browserHistory.listen(function(ev) {
+  loadRepo.setLocation(ev.pathname);
+});
 
 
 const TasksRouter = TaskRoutes({loadRepo:loadRepo});

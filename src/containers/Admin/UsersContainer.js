@@ -8,7 +8,9 @@ import {
 } from "../../redux/actions/tasksActions";
   import {
     loadUser,
-    setUser
+    setUser,
+    setUsersPage,
+    getUsers
   } from "../../redux/actions/Admin/usersActions";
 
 import {
@@ -20,7 +22,8 @@ const mapStateToProps = (state, ownProps) => {
         users: state.Admin.users,
         clientHeight: state.clientHeight,
         activeIndexes: state.activeIndexes,
-        rightPanelStatus: state.rightPanelStatus
+        rightPanelStatus: state.rightPanelStatus,
+        pageNumber: state.Admin.usersPage
     }
 }
 
@@ -45,6 +48,18 @@ const mapDispatchToProps = (dispatch) => {
           dispatch(toggleRightPanel({
               status: 1
           }));
+      },
+      prevPage: (page) => {
+        if(page > 0) {
+          dispatch(setUsersPage({page:(page-1)}));
+          dispatch(getUsers());
+        }
+      },
+      nextPage: (page) => {
+        if(true) {
+          dispatch(setUsersPage({page:(page+1)}));
+          dispatch(getUsers());
+        }
       }
     }
 }

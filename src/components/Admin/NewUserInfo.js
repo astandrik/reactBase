@@ -48,6 +48,24 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
                 <Panel label="Табельный номер">
                   <Field name="number" component={StandardField} placeholder="Табельный номер"/>
                 </Panel>
+                <Panel>
+                  <label htmlFor="employed">Руководитель</label>
+                  <div>
+                    <Field name="is_chief" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
+                <Panel>
+                  <label htmlFor="employed">Администратор</label>
+                  <div>
+                    <Field name="is_admin" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
+                <Panel>
+                  <label htmlFor="employed">Заблокирован</label>
+                  <div>
+                    <Field name="is_banned" id="employed" component="input" type="checkbox" className="form-checkbox"/>
+                  </div>
+                </Panel>
             </Container>
           </Container>
           <div style={{borderTop:"1px solid black", minHeight: "36px"}}>
