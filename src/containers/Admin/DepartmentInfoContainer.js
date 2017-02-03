@@ -1,7 +1,13 @@
 import DepartmentInfo from "../../components/Admin/DepartmentInfo";
 import {
+  deleteDepartment
+} from "../../redux/actions/Admin/departmentActions";
+import {
     connect
 } from 'react-redux';
+import {
+    toggleRightPanel
+} from "../../redux/actions/layoutActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -14,6 +20,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeModal: () => {
 
+        },
+        deleteDepartment: (dep) => {
+          dispatch(deleteDepartment(dep));
+          dispatch(toggleRightPanel({
+            status: 0
+          }));
         }
     }
 }

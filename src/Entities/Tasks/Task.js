@@ -16,7 +16,8 @@ export default class Task {
           update: ~rights.indexOf("update"),
           comment: ~rights.indexOf("comment"),
           time: ~rights.indexOf("time"),
-          accept: ~rights.indexOf("accept")
+          accept: ~rights.indexOf("accept"),
+          delete: ~rights.indexOf("delete")
         }
         this.title = task.name;
         this.name = task.name;

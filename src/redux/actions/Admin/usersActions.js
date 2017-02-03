@@ -89,6 +89,13 @@ export function loadUser(user) {
   return fetchAsync(`/get/user?id=` + user.id, handler);
 }
 
+export function deleteUser(user) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(getUsers());
+  }
+  return fetchAsync(`/delete/user?id=` + user.id, handler);
+}
+
 
 export function editUser(data) {
   const handler = (json,dispatch, getState) => {

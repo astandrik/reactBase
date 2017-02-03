@@ -5,7 +5,8 @@ import {
 import {
     closeLabor,
     loadTask,
-    createComment
+    createComment,
+    deleteTiming
   } from "../redux/actions/tasksActions";
 import {editLabor, acceptTiming, declineTiming} from "../redux/actions/tasksActions";
 import LaborToSend from "../Entities/Tasks/LaborToSend";
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         declineTrud: (trud) => {
           dispatch(declineTiming(trud, true));
+        },
+        deleteTrud: (trud) => {
+          dispatch(deleteTiming(trud));
         },
         returnToTask: (trud) => {
           dispatch(closeLabor());

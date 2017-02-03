@@ -66,6 +66,15 @@ export function editDepartment (data) {
   return fetchPost(`/edit/department`, data, handler);
 }
 
+export function deleteDepartment (data) {
+  const handler = (json,dispatch, getState) => {
+      dispatch(loadDepTree());
+      dispatch(loadFlatDepartments());
+  }
+  return fetchPost(`/delete/department?id=${data.id}`, data, handler);
+}
+
+
 
 export function createDepartment (data) {
   const handler = (json,dispatch, getState) => {

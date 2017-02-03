@@ -16,6 +16,8 @@
   pointer-events: none;
 }
 
+
+
 .small-modal {
   position: absolute;
     border: 1px solid rgb(204, 204, 204);
@@ -28,6 +30,11 @@
   left: 30%!important;
   bottom: 30%!important;
   background: #EEEEEE!important;
+}
+
+.small-modal.long {
+  top: 10%!important;
+  bottom: 10%!important;
 }
 
 .filter-popover {

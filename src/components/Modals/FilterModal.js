@@ -12,8 +12,8 @@ function copyFilters(obj) {
   let newTaskFilters = {};
   const filters = obj;
   newTaskFilters.statuses = filters.statuses.slice();
-  newTaskFilters.subs = filters.sub_ids;
-  newTaskFilters.allSubs = filters.all_subs;
+  newTaskFilters.subs = filters.sub_ids || filters.subs;
+  newTaskFilters.allSubs = filters.all_subs || filters.allSubs;
   return newTaskFilters;
 }
 

@@ -9,7 +9,8 @@ import {
     editFinance,
     createFinance,
     setFinancesPage,
-    loadFinancesTable
+    loadFinancesTable,
+    deleteFinance
   } from "../../redux/actions/Admin/financesActions";
 
 import {
@@ -32,6 +33,9 @@ const mapDispatchToProps = (dispatch) => {
       },
       editFinance: (code)  => {
         dispatch(editFinance(code));
+      },
+      deleteFinance: (finance_id) => {
+        dispatch(deleteFinance({id: finance_id}));
       },
       createFinance: (code) => {
         dispatch(createFinance(code));

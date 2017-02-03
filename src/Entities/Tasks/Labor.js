@@ -17,6 +17,7 @@ export default class Labor {
       update: ~rights.indexOf("update"),
       comment: ~rights.indexOf("comment"),
       accept: ~rights.indexOf("accept"),
+      delete: ~rights.indexOf("delete")
     }
     this.commentsOpened = false;
     this.rawstatus = json.status;

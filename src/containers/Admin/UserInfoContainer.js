@@ -2,6 +2,12 @@ import UserInfo from "../../components/Admin/UserInfo";
 import {
     connect
 } from 'react-redux';
+import {
+  deleteUser
+} from "../../redux/actions/Admin/usersActions";
+import {
+    toggleRightPanel
+} from "../../redux/actions/layoutActions";
 
 const mapStateToProps = (state, ownProps) => {
     return {
@@ -14,6 +20,12 @@ const mapDispatchToProps = (dispatch) => {
     return {
         closeModal: () => {
 
+        },
+        deleteUser: (user) => {
+          dispatch(deleteUser(user));
+          dispatch(toggleRightPanel({
+            status: 0
+          }));
         }
     }
 }

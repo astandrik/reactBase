@@ -1,0 +1,84 @@
+.report-type-choose-radio {
+  display: flex;
+  font-size: 14px;
+}
+
+.reports-header {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.user-report-select>div {
+  height: 100%;
+}
+
+.user-report-select .Select {
+  height: 100%;
+}
+.user-report-select .Select-control {
+  height: 100%;
+}
+
+.user-report-select .Select-multi-value-wrapper {
+  height: 100%;
+}
+
+.user-report-select .Select-placeholder {
+  height: 100%;
+}
+
+
+.elements-report-select .Select-control {
+  height: 100%;
+}
+
+.elements-report-select .Select-multi-value-wrapper {
+  height: 100%;
+}
+
+.elements-report-select .Select-placeholder {
+  height: 100%;
+}
+
+.reports-page .close-right-panel {
+  display: none;
+}
+
+.elements-report-select {
+  margin-top: 7px;
+}
+
+.noEvents {
+  pointer-events: none;
+}
+
+.elements-report-select .report-type-choose-radio  {
+  height:20%;
+}
+
+.no-events-tree {
+  pointer-events: none;
+}
+
+.no-events-tree * {
+  pointer-events: none;
+}
+
+.elements-report-select>div{
+  height:100%;
+}
+
+.elements-report-select .Select  {
+  height: 80%;
+}
+
+
+.report-type-choose-radio>div:nth-child(3) {
+  width:33%!important;
+}
+.report-type-choose-radio>div:nth-child(1) {
+  width:33%!important;
+}
+.report-type-choose-radio>div:nth-child(2) {
+  width:33%!important;
+}

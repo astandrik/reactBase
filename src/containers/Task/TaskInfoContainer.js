@@ -13,7 +13,8 @@ import {
     acceptTask,
     declineTask,
     completeTask,
-    createTask
+    createTask,
+    deleteTask
 } from "../../redux/actions/tasksActions";
 import {
     openTrudModal,
@@ -77,6 +78,12 @@ const mapDispatchToProps = (dispatch) => {
           obj.comment = comment;
           obj.task_id = task.id;
           dispatch(createComment(obj,task));
+        },
+        deleteTask: (data) => {
+          dispatch(deleteTask(data));
+          dispatch(toggleRightPanel({
+              status: 0
+          }));
         },
         acceptTask:(task)=> {
           dispatch(acceptTask(task));

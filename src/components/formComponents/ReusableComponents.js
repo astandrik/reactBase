@@ -39,7 +39,7 @@ const datepickerStyles = {
   background: "white"
 }
 
-export const PagesPicker = (props)=> {  
+export const PagesPicker = (props)=> {
   return (
     <div style={datepickerStyles}>
       <img className="clickable-image left" onClick={props.prevPage.bind(this)}  src={left} alt="logo" />
@@ -94,8 +94,15 @@ export const ExecutorsSelectField = ({executors, deactivateExecutorsField,deboun
   }/>
 );
 
-export const NameField = ({input}) => {
-    return (<input {...input}   className="fieldValue taskHeader" placeholder="Название задачи"/>);
+export function onChangeSubmit(onChange, handleSubmit) {
+  return (event) => {
+    onChange(event);
+    setTimeout(() => handleSubmit(), 0);
+  };
+}
+
+export const NameField = ({input, placeholder,handleChange}) => {
+    return (<input {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    className="fieldValue taskHeader" placeholder={placeholder ? placeholder : "Название задачи"} />);
   }
 
   export const StandardField = ({input, placeholder}) => {
@@ -105,8 +112,8 @@ export const DescriptionField = ({input, placeholder}) => {
     return (<textarea  {...input}   style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
 }
 
-export const HoursField = ({input}) => {
-    return (<input {...input}   className="formInput" placeholder="Количество часов"/>);
+export const HoursField = ({input, handleChange}) => {
+    return (<input {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}  className="formInput" placeholder="Количество часов"/>);
   }
 
 export const Panel = ({children , label, disabled}) => {

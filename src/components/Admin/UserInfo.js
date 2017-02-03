@@ -39,7 +39,9 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
         <form onSubmit={handleSubmit} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           <Container vertical={true}>
             <div className="infoHeader" flex="1">
-
+              <div style={{marginLeft:"15px"}}>
+                <Icon onClick={this.props.deleteUser.bind(this, user)} className={`clickable-image ellipsis`} name="rubbish-bin"  />
+              </div>
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
                 <Panel label="ФИО">

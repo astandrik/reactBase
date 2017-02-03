@@ -6,6 +6,7 @@ import * as layoutReducers from "./reducers/Layout";
 import * as tableReducers from "./reducers/Table";
 import * as userReducers from "./reducers/User";
 import * as errorReducers from "./reducers/Errors";
+import * as reportsReducers from "./reducers/Report";
 import * as departmentReducers from "./reducers/Admin/Department";
 import * as usersReducers from "./reducers/Admin/Users";
 import * as financesReducers from "./reducers/Admin/Finances";
@@ -45,6 +46,10 @@ const layoutBindings = {
     currentLocation: layoutReducers.setLocation
 }
 
+const Reports = combineReducers({
+  reportTasks: reportsReducers.setReportTasks
+})
+
 const Table = combineReducers({
     tableData: tableReducers.setTableData,
     currentWeek: tableReducers.setCurrentWeek,
@@ -75,6 +80,7 @@ export default combineReducers({
     ...layoutBindings,
     Table,
     User,
+    Reports,
     Admin,
     form: formReducer,
     validationErrors: errorReducers.setValidationErrors

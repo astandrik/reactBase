@@ -30,6 +30,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleTrudSubmit: (task, json) => {
         let labor = LaborToSend(json);
+        if(json.author_val) {
+            labor.author_id = json.author_val.value;
+        }
         labor.task_id = task.id;
         dispatch(createLabor(labor, task));
     },

@@ -37,6 +37,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     handleEditLaborSubmit: (json) => {
       const labor = LaborToSend(json);
+      if(json.author_val) {
+          labor.author_id = json.author_val.value;
+      }
       labor.status = 0;
       dispatch(editLabor(labor, true));
     },

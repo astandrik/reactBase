@@ -31,6 +31,13 @@ export function createCode(data) {
   return fetchPost(`/create/workcode`, data, handler);
 }
 
+export function deleteCode(data) {
+  const handler = (json,dispatch, getState) => {
+      dispatch(loadCodes());
+  }
+  return fetchAsync(`/delete/workcode?id=${data.id}`, handler);
+}
+
 
 import {CodesTree} from  "../../../Entities/Admin/Codes";
 import Code from  "../../../Entities/Admin/Code";

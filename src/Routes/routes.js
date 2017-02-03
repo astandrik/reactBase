@@ -88,6 +88,7 @@ const ReportRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои отчеты");
     props.loadRepo.clearLayout();
+    props.loadRepo.finances();
   }
   return (
     <Route path="reports" component={Reports}  onEnter={reportsEnter}/>

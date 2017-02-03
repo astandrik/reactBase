@@ -30,6 +30,13 @@ export function createFinance(data) {
   return fetchPost(`/create/finance`, data, handler);
 }
 
+export function deleteFinance(data) {
+  const handler = (json,dispatch, getState) => {
+      dispatch(loadFinancesTable());
+  }
+  return fetchAsync(`/delete/finance?id=${data.id}`, handler);
+}
+
 const limit = 30;
 
 import {FinancesTree} from  "../../../Entities/Admin/Finances";

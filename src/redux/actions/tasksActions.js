@@ -112,6 +112,23 @@ export function createTask(data) {
     return fetchPost(`/create/task`, data, handler);
 }
 
+export function deleteTask(data) {
+  const handler = (json,dispatch, getState) => {
+    dispatch(loadTasks());
+    dispatch(reset('newTaskInfoDialogForm'));
+  }
+  return fetchAsync(`/delete/task?id=${data.id}`, handler);
+}
+
+export function deleteTiming(data) {
+  const handler = (json,dispatch, getState) => {
+    dispatch(loadTask({id: data.task_id}));
+    const currentWeek = getState().Table.currentWeek;
+    dispatch(loadTableData({day: currentWeek}));
+  }
+  return fetchAsync(`/delete/time?id=${data.id}`, handler);
+}
+
 export function editTask(data, task) {
   const handler = (json,dispatch, getState) => {
     let tasks = getState().tasks;
@@ -173,7 +190,7 @@ export function editLabor(data, fromLabor, fromTable) {
       const currentWeek = getState().Table.currentWeek;
     }
     if(fromTable) {
-      let tableData = getState().tableData;
+      let tableData = getState().Table.tableData;
       let currentCell = tableData.laborsCellsByIds[currentLabor.id];
       let timing = currentCell.timings.filter(x => x.id == currentLabor.id)[0];
       const oldVal = timing.value;

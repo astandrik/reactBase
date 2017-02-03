@@ -5,15 +5,16 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import close from "../../Icons/delete.svg";
 import 'react-datepicker/dist/react-datepicker.css';
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm ,change} from 'redux-form'
 import "../styles/Modal.css";
 import DPicker from "../formComponents/DatePicker";
 import calendar from "../../Icons/calendar.svg";
 import moment from 'moment';
+import Select from 'react-select';
 import {
     connect
 } from 'react-redux';
-import {WorkCodeField, FinancesField, HoursField, Panel} from "../formComponents/ReusableComponents";
+import {WorkCodeField, FinancesField, HoursField, Panel,StandardField} from "../formComponents/ReusableComponents";
 
 const commentField = ({ input, label, meta: { touched, error } }) => {
   return (
@@ -29,40 +30,82 @@ const commentField = ({ input, label, meta: { touched, error } }) => {
 
 
 
-const dialog = (props) => {
-  const { handleSubmit } = props;
+const dialog = class addTrudModalDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      author_val: props.author_val
+    }
+  }
+  handleSelectChange(val) {
+    const user = val;
+    this.props.changeFieldValue('author_val', val)
+    this.setState({
+      author_val: user
+    })
+  }
+  getUsers(query) {
+    if (!query) {
+      return Promise.resolve({ options: [] });
+    }
 
+    return fetch(`/data/searchusers?query=${query}`,
+      {
+        method: "GET",
+        credentials: 'include'
+      })
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
+    });
+  }
+  render() {
+  const props = this.props;
+  const { handleSubmit } = props;
   return (
-    <Modal
-    isOpen={props.isModalOpen}
-    contentLabel="Modal"
-    className="large-modal"
-  >
-  <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
-  <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
-  <Container vertical="true" >
-       <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
-       <Container flex="2" className="responsive-vertical">
-         <Panel label="Количество часов">
-           <Field name="hours"  component={HoursField} />
-         </Panel>
-          <Panel label="Код работ">
-            <WorkCodeField codes={props.codes}/>
-          </Panel>
-      </Container>
-      <div className="taskDate">
-        <span> Дата: </span>
-        <Field name="startLaborDate" component={DPicker}/>
-        <img className="rightCalendar" src={calendar} alt="logo" />
-      </div>
-      <div flex="5">
-        <Field name="comment" component={commentField}/>
-       </div>
-      <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
-  </Container>
-  </form>
-  </Modal>
-  )
+      <Modal
+      isOpen={props.isModalOpen}
+      contentLabel="Modal"
+      className="small-modal long"
+    >
+    <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
+    <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
+    <Container vertical="true" >
+         <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
+         <Container flex="2" className="responsive-vertical" vertical={true}>
+           <Panel label="Количество часов">
+             <Field name="hours"  component={HoursField} />
+           </Panel>
+            <Panel label="Код работ">
+              <WorkCodeField codes={props.codes}/>
+            </Panel>
+        </Container>
+        <Panel label="Исполнитель">
+          <Select.Async multi={false} value={this.state.author_val}
+          onChange={this.handleSelectChange.bind(this)}
+          searchPromptText="Введите имя пользователя"
+            placeholder="Список выбранных сотрудников"
+            backspaceRemoves={false}
+            ignoreCase={false}
+          loadOptions={this.getUsers} />
+        </Panel>
+        <div className="taskDate">
+          <span> Дата: </span>
+          <Field name="startLaborDate" component={DPicker}/>
+          <img className="rightCalendar" src={calendar} alt="logo" />
+        </div>
+        <div flex="5">
+          <Field name="comment" component={commentField}/>
+         </div>
+        <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
+        <Field name="author_val" component={StandardField} className="noDisplay"/>
+    </Container>
+    </form>
+    </Modal>
+    )
+  }
 }
 
 let dialogForm = reduxForm({
@@ -79,9 +122,20 @@ dialogForm = connect(
   state => {
     const date = state.currentDay ? (`${swapDate(state.currentDay)}.${state.currentWeek.getFullYear()}`).split(".").join("/") : new Date();
     const currentDate = moment(date);
+    const currentUser = state.User.user;
+
     return ({
-    initialValues: Object.assign(state.currentAddingTrudTask, {startLaborDate: currentDate})
-  })}
+    initialValues: Object.assign(state.currentAddingTrudTask, {startLaborDate: currentDate}, {author_val : {value: currentUser.id, label: currentUser.name}}),
+    author_val: {value: currentUser.id, label: currentUser.name}
+  })},
+  function(dispatch) {
+    return {
+        // This will be passed as a property to the presentational component
+        changeFieldValue: function(field, value) {
+            dispatch(change('trudDialogForm', field, value))
+        }
+    }
+  }
 )(dialogForm);
 
 export default dialogForm;

@@ -191,6 +191,9 @@ export default class FinancesList extends React.Component {
             <div>
               <RaisedButton className="addButton" label="Добавить" onClick={this.addNewCode.bind(this)}/>
             </div>
+            <div className={!~this.props.activeIndexes.taskId ? "noDisplay" : ""}>
+              <RaisedButton className="addButton" label="Удалить" onClick={this.props.deleteFinance.bind(this, this.props.activeIndexes.taskId)}/>
+            </div>
           </div>
           {tasksView}
           <PagesPicker prevPage={props.prevPage.bind(this, props.pageNumber)} nextPage={props.nextPage.bind(this, props.pageNumber)} pageNumber={props.pageNumber}/>

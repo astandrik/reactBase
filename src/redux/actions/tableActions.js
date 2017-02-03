@@ -21,6 +21,20 @@ export function getDateRange(day) {
 }
 
 
+export function getDateMonthRange(day) {
+         var curr_date =new Date(day);
+
+         var first_day = new Date(curr_date.getFullYear(), curr_date.getMonth(), 1);
+
+         var last_day = new Date(curr_date.getFullYear(), curr_date.getMonth() + 1, 0);
+         return {first: first_day, last: last_day}
+
+        /*
+         var month_end_date =formatted_date(new Date()); // limit current month date range upto current day.
+       */
+
+}
+
 export const setTableData = generateActionFunc(SET_TABLE_DATA);
 export const setCurrentWeek = generateActionFunc(SET_WEEK);
 export const setCurrentDay = generateActionFunc(SET_DAY);

@@ -16,7 +16,7 @@ import TaskTableContainer from "./Table/TaskTableContainer";
 import RightTablePanelContainer from "./Table/RightTablePanelContainer";
 import LaborListContainer from "./Table/LaborListContainer";
 
-import ReportsTableContainer from "./ReportsTableContainer";
+import ReportsTableContainer from "./Reports/ReportsTableContainer";
 import SubordinatesTableContainer from "./SubordinatesTableContainer";
 import StatisticsContainer from "./StatisticsContainer";
 

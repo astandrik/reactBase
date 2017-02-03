@@ -40,7 +40,7 @@ const  DepartmentInfoComponent =  class NewDepartmentInfo extends React.Componen
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
                 <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
-                  <Field name="name"  component={NameField} />
+                  <Field name="name" placeholder="Название отдела"  component={NameField} />
                 </h2>
                 <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
                   <span className="panelLabel"> Описание </span>

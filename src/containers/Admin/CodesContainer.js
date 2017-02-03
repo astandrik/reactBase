@@ -9,7 +9,8 @@ import {
     editCode,
     createCode,
     setCodesPage,
-    loadCodes
+    loadCodes,
+    deleteCode
   } from "../../redux/actions/Admin/codesActions";
 
 import {
@@ -41,6 +42,9 @@ const mapDispatchToProps = (dispatch) => {
            globalIndex: code.globalIndex,
            taskId: code.id
         }));
+      },
+      deleteCode: (code_id) => {
+        dispatch(deleteCode({id: code_id}));
       },
       prevPage: (page) => {
         if(page > 0) {

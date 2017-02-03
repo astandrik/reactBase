@@ -1,5 +1,5 @@
 import React from "react";
-import {getDateRange} from "../../redux/actions/tableActions";
+import {getDateRange, getDateMonthRange} from "../../redux/actions/tableActions";
 let helpers = {};
 import Icon from "../../Icons/Icon";
 import taskHelpers from "../Tasks/taskHelpers";
@@ -113,5 +113,6 @@ helpers.getWeek = function(date) {
 };
 
 helpers.getDateRange = getDateRange;
+helpers.getDateMonthRange = getDateMonthRange;
 
 export default helpers;

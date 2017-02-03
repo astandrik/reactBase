@@ -1,16 +1,16 @@
-import SubordinatesTable from "../components/Subordinates/SubordinatesTable";
+import RightReportsPanel from "../../components/Reports/RightReportsPanel";
 import { connect } from 'react-redux';
+
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    tasks: state.tasks,
-    rightPanelStatus: state.rightPanelStatus
+
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    hmm: () => "mmm"
+
   }
 }
 
@@ -18,6 +18,6 @@ const mapDispatchToProps = (dispatch) => {
 const Visible = connect(
   mapStateToProps,
   mapDispatchToProps
-)(SubordinatesTable)
+)(RightReportsPanel)
 
-export default Visible
+export default Visible;
