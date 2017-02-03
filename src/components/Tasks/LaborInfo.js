@@ -11,7 +11,7 @@ import {WorkCodeField, FinancesField,NameField, Panel, HoursField} from "../form
 import Icon from "../../Icons/Icon";
 import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';
-
+import DeclineTrudModalContainer from "../../containers/ModalContainers/DeclineTrudModalContainer";
 
 
 const codeBlockStyle = {
@@ -22,7 +22,7 @@ const headerBlockStyle = {
   minHeight: "56px"
 }
 
-const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, deleteTrud}) => (
+const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, deleteTrud, context}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
     <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
       <div data-tip="Вернуться">
@@ -31,13 +31,15 @@ const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, delet
       <ReactTooltip place="top" type="dark" effect="float"/>
       <div data-tip={rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(status !== "Новая") ? "noDisplay" : ''} `}>
         <div className={(rights.accept ? "" : "disabled")}>
-          <Icon name="acceptTrud" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")} onClick={acceptTrud}/>
+          <Icon name="acceptTrud" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
+             onClick={context.startQuestion.bind(context,"accept")}/>
         </div>
       </div>
       <ReactTooltip place="top" type="dark" effect="float"/>
       <div data-tip={rights.accept ? "Отклонить" : "Нет прав на отклонение"}>
         <div className={(rights.accept ? "" : "disabled")}>
-          <Icon name="decline" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")} onClick={declineTrud}/>
+          <Icon name="decline" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
+           onClick={context.startQuestion.bind(context,"decline")}/>
         </div>
       </div>
       <ReactTooltip place="top" type="dark" effect="float"/>
@@ -57,7 +59,11 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
    this.state = {
      open: false,
      executorsFieldActive: false,
-    author_val: props.author_val
+    author_val: props.author_val,
+    isModalOpen: false,
+    isDeclineModalOpen: false,
+    message: "Ebin))",
+    currentQuestion: () => {}
     };
     this.handleDebounce = debounce(this.handleEdit, 400);
   }
@@ -89,6 +95,36 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
       return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
     });
   }
+  startQuestion(type) {
+    if(type === "decline") {
+      this.setState({
+        currentQuestion: this.declineAnswer,
+        message: "Уверены, что хотите отклонить трудозатрату?",
+        isDeclineModalOpen: true,
+      });
+    } else {
+      this.setState({
+        currentQuestion: this.acceptAnswer,
+        message: "Уверены, что хотите подтвердить трудозатрату?",
+        isModalOpen: true
+      });
+    }
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.acceptTrud(this.props.labor);
+    }
+  }
+  declineAnswer(answer, comment) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.declineTrud(this.props.labor, comment)
+    }
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false, isDeclineModalOpen: false});
+  }
   render () {
     const props=this.props;
     const labor = props.labor;
@@ -112,6 +148,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   declineTrud={this.props.declineTrud.bind(this, labor)}
                   acceptTrud={this.props.acceptTrud.bind(this, labor)} returnToTask={props.returnToTask.bind(this, labor)}
                   deleteTrud={this.props.deleteTrud.bind(this, labor)}
+                  context={this}
                   status={labor.status} />
                 </div>
               </Container>
@@ -134,7 +171,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   searchPromptText="Введите имя пользователя"
                     placeholder="Список выбранных сотрудников"
                     backspaceRemoves={false}
-                    ignoreCase={false}
+                    ignoreCase={true}
                   loadOptions={this.getUsers} />
                 </Panel>
                 <div>
@@ -143,6 +180,9 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
             </Container>
           </Container>
           <input type="submit"  ref="sbmt" style={{display:"none"}}/>
+            <DeclineTrudModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isDeclineModalOpen}
+                labor={this.props.labor}
+                answer={this.state.currentQuestion.bind(this)}/>
         </form>
         )
       }
@@ -156,9 +196,13 @@ let laborForm = reduxForm({
 
 laborForm = connect(
   state => {
+    let authorVal = false;
+    if(state.laborView) {
+      authorVal = {value: state.laborView.author.id, label: state.laborView.author.name};
+    }
     return ({
-    initialValues: Object.assign(state.laborView,{author_val : {value: state.laborView.author.id, label: state.laborView.author.name}}),
-    author_val : {value: state.laborView.author.id, label: state.laborView.author.name}
+    initialValues: Object.assign(state.laborView,{author_val :authorVal} ),
+    author_val : authorVal
   })},
   function(dispatch) {
     return {

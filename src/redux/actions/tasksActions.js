@@ -129,19 +129,30 @@ export function deleteTiming(data) {
   return fetchAsync(`/delete/time?id=${data.id}`, handler);
 }
 
+const statusDict = {
+  0: "Новая",
+  1: "Завершена",
+  2: "Удалена",
+  3: "Подтверждена",
+  4: "Отклонена"
+}
+
 export function editTask(data, task) {
   const handler = (json,dispatch, getState) => {
     let tasks = getState().tasks;
+    const t = new Task(json.data);
     if(tasks) {
-      let newTasks = tasks.treeNormalized.byId[json.data.id];
+      let newTasks = tasks.treeNormalized.byId[t.id];
       for(let i = 0; i< newTasks.length; i++) {
-        const t = new Task(json.data);
         newTasks[i].name = t.name;
         newTasks[i].executors = t.executors;
+        newTasks[i].rawstatus = t.rawstatus;
+        newTasks[i].status = statusDict[t.rawstatus];
       }
       tasks.changed = !tasks.changed;
       dispatch(setTasks({tasks}));
     }
+    dispatch(setTaskView({task: t, parent_id: t.parent_id || 0}));
   }
   const errorHandler = (dispatch) => {
     dispatch(loadTask(task));
@@ -209,7 +220,7 @@ export function editLabor(data, fromLabor, fromTable) {
     }
   }
   const errorHandler = (dispatch) => {
-    dispatch(loadTask(data));
+    dispatch(loadTask({id: data.task_id}));
     dispatch(reset("taskInfoDialogForm"));
   }
   data.date = (new Date(data.startDate)).getTime() / 1000;
@@ -352,7 +363,7 @@ export function acceptTiming(labor, fromLabor) {
   return fetchAsync("/data/accepttime?ids=" + labor.id, handler);
 }
 
-export function declineTiming(labor, fromLabor) {
+export function declineTiming(labor, fromLabor, comment) {
   const handler = (json, dispatch, getState) => {
     const currentWeek = getState().Table.currentWeek;
     dispatch(loadTableData({day: currentWeek}))
@@ -362,7 +373,7 @@ export function declineTiming(labor, fromLabor) {
       dispatch(loadTask({id: labor.task_id}));
     }
   }
-  return fetchAsync("/data/declinetime?ids=" + labor.id, handler);
+  return fetchAsync("/data/declinetime?ids=" + labor.id + (comment ? ("&comment="+ comment) : ""), handler);
 }
 
 export function completeTask(task) {

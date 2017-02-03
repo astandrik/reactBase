@@ -116,35 +116,35 @@ export default class Labors extends React.Component {
     this.props.getTasksForUsers(user_ids);
     this.setState({
       user_ids: user_ids,
-      selectedUsers: vals,
-      disableClick:false
+      selectedUsers: vals
     })
   }
   handleSingleSelectChange(val) {
     this.setState({
       user_id: val.value,
-      currentUser: val,
-      disableClick:false
+      currentUser: val
     })
   }
   handleTaskSelectChange(vals) {
     const task_ids = vals.map(x => x.value);
     this.setState({
       task_ids: task_ids,
-      selectedTasks: vals,
-      disableClick:false
+      selectedTasks: vals
     })
   }
   disableClick(disable) {
-    this.setState({ disableClick: disable });
+    if(!disable) {
+      setTimeout(() => this.setState({ disableClick: disable }), 700);
+    } else {
+      this.setState({ disableClick: disable });
+    }
     return true;
   }
   handleFinanceSelectChange(vals) {
     const finance_ids = vals.map(x => x.value);
     this.setState({
       finance_ids: finance_ids,
-      selectedFinances: vals,
-      disableClick:false
+      selectedFinances: vals
     })
   }
   render () {
@@ -189,13 +189,13 @@ export default class Labors extends React.Component {
         searchPromptText="Введите имя пользователя"
           placeholder="Список выбранных сотрудников"
           backspaceRemoves={false}
-          ignoreCase={false}
+          ignoreCase={true}
           onFocus={this.disableClick.bind(this, true)}
           onBlur={this.disableClick.bind(this, false)}
         loadOptions={this.getUsers} />
       </div>
       <div className={"elements-report-select"} flex="4">
-        <RadioButtonGroup className={"report-type-choose-radio " +  (this.state.disableClick  ? "noDisplay" : "")} name="user_type" valueSelected={this.state.currentRadio} onChange={this.radiogroupChanged.bind(this)}>
+        <RadioButtonGroup className={"report-type-choose-radio " +  (this.state.disableClick  ? "no-events-tree" : "")} name="user_type" valueSelected={this.state.currentRadio} onChange={this.radiogroupChanged.bind(this)}>
           <RadioButton
             value="tasks"
             label="Задачи"

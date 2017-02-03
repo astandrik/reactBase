@@ -30,8 +30,8 @@ const mapDispatchToProps = (dispatch) => {
         acceptTrud: (trud) => {
           dispatch(acceptTiming(trud, true));
         },
-        declineTrud: (trud) => {
-          dispatch(declineTiming(trud, true));
+        declineTrud: (trud,comment) => {
+          dispatch(declineTiming(trud, true, comment));
         },
         deleteTrud: (trud) => {
           dispatch(deleteTiming(trud));

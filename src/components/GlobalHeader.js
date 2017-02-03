@@ -59,6 +59,14 @@ function compareFilters(filter1, filter2) {
   return false;
 }
 
+const filterNeeded = [
+   "Нераспределенные задачи",
+  "Мои задачи",
+   "Задачи подчинённых",
+   "Все задачи",
+   "Мои сотрудники"
+]
+
 export default class GlobalHeader extends React.Component {
   constructor(props) {
     super(props)
@@ -84,7 +92,7 @@ export default class GlobalHeader extends React.Component {
     let tabs = "";
     const props = this.props;
     let filterChanged = compareFilters(props.defaultFilters, props.currentTaskFilters);
-
+    const isFilterDisplayed = ~filterNeeded.indexOf(props.currentTitle);
     if(this.props.tabs) {
       tabs = (
         <div style={tabStyles}>
@@ -101,7 +109,7 @@ export default class GlobalHeader extends React.Component {
         <div style={headerStyles}>
           <div className="header-filter-container">
             <h2 style={{textAlign: "center", marginBottom:"0px", marginTop: "5px"}}>{this.props.currentTitle}</h2>
-            <div>
+            <div className={isFilterDisplayed ? "" : "noDisplay"}>
               <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className={`clickable-image clock filter-icon ${filterChanged ? "active-filter" : ""}`}/>
             </div>
           </div>

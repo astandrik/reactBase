@@ -22,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
     acceptTrud: (trud) => {
       dispatch(acceptTiming(trud));
     },
-    declineTrud: (trud) => {
-      dispatch(declineTiming(trud));
+    declineTrud: (trud, comment) => {
+      dispatch(declineTiming(trud, null, comment));
     }
   }
 }

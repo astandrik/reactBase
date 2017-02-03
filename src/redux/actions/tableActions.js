@@ -5,6 +5,7 @@ import {setGroupedTableLabors, groupLabors} from "./tasksActions";
 export const SET_TABLE_DATA = "SET_TABLE_DATA";
 export const CHANGE_WEEK = "CHANGE_WEEK";
 export const SET_WEEK = "SET_WEEK";
+export const SET_MONDAY = "SET_MONDAY";
 export const SET_DAY = "SET_DAY";
 
 export function getDateRange(day) {
@@ -38,6 +39,7 @@ export function getDateMonthRange(day) {
 export const setTableData = generateActionFunc(SET_TABLE_DATA);
 export const setCurrentWeek = generateActionFunc(SET_WEEK);
 export const setCurrentDay = generateActionFunc(SET_DAY);
+export const setMonday = generateActionFunc(SET_MONDAY);
 
 export function changeWeek(obj) {
   return (dispatch, getState) => {

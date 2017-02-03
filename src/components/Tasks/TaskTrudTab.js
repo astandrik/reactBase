@@ -8,6 +8,7 @@ import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
 import Icon from "../../Icons/Icon";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
+import DeclineTrudModalContainer from "../../containers/ModalContainers/DeclineTrudModalContainer";
 
 const statusDict = {
   "Новая": "new-task",
@@ -66,6 +67,7 @@ export default class TrudTab extends React.Component {
     super(props);
     this.state = {
         isModalOpen: false,
+        isDeclineModalOpen: false,
         message: "Ebin))",
         selectedLabor: null,
         currentQuestion: () => {}
@@ -77,7 +79,7 @@ export default class TrudTab extends React.Component {
         selectedLabor: labor,
         currentQuestion: this.declineAnswer,
         message: "Уверены, что хотите отклонить трудозатрату?",
-        isModalOpen: true
+        isDeclineModalOpen: true,
       });
     } else {
       this.setState({
@@ -94,17 +96,14 @@ export default class TrudTab extends React.Component {
       this.props.acceptTrud(this.state.selectedLabor);
     }
   }
-  declineAnswer(answer) {
+  declineAnswer(answer, comment) {
     this.closeConfirm.bind(this)();
     if(answer) {
-      this.props.declineTrud(this.state.selectedLabor)
+      this.props.declineTrud(this.state.selectedLabor, comment)
     }
   }
-  openConfirm(date, labors) {
-    this.setState({isModalOpen: true});
-  }
   closeConfirm() {
-    this.setState({isModalOpen: false});
+    this.setState({isModalOpen: false, isDeclineModalOpen: false});
   }
   render() {
     const props = this.props;
@@ -122,6 +121,9 @@ export default class TrudTab extends React.Component {
           </div>
           <ConfirmModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={this.state.message}
             answer={this.state.currentQuestion.bind(this)}/>
+          <DeclineTrudModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isDeclineModalOpen}
+              labor={this.state.selectedLabor}
+              answer={this.state.currentQuestion.bind(this)}/>
         </div>
       )
     } else {

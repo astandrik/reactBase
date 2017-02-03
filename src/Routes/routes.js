@@ -19,6 +19,7 @@ const TaskRoutes = (props) => {
     props.loadRepo.clearLayout();
     props.loadRepo.workCodes();
     props.loadRepo.finances();
+    props.loadRepo.monday();
     props.loadRepo.subordinates();
     const type = ev.params.type;
     props.loadRepo.setGlobalTaskType(type);
@@ -88,6 +89,7 @@ const ReportRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои отчеты");
     props.loadRepo.clearLayout();
+    props.loadRepo.monday();
     props.loadRepo.finances();
   }
   return (

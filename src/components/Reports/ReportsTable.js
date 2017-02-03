@@ -12,10 +12,10 @@ export default class Table extends React.Component {
   render() {
     return (
       <Container className="reports-page">
-      <RightPanelContainer flex="2">
-        <LeftReportsPanelContainer flex="2" />
-      </RightPanelContainer>
-      <div flex="4"/>
+        <RightPanelContainer flex="5">
+          <LeftReportsPanelContainer />
+        </RightPanelContainer>
+        <div flex="7"/>
       </Container>
     )
   }

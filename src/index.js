@@ -26,7 +26,7 @@ import {getUsers} from "./redux/actions/Admin/usersActions";
 import {loadCodes} from "./redux/actions/Admin/codesActions";
 import {loadFinancesTable} from "./redux/actions/Admin/financesActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
-import {loadTableData} from "./redux/actions/tableActions";
+import {loadTableData, setMonday} from "./redux/actions/tableActions";
 import LayoutContainer from "./LayoutContainer";
 
 var loadRepo = {
@@ -47,7 +47,8 @@ var loadRepo = {
   users: () => store.dispatch(getUsers()),
   codesTable: () => store.dispatch(loadCodes()),
   financesTable: () => store.dispatch(loadFinancesTable()),
-  setLocation: (location) => store.dispatch(setLocation({location}))
+  setLocation: (location) => store.dispatch(setLocation({location})),
+  monday: () => store.dispatch(setMonday())
 }
 
 browserHistory.listen(function(ev) {

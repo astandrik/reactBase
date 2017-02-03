@@ -1,7 +1,8 @@
 import {
   SET_TABLE_DATA,
   SET_WEEK,
-  SET_DAY
+  SET_DAY,
+  SET_MONDAY
 } from "../actions/tableActions";
 
 function getMonday(d) {
@@ -41,6 +42,8 @@ export function setCurrentWeek(state = monday, action) {
   switch (action.type) {
     case SET_WEEK:
       return getMonday(action.day);
+    case SET_MONDAY:
+      return monday;
     default:
       return state
   }

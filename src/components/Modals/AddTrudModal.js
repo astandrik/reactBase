@@ -88,7 +88,7 @@ const dialog = class addTrudModalDialog extends React.Component {
           searchPromptText="Введите имя пользователя"
             placeholder="Список выбранных сотрудников"
             backspaceRemoves={false}
-            ignoreCase={false}
+            ignoreCase={true}
           loadOptions={this.getUsers} />
         </Panel>
         <div className="taskDate">
@@ -100,7 +100,6 @@ const dialog = class addTrudModalDialog extends React.Component {
           <Field name="comment" component={commentField}/>
          </div>
         <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
-        <Field name="author_val" component={StandardField} className="noDisplay"/>
     </Container>
     </form>
     </Modal>

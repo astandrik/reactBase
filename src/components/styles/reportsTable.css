@@ -1,6 +1,6 @@
 .report-type-choose-radio {
   display: flex;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .reports-header {
@@ -57,11 +57,11 @@
 }
 
 .no-events-tree {
-  pointer-events: none;
+  pointer-events: none!important;
 }
 
 .no-events-tree * {
-  pointer-events: none;
+  pointer-events: none!important;
 }
 
 .elements-report-select>div{
@@ -73,12 +73,12 @@
 }
 
 
-.report-type-choose-radio>div:nth-child(3) {
-  width:33%!important;
-}
 .report-type-choose-radio>div:nth-child(1) {
-  width:33%!important;
+  width:25%!important;
 }
 .report-type-choose-radio>div:nth-child(2) {
-  width:33%!important;
+  width:50%!important;
+}
+.report-type-choose-radio>div:nth-child(3) {
+  width:25%!important;
 }
