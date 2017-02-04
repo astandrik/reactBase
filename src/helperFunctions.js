@@ -79,7 +79,7 @@ export const parseUserReportTable = (data) => {
 		if(financePairs.length > longestPair) {
 			longestPair = financePairs.length;
 		}
-		day.dayType = days[i].is_work ? "В" : "Ф";
+		day.dayType = days[i].is_work ? "Ф" : "В";
 		day.finance = financePairs;
 		day.hours = days[i].hours;
 		daysParsed.push(day);
