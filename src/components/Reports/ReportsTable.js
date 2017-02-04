@@ -14,7 +14,8 @@ export default class Table extends React.Component {
           <RightPanelContainer flex="5">
             <LeftReportsPanelContainer />
           </RightPanelContainer>
-          <RightPanelContainer flex="7">
+          <div className={`splitter`}/>
+          <RightPanelContainer flex="7" className="long-panel">
             <RightReportsPanelContainer />
           </RightPanelContainer>
         </Container>

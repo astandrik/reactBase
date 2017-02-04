@@ -4,7 +4,8 @@ import {
 getUserTasks,
 createTasksReport,
 createFinanceReport,
-createUserReport
+createUserReport,
+deleteTableData
 } from "../../redux/actions/reportsActions";
 import {changeWeek, setCurrentWeek, setCurrentDay, loadTableData} from "../../redux/actions/tableActions";
 
@@ -61,27 +62,36 @@ const mapDispatchToProps = (dispatch) => {
     },
     onDateSelect: (day) => {
       dispatch(setCurrentWeek({day: day}));
+      dispatch(deleteTableData());
     },
     onDateMonthSelect: (day) => {
       const current = new Date(day.toDate().getFullYear(),  day.toDate().getMonth(), 13);
       dispatch(setCurrentWeek({day: current}));
+      dispatch(deleteTableData());
     },
     handlePrevMonth: (weekStart) => {
       const prev = new Date(getPrevMonth(weekStart));
       dispatch(setCurrentWeek({day: prev}));
+      dispatch(deleteTableData());
     },
     handlePrevWeek: (weekStart) => {
       const prev = new Date(weekStart.getTime() - 2 * 24 * 60 * 60 * 1000);
       dispatch(setCurrentWeek({day: prev}));
+      dispatch(deleteTableData());
     },
     handleNextWeek: (weekStart) => {
       const next = new Date(weekStart.getTime() + 9 * 24 * 60 * 60 * 1000);
       dispatch(setCurrentWeek({day: next}));
+      dispatch(deleteTableData());
     },
     handleNextMonth: (weekStart) => {
       const next = new Date(getNextMonth(weekStart));
       dispatch(setCurrentWeek({day: next}));
+      dispatch(deleteTableData());
     },
+    radioChanged: () => {
+      dispatch(deleteTableData());
+    }
   }
 }
 

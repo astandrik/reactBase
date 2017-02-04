@@ -184,7 +184,6 @@ export default function downloadExcel(jsonObj, gridHeaders) {
     // Simple type mapping; dates can be hard
     // and I would prefer to simply use `datevalue`
     // ... you could even add the formula in here.
-    debugger;
     var data = typeof jsonObj != "object" ? JSON.parse(jsonObj) : jsonObj;
     var headers = [];
     var ws = [];
@@ -195,47 +194,35 @@ export default function downloadExcel(jsonObj, gridHeaders) {
         for (var e in data[0]) {
             var flag = 0;
             gridHeaders.forEach(function (h, index) {
-                flag = 0;
-                if (h.realName == e) {
-                    flag = 2;
-                } else if (h.field == e) {
-                    flag = 1;
-                } else {
-                    flag = 0;
-                }
-                if (flag) {
-                    headers[index] = h.name;
-                    wscols.push({ wch: 20 });
-                }
+              headers[index] = h;
+              wscols.push({ wch: 20 });
             })
         }
         var tableData = [headers];
 
         data.forEach(function (item) {
-            var row = [];
+           var row = [];
+           var hasName = false;
+           if(item.name){
+             hasName = true;
+            row.push(item.name);
+          }
+          let startIndex = 0;
+          if(hasName) {
+            startIndex = 1;
+          }
+          for(let index = startIndex; index < gridHeaders.length; index++) {
+              const h = gridHeaders[index];
+              row[index] = item.data[h];
+          }
 
-            gridHeaders.forEach(function (h, index) {
-                if (item[h.realName]) {
-                    if (h.realName.toLowerCase().indexOf('date') > -1 && (new Date(item[h.realName])).toString() != "Invalid Date") {
-                        row[index] = new Date(item[h.realName]);
-                    } else {
-                        row[index] = item[h.realName].toString().replace('||divider||', '  ,  ');
-                    }
-                } else if (item[h.field]) {
-                    if (h.field.toLowerCase().indexOf('date') > -1 && (new Date(item[h.field])).toString() != "Invalid Date") {
-                        row[index] = new Date(item[h.field]);
-                    } else {
-                        row[index] = item[h.field].toString().replace('||divider||', '  ,  ');
-                    }
-                }
-            });
             tableData.push(row);
         })
         var ws_name = "TableData";
 
 
         /* require XLSX */
-        var XLSX;
+        var XLSX = window.XLSX;
 
         /* dummy workbook constructor */
         function Workbook() {

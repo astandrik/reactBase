@@ -50,6 +50,50 @@ export const parseReportTable = (data) => {
 	return table;
 }
 
+
+export const parseUserReportTable = (data) => {
+	let table = {};
+	table.data = [];
+	table.headers = [];
+	let daysParsed = [];
+	let userDict = {
+		name: data.name,
+		number: data.number,
+		position: data.position,
+	}
+	let longestPair = -1;
+	const days = data.days;
+	for(let i = 0; i < days.length; i++) {
+		let day = {};
+		let financePairs = [];
+		const finance =  days[i].finance;
+		for(let j = 0; j < finance.length; j++) {
+			if(finance[j].hours !== 0) {
+				let pair = {
+					hours: finance[j].hours,
+					name: finance[j].value
+				}
+				financePairs.push(pair);
+			}
+		}
+		if(financePairs.length > longestPair) {
+			longestPair = financePairs.length;
+		}
+		day.dayType = days[i].is_work ? "В" : "Ф";
+		day.finance = financePairs;
+		day.hours = days[i].hours;
+		daysParsed.push(day);
+	}
+	userDict.longestFinance = longestPair;
+	userDict.days = daysParsed;
+	userDict.totalDays = data.total.days;
+	userDict.totalFinance = data.total.finance;
+	userDict.totalHours = data.total.hours;
+	return {user: userDict}
+}
+
+
+
 export const getTasksReportTable = (table) => {
 	const rows = helpers.generateSimpleRows(table);
 	const headers = helpers.generateSimpleHeaders(table);

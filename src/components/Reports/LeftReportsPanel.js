@@ -109,7 +109,7 @@ export default class Labors extends React.Component {
         selectedFinances: []
       });
     }
-
+    this.props.radioChanged();
   }
   handleSelectChange(vals) {
     const user_ids = vals.map(x => x.value);
@@ -182,12 +182,12 @@ export default class Labors extends React.Component {
   }
   return (
     <Container vertical={true}>
-      <h3 className="reports-header"> Сотрудники </h3>
+      <h3 className="reports-header"> Сотрудник{radio !== "table" ? "и" : ""} </h3>
       <div className="user-report-select" flex="2">
         <Select.Async multi={radio === "table" ? false : true} value={radio === "table" ? this.state.currentUser : this.state.selectedUsers}
         onChange={radio === "table" ? this.handleSingleSelectChange.bind(this) : this.handleSelectChange.bind(this)}
         searchPromptText="Введите имя пользователя"
-          placeholder="Список выбранных сотрудников"
+          placeholder={radio === "table" ? "Сотрудник" : "Список выбранных сотрудников"}
           backspaceRemoves={false}
           ignoreCase={true}
           onFocus={this.disableClick.bind(this, true)}

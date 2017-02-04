@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-    reportsTable: state.Reports.reportsTableData
+    reportsTable: state.Reports.reportsTableData,
+    currentWeek: state.Table.currentWeek
   }
 }
 

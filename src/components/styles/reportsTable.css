@@ -23,6 +23,49 @@
   height: 100%;
 }
 
+.long-panel {
+  max-width: 1000px;
+}
+
+.long-panel .rightPanel > div {
+  overflow-x: auto;
+}
+
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{font-family:Arial, sans-serif;font-size:14px;padding:16px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:16px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-qgsu{font-size:15px;vertical-align:top}
+.tg .tg-yw4l{vertical-align:top}
+
+.reports-header {
+  flex: 1;
+  display: flex;
+}
+
+.reports-header > span {
+  flex: 1;
+}
+
+.reports-header > div {
+position: absolute;
+right: 10px;
+top:6px;
+}
+
+.reportHeaderContainer > div {
+  display: flex;;
+}
+
+.right-float {
+  float: right;
+}
+
+.excel-download-icon{
+  height: 40px;
+  width: 40px;
+  margin: 5px;
+}
+
 .user-report-select .Select-placeholder {
   height: 100%;
 }

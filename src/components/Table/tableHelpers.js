@@ -151,6 +151,106 @@ helpers.generateSimpleHeaders = function(table)  {
  return rowGenerator(ths, "head");
 }
 
+helpers.generateUserReportTable = function(user) {
+  let rows = [];
+  const daysNumber = user.days.length;
+  let tick = true;
+  rows = [(
+    <tr key="first-row">
+      <th className="tg-yw4l" colSpan="2" rowSpan="4"  key="fio-header">
+        Фамилия, имя, отчество
+      </th>
+      <th  className="tg-yw4l" colSpan="2" rowSpan="4" key="number-header">
+        Учетный номер
+      </th>
+      <th className="tg-yw4l" colSpan="2" rowSpan="4"  key="position-header">
+        Должность (профессия)
+      </th>
+      <th className="tg-yw4l" rowSpan="2" colSpan={daysNumber+1}  key="monthDates">
+        Числа месяца
+      </th>
+    </tr>),
+    <tr key="3422">
+    </tr>];
+  let rownumbers = [<td className="tg-yw4l" colSpan="2" key="1" >1</td>,<td className="tg-yw4l" colSpan="2" key="2">2</td>,<td className="tg-yw4l" colSpan="2" key="3">3</td>];
+  let daysArr = [];
+  const userInfo = [
+    <td className="tg-yw4l" rowSpan="100" colSpan="2" key="fio"> {user.name} </td>,
+    <td className="tg-yw4l" rowSpan="100" colSpan="2" key="number"> {user.number} </td>,
+    <td className="tg-yw4l" rowSpan="100" colSpan="2" key="position"> {user.position} </td>
+  ]
+  let dayTypesInfo = [];
+  let financeRows = [];
+  for(let i = 0; i < user.days.length; i++) {
+    daysArr.push(<td rowSpan="2" className="tg-yw4l" key={`days${i}`}>{i+1}</td>)
+    userInfo.push(
+      <td className="tg-yw4l" key={i+43}>{user.days[i].hours}</td>
+    )
+    dayTypesInfo.push(<td className="tg-yw4l" key={i+88}>{user.days[i].dayType}</td>);
+    rownumbers.push(<td className="tg-yw4l" key={i+3488}>{i+4}</td>)
+  };
+  let i = 0;
+  let totalFinanceCells = [];
+  let firstRows = [];
+  let secondRows = [];
+  for(; i < user.longestFinance; i++) {
+      let firstRow = [];
+      let secondRow = [];
+      for(let j = 0; j < user.days.length; j++) {
+        if(user.days[i].finance && user.days[j].finance[i]) {
+          firstRow.push(<td className="tg-yw4l" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
+          secondRow.push(<td className="tg-yw4l" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
+        } else {
+          firstRow.push(<td className="tg-yw4l" key={j+ i +158123}></td>)
+          secondRow.push(<td className="tg-yw4l" key={j+ i + 35128}></td>)
+        }
+      }
+      firstRows.push(firstRow
+      )
+      secondRows.push(secondRow
+      )
+  }
+  let globalCounter = 0;
+  for(let i = 0; i < user.totalFinance.length; i++) {
+    if(tick) {
+      tick = false;
+      if(user.totalFinance[i]) {
+        firstRows[globalCounter].push(<td className="tg-yw4l" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>)
+      } else {
+        break;
+      }
+    } else {
+      tick = true;
+      if(user.totalFinance[i]) {
+        secondRows[globalCounter].push(<td className="tg-yw4l" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>)
+      } else {
+        break;
+      }
+      globalCounter++;
+    }
+  }
+  for(let i = 0; i < firstRows.length; i++) {
+    financeRows.push(<tr key ={i+13*76}>{firstRows[i]}</tr>);
+    financeRows.push(<tr key ={i*13}>{secondRows[i]}</tr>);
+  }
+  rows.push(
+    <tr key="second-row">
+      {daysArr}
+      <td rowSpan="2" className="tg-yw4l"> Всего дней (часов) явок (неявок) </td>
+    </tr>
+  )
+  rows.push(  <tr key="mmm"></tr>)
+  rownumbers.push(<td key="hm" className="tg-yw4l">{daysNumber+4}</td>);
+  rows.push(<tr key="numbers-row" >{rownumbers}</tr>);
+  dayTypesInfo.push(<td className="tg-yw4l" key="empty"></td>)
+
+  userInfo.push(<td className="tg-yw4l" key="itogo">{`Ф - ${user.totalDays}/${user.totalHours}`}</td>);
+  rows.push(<tr key="row-four">{userInfo}</tr>);
+  rows.push(<tr key="row-five">{dayTypesInfo}</tr>);
+  rows = rows.concat(financeRows);
+  return rows;
+}
+
 helpers.getDateRange = getDateRange;
 helpers.getDateMonthRange = getDateMonthRange;
 
