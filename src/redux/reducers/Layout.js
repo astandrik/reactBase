@@ -135,7 +135,9 @@ export function isErrorsModalOpened(state = false, action) {
 export function setSearchQuery(state = "", action) {
   switch (action.type) {
     case SET_SEARH_QUERY:
-      return action.query
+      return action.query;
+    case CLEAR_LAYOUT:
+      return "";
     default:
       return state
   }

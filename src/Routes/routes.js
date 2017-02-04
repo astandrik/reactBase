@@ -34,11 +34,11 @@ const TaskRoutes = (props) => {
 
 const StructureRoutes = (props) => {
   const structureEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.flatDepartments();
     props.loadRepo.departments();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Штатная структура");
-    props.loadRepo.clearLayout();
   }
   return (
     <Route path="admin/structure" components={StateStructureList} onEnter={structureEnter} />
@@ -47,10 +47,10 @@ const StructureRoutes = (props) => {
 
 const UsersRoutes = (props) => {
   const usersEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.users();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Список сотрудников");
-    props.loadRepo.clearLayout();
     props.loadRepo.flatDepartments();
   }
   return (
@@ -60,10 +60,10 @@ const UsersRoutes = (props) => {
 
 const CodesRoutes = (props) => {
   const codesEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.codesTable();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Коды работ");
-    props.loadRepo.clearLayout();
   }
   return (
     <Route path="admin/workCodes" components={CodesList} onEnter={codesEnter} />
@@ -73,10 +73,10 @@ const CodesRoutes = (props) => {
 
 const FinancesRoutes = (props) => {
   const financesEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.financesTable();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Статьи финансирования");
-    props.loadRepo.clearLayout();
   }
   return (
     <Route path="admin/finances" components={FinancesList} onEnter={financesEnter} />
@@ -86,9 +86,9 @@ const FinancesRoutes = (props) => {
 
 const ReportRoutes = (props) => {
   const reportsEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои отчеты");
-    props.loadRepo.clearLayout();
     props.loadRepo.monday();
     props.loadRepo.finances();
   }
@@ -99,9 +99,9 @@ const ReportRoutes = (props) => {
 
 const SubordinatesRoutes = (props) => {
   const subordinatesEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои сотрудники");
-    props.loadRepo.clearLayout();
     props.loadRepo.tableData();
     props.loadRepo.workCodes();
     props.loadRepo.finances();
@@ -126,9 +126,9 @@ const LogoutRoutes = (props) => {
 
 const StatisticsRoutes = (props) => {
   const statisticsEnter = () => {
+    props.loadRepo.clearLayout();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Статистика");
-    props.loadRepo.clearLayout();
   }
   return (
     <Route path="statistics" component={Statistics}  onEnter={statisticsEnter}/>

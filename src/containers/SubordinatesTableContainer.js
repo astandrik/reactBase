@@ -15,7 +15,8 @@ const mapStateToProps = (state,ownProps) => {
     currentWeek: state.Table.currentWeek,
     isTrudModalOpen: state.isTrudModalOpen,
     activeIndexes: state.activeIndexes,
-    currentDay: state.Table.currentDay
+    currentDay: state.Table.currentDay,
+    searchQuery: state.searchQuery
   }
 }
 
@@ -72,6 +73,7 @@ const mapDispatchToProps = (dispatch) => {
     }
   }
 }
+
 
 
 const Visible = connect(

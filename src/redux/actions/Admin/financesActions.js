@@ -52,6 +52,11 @@ export function loadFinancesTable() {
           finances
       }));
     }
-    dispatch(fetchAsync(`/all/finances?limit=${limit}&offset=${currentOffset}`,handler));
+    const query = getState().searchQuery;
+    let q = "";
+    if(query !== "") {
+      q = "&query="+query;
+    }
+    dispatch(fetchAsync(`/all/finances?limit=${limit}&offset=${currentOffset}`+q,handler));
   }
 }

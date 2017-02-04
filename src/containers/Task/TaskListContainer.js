@@ -29,7 +29,8 @@ const mapStateToProps = (state, ownProps) => {
         rightPanelStatus: state.rightPanelStatus,
         activeIndexes: state.activeIndexes,
         openedTasks: state.openedTasks,
-        clientHeight: state.clientHeight
+        clientHeight: state.clientHeight,
+        searchQuery: state.searchQuery
     }
 }
 

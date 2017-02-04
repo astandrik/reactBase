@@ -36,6 +36,9 @@ helpers.generateRows = function(data = [], props, config, dataField) {
   const tdWidth = data.headers ? 70 / data.headers.length : 0;
   for(var i = 0; i < Object.keys(elements).length;i++) {
     let elem = elements[Object.keys(elements)[i]];
+    if(elem.ignored) {
+      continue;
+    }
     let td = [];
     let labors = [];
     for(var j = 0; j < headers.length; j++) {

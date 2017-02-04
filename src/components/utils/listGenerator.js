@@ -43,7 +43,7 @@ helpers.generateChildren = function(items,props, config) {
   const childrenActionButtons = config.childrenActionButtons;
   let elements = [];
   items = items || [];
-  items.forEach((item, i) => {
+  items.filter(x => !x.ignored).forEach((item, i) => {
     let children = [];
     const hasChildren = item.children && item.children.length > 0;
     let elem = {};
@@ -86,7 +86,7 @@ helpers.generateMenuItems =  function(menuItems) {
 
 helpers.generateContainers = function (entities, props, config) {
   let Containers = [];
-  const treeData = entities;
+  const treeData = entities.filter(x=>!x.ignored);
     for(var i = 0; i < treeData.length; i++) {
       let items = [];
       if(treeData[i].opened) {

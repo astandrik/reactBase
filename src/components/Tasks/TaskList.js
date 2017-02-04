@@ -50,11 +50,14 @@ function findAllTaskInTreeByIds(ids) {
     }
 }
 
-function deactivateTasks() {
+function deactivateTasks(ignoreSome) {
     for(var e in tasksDict) {
         if(1) {
           tasksDict[e].active = false;
           tasksDict[e].opened = false;
+          if(ignoreSome) {
+            tasksDict[e].ignored = true;
+          }
         }
     }
 }
@@ -62,6 +65,12 @@ function deactivateTasks() {
 
 const generateTaskContainers = helpers.generateTaskContainers;
 
+function resolveIgnoredTree(task) {
+  if(task.children) {
+    task.ignored = task.ignored && task.children.every(x => resolveIgnoredTree(x).ignored);
+  }
+  return task;
+}
 
 export default class TaskList extends React.Component {
   constructor(props) {
@@ -80,9 +89,16 @@ export default class TaskList extends React.Component {
     if(propsTasks.length === 0) {
       return <div/>;
     }
+    const searchQuery = props.searchQuery;
     tasksIdDict= propsTasks.treeNormalized.byId;
     tasksDict = propsTasks.treeNormalized.byGlobalId;
-    deactivateTasks();
+    deactivateTasks(searchQuery !== "");
+      for(var e in tasksDict) {
+        if(~tasksDict[e].name.toUpperCase().indexOf(searchQuery.toUpperCase())) {
+          tasksDict[e].ignored = false;
+        }
+      }
+      propsTasks.tree.forEach(x => resolveIgnoredTree(x));    
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
       items_.forEach(x=> x.active = true);
@@ -96,18 +112,18 @@ export default class TaskList extends React.Component {
     let config = {};
 
     config.listItemRender = (item) => {
-      return (
-        <div className={(item.level === 0 ? "task-header " : "") + "single-task " +
-          ` level_${item.level} ` + (item.active ? " active" : "") + " " + (taskStatusDict[item.rawstatus])} key={item.globalIndex}>
-          <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.name}</span>
-          <div>
-            {item.status ?  <div className="taskStatusTree">{item.status}</div> : <div className="noDisplay"/>}
-            {item.executors === undefined ? <div className="noDisplay"/> : helpers.createExecutors(item.executors)}
-            <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
-              (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
+        return (
+          <div className={(item.level === 0 ? "task-header " : "") + "single-task " +
+            ` level_${item.level} ` + (item.active ? " active" : "") + " " + (taskStatusDict[item.rawstatus])} key={item.globalIndex}>
+            <span className="taskLabel" onClick={props.loadTask.bind(this,item)}>{item.name}</span>
+            <div>
+              {item.status ?  <div className="taskStatusTree">{item.status}</div> : <div className="noDisplay"/>}
+              {item.executors === undefined ? <div className="noDisplay"/> : helpers.createExecutors(item.executors)}
+              <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
+                (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
+            </div>
           </div>
-        </div>
-      )
+        )
     }
     let taskContainers = listGenerator(propsTasks, this.props, config);
 

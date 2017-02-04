@@ -32,7 +32,7 @@ function createChildren(items, marginLeft) {
 
 const Search = (props) => {
   return (
-    <input disabled className="search-side-input" onChange={props.changeSearchQuery} placeholder="Поиск..."/>
+    <input className="search-side-input" onChange={props.changeSearchQuery}  placeholder="Поиск..."/>
   )
 }
 
@@ -52,7 +52,7 @@ const SideBar = class Side extends React.Component {
     this.setSearchQuery();
   }
   setSearchQuery() {
-      this.props.changeSearchQuery(this.state.query);
+      this.props.changeSearchQuery(this.state.query, this.props.location);
   }
   render() {
     let children = this.menuItems;

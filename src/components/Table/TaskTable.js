@@ -120,6 +120,8 @@ function createTable (tableData, props) {
   )
 }
 
+
+
 export default class Table extends React.Component {
   constructor(props) {
     super(props);
@@ -147,6 +149,12 @@ export default class Table extends React.Component {
   }
   render() {
     const props = this.props;
+    const searchQuery = props.searchQuery;
+    if(this.props.tableData.data) {
+      for(let e in this.props.tableData.data) {
+        this.props.tableData.data[e].ignored = ~e.toUpperCase().indexOf(searchQuery.toUpperCase()) ? false : true;
+      }
+    }
     return createTable.call(this,props.tableData, props);
   }
 }

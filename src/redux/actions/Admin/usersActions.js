@@ -26,7 +26,12 @@ export function getUsers() {
       const users = new UsersTree(json.data.users);
       dispatch(setUsers(users));
     }
-    dispatch(fetchAsync(`/all/users?limit=${limit}&offset=${currentOffset}`,handler));
+    const query = getState().searchQuery;
+    let q = "";
+    if(query !== "") {
+      q = "&query="+query;
+    }
+    dispatch(fetchAsync(`/all/users?limit=${limit}&offset=${currentOffset}`+q,handler));
   }
 }
 
