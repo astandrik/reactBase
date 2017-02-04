@@ -1,4 +1,5 @@
 export const SET_REPORT_TASKS = "SET_REPORT_TASKS";
+export const SET_REPORT_TABLE_DATA = "SET_REPORT_TABLE_DATA";
 import {
     generateActionFunc
 } from "./actionHelper.js";
@@ -10,10 +11,14 @@ import {
   getDateRange,
   getDateMonthRange
 } from "./tableActions";
-
+import {
+  testExportData,
+  parseReportTable
+} from "../../helperFunctions";
 
 
 export const setReportTasks = generateActionFunc(SET_REPORT_TASKS);
+export const setReportTableData = generateActionFunc(SET_REPORT_TABLE_DATA);
 
 export function getUserTasks(user_ids) {
   const handler = (json, dispatch, getState) => {
@@ -25,7 +30,8 @@ export function getUserTasks(user_ids) {
 export function createTasksReport(obj) {
   return (dispatch, getState) => {
       const handler = (json, dispatch, getState) => {
-        debugger;
+        const parsedTable = parseReportTable(json.data.report);
+        dispatch(setReportTableData({table: parsedTable}));
       }
       const day = getState().Table.currentWeek;
       const range = getDateRange(day);
@@ -45,14 +51,15 @@ export function createTasksReport(obj) {
           paramArr.push(`${e}=${par[e]}`);
         }
       }
-      dispatch(fetchAsync(`/report/tasks?${paramArr.join("&")}`, handler));
+      dispatch(fetchAsync(`/report/task?${paramArr.join("&")}`, handler));
   }
 }
 
 export function createFinanceReport(obj) {
   return (dispatch, getState) => {
       const handler = (json, dispatch, getState) => {
-        debugger;
+        const parsedTable = parseReportTable(json.data.report);
+        dispatch(setReportTableData({table: parsedTable}));
       }
       const day = getState().Table.currentWeek;
       const range = getDateRange(day);

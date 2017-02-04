@@ -7,16 +7,17 @@ import RightReportsPanelContainer from "../../containers/Reports/RightReportsPan
 
 
 
-
 export default class Table extends React.Component {
   render() {
     return (
-      <Container className="reports-page">
-        <RightPanelContainer flex="5">
-          <LeftReportsPanelContainer />
-        </RightPanelContainer>
-        <div flex="7"/>
-      </Container>
+        <Container className="reports-page">
+          <RightPanelContainer flex="5">
+            <LeftReportsPanelContainer />
+          </RightPanelContainer>
+          <RightPanelContainer flex="7">
+            <RightReportsPanelContainer />
+          </RightPanelContainer>
+        </Container>
     )
   }
 }

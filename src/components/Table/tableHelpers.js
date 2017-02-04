@@ -112,6 +112,45 @@ helpers.getWeek = function(date) {
     return Math.ceil(dayOfYear/7)
 };
 
+const cellGenerator = (val, key) => {
+  return (<td className="tableCell" key={key}>{val}</td>);
+}
+const rowGenerator = (tds, key) => {
+  return (
+    <tr key={key}>
+      {tds}
+    </tr>
+  )
+}
+
+helpers.generateSimpleRows = function(table) {
+  const headers = table.headers;
+  const data = table.data;
+  let rows = [];
+  for(let i = 0; i < data.length; i++) {
+    const currentTask = data[i].data;
+    let currentTds = [cellGenerator(data[i].name,"name")];
+    for(let j = 0; j < headers.length; j++) {
+      if(currentTask[headers[j]]) {
+        currentTds.push(cellGenerator(currentTask[headers[j]], j))
+      } else {
+        currentTds.push(cellGenerator(0, j));
+      }
+    }
+    rows.push(rowGenerator(currentTds, i));
+  }
+  return rows;
+}
+
+helpers.generateSimpleHeaders = function(table)  {
+ const headers = table.headers;
+ let ths= [<th key="empty"></th>];
+ for(let i = 0; i < headers.length; i++) {
+   ths.push(<th  className="table-header" key={i}>{headers[i]}</th>)
+ }
+ return rowGenerator(ths, "head");
+}
+
 helpers.getDateRange = getDateRange;
 helpers.getDateMonthRange = getDateMonthRange;
 

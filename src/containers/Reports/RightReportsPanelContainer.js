@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = (state,ownProps) => {
   return {
-
+    reportsTable: state.Reports.reportsTableData
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-
+    hmm: () => "mm"
   }
 }
 

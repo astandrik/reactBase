@@ -54,6 +54,30 @@ tr.unaccepted-task td{
   text-align: center;
 }
 
+
+.reports-table th{
+  border: 1px black solid;
+}
+
+
+.reports-table td{
+  border: 1px black solid;
+  text-align: center;
+}
+.reports-table tr{
+    background: white;
+  border: 1px black solid;
+    height: 35px;
+}
+
+.reports-table {
+  width:100%;
+  height: 100%;
+  border-collapse: collapse;
+}
+
+
+
 .react-datepicker__input-container input{
   max-width: 80px;
 }

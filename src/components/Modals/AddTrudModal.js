@@ -119,7 +119,7 @@ function swapDate(d) {
 
 dialogForm = connect(
   state => {
-    const date = state.currentDay ? (`${swapDate(state.currentDay)}.${state.currentWeek.getFullYear()}`).split(".").join("/") : new Date();
+    const date = state.Table.currentDay ? (`${swapDate(state.Table.currentDay)}.${state.Table.currentWeek.getFullYear()}`).split(".").join("/") : new Date();
     const currentDate = moment(date);
     const currentUser = state.User.user;
 

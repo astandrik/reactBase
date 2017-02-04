@@ -47,7 +47,8 @@ const layoutBindings = {
 }
 
 const Reports = combineReducers({
-  reportTasks: reportsReducers.setReportTasks
+  reportTasks: reportsReducers.setReportTasks,
+  reportsTableData: reportsReducers.setReportTableData
 })
 
 const Table = combineReducers({

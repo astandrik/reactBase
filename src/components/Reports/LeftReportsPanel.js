@@ -56,12 +56,12 @@ export default class Labors extends React.Component {
       user_id: false
     }
   }
-  createReport() {
-    if(this.state.task_ids.length) {
+  createReport(radio) {
+    if(radio==="tasks") {
       this.props.createTaskReport(this.state);
-    } else if(this.state.finance_ids.length) {
+    } else if(radio ==="finance") {
       this.props.createFinanceReport(this.state);
-    } else if(this.state.user_id){
+    } else if(radio ==="table"){
       this.props.createUserReport(this.state);
     }
   }
@@ -213,7 +213,7 @@ export default class Labors extends React.Component {
       </div>
       {datePicker(props,range,radio === "table")}
       <div className="button-report-create" flex="1">
-        <FlatButton style={{float:"right"}} onClick={this.createReport.bind(this)} label="Создать отчет" />
+        <FlatButton style={{float:"right"}} onClick={this.createReport.bind(this,radio)} label="Создать отчет" />
       </div>
     </Container>
     )
