@@ -7,20 +7,20 @@ import {
 import ValidationErrorsModalContainer from "./containers/ModalContainers/ValidationErrorsModalContainer";
 
 
-const RouterCreator = function(name, to, fake, hashtag) {
-  return {name, to, fake, hashtag};
+const RouterCreator = function(name, to, fake, userType = 0) {
+  return {name, to, fake, userType};
 }
 
 const sidenavRoutes = [
   {name: "Все задачи", to:"/tasks/all/table",
   children:[RouterCreator("Мои задачи", "/tasks/my/table"),
   RouterCreator("Нераспределенные задачи", "/tasks/nonDistributed/table")
-  ,RouterCreator("Задачи подчиненных", "/tasks/subordinate/table")]
+  ,RouterCreator("Задачи подчиненных", "/tasks/subordinate/table",false, 1)]
   },
-  RouterCreator("Мои сотрудники", '/subordinates'),
+  RouterCreator("Мои сотрудники", '/subordinates',false, 1),
   RouterCreator("Мои отчеты", '/reports'),
   RouterCreator("Статистика", '/statistics', true),
-  {name: "Администрирование", to:"admin", fake:true, children: [
+  {name: "Администрирование", to:"admin", fake:true, userType:2, children: [
     RouterCreator("Коды работ", "/admin/workCodes"),
     RouterCreator("Статьи расходов", "/admin/finances"),
     RouterCreator("Штатная структура", "/admin/structure"),

@@ -4,29 +4,33 @@ import { Link } from 'react-router';
 import {ListItem} from 'material-ui/List';
 import {debounce} from "../helperFunctions";
 
-function createChildren(items, marginLeft) {
+function createChildren(items, marginLeft, userType) {
   let children = [];
-  items.forEach((item, i) => {
+  for(let i = 0; i < items.length; i++) {
+    let item=items[i];
+    if(item.userType && userType < item.userType) {
+      continue;
+    }
     if(item.children) {
       const container = <Link className={"list-element list-element-"+marginLeft} to={!item.fake ? item.to : null} key={item.name}/>;
-      children[i] = (
+      children.push((
       <ListItem
              containerElement={container}
              primaryText={item.name}
              initiallyOpen={true}
-             nestedItems={createChildren(item.children, marginLeft+10)}
+             nestedItems={createChildren(item.children, marginLeft+10, userType)}
              key={item.name}
       />
-      );
+    ));
     } else {
       const container = <Link className={"list-element list-element-"+marginLeft}  to={!item.fake ? item.to : null} key={item.name}/>;
-      children[i] = (
+      children.push((
             <ListItem containerElement={container}
               primaryText={item.name}
               key={item.name}/>
-      )
+          ));
     }
-  });
+  }
   return children;
 }
 
@@ -39,7 +43,6 @@ const Search = (props) => {
 const SideBar = class Side extends React.Component {
   constructor(props) {
       super(props);
-      this.menuItems = createChildren(props.menuItems,0);
       this.setSearchQuery = debounce(this.setSearchQuery, 500);
       this.state = {
         query: ""
@@ -55,6 +58,8 @@ const SideBar = class Side extends React.Component {
       this.props.changeSearchQuery(this.state.query, this.props.location);
   }
   render() {
+    const props = this.props;
+    this.menuItems = createChildren(props.menuItems,0,props.userType);
     let children = this.menuItems;
     return(
       <div className={`side-bar ${this.props.showNav ? '' : 'deactivated'}`}>

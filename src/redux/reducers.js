@@ -60,7 +60,8 @@ const Table = combineReducers({
 const User = combineReducers({
     user: userReducers.userSet,
     subordinates: userReducers.setSubordinates,
-    pingedUser: userReducers.setPingedUser
+    pingedUser: userReducers.setPingedUser,
+    userType: userReducers.setUserType
 })
 const Admin = combineReducers({
   departments: departmentReducers.setDepartmentTree,

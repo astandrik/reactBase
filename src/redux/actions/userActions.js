@@ -10,10 +10,12 @@ import { browserHistory } from 'react-router';
 export const SET_USER = "SET_USER";
 export const SET_SUBORDINATES = "SET_SUBORDINATES";
 export const SET_PINGED_USER = "SET_PINGED_USER";
+export const SET_USER_TYPE = "SET_USER_TYPE";
 
 export const setLoggedUser = generateActionFunc(SET_USER);
 export const setPingedUser = generateActionFunc(SET_PINGED_USER);
 export const setSubordinates = generateActionFunc(SET_SUBORDINATES);
+export const setUserType = generateActionFunc(SET_USER_TYPE);
 
 function isFunction(functionToCheck) {
  var getType = {};
@@ -83,6 +85,14 @@ export function getCurrentUser() {
         dispatch(setLoggedUser({
             user
         }));
+        let userType = 0;
+        if(data.departments.length > 0) {
+          userType = 1;
+        }
+        if(data.role == 1) {
+          userType = 2;
+        }
+        dispatch(setUserType({userType: userType}))
     }
     return fetchAsync(`/account/me`, handler);
 }

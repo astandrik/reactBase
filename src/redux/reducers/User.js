@@ -1,7 +1,8 @@
 import {
     SET_USER,
     SET_SUBORDINATES,
-    SET_PINGED_USER
+    SET_PINGED_USER,
+    SET_USER_TYPE
 } from "../actions/userActions";
 
 export function setSubordinates(state = [], action) {
@@ -22,6 +23,14 @@ export function setPingedUser(state = "none", action) {
   }
 }
 
+export function setUserType(state = 0, action) {
+  switch (action.type) {
+    case SET_USER_TYPE:
+      return action.userType;
+    default:
+      return state;
+  }
+}
 
 export function userSet(state = {
     name: 'None',

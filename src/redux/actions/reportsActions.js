@@ -34,7 +34,10 @@ export function getUserTasks(user_ids) {
 export function createTasksReport(obj) {
   return (dispatch, getState) => {
       const handler = (json, dispatch, getState) => {
-        const parsedTable = parseReportTable(json.data.report);
+        let parsedTable = parseReportTable(json.data.report);
+        if(parsedTable.data.length == 0) {
+          parsedTable = ["none"];
+        }
         dispatch(setReportTableData({table: parsedTable}));
       }
       const day = getState().Table.currentWeek;

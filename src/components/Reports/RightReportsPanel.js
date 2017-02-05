@@ -11,7 +11,7 @@ export default class RightTaskPanel extends React.Component {
     const props = this.props;
     const currentWeek = props.currentWeek;
     let reportsTable = props.reportsTable;
-    if(!reportsTable.user) {
+    if(!reportsTable.user && reportsTable[0] !== "none") {
         const range = thelpers.getDateRange(props.currentWeek);
         const dateRangeWords = "c " + moment(range.first).format("DD MMMM") + " по " + moment(range.last).format("DD MMMM");
         if(props.reportsTable.data.length) {
@@ -30,7 +30,7 @@ export default class RightTaskPanel extends React.Component {
         }
     } else {
                 const exportHtmlToExcel = helpers.exportHtmlToExcel;
-      if(props.reportsTable.user.days.length) {
+      if(props.reportsTable.user && props.reportsTable.user.days.length) {
         let table = thelpers.generateUserReportTable(props.reportsTable.user);
         return (
           <Container vertical={true}>
@@ -47,7 +47,11 @@ export default class RightTaskPanel extends React.Component {
           </Container>
         )
       } else {
-        return <div className="noDisplay"/>
+        if(reportsTable && reportsTable[0] === "none") {
+          return <h2>Нет отчетных данных за период</h2>
+        } else {
+          return <div className="noDisplay"/>
+        }
       }
     }
   }
