@@ -19,7 +19,7 @@ const sidenavRoutes = [
   },
   RouterCreator("Мои сотрудники", '/subordinates',false, 1),
   RouterCreator("Мои отчеты", '/reports'),
-  RouterCreator("Статистика", '/statistics', true),
+  RouterCreator("Статистика", '/statistics'),
   {name: "Администрирование", to:"admin", fake:true, userType:2, children: [
     RouterCreator("Коды работ", "/admin/workCodes"),
     RouterCreator("Статьи расходов", "/admin/finances"),

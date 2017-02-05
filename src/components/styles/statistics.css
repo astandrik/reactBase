@@ -1,0 +1,55 @@
+.statistics-page .close-right-panel {
+    display: none;
+}
+
+.weekPicker > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.weekPicker img {
+  height: 10px!important;
+  width: 10px!important;
+  margin-top: 20px!important;
+}
+
+.button-statistics-create{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.dayPicker > div  {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.weekPicker .tableCalendar {
+  display: none;
+}
+
+.weekPicker .weekVisualiser {
+  height:20px;
+  line-height: 20px;
+}
+
+.weekPicker input {
+  height: 10px;
+}
+
+.weekPicker {
+  font-size: 10px;
+}
+
+.weekPicker > div > div {
+  width:50%!important;
+}
+
+.weekPicker .dateContainer {
+  display: flex;
+  flex-direction: column;
+}

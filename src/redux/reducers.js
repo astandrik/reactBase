@@ -11,6 +11,7 @@ import * as departmentReducers from "./reducers/Admin/Department";
 import * as usersReducers from "./reducers/Admin/Users";
 import * as financesReducers from "./reducers/Admin/Finances";
 import * as codesReducers from "./reducers/Admin/Codes";
+import * as statisticsReducers from "./reducers/Statistics";
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -63,6 +64,15 @@ const User = combineReducers({
     pingedUser: userReducers.setPingedUser,
     userType: userReducers.setUserType
 })
+
+const Statistics = combineReducers({
+  pie: statisticsReducers.setPie,
+  bar: statisticsReducers.setBar,
+  period: statisticsReducers.setPeriod,
+  weekPeriod: statisticsReducers.setWeekPeriod,
+  dayPeriod: statisticsReducers.setDayPeriod,
+  monthPeriod: statisticsReducers.setMonthPeriod
+})
 const Admin = combineReducers({
   departments: departmentReducers.setDepartmentTree,
   department: departmentReducers.setDepartment,
@@ -84,6 +94,7 @@ export default combineReducers({
     User,
     Reports,
     Admin,
+    Statistics,
     form: formReducer,
     validationErrors: errorReducers.setValidationErrors
 })

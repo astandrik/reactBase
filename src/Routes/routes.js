@@ -128,6 +128,7 @@ const StatisticsRoutes = (props) => {
   const statisticsEnter = () => {
     props.loadRepo.clearLayout();
     props.loadRepo.tabs([]);
+    props.loadRepo.workCodes();
     props.loadRepo.setCurrentTitle("Статистика");
   }
   return (

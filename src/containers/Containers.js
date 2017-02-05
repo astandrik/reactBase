@@ -18,7 +18,7 @@ import LaborListContainer from "./Table/LaborListContainer";
 
 import ReportsTableContainer from "./Reports/ReportsTableContainer";
 import SubordinatesTableContainer from "./SubordinatesTableContainer";
-import StatisticsContainer from "./StatisticsContainer";
+import StatisticsContainer from "./Statistics/StatisticsContainer";
 
 import StateStructureContainer from "./Admin/StateStructureContainer";
 import UsersContainer from "./Admin/UsersContainer";
