@@ -29,12 +29,13 @@ export default class RightTaskPanel extends React.Component {
           return <div className="noDisplay"/>
         }
     } else {
+                const exportHtmlToExcel = helpers.exportHtmlToExcel;
       if(props.reportsTable.user.days.length) {
         let table = thelpers.generateUserReportTable(props.reportsTable.user);
         return (
           <Container vertical={true}>
             <div flex="1" className="reportHeaderContainer">
-              "Отчетный период"
+                <h4 className="reports-header"><span>{"Отчет за период "}</span> <Icon name="excel" onClick={exportHtmlToExcel.bind(this)} className={`clickable-image excel-download-icon right-float`}/></h4>
             </div>
             <div flex="11">
               <table  id="reports-table"  className="tg">

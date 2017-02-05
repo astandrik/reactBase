@@ -109,8 +109,12 @@ export const getTasksReportTable = (table) => {
 	)}
 }
 
-import excelDownloader from "./filesaver";
+import {downloadExcel, htmlToExcel} from "./filesaver";
 
 export const exportReportToExcel = function(json, headers) {
-	excelDownloader(json, headers)
+	downloadExcel(json, headers)
+}
+
+export const exportHtmlToExcel = () => {
+	htmlToExcel(document.getElementById('reports-table'));
 }
