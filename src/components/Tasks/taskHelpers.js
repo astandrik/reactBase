@@ -49,7 +49,8 @@ helpers.createExecutors = function(executors) {
   let executorDivs = [];
   if(executors && executors.length > 0) {
     executors.forEach((x,i) => {
-      const name = x.name ? x.name.split(' ').map(x=>x[0].toUpperCase()) : x.label.split(' ').map(x=>x[0].toUpperCase());
+      let name = x.name ? x.name.split(' ').map(x=>x[0].toUpperCase()) : x.label.split(' ').map(x=>x[0].toUpperCase());
+      name = name.slice(0,2).join("");
       executorDivs.push(<div className="singleExecutor" key={x.id || x.value}><span data-tip={x.name || x.label}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
     });
   } else {

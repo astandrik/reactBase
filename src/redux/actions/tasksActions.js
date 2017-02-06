@@ -46,7 +46,7 @@ import {
     fetchPost
 } from "./actionHelper.js";
 
-export const setAddingTrudTask = generateActionFunc(SET_ADDING_TRUD_TASK);
+export const setAddingTrudTask_ = generateActionFunc(SET_ADDING_TRUD_TASK);
 export const setTasks = generateActionFunc(SET_TASKS);
 export const setLabor = generateActionFunc(SET_CURRRENT_LABOR);
 export const setTaskView = generateActionFunc(SET_TASK_VIEW);
@@ -64,6 +64,13 @@ export const setLaborView = generateActionFunc(SET_LABOR_VIEW);
 export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
+
+export function setAddingTrudTask(task) {
+  return (dispatch, getState) => {
+    const user = getState().User.user;
+    dispatch(setAddingTrudTask_({task: task.task, user}));
+  }
+}
 
 export function activateTask(obj) {
   return function(dispatch, getState) {

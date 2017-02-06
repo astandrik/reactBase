@@ -48,7 +48,8 @@ const defaultSubsFilters = {
 const defaultFilters = {
   statuses: ["3"],
   all_subs: 0,
-  sub_ids: []
+  sub_ids: [],
+  type: 3
 }
 
 const filtersDict = {
@@ -60,17 +61,18 @@ const filtersDict = {
 
 export function setFilters(state = {}, action) {
   switch (action.type) {
-    case SET_GLOBAL_TASK_TYPE:
-      if(state.type !== filtersDict[action.routeType].type) {
-        const defFilters = Object.assign({},{type: filtersDict[action.routeType].type},JSON.parse(JSON.stringify(defaultFilters)));
+    case SET_GLOBAL_TASK_TYPE:    
+    if(state.type === undefined) {
+      const defFilters = Object.assign({},JSON.parse(JSON.stringify(defaultFilters)),{type: filtersDict[action.routeType].type});
+      return defFilters;
+    } else if(state.type !== filtersDict[action.routeType].type) {
+        const defFilters = Object.assign({},state,{type: filtersDict[action.routeType].type});
         return defFilters;
-      } else {
+      }else {
         return state;
       }
     case SET_FILTERS:
       return Object.assign({}, state, action.filters);
-    case CLEAR_LAYOUT:
-      return defaultFilters;
     default:
       return state;
   }

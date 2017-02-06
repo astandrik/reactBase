@@ -4,8 +4,7 @@ import {
 loadPie,
 loadHisto,
 setWeekPeriod,
-setDayPeriod,
-setMonthPeriod
+loadNormatives
 } from "../../redux/actions/statisticsActions";
 import {
   getUserTasks,
@@ -19,12 +18,8 @@ const mapStateToProps = (state,ownProps) => {
     codes: state.codes,
     currentTasks: state.Reports.reportTasks,
     currentWeek: state.Table.currentWeek,
-    weekPeriod: state.Statistics.weekPeriod,
     period: state.Statistics.period,
-    dayPeriod: state.Statistics.dayPeriod,
-    monthPeriod: state.Statistics.monthPeriod,
-    pie: state.Statistics.pie,
-    bar: state.Statistics.bar
+    weekPeriod: state.Statistics.weekPeriod
   }
 }
 
@@ -57,82 +52,44 @@ const mapDispatchToProps = (dispatch) => {
     getTasksForUsers: (user_ids) => {
       dispatch(getUserTasks(user_ids));
     },
-    loadTaskPie: (state) => {
+    loadPie: (state) => {
+      let obj = {};
+      if(state.type === 1) {
+        obj.user_ids = state.user_ids;
+        obj.task_ids = state.task_ids;
+        obj.type = state.type;
+      } else {
+        obj.user_ids = state.user_ids;
+        obj.code_ids = state.code_ids;
+        obj.type = state.type;
+      }
+      dispatch(loadPie(obj));
+    },
+    loadNormatives: (state) => {
       let obj = {};
       obj.user_ids = state.user_ids;
       obj.task_ids = state.task_ids;
       obj.type = state.type;
-      dispatch(loadPie(obj));
+      dispatch(loadNormatives(obj));
     },
-    selectFirstDay:(day) => {
-      if(day.toDate) {
-        day = day.toDate();
+    loadHisto: (state) => {
+      let obj = {};
+      if(state.type === 1) {
+        obj.user_ids = state.user_ids;
+        obj.task_ids = state.task_ids;
+        obj.type = state.type;
+      } else {
+        obj.user_ids = state.user_ids;
+        obj.code_ids = state.code_ids;
+        obj.type = state.type;
       }
-      dispatch(setDayPeriod({first: day}));
-    },
-    selectLastDay:(day) => {
-      if(day.toDate) {
-        day = day.toDate();
-      }
-      dispatch(setDayPeriod({last: day}));
+      dispatch(loadHisto(obj));
     },
     changeFirstWeek: (date)=> {
       dispatch(setWeekPeriod({first: date}));
     },
     changeLastWeek: (date) => {
       dispatch(setWeekPeriod({last: date}));
-    },
-    selectFirstMonth: (date) => {
-      dispatch(setMonthPeriod({first: date}));
-    },
-    selectLastMonth: (date) => {
-      dispatch(setMonthPeriod({last: date}));
-    },
-    loadCodesPie: (state) => {
-      let obj = {};
-      obj.user_ids = state.user_ids;
-      obj.code_ids = state.code_ids;
-      obj.type = state.type;
-      dispatch(loadPie(obj));
-    },
-    loadTaskHisto: (state) => {
-      let obj = {};
-      obj.user_ids = state.user_ids;
-      obj.task_ids = state.task_ids;
-      obj.type = state.type;
-      dispatch(loadHisto(obj));
-    },
-    loadCodesHisto: (state) => {
-      let obj = {};
-      obj.user_ids = state.user_ids;
-      obj.code_ids = state.code_ids;
-      obj.type = state.type;
-      dispatch(loadHisto(obj));
-    },
-    onDateMonthSelect: (day) => {
-      const current = new Date(day.toDate().getFullYear(),  day.toDate().getMonth(), 13);
-      dispatch(setCurrentWeek({day: current}));
-      dispatch(deleteTableData());
-    },
-    handlePrevMonth: (weekStart) => {
-      const prev = new Date(getPrevMonth(weekStart));
-      dispatch(setCurrentWeek({day: prev}));
-      dispatch(deleteTableData());
-    },
-    handlePrevWeek: (weekStart) => {
-      const prev = new Date(weekStart.getTime() - 2 * 24 * 60 * 60 * 1000);
-      dispatch(setCurrentWeek({day: prev}));
-      dispatch(deleteTableData());
-    },
-    handleNextWeek: (weekStart) => {
-      const next = new Date(weekStart.getTime() + 9 * 24 * 60 * 60 * 1000);
-      dispatch(setCurrentWeek({day: next}));
-      dispatch(deleteTableData());
-    },
-    handleNextMonth: (weekStart) => {
-      const next = new Date(getNextMonth(weekStart));
-      dispatch(setCurrentWeek({day: next}));
-      dispatch(deleteTableData());
     },
     radioChanged: () => {
       dispatch(deleteTableData());

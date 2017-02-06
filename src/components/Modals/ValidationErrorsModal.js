@@ -22,7 +22,7 @@ const errorsModal = (props) => {
         {errorMessages}
       </ul>
       <div flex="1">
-        <FlatButton style={{float:"right"}} onClick={props.closeModal} label="Я всё поправлю!" />
+        <FlatButton style={{float:"right"}} onClick={props.closeModal} label="ОК" />
       </div>
     </Container>
     </Modal>

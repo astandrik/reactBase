@@ -59,12 +59,16 @@ export const generateLaborsFromTableData = (data, task_id, day) => {
       break;
     }
   }
-  if(day) {
-    labors = task.dates[day].timings;
-  } else {
-    for(var k in task.dates) {
-      labors = labors.concat(task.dates[k].timings);
+  if(task.dates) {
+    if(day && task.dates[day]) {
+      labors = task.dates[day].timings;
+    } else {
+      for(var k in task.dates) {
+        labors = labors.concat(task.dates[k].timings);
+      }
     }
+  } else {
+    return [];
   }
   return labors;
 }
@@ -73,9 +77,13 @@ export function setGrouped(task_id) {
   return function(dispatch, getState) {
     let table = getState().Table.tableData;
     const day = getState().Table.currentDay;
-    const labors = generateLaborsFromTableData(table, task_id, day);
-    const groups = groupLabors(labors);
-    dispatch(setGroupedTableLabors({groups}));
+    if(table.data && Object.keys(table.data).length) {
+      const labors = generateLaborsFromTableData(table, task_id, day);
+      const groups = groupLabors(labors);
+      dispatch(setGroupedTableLabors({groups}));
+    } else {
+        dispatch(setGroupedTableLabors({groups: []}));
+    }
   }
 }
 

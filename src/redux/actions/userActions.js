@@ -11,11 +11,13 @@ export const SET_USER = "SET_USER";
 export const SET_SUBORDINATES = "SET_SUBORDINATES";
 export const SET_PINGED_USER = "SET_PINGED_USER";
 export const SET_USER_TYPE = "SET_USER_TYPE";
+export const LOGOUT = "LOGOUT";
 
 export const setLoggedUser = generateActionFunc(SET_USER);
 export const setPingedUser = generateActionFunc(SET_PINGED_USER);
 export const setSubordinates = generateActionFunc(SET_SUBORDINATES);
 export const setUserType = generateActionFunc(SET_USER_TYPE);
+export const logout_ = generateActionFunc(LOGOUT);
 
 function isFunction(functionToCheck) {
  var getType = {};
@@ -25,6 +27,7 @@ function isFunction(functionToCheck) {
 export function logout () {
   const handler =  function (json, dispatch, getState) {
       dispatch(pingLogin());
+      dispatch(logout_());
   }
   return fetchAsync(`/account/logout`, handler);
 }

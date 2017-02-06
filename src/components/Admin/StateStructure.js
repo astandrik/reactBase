@@ -6,6 +6,7 @@ import RightDepartmentPanelContainer from "../../containers/Admin/RightDepartmen
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
+import {rowHeight} from "../../helperFunctions";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -117,7 +118,7 @@ export default class TaskList extends React.Component {
       <List
      width={500}
     height={this.props.clientHeight - 40}
-    rowHeight={31}
+    rowHeight={rowHeight}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
     />

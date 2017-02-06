@@ -10,7 +10,8 @@ const mapStateToProps = (state,ownProps) => {
   return {
     pie: state.Statistics.pie,
     histo: state.Statistics.bar,
-    currentWeek: state.Table.currentWeek
+    currentWeek: state.Table.currentWeek,
+    normatives: state.Statistics.normatives
   }
 }
 

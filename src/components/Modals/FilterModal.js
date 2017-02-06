@@ -6,7 +6,9 @@ import "../styles/Modal.css";
 import Checkbox from 'material-ui/Checkbox';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import Select from 'react-select';
-
+import {
+  browserHistory
+} from "react-router";
 
 function copyFilters(obj) {
   let newTaskFilters = {};

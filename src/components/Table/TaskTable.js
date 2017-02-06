@@ -67,7 +67,7 @@ function createTable (tableData, props) {
       comments = <div className="comments-number">{val.commentsNumber}</div>
     }
     return (
-      <td key={val.id+day} className={`tableCell ${val.hasUnaccepted ? ' has-unaccepted' : ''}` +
+      <td key={val.id+day} className={`tableCell ${val.overWork ? "has-overwork" : ""} ${val.hasUnaccepted ? ' has-unaccepted' : ''}` +
       `${val.id === props.activeIndexes.taskId && (day === props.currentDay || props.currentDay === false)? " active" : ''}`} width={width+"%"}
         onClick={props.cellClickHandler.bind(this, val.timings, val.id, day)}>{val.allHours ? (val.myHours + "/" + val.allHours) : 0}
       {comments}</td>

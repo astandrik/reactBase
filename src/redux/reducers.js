@@ -70,8 +70,7 @@ const Statistics = combineReducers({
   bar: statisticsReducers.setBar,
   period: statisticsReducers.setPeriod,
   weekPeriod: statisticsReducers.setWeekPeriod,
-  dayPeriod: statisticsReducers.setDayPeriod,
-  monthPeriod: statisticsReducers.setMonthPeriod
+  normatives: statisticsReducers.setNormatives
 })
 const Admin = combineReducers({
   departments: departmentReducers.setDepartmentTree,

@@ -72,7 +72,7 @@ helpers.generateRows = function(data = [], clickHandler, rowClickHandler, props)
         comments = <div className="comments-number">{commentsNumber}</div>
       }
       td[j] = (
-        <td key={j} className={`tableCell ${hasUnaccepted ? 'has-unaccepted' : ''}
+        <td key={j} className={`tableCell  ${hasUnaccepted ? 'has-unaccepted' : ''}
         ${elem.active && (headers[j] === props.currentDay || props.currentDay === false)? "active" : ''}`} width={tdWidth+"%"}
           onClick={clickHandler.bind(this, val, elem.id, headers[j])}>{val ? (val.myHours + "/" + val.hours) : 0}
         {comments}</td>

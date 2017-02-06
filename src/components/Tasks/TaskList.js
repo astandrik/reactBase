@@ -8,6 +8,7 @@ import helpers from "./taskHelpers";
 import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
+import {rowHeight} from "../../helperFunctions";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -98,7 +99,7 @@ export default class TaskList extends React.Component {
           tasksDict[e].ignored = false;
         }
       }
-      propsTasks.tree.forEach(x => resolveIgnoredTree(x));    
+      propsTasks.tree.forEach(x => resolveIgnoredTree(x));
     if(this.props.activeIndexes.taskId !== -1) {
       let items_ = findAllTaskInTreeByIds([this.props.activeIndexes.taskId]);
       items_.forEach(x=> x.active = true);
@@ -148,7 +149,7 @@ export default class TaskList extends React.Component {
       <List
      width={500}
     height={this.props.clientHeight - 40}
-    rowHeight={31}
+    rowHeight={rowHeight}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
     />

@@ -91,6 +91,7 @@ export class TableData {
           }
           laborsCellsByIds[currentTimings[k].id] = datedTaskLabors[taskName].dates[dateArray[j]];
         }
+        datedTaskLabors[taskName].dates[dateArray[j]].overWork = parseFloat(myHours) > 8 ? true : false;
         datedTaskLabors[taskName].dates[dateArray[j]].myHours = myHours;
         datedTaskLabors[taskName].dates[dateArray[j]].allHours = hours;
         datedTaskLabors[taskName].dates[dateArray[j]].timings = currentTimings;

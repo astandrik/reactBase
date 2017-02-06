@@ -64,6 +64,12 @@ const dialog = class addTrudModalDialog extends React.Component {
   render() {
   const props = this.props;
   const { handleSubmit } = props;
+  let author_val = null;
+  if(!this.state.author_val.value) {
+    author_val = props.author_val;
+  } else {
+    author_val = this.state.author_val;
+  }
   return (
       <Modal
       isOpen={props.isModalOpen}
@@ -83,7 +89,7 @@ const dialog = class addTrudModalDialog extends React.Component {
             </Panel>
         </Container>
         <Panel label="Исполнитель">
-          <Select.Async multi={false} value={this.state.author_val}
+          <Select.Async multi={false} value={author_val}
           onChange={this.handleSelectChange.bind(this)}
           searchPromptText="Введите имя пользователя"
             placeholder="Список выбранных сотрудников"
@@ -121,7 +127,10 @@ dialogForm = connect(
   state => {
     const date = state.Table.currentDay ? (`${swapDate(state.Table.currentDay)}.${state.Table.currentWeek.getFullYear()}`).split(".").join("/") : new Date();
     const currentDate = moment(date);
-    const currentUser = state.User.user;
+    let currentUser = state.currentAddingTrudTask.user;
+    if(!currentUser) {
+      currentUser = {id: 0, name:0};
+    }
 
     return ({
     initialValues: Object.assign(state.currentAddingTrudTask, {startLaborDate: currentDate}, {author_val : {value: currentUser.id, label: currentUser.name}}),

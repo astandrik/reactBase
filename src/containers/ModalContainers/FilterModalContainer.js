@@ -10,6 +10,7 @@ import {
     connect
 } from 'react-redux';
 
+
 const mapStateToProps = (state, ownProps) => {
     return {
       filterValues: ownProps.filterValues,
@@ -29,7 +30,7 @@ const mapDispatchToProps = (dispatch) => {
       applyFilters:(filters, currentLocation) => {
         const filt = {sub_ids: filters.subs, statuses: filters.statuses, all_subs: filters.allSubs};
         dispatch(setFilters({filters: filt}));
-        if(~currentLocation.indexOf("table")) {
+        if(~currentLocation.indexOf("table") || ~currentLocation.indexOf("subordinates")) {
           dispatch(loadTableData());
         } else if (~currentLocation.indexOf("list")) {
           dispatch(loadTasks());

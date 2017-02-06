@@ -5,6 +5,7 @@ import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
 import {PagesPicker} from "../formComponents/ReusableComponents";
+import {rowHeight} from "../../helperFunctions";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -186,7 +187,7 @@ export default class CodesList extends React.Component {
       <List
      width={500}
     height={this.props.clientHeight - 65}
-    rowHeight={31}
+    rowHeight={rowHeight}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
     />

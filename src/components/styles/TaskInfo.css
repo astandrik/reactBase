@@ -73,6 +73,12 @@
   margin-top: 0;
 }
 
+.infoHeaderBlock > div > span {
+  display: block;
+  margin-top: 8px!important;
+  float: left;
+}
+
 
 .infoHeaderBlock .Select--multi{
   min-width: 80%;
@@ -141,8 +147,8 @@
 }
 
 .singleExecutor {
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   background: #DDDDDD;
   border-radius: 30px;
   border: 2px solid black;

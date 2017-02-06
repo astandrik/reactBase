@@ -100,6 +100,7 @@ const ReportRoutes = (props) => {
 const SubordinatesRoutes = (props) => {
   const subordinatesEnter = () => {
     props.loadRepo.clearLayout();
+    props.loadRepo.setGlobalTaskType("subordinate");
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои сотрудники");
     props.loadRepo.tableData();

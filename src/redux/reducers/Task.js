@@ -20,8 +20,12 @@ import {
 } from "../actions/tasksActions";
 import {
   TOGGLE_RIGHT_PANEL,
-  CLEAR_LAYOUT
+  CLEAR_LAYOUT,
+  CLOSE_TRUD_MODAL
 } from "../actions/layoutActions";
+import {
+  LOGOUT
+} from "../actions/userActions";
 
 
 function findLaborById(labors, id) {
@@ -79,7 +83,10 @@ export function setDefaultFilters(state = defaultFilters, action) {
 export function addingTrudTask(state = {}, action) {
     switch (action.type) {
     case SET_ADDING_TRUD_TASK:
+        action.task.user = action.user;
         return action.task;
+    case LOGOUT:
+        return {};
     default:
         return state;
     }

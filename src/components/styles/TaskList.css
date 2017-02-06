@@ -85,7 +85,7 @@
 }
 
 .taskLabel {
-    line-height: 40px;
+    line-height: 56px;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -110,7 +110,7 @@
 }
 
 .single-task{
-  height: 30px;
+  height: 39px;
   margin-top: 10;
   margin-bottom: 10;
   width: 100%;
@@ -119,6 +119,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.single-task > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .single-task.active {
