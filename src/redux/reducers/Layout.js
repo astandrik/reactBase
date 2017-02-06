@@ -17,6 +17,10 @@ import {
 } from "../actions/layoutActions";
 
 import {
+  LOGOUT
+} from "../actions/userActions"
+
+import {
   SET_GLOBAL_TASK_TYPE
 } from "../actions/tasksActions";
 
@@ -32,7 +36,9 @@ export function fetchStatusChange(state = false, action) {
 export function setQuery(state = "", action) {
   switch (action.type) {
     case SET_QUERY:
-      return action.query
+      return action.query;
+    case LOGOUT:
+      return "";
     default:
       return state;
   }
@@ -70,7 +76,7 @@ const filtersDict = {
 
 export function setFilters(state = {}, action) {
   switch (action.type) {
-    case SET_GLOBAL_TASK_TYPE:
+    case SET_GLOBAL_TASK_TYPE:    
     if(state.type === undefined) {
       const defFilters = Object.assign({},JSON.parse(JSON.stringify(defaultFilters)),{type: filtersDict[action.routeType].type});
       return defFilters;
@@ -82,6 +88,8 @@ export function setFilters(state = {}, action) {
       }
     case SET_FILTERS:
       return Object.assign({}, state, action.filters);
+    case LOGOUT:
+      return defaultFilters;
     default:
       return state;
   }

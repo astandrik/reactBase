@@ -28,11 +28,11 @@ const filterContainerStyle = {
   flexDirection: "row"
 }
 
-const createTabs = function(tabs) {
+const createTabs = function(tabs,query) {
   let tabElements = [];
   for(var i = 0; i < tabs.length; i++) {
     tabElements[i] = (
-       <Link className="header-link" activeClassName="underlinedLink" to={tabs[i].to} key={tabs[i].to}>{tabs[i].title}</Link>
+       <Link className="header-link" activeClassName="underlinedLink" to={tabs[i].to+query} key={tabs[i].to}>{tabs[i].title}</Link>
     )
   }
   return tabElements;
@@ -91,12 +91,13 @@ export default class GlobalHeader extends React.Component {
   render() {
     let tabs = "";
     const props = this.props;
+    const query = props.query;
     let filterChanged = compareFilters(props.defaultFilters, props.currentTaskFilters);
     const isFilterDisplayed = ~filterNeeded.indexOf(props.currentTitle);
     if(this.props.tabs) {
       tabs = (
         <div style={tabStyles}>
-          {createTabs(this.props.tabs)}
+          {createTabs(this.props.tabs, query)}
         </div>
       )
     }

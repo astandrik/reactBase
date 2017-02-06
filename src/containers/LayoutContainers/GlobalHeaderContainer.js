@@ -11,6 +11,7 @@ const mapStateToProps = (state, ownProps) => {
         tabs: state.tabs,
         currentTaskFilters: state.currentTaskFilters,
         defaultFilters: state.defaultFilters,
+        query: state.query
     }
 }
 
