@@ -13,6 +13,7 @@ import {
     CLEAR_LAYOUT,
     SET_SEARH_QUERY,
     SET_FILTERS,
+    SET_QUERY
 } from "../actions/layoutActions";
 
 import {
@@ -28,6 +29,14 @@ export function fetchStatusChange(state = false, action) {
     }
 }
 
+export function setQuery(state = "", action) {
+  switch (action.type) {
+    case SET_QUERY:
+      return action.query
+    default:
+      return state;
+  }
+}
 
 const defaultAllFilters = {
   type: 0
@@ -61,7 +70,7 @@ const filtersDict = {
 
 export function setFilters(state = {}, action) {
   switch (action.type) {
-    case SET_GLOBAL_TASK_TYPE:    
+    case SET_GLOBAL_TASK_TYPE:
     if(state.type === undefined) {
       const defFilters = Object.assign({},JSON.parse(JSON.stringify(defaultFilters)),{type: filtersDict[action.routeType].type});
       return defFilters;

@@ -20,7 +20,7 @@ import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes
 StructureRoutes, UsersRoutes, CodesRoutes,FinancesRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
-import {setTabs, setCurrentTitle, clearLayout, setLocation} from "./redux/actions/layoutActions";
+import {setTabs, setCurrentTitle, clearLayout, setLocation, setFilters, setQuery} from "./redux/actions/layoutActions";
 import {loadDepTree,loadFlatDepartments} from "./redux/actions/Admin/departmentActions";
 import {getUsers} from "./redux/actions/Admin/usersActions";
 import {loadCodes} from "./redux/actions/Admin/codesActions";
@@ -48,10 +48,15 @@ var loadRepo = {
   codesTable: () => store.dispatch(loadCodes()),
   financesTable: () => store.dispatch(loadFinancesTable()),
   setLocation: (location) => store.dispatch(setLocation({location})),
-  monday: () => store.dispatch(setMonday())
+  monday: () => store.dispatch(setMonday()),
+  setFilters: (filters) => store.dispatch(setFilters({filters})),
+  setQuery:(query) => store.dispatch(setQuery({query}))
 }
 
 browserHistory.listen(function(ev) {
+  if(ev.search) {
+    loadRepo.setQuery(ev.search);
+  }
   loadRepo.setLocation(ev.pathname);
 });
 

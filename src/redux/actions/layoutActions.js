@@ -12,6 +12,7 @@ export const CLEAR_LAYOUT = "CLEAR_LAYOUT";
 export const SET_FILTERS = "SET_FILTERS";
 export const SET_SEARH_QUERY = "SET_SEARH_QUERY";
 export const SET_LOCATION = "SET_LOCATION";
+export const SET_QUERY = "SET_QUERY";
 import {
     generateActionFunc
 } from "./actionHelper.js";
@@ -29,3 +30,4 @@ export const setClientHeight = generateActionFunc(SET_CLIENT_HEIGHT);
 export const setSearchQuery = generateActionFunc(SET_SEARH_QUERY);
 export const setFilters = generateActionFunc(SET_FILTERS);
 export const setLocation = generateActionFunc(SET_LOCATION);
+export const setQuery = generateActionFunc(SET_QUERY);

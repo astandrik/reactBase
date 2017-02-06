@@ -14,8 +14,8 @@ function copyFilters(obj) {
   let newTaskFilters = {};
   const filters = obj;
   newTaskFilters.statuses = filters.statuses.slice();
-  newTaskFilters.subs = filters.sub_ids || filters.subs;
-  newTaskFilters.allSubs = filters.all_subs || filters.allSubs;
+  newTaskFilters.sub_ids = filters.sub_ids || filters.sub_ids;
+  newTaskFilters.all_subs = filters.all_subs || filters.all_subs;
   return newTaskFilters;
 }
 
@@ -61,13 +61,13 @@ const filterModal = class filter extends React.Component {
   radiogroupChanged(event, val) {
     if(val === "all_subs") {
       let newFilters = this.state.currentTaskFilters;
-      newFilters.allSubs = 1;
+      newFilters.all_subs = 1;
       this.setState({
         currentTaskFilters: newFilters
       })
     } else {
       let newFilters = this.state.currentTaskFilters;
-      newFilters.allSubs = 0;
+      newFilters.all_subs = 0;
       this.setState({
         currentTaskFilters: newFilters
       })
@@ -75,18 +75,40 @@ const filterModal = class filter extends React.Component {
   }
   handleSelectChange(vals) {
     let newFilters = this.state.currentTaskFilters;
-    newFilters.subs = vals.map(x => x.value);
+    newFilters.sub_ids = vals.map(x => x.value);
     this.setState({
         selectedUsers: vals,
         currentTaskFilters: newFilters
     })
   }
   applyFilters(currentLocation, filters) {
+    const queryFilter = {};
     if(filters.statuses) {
+      if(filters.sub_ids) {
+        queryFilter.sub_ids = filters.sub_ids.join(",");
+      }
+      if(filters.statuses) {
+        queryFilter.statuses = filters.statuses.join(",");
+      }
+      if(filters.all_subs) {
+        queryFilter.all_subs = filters.all_subs;
+      }
       this.props.applyFilters(filters, currentLocation);
     } else {
+      const f =this.state.currentTaskFilters;
+      if(f.sub_ids) {
+        queryFilter.sub_ids = f.sub_ids.join(",");
+      }
+      if(f.statuses) {
+        queryFilter.statuses = f.statuses.join(",");
+      }
+      if(f.all_subs) {
+        queryFilter.all_subs = f.all_subs;
+      }
       this.props.applyFilters(copyFilters(this.state.currentTaskFilters), currentLocation);
     }
+    const location = browserHistory.getCurrentLocation().pathname;
+    browserHistory.push({pathname: location, query: {...queryFilter}});
   }
   getUsers(query) {
     if (!query) {
@@ -125,13 +147,13 @@ const filterModal = class filter extends React.Component {
       />);
     }
     let defaultValue="";
-    if(currentTaskFilters.allSubs) {
+    if(currentTaskFilters.all_subs) {
       defaultValue = "all_subs";
     } else {
       defaultValue = "subs";
     }
     const subs_select = ( <div>
-      { this.state.currentTaskFilters.allSubs ?
+      { this.state.currentTaskFilters.all_subs ?
         <Select.Async multi={true} value={this.state.selectedUsers}
         onChange={this.handleSelectChange.bind(this)}
         searchPromptText="Введите имя пользователя"
@@ -143,7 +165,7 @@ const filterModal = class filter extends React.Component {
             <Select
                 multi={true}
                 placeholder="Список выбранных сотрудников"
-                value={currentTaskFilters.subs}
+                value={currentTaskFilters.sub_ids}
                 onChange={this.handleSelectChange.bind(this)}
                 options={
                     this.props.executors

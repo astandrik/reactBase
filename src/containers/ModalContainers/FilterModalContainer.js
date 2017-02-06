@@ -28,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
     return {
       applyFilters:(filters, currentLocation) => {
-        const filt = {sub_ids: filters.subs, statuses: filters.statuses, all_subs: filters.allSubs};
+        const filt = {sub_ids: filters.sub_ids, statuses: filters.statuses, all_subs: filters.all_subs};
         dispatch(setFilters({filters: filt}));
         if(~currentLocation.indexOf("table") || ~currentLocation.indexOf("subordinates")) {
           dispatch(loadTableData());

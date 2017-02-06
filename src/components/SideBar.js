@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import {ListItem} from 'material-ui/List';
 import {debounce} from "../helperFunctions";
 
-function createChildren(items, marginLeft, userType) {
+function createChildren(items, marginLeft, userType, query) {
   let children = [];
   for(let i = 0; i < items.length; i++) {
     let item=items[i];
@@ -12,18 +12,18 @@ function createChildren(items, marginLeft, userType) {
       continue;
     }
     if(item.children) {
-      const container = <Link className={"list-element list-element-"+marginLeft} to={!item.fake ? item.to : null} key={item.name}/>;
+      const container = <Link className={"list-element list-element-"+marginLeft} to={!item.fake ? (item.to+query) : null} key={item.name}/>;
       children.push((
       <ListItem
              containerElement={container}
              primaryText={item.name}
              initiallyOpen={true}
-             nestedItems={createChildren(item.children, marginLeft+10, userType)}
+             nestedItems={createChildren(item.children, marginLeft+10, userType, query)}
              key={item.name}
       />
     ));
     } else {
-      const container = <Link className={"list-element list-element-"+marginLeft}  to={!item.fake ? item.to : null} key={item.name}/>;
+      const container = <Link className={"list-element list-element-"+marginLeft}  to={!item.fake ? (item.to+query)  : null}  key={item.name}/>;
       children.push((
             <ListItem containerElement={container}
               primaryText={item.name}
@@ -59,7 +59,7 @@ const SideBar = class Side extends React.Component {
   }
   render() {
     const props = this.props;
-    this.menuItems = createChildren(props.menuItems,0,props.userType);
+    this.menuItems = createChildren(props.menuItems,0,props.userType, props.query);
     let children = this.menuItems;
     return(
       <div className={`side-bar ${this.props.showNav ? '' : 'deactivated'}`}>

@@ -7,7 +7,8 @@ import {Statistics} from "./Statistics"
 import {StateStructureList,UsersList,CodesList, FinancesList} from "./Admin";
 import Login from "./Login";
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, browserHistory } from 'react-router';
+
 const TaskRoutes = (props) => {
   const taskEnter = () => {
     props.loadRepo.tasks();
@@ -23,6 +24,21 @@ const TaskRoutes = (props) => {
     props.loadRepo.subordinates();
     const type = ev.params.type;
     props.loadRepo.setGlobalTaskType(type);
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
   <Route path="tasks/:type" loadRepo={props.loadRepo} component={Tasks} onEnter={mainTasksEnter}>
@@ -107,6 +123,21 @@ const SubordinatesRoutes = (props) => {
     props.loadRepo.workCodes();
     props.loadRepo.finances();
     props.loadRepo.subordinates();
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="subordinates" component={Subordinates}  onEnter={subordinatesEnter}/>

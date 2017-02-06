@@ -44,7 +44,8 @@ const layoutBindings = {
     searchQuery: layoutReducers.setSearchQuery,
     currentTaskFilters: layoutReducers.setFilters,
     defaultFilters: taskReducers.setDefaultFilters,
-    currentLocation: layoutReducers.setLocation
+    currentLocation: layoutReducers.setLocation,
+    query: layoutReducers.setQuery
 }
 
 const Reports = combineReducers({

@@ -13,7 +13,8 @@ const mapStateToProps = (state,ownProps) => {
     showNav: state.showNav,
     location: state.currentLocation,
     searchQuery: state.searchQuery,
-    userType: state.User.userType
+    userType: state.User.userType,
+    query: state.query
   }
 }
 
