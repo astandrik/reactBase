@@ -26,8 +26,8 @@ export default class ToolbarExamplesSimple extends React.Component {
           <img className="clickable-image burger" onClick={this.props.handleClick.bind(this)}  src={hamburger} alt="logo" />
           <h3>СПКИ</h3>
         </div>
-        <ToolbarGroup>
-          <div style={namePositionStyles}>
+        <ToolbarGroup className="toolbar-group">
+          <div style={namePositionStyles} className="name-position-container">
             <span style={{marginTop:5}}>{this.props.name}</span>
             <span style={{marginTop:"2px"}}>{this.props.position}</span>
           </div>

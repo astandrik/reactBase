@@ -29,7 +29,6 @@ const commentField = ({ input, label, meta: { touched, error } }) => {
 }
 
 
-
 const dialog = class addTrudModalDialog extends React.Component {
   constructor(props) {
     super(props);
@@ -114,10 +113,10 @@ const dialog = class addTrudModalDialog extends React.Component {
           <Field name="startLaborDate" component={DPicker}/>
           <img className="rightCalendar" src={calendar} alt="logo" />
         </div>
-        <div flex="5">
+        <div flex="5" className="comment-field">
           <Field name="comment" component={commentField}/>
          </div>
-        <FlatButton style={{float:"right"}} onClick={this.submitForm.bind(this)} label="Сохранить" />
+        <FlatButton className="save-task-button" onClick={this.submitForm.bind(this)} label="Сохранить" />
         <input type="submit" ref="sbmt" style={{display:"none"}}/>
     </Container>
     </form>

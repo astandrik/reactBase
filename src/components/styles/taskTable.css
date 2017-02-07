@@ -13,6 +13,10 @@
   padding: 5px;
 }
 
+.task-table-container{
+  font-family: serif!important;
+}
+
 .overall-row {
   pointer-events: none;
 }
@@ -23,7 +27,7 @@
 
 
 .has-overwork{
-  background-color: pink!important;
+  background-color: rgba(255, 192, 203, 0.71)!important;
 }
 
 .table-header>div{
@@ -42,11 +46,11 @@
 }
 
 .has-unaccepted {
-  background-color: rgba(255,255,0,0.6);
+  background-color: rgba(255, 255, 0, 0.39);
 }
 
 tr.unaccepted-task td{
-  background-color: rgba(255,255,0,0.6);
+  background-color: rgba(255, 255, 0, 0.39);
 }
 
 .taskTable th{

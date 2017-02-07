@@ -1,11 +1,12 @@
 .taskPanel {
   margin:5px;
-  border: 1px solid black;
   min-height: 70px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 4px;
+  background-color: gainsboro;
+  border: 1px solid #ddd;
 }
 
 .modalForm .taskPanel {
@@ -20,6 +21,27 @@
 
 .panelText.fullWidth {
   width: 100%;
+}
+
+@media all and (min-width: 1000px) {
+  .executorNames{
+    display: flex;
+    flex-direction: row;
+  }
+  .executorHeader {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media all and (min-width:1700px) {
+  .executorNames{
+    display: block;
+  }
+  .executorHeader {
+    display: flex;
+    flex-direction: row;
+  }
 }
 
 .form-checkbox {
@@ -43,7 +65,7 @@
 
 .panelLabel {
   text-decoration: underline;
-  margin: 5px;
+  margin:5px 0;
   float: left;
 }
 
@@ -69,6 +91,7 @@
     outline: none;
 }
 
+
 .infoHeaderBlock .singleExecutor{
   margin-top: 0;
 }
@@ -77,6 +100,7 @@
   display: block;
   margin-top: 8px!important;
   float: left;
+  margin-left: 5px;
 }
 
 
@@ -111,8 +135,6 @@
 }
 
 .executorHeader{
-  display: flex;
-  flex-direction: row;
   align-items: center;
 }
 

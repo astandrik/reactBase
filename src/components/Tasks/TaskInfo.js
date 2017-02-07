@@ -35,7 +35,7 @@ const addTrudButtonF = (props) => ((task) => (
   <div data-tip={ task.rights.time ? "" : "Недостаточно прав"}  flex="2" className={"addTrudButtonContainer " + (props.activeTab !== "trud" ? "noDisplay" : "")}>
     <div
       className={`addTrudButton ${task.rights.time ? "" : "disabled"}`} onClick={props.openTrudModal.bind(this, task)}>
-      Добавить трудозату
+      Добавить трудозатрату
     </div>
   </div>
 ));

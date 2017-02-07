@@ -16,9 +16,9 @@ const errorsModal = (props) => {
     className="small-modal"
     >
     <Container vertical="true">
-      <ul flex="10">
+      <div className="confirm-text" flex="10">
         {message}
-      </ul>
+      </div>
       <div flex="1">
         <FlatButton style={{float:"right"}} onClick={props.answer.bind(this, true)} label="Да" />
         <FlatButton style={{float:"left"}} onClick={props.answer.bind(this, false)} label="Нет" />

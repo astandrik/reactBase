@@ -182,7 +182,7 @@ const filterModal = class filter extends React.Component {
       className="filter-popover"
       >
       <Container vertical="true" style={{justifyContent: "spaceBetween"}} >
-        <Container>
+        <Container className="filter-modal-all-container">
           <div className="filter-modal-container" flex="4">
             <span className="modal-header">Задачи</span>
             <div className="filter-checkboxes-container">

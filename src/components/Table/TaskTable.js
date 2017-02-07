@@ -95,7 +95,7 @@ function createTable (tableData, props) {
     </tr>
   )
   return (
-    <Container>
+    <Container className="task-table-container">
       <div className="tableContainer">
         {datePicker(props,range)}
         <div className="taskTable">

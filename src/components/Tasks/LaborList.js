@@ -44,7 +44,7 @@ export default class Labors extends React.Component {
         <div
           className={`addTrudButton ${task.rights.time ? "" : " disabled"}`}
           onClick={props.openTrudModal.bind(this, task)}>
-          Добавить трудозату
+          Добавить трудозатрату
         </div>
       </div>
         <ReactTooltip place="top" type="dark" effect="float"/>

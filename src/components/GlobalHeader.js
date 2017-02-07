@@ -94,12 +94,16 @@ export default class GlobalHeader extends React.Component {
     const query = props.query;
     let filterChanged = compareFilters(props.defaultFilters, props.currentTaskFilters);
     const isFilterDisplayed = ~filterNeeded.indexOf(props.currentTitle);
+    let lineHeight = 48;
     if(this.props.tabs) {
       tabs = (
-        <div style={tabStyles}>
+        <div className="tabs-header-container" style={tabStyles} >
           {createTabs(this.props.tabs, query)}
         </div>
       )
+      if(this.props.tabs.length > 0) {
+        lineHeight = 59;
+      }
     }
     if(!this.props.currentTitle) {
       return (
@@ -107,7 +111,7 @@ export default class GlobalHeader extends React.Component {
       )
     } else {
       return (
-        <div style={headerStyles}>
+        <div style={headerStyles} className={"line-height-"+lineHeight}>
           <div className="header-filter-container">
             <h2 style={{textAlign: "center", marginBottom:"0px", marginTop: "5px"}}>{this.props.currentTitle}</h2>
             <div className={isFilterDisplayed ? "" : "noDisplay"}>
@@ -115,7 +119,7 @@ export default class GlobalHeader extends React.Component {
             </div>
           </div>
           {tabs}
-          <FilterModalContainer isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
+          <FilterModalContainer  isModalOpen={this.state.isFilterModalOpen} check={()=>{}}
           anchorEl={this.state.anchorEl}
           filterValues={checkBoxValues} closeModal={this.closeFilter.bind(this)} containerStyle={{maxWidth: '0'}}/>
         </div>

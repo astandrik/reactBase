@@ -24,11 +24,11 @@
 }
 
 .single-task.new-task {
-  background-color: rgba(255,255,0,0.6);
+  background-color: rgba(255, 255, 0, 0.39);
 }
 
 .single-task.declined-task {
-  background: pink;
+  background: rgba(255, 192, 203, 0.71);
 }
 
 .taskDropdown>div:first-child>svg {
@@ -216,11 +216,31 @@
   width: calc(100% - 140px);
 }
 
+.single-task:hover {
+      background-color: #B3F2F2;
+}
+
+.task-header:hover {
+  background-color: transparent!important;
+}
+
 .level_8 {
   margin-left: 160px;
   width: calc(100% - 160px);
 }
 
+.approved-task .taskStatusTree {
+  background-color: #3eb489;
+}
+
+button span {
+  text-transform: none!important;
+}
+
+.task-list-container{
+
+  font-family: serif!important;
+}
 
 .tasksContainer {
   transition: all ease 0.5s;

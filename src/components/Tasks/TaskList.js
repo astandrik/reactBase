@@ -156,7 +156,7 @@ export default class TaskList extends React.Component {
     />
     )
     return (
-      <Container>
+      <Container className="task-list-container">
         <div className="tasksContainer" style={fullSize} ref="taskTree">
           <ReactTooltip place="top" type="dark" effect="float"/>
           <div style={buttonContainerStyles}>
