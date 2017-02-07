@@ -34,7 +34,7 @@
   }
 }
 
-@media all and (min-width:1700px) {
+@media all and (min-width:1500px) {
   .executorNames{
     display: block;
   }
