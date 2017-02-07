@@ -4,6 +4,7 @@ import Icon from "../../Icons/Icon";
 import Container from "../Container";
 import moment from "moment";
 import thelpers from "../Table/tableHelpers";
+import {getDateMonthRange} from "../../redux/actions/tableActions";
 
 
 export default class RightTaskPanel extends React.Component {
@@ -31,11 +32,13 @@ export default class RightTaskPanel extends React.Component {
     } else {
                 const exportHtmlToExcel = helpers.exportHtmlToExcel;
       if(props.reportsTable.user && props.reportsTable.user.days.length) {
-        let table = thelpers.generateUserReportTable(props.reportsTable.user);
+        let range = getDateMonthRange(currentWeek);
+        const dateRangeWords = "c " + moment(range.first).format("DD") + " по " + moment(range.last).format("DD MMMM") + " " +  moment(range.last).format("YYYY") + "г";
+        let table = thelpers.generateUserReportTable(props.reportsTable.user, dateRangeWords);
         return (
           <Container vertical={true}>
             <div flex="1" className="reportHeaderContainer">
-                <h4 className="reports-header"><span>{"Отчет за период "}</span> <Icon name="excel" onClick={exportHtmlToExcel.bind(this)} className={`clickable-image excel-download-icon right-float`}/></h4>
+                <h4 className="reports-header"><span>{"Отчет за период " + dateRangeWords}</span> <Icon name="excel" onClick={exportHtmlToExcel.bind(this)} className={`clickable-image excel-download-icon right-float`}/></h4>
             </div>
             <div flex="11">
               <table  id="reports-table"  className="tg">
@@ -48,7 +51,7 @@ export default class RightTaskPanel extends React.Component {
         )
       } else {
         if(reportsTable && reportsTable[0] === "none") {
-          return <h2>Нет отчетных данных за период</h2>
+          return <h2>Нет отчетных данных за период </h2>
         } else {
           return <div className="noDisplay"/>
         }

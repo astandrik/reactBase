@@ -151,11 +151,108 @@ helpers.generateSimpleHeaders = function(table)  {
  return rowGenerator(ths, "head");
 }
 
-helpers.generateUserReportTable = function(user) {
+helpers.generateUserReportTable = function(user, dateWords) {
   let rows = [];
   const daysNumber = user.days.length;
   let tick = true;
-  rows = [(
+  const totalTableWidth = daysNumber+3 + 6;
+  const headerRow = [
+    (<tr   key="header-row" className="noDisplay noBorder">
+      <th colSpan={totalTableWidth} key="header-td">
+        Табель №
+      </th>
+    </tr>),,
+    (<tr  key="header-row-2" className="noDisplay noBorder">
+      <th colSpan={totalTableWidth} key="header-td">
+        {"учета использования рабочего времени"}
+      </th>
+    </tr>),
+    <tr key="a1">
+    </tr>,
+    <tr key="a2 noBorder" className="noDisplay">
+      <th colSpan={totalTableWidth} key="header-td">
+        {"за период " + dateWords}
+      </th>
+    </tr>,
+    <tr key="a3 noBorder" className="noDisplay" >
+      <th  colSpan={7}>
+        Учреждение:
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th  colSpan={totalTableWidth - 11}>
+        ФГБУ "НИИ ЦПК имени Ю.А. Гагарина"
+      </th>
+    </tr>,
+    <tr key="a5 noBorder" className="noDisplay" >
+      <th colSpan={7}>
+        Структурное подразделение:
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th  colSpan={totalTableWidth - 11}>
+
+      </th>
+    </tr>,
+    <tr key="a7" className="noDisplay" >
+      <th   colSpan={7}>
+        Вид табеля:
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th>
+      </th>
+      <th  colSpan={totalTableWidth - 11}>
+
+      </th>
+    </tr>,
+    <tr key="a9" className="noDisplay">
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+    <th>
+    </th>
+      <th  colSpan={totalTableWidth - 11}>
+        (первичный - 0; корректирующий - 1, 2 и т.д.)
+      </th>
+    </tr>,
+    <tr key="a10" className="noDisplay">
+    </tr>
+  ]
+  rows = headerRow.concat([(
     <tr key="first-row">
       <th className="tg-yw4l" colSpan="2" rowSpan="4"  key="fio-header">
         Фамилия, имя, отчество
@@ -171,7 +268,7 @@ helpers.generateUserReportTable = function(user) {
       </th>
     </tr>),
     <tr key="3422">
-    </tr>];
+    </tr>]);
   let rownumbers = [<td className="tg-yw4l" colSpan="2" key="1" >1</td>,<td className="tg-yw4l" colSpan="2" key="2">2</td>,<td className="tg-yw4l" colSpan="2" key="3">3</td>];
   let daysArr = [];
   let dayTypesInfo = [];
@@ -236,7 +333,7 @@ helpers.generateUserReportTable = function(user) {
   let counter = globalCounter;
   let rowLen = (firstRows.length);
   tick = false;
-  let diff = rowLen - counter;  
+  let diff = rowLen - counter;
   if(diff > 0) {
     let i = secondRows.length - 1;
     while(diff) {

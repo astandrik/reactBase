@@ -180,10 +180,8 @@ function sheet_from_array_of_arrays(data, opts) {
     var ws = {};
     var range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
     let maxLength = -1;
-    let addSpace = 0;
-    if(opts.space) {
-      addSpace = opts.space;
-    }
+    const boldBorder = {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}};
+    const bottomBorder = {bottom: {style: "thin"}};
     for (var R = 0; R < data.length; ++R) {
       if (range.s.r > R) range.s.r = R;
       if (range.e.r < R) range.e.r = R;
@@ -195,7 +193,7 @@ function sheet_from_array_of_arrays(data, opts) {
             var cell = { v: "", t: "s"};
             cell.s = {
                 alignment: { wrapText: true, horizontal: "center", vertical: "center"},
-                border: {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}},
+                border:  boldBorder,
                 font: {sz: "9"}
             };
             var cell_ref = XLSX.utils.encode_cell({ c: i, r: R });
@@ -228,7 +226,7 @@ function sheet_from_array_of_arrays(data, opts) {
             if(!cell.s) {
               cell.s = {
                   alignment: { wrapText: true, horizontal: "center", vertical: "center"},
-                  border: {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}},
+                  border: boldBorder,
                   font: {sz: "9"}
               };
             }
@@ -238,9 +236,90 @@ function sheet_from_array_of_arrays(data, opts) {
 
     /* TEST: proper range */
     if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
-            debugger;
+
     return ws;
 }
+
+
+function sheet_from_array_of_arrays_table(data, opts) {
+    var ws = {};
+    var range = { s: { c: 10000000, r: 10000000 }, e: { c: 0, r: 0 } };
+    let maxLength = -1;
+    const boldBorder = {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}};
+    const bottomBorder = {bottom: {style: "thin"}};
+    const alignment = function(r) {
+      if(r == 4 || r == 5 || r == 6) {
+        return "left";
+      } else {
+        return "center";
+      }
+    }
+    const fntSize = function(r) {
+      if(r < 7) {
+        return "12";
+      } else {
+        return "9";
+      }
+    }
+    const re = 8;
+    for (var R = 0; R < data.length; ++R) {
+      if (range.s.r > R) range.s.r = R;
+      if (range.e.r < R) range.e.r = R;
+      if(R == 0) {
+        maxLength = data[R].length;
+      }
+      if(data[R].length === 0) {
+        for(let i = 0; i < maxLength; i++) {
+            var cell = { v: "", t: "s"};
+            cell.s = {
+                alignment: { wrapText: true, horizontal: alignment(R) , vertical: "center"},
+                border:  (R < re ? {} : ( R== re ? bottomBorder : boldBorder)),
+                font: {sz: fntSize(R)}
+            };
+            var cell_ref = XLSX.utils.encode_cell({ c: i, r: R });
+            ws[cell_ref] = cell;
+        }
+        continue;
+      }
+        for (var C = 0; C != data[R].length; ++C) {
+            if (range.s.c > C) range.s.c = C;
+            if (range.e.c < C) range.e.c = C;
+            var cell = { v: data[R][C] };
+            var cell_ref = XLSX.utils.encode_cell({ c: C, r: R });
+            if(cell.v == null) {
+              cell.v = "";
+            }
+
+            /* TEST: proper cell types and value handling */
+            if (typeof cell.v === 'number') cell.t = 'n';
+            else if (typeof cell.v === 'boolean') cell.t = 'b';
+            else if (cell.v instanceof Date) {
+                cell.t = 'n'; cell.z = XLSX.SSF._table[14];
+                cell.v = datenum(cell.v);
+                cell.s = {
+                    patternType: 'solid',
+                    fgColor: { theme: 8, tint: 0.3999755851924192, rgb: '9ED2E0' },
+                    bgColor: { indexed: 64 }
+                };
+            }
+            else cell.t = 's';
+            if(!cell.s) {
+              cell.s = {
+                  alignment: { wrapText: true, horizontal:  alignment(R), vertical: "center"},
+                  border: (R < re ? {} : ( R== re ? bottomBorder : boldBorder)),
+                  font: {sz: fntSize(R)}
+              };
+            }
+            ws[cell_ref] = cell;
+        }
+    }
+
+    /* TEST: proper range */
+    if (range.s.c < 10000000) ws['!ref'] = XLSX.utils.encode_range(range);
+
+    return ws;
+}
+
 
 function s2ab(s) {
     var buf = new ArrayBuffer(s.length);
@@ -408,10 +487,7 @@ export function htmlToExcel(tableSelector) {
   var data = oo[0];
   var ws_name = "SheetJS";
   console.log(data);
-  let opts = {
-    space: 9
-  }
-  var wb = new Workbook(), ws = sheet_from_array_of_arrays(data, opts);
+  var wb = new Workbook(), ws = sheet_from_array_of_arrays_table(data);
 
   /* add ranges to worksheet */
   ws['!merges'] = ranges;
