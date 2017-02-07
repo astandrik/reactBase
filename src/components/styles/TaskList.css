@@ -85,7 +85,7 @@
 }
 
 .taskLabel {
-    line-height: 56px;
+    line-height: 51px;
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -110,7 +110,7 @@
 }
 
 .single-task{
-  height: 39px;
+  height: 34px;
   margin-top: 10;
   margin-bottom: 10;
   width: 100%;

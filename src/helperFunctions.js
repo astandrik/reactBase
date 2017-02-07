@@ -16,7 +16,7 @@ export const debounce = function(func, wait, immediate) {
 	};
 };
 
-export const rowHeight = 40;
+export const rowHeight = 35;
 
 
 export const testExportData = {

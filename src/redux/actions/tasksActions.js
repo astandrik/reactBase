@@ -282,22 +282,40 @@ export function loadTasks() {
     }
 }
 
+function mergeArrays(arr1, arr2) {
+  let newArr = [];
+  for(let i = 0; i < arr2.length; i++) {
+    newArr.push(arr2[i]);
+  }
+  for(let i = 0; i < arr1.length; i++) {
+    if(!~arr2.indexOf(arr1[i])) {
+      newArr.push(arr1[i]);
+    }
+  }
+  return newArr;
+}
+
 
 export function loadTree(params) {
   const handler = function (json, dispatch, getState) {
       const type = getState().globalTaskType;
       let tasks = new TaskTree(json.data.tree);
+      const currentOpened = getState().openedTasks;
       if(type!== "all") {
         const name = typeDict[type];
         const chosenTasks = tasks.tree.filter(x => x.name === name);
+        const opened =  [chosenTasks[0].globalIndex];
+        const newOpened = mergeArrays(opened,currentOpened);
         if(chosenTasks[0]) {
-          dispatch(setTaskOpen({globalIndexes: [chosenTasks[0].globalIndex]}));
+          dispatch(setTaskOpen({globalIndexes:newOpened}));
         }
         dispatch(setTasks({
             tasks: {tree: chosenTasks, treeNormalized: tasks.treeNormalized}
         }));
       } else {
-        dispatch(setTaskOpen({globalIndexes: tasks.tree.map(x=>x.globalIndex)}));
+        const opened =  tasks.tree.map(x=>x.globalIndex);
+        const newOpened = mergeArrays(opened,currentOpened);
+        dispatch(setTaskOpen({globalIndexes: newOpened}));
         dispatch(setTasks({
             tasks: tasks,
             treeNormalized: tasks.treeNormalized
