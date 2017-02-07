@@ -233,6 +233,28 @@ helpers.generateUserReportTable = function(user) {
       globalCounter++;
     }
   }
+  let counter = globalCounter;
+  let rowLen = (firstRows.length);
+  tick = false;
+  let diff = rowLen - counter;  
+  if(diff > 0) {
+    let i = secondRows.length - 1;
+    while(diff) {
+      if(tick && user.totalFinance.length %2 && !(diff-1)) {
+        diff--;
+        continue;
+      }
+      if(tick) {
+        tick = false;
+        firstRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="3" key={i +6575}></td>);
+        diff--;
+        i--;
+      } else {
+        tick = true
+        secondRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="3" key={i +13}></td>);
+      }
+    }
+  }
   let totalRowCounter = firstRows.length*3 + secondRows.length*3 + 2;
   const userInfo = [
     <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="2" key="fio"> {user.name} </td>,
@@ -261,7 +283,7 @@ helpers.generateUserReportTable = function(user) {
   rows.push(  <tr key="mmm"></tr>)
   rownumbers.push(<td key="hm" className="tg-yw4l" colSpan="3" >{daysNumber+4}</td>);
   rows.push(<tr key="numbers-row" >{rownumbers}</tr>);
-  dayTypesInfo.push(<td className="tg-yw4l" key="empty"></td>)
+  dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty"></td>)
 
   userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo">{`Ф - ${user.totalDays}/${user.totalHours}`}</td>);
   rows.push(<tr key="row-four">{userInfo}</tr>);

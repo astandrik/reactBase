@@ -61,6 +61,18 @@ const dialog = class addTrudModalDialog extends React.Component {
       return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
     });
   }
+  closeModal() {
+    this.setState({
+      author_val: {id: 0, name:0}
+    });
+    this.props.closeModal.bind(this)();
+  }
+  submitForm() {
+    this.setState({
+      author_val: {id: 0, name:0}
+    });
+    setTimeout(() => {this.refs.sbmt.click()});
+  }
   render() {
   const props = this.props;
   const { handleSubmit } = props;
@@ -76,7 +88,7 @@ const dialog = class addTrudModalDialog extends React.Component {
       contentLabel="Modal"
       className="small-modal long"
     >
-    <img role="presentation"  className="clickable-image close-modal" onClick={() => {props.closeModal.bind(this)();}}  src={close}/>
+    <img role="presentation"  className="clickable-image close-modal" onClick={this.closeModal.bind(this)}  src={close}/>
     <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
     <Container vertical="true" >
          <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
@@ -105,7 +117,8 @@ const dialog = class addTrudModalDialog extends React.Component {
         <div flex="5">
           <Field name="comment" component={commentField}/>
          </div>
-        <FlatButton style={{float:"right"}} type="submit" label="Сохранить" />
+        <FlatButton style={{float:"right"}} onClick={this.submitForm.bind(this)} label="Сохранить" />
+        <input type="submit" ref="sbmt" style={{display:"none"}}/>
     </Container>
     </form>
     </Modal>

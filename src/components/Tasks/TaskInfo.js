@@ -125,7 +125,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       executorsField = <ExecutorsSelectField executors={props.executors} debouncedUpdate={this.handleEdit.bind(this)}
         deactivateExecutorsField={this.deactivateExecutorsField.bind(this)}/>
     } else {
-      executorsField = (<div className="executorNames" onClick={this.activateExecutorsField.bind(this)}>{executorNames}</div>);
+      executorsField = (<div  className="executorHeader"><span>Исполнители: </span><div className="executorNames" onClick={this.activateExecutorsField.bind(this)}>{executorNames}</div></div>);
     }
     if(!task.name) {
       return <div/>;

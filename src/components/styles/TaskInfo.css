@@ -110,6 +110,16 @@
   display: none!important;
 }
 
+.executorHeader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.executorHeader > span {
+  font-weight: bold;
+}
+
 .singleExecutor {
   position: relative;
 }
