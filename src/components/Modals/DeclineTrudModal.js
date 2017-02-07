@@ -26,7 +26,7 @@ const errorsModal = class errorsModal extends React.Component {
   answer(func) {
     this.setState({
       comment: ""
-    });    
+    });
     func();
   }
   render() {
@@ -42,7 +42,7 @@ const errorsModal = class errorsModal extends React.Component {
       isOpen={props.isModalOpen}
       contentLabel="Modal"
       style={{overlay: {zIndex: 8}}}
-        className="small-modal long"
+        className="medium-modal"
       >
       <Container vertical="true">
         <h4>

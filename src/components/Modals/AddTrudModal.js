@@ -86,13 +86,13 @@ const dialog = class addTrudModalDialog extends React.Component {
       <Modal
       isOpen={props.isModalOpen}
       contentLabel="Modal"
-      className="small-modal long"
+      className="medium-modal long"
     >
     <img role="presentation"  className="clickable-image close-modal" onClick={this.closeModal.bind(this)}  src={close}/>
     <form className="modalForm" onSubmit={handleSubmit} style={{display:"flex", flexDirection:"column"}}>
     <Container vertical="true" >
          <h2>{props.trudTask ? props.trudTask.title : ""}</h2>
-         <Container flex="2" className="responsive-vertical" vertical={true}>
+         <Container flex="2" className="responsive-vertical">
            <Panel label="Количество часов">
              <Field name="hours"  component={HoursField} />
            </Panel>

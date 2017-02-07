@@ -11,7 +11,7 @@ export default class Table extends React.Component {
   render() {
     return (
         <Container className="reports-page">
-          <RightPanelContainer flex="5">
+          <RightPanelContainer flex="2.2">
             <LeftReportsPanelContainer />
           </RightPanelContainer>
           <div className={`splitter`}/>

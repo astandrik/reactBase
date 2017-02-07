@@ -57,13 +57,13 @@ helpers.createExecutors = function(executors) {
     executors.forEach((x,i) => {
       let name = x.name ? x.name.split(' ').map(x=>x[0].toUpperCase()) : x.label.split(' ').map(x=>x[0].toUpperCase());
       name = name.slice(0,2).join("");
-      executorDivs.push(<div className="singleExecutor" key={x.id || x.value}><span data-tip={x.name || x.label}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+      executorDivs.push(<div className="singleExecutor" key={x.id || x.value}><span data-tip={x.name || x.label}>{name}</span></div>)
     });
   } else if(executors.length == 0){
-      executorDivs.push(<div className="singleExecutor non-distributed" key={-1}><span data-tip={"Не распределено"}>Н</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+      executorDivs.push(<div className="singleExecutor non-distributed" key={-1}><span data-tip={"Не распределено"}>Н</span></div>)
   }
   if(smallDivs.length) {
-    executorDivs.push(<div className="singleExecutor" key={-2}><span data-tip={"Исполнители:  " + smallDivs.join(", ")}>...</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+    executorDivs.push(<div className="singleExecutor" key={-2}><span data-tip={"Исполнители:  " + smallDivs.join(", ")}>...</span></div>)
   }
   return executorDivs;
 }

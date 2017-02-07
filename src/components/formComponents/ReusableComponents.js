@@ -113,7 +113,7 @@ export const DescriptionField = ({input, placeholder}) => {
 }
 
 export const HoursField = ({input, handleChange}) => {
-    return (<input {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}  className="formInput" placeholder="Количество часов"/>);
+    return (<input {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}  className="formInput"/>);
   }
 
 export const Panel = ({children , label, disabled}) => {

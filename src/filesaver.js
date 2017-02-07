@@ -474,7 +474,7 @@ function generateArray(table) {
         }
         out.push(outRow);
     }
-    return [out, ranges,wscols];
+    return [out, ranges,wscols];      
 };
 
 export function htmlToExcel(tableSelector) {

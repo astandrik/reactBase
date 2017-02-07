@@ -9,6 +9,7 @@ import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
 import {rowHeight} from "../../helperFunctions";
+import ReactTooltip from 'react-tooltip';
 
 const buttonContainerStyles = {
   display: "flex",
@@ -157,6 +158,7 @@ export default class TaskList extends React.Component {
     return (
       <Container>
         <div className="tasksContainer" style={fullSize} ref="taskTree">
+          <ReactTooltip place="top" type="dark" effect="float"/>
           <div style={buttonContainerStyles}>
             <div>
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>

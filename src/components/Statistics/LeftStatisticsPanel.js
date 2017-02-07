@@ -16,19 +16,20 @@ const datepickerStyles = {
   display: "flex",
   float: "right",
   flexDirection: "row",
-  justifyContent: "space-between",
+  justifyContent: "center",
   background: "white"
 }
 
-const datePicker = (props, range, type, handlePrev,handleNext, selectDate, context)=> (
+const datePicker = (props, range, type, handlePrev,handleNext, selectDate, context,ref, dateClick)=> (
   <div style={datepickerStyles}>
     <img className="clickable-image left" onClick={handlePrev.bind(context, type)}  src={left} alt="logo" />
     <div className="dateContainer">
       <DatePicker
+        ref={ref}
         selected={range.first ? moment(range.first) : moment(new Date())}
         onChange={selectDate.bind(context, type)}
       />
-      <span className="weekVisualiser">{"Неделя " + helpers.getWeek(range.first) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" }</span>
+      <span className="weekVisualiser" onClick={dateClick}>{"Неделя " + helpers.getWeek(range.first) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" }</span>
     </div>
     <img className="clickable-image right" onClick={handleNext.bind(context, type)}  src={right} alt="logo" />
   </div>
@@ -201,6 +202,12 @@ export default class Labors extends React.Component {
   loadNormatives() {
     this.props.loadNormatives(this.state);
   }
+  startClick() {
+    this.refs.start.deferFocusInput();
+  }
+  endClick() {
+    this.refs.end.deferFocusInput();
+  }
   render () {
   const props = this.props;
   const radio = this.state.currentRadio;
@@ -279,8 +286,14 @@ export default class Labors extends React.Component {
   const period = props.period;
     picker = (
       <div className="weekPicker">
-      {datePicker.call(this,props,range1, "start", this.handlePrev, this.handleNext, this.dateSelect, this)}
-      {datePicker.call(this,props,range2, "end", this.handlePrev, this.handleNext, this.dateSelect, this)}
+      <div>
+        <span>От</span>
+        {datePicker.call(this,props,range1, "start", this.handlePrev, this.handleNext, this.dateSelect, this, "start", this.startClick.bind(this))}
+      </div>
+      <div>
+        <span>До</span>
+        {datePicker.call(this,props,range2, "end", this.handlePrev, this.handleNext, this.dateSelect, this, "end", this.endClick.bind(this))}
+      </div>
     </div>
     )
   return (

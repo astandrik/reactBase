@@ -24,10 +24,29 @@
   outline: 1px black solid;
 }
 
+.user-report-select{
+  margin: 0 5px;
+}
+
+.elements-report-select{
+  margin: 0 5px;
+}
+
+.reports-header > h3 {
+  font-weight:500!important;
+}
+
+
+.statistics-page >div:first-child {
+  font-family:serif;
+}
+
 .workdoneBlock{
   background-color: #6AA84F;
   outline: 1px black solid;
 }
+
+
 
 .underworkBlock {
   background-color: #FFD966;
@@ -41,10 +60,6 @@
   border-bottom: 1px solid black;
 }
 
-.top-statistics-buttons-container button {
-  border: 1px solid black!important;
-  margin: 5px 5px!important;
-}
 
 .hoursBlock{
  min-width: 100%;
@@ -111,13 +126,6 @@
 }
 
 
-.button-statistics-create{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-end;
-}
-
 .dayPicker > div  {
   display: flex;
   flex-direction: row;
@@ -131,17 +139,43 @@
 
 .weekPicker .weekVisualiser {
   height:20px;
-  line-height: 20px;
+  line-height: 26px;
+  cursor: pointer;
+  font-size:13px;
+  margin: 0 4px;
+  white-space: nowrap;
+}
+
+@media all and (max-width: 1800px) {
+  .weekPicker .weekVisualiser {
+    font-size: 14px;
+  }
 }
 
 .weekPicker input {
   height: 10px;
+  color:white;
+  border: none!important;
+  outline: none!important;
+}
+
+
+.top-statistics-buttons-container button{
+  margin-top: 15px!important;
+  border-style: solid!important;
+border-width: 1px!important;
+border-color: #c1c1c1!important;
 }
 
 .weekPicker {
   font-size: 10px;
+  margin-top: 30px;
+  justify-content: center;
 }
 
+.weekPicker > div>div>span {
+  display: none;
+}
 .weekPicker > div > div {
   width:50%!important;
 }
@@ -149,4 +183,20 @@
 .weekPicker .dateContainer {
   display: flex;
   flex-direction: column;
+}
+
+@media all and (max-width: 1800px) {
+  .weekPicker> div{
+    flex-direction: column;
+    align-items: center;
+  }
+  .weekPicker> div>div:nth-child(1) {
+    order: 1;
+  }
+  .weekPicker> div>div:nth-child(2) {
+    order: -1;
+  }
+  .weekPicker > div > div {
+    width: auto!important;
+  }
 }
