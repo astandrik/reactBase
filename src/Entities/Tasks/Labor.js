@@ -21,9 +21,13 @@ export default class Labor {
     }
     this.commentsOpened = false;
     this.rawstatus = json.status;
-    this.comment = json.description;
+    this.comment = json.description === "undefined" ? "" : json.description;
     this.date = moment(this.startDate).format('DD.MM');
     this.hours = json.value;
+    this.task_name = "";
+    if(json.task) {
+      this.task_name = json.task.name;
+    }
     this.status = statusDict[json.status];
     this.status = this.status=== undefined ? "Вычисляется" : this.status;
     this.code = {

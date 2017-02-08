@@ -6,6 +6,7 @@ import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
 import {PagesPicker} from "../formComponents/ReusableComponents";
 import {rowHeight} from "../../helperFunctions";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -63,7 +64,10 @@ export default class FinancesList extends React.Component {
       activeEditing: false,
       description: "",
       label: "",
-      id: ""
+      id: "",
+      currentQuestion: ()=>{},
+      isModalOpen: false,
+      message: ""
     }
   }
   activateCodeEditing(item) {
@@ -107,6 +111,23 @@ export default class FinancesList extends React.Component {
       label: "",
       id: ""
     })
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.deleteFinance(this.props.activeIndexes.taskId);
+    }
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false});
+  }
+  startQuestion(department) {
+      this.setState({
+        selectedFinance: department,
+        currentQuestion: this.acceptAnswer,
+        message: "Уверены, что хотите удалить статью финансирования?",
+        isModalOpen: true
+      });
   }
   render() {
     let finances = this.props.finances;
@@ -203,12 +224,14 @@ export default class FinancesList extends React.Component {
               <RaisedButton className="addButton" label="Добавить" onClick={this.addNewCode.bind(this)}/>
             </div>
             <div className={!~this.props.activeIndexes.taskId ? "noDisplay" : ""}>
-              <RaisedButton className="addButton" label="Удалить" onClick={this.props.deleteFinance.bind(this, this.props.activeIndexes.taskId)}/>
+              <RaisedButton className="addButton" label="Удалить" onClick={this.startQuestion.bind(this)}/>
             </div>
           </div>
           {tasksView}
           <PagesPicker prevPage={props.prevPage.bind(this, props.pageNumber)} nextPage={props.nextPage.bind(this, props.pageNumber)} pageNumber={props.pageNumber}/>
         </div>
+        <ConfirmModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={this.state.message}
+          answer={this.state.currentQuestion.bind(this)}/>
       </Container>
     );
   }

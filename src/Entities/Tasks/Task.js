@@ -17,6 +17,7 @@ export default class Task {
           comment: ~rights.indexOf("comment"),
           time: ~rights.indexOf("time"),
           accept: ~rights.indexOf("accept"),
+          reopen: ~rights.indexOf("reopen"),
           delete: ~rights.indexOf("delete")
         }
         this.title = task.name;

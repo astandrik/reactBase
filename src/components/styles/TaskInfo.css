@@ -196,6 +196,16 @@
   font-size: 14px;
 }
 
+.global-task-container textarea[name="name"] {
+  width:100%;
+  height: 50px;
+}
+
+.labor-main-container input[name="comment"]{
+  width:100%;
+  border-bottom: none;
+}
+
 .singleExecutor.non-distributed {
   background: rgba(255,255,0,0.6);
 }

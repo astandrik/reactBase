@@ -56,6 +56,9 @@ const popoverMenu = (props, context) => {
   if(task.rights.delete) {
     menuItems.push(<MenuItem key={5} onClick={props.deleteTask.bind(context, props.task)} primaryText="Удалить задачу" />)
   }
+  if(task.rights.reopen) {
+    menuItems.push(<MenuItem key={7} onClick={props.reopenTask.bind(context, props.task)} primaryText="Переоткрыть задачу" />)
+  }
   menuItems.push(<MenuItem key={6} onClick={props.copyTask.bind(context, props.task)} primaryText="Копировать задачу" />);
   return (<Popover
          open={context.state.open}
@@ -131,7 +134,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       return (
         <form onSubmit={handleSubmit} className={task.rights.update ? "" : "no-update"} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           {popover}
-          <Container vertical={true}>
+          <Container className="global-task-container" vertical={true}>
             <div className="infoHeader" flex="1">
               <Container style={{justifyContent: "space-between"}}>
                 <div ref="executorsSelect" className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>

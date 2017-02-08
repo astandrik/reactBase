@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {debounce} from "../../helperFunctions";
 import Icon from "../../Icons/Icon";
 import {DescriptionField, Panel, NameField, DepartmentParentField} from "../formComponents/ReusableComponents";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
 
 const codeBlockStyle = {
@@ -23,9 +24,31 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
   constructor(props) {
    super(props);
     this.handleDebounce = debounce(this.handleEdit, 400);
+    this.state = {
+      currentQuestion: ()=>{},
+      isModalOpen: false,
+      message: ""
+    };
   }
   handleEdit(e) {
     setTimeout(() => {this.refs.sbmt.click()});
+  }
+  acceptAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.deleteDepartment(this.state.selectedDepartment);
+    }
+  }
+  closeConfirm() {
+    this.setState({isModalOpen: false});
+  }
+  startQuestion(department) {
+      this.setState({
+        selectedDepartment: department,
+        currentQuestion: this.acceptAnswer,
+        message: "Уверены, что хотите удалить отделение?",
+        isModalOpen: true
+      });
   }
   render () {
     const props=this.props;
@@ -39,7 +62,7 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
           <Container vertical={true}>
             <div className="infoHeader" flex="1">
               <div style={{marginLeft:"15px"}}>
-                <Icon onClick={this.props.deleteDepartment.bind(this, department)} className={`clickable-image ellipsis`} name="rubbish-bin"  />
+                <Icon onClick={this.startQuestion.bind(this, department)} className={`clickable-image ellipsis`} name="rubbish-bin"  />
               </div>
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
@@ -58,6 +81,8 @@ const  DepartmentInfoComponent =  class DepartmentInfo extends React.Component {
             </Container>
           </Container>
           <input type="submit"  ref="sbmt" style={{display:"none"}}/>
+          <ConfirmModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={this.state.message}
+            answer={this.state.currentQuestion.bind(this)}/>
         </form>
         )
       }

@@ -102,7 +102,7 @@ export function onChangeSubmit(onChange, handleSubmit) {
 }
 
 export const NameField = ({input, placeholder,handleChange}) => {
-    return (<input {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    className="fieldValue taskHeader" placeholder={placeholder ? placeholder : "Название задачи"} />);
+    return (<textarea {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    className="fieldValue taskHeader" placeholder={placeholder ? placeholder : "Название задачи"} />);
   }
 
   export const StandardField = ({input, placeholder}) => {

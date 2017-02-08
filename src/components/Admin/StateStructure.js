@@ -61,7 +61,7 @@ export default class TaskList extends React.Component {
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
-  }
+  }  
   render() {
     let departments = this.props.departments;
     const props = this.props;

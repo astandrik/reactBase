@@ -97,6 +97,7 @@
 }
 
 .innerHoursContainerBlock{
+  text-align: center;
   width: 60%;
   flex-direction: row;
   align-items: center;

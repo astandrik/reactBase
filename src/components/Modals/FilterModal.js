@@ -159,7 +159,7 @@ const filterModal = class filter extends React.Component {
         searchPromptText="Введите имя пользователя"
           placeholder="Список выбранных сотрудников"
           backspaceRemoves={false}
-          ignoreCase={false}
+          ignoreCase={true}
         loadOptions={this.getUsers} />
             :
             <Select

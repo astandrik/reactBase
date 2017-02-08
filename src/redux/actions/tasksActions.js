@@ -408,3 +408,11 @@ export function completeTask(task) {
   }
   return fetchAsync("/data/completetask?id=" + task.id, handler);
 }
+
+export function reopenTask(task) {
+  const handler = (json, dispatch, getState) => {
+    dispatch(loadTask({id: task.id}));
+    dispatch(loadTasks());
+  }
+  return fetchAsync("/data/reopentask?id=" + task.id, handler);
+}

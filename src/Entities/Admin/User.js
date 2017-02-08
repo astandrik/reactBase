@@ -3,11 +3,11 @@ import moment from "moment";
 export default class User {
   constructor(json) {
     Object.assign(this, json);
-    this.department_name = this.department.name;
-    this.department = this.department.id;
+    this.department_name = this.department ? this.department.name : "";
+    this.department = this.department ? this.department.id : -1;
     this.is_chief = false;
     this.is_banned = false;
-    this.is_admin = false;  
+    this.is_admin = false;
     if(this.departments && this.departments.length > 0) {
       if(this.role === 1) {
         this.role = "-21";

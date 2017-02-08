@@ -5,10 +5,10 @@ import {
 } from "../actionHelper.js";
 import moment from "moment";
 export const SET_CALENDAR = "SET_CALENDAR";
-export const SET_DAY = "SET_DAY";
+export const SET_CALENDAR_DAY = "SET_CALENDAR_DAY";
 
 export const setCalendar = generateActionFunc(SET_CALENDAR);
-export const setCalendarDay = generateActionFunc(SET_DAY);
+export const setCalendarDay = generateActionFunc(SET_CALENDAR_DAY);
 
 
 function createMods(calendar) {
@@ -20,7 +20,7 @@ function createMods(calendar) {
                    date: moment(e),
                    classNames: [ " day-type-" + calendar[e]],
                    component: ['day'],
-                   status: calendar[e]
+                   status: calendar[e]                   
                  };
     i++;
   }
@@ -38,7 +38,7 @@ export function loadCalendar(year) {
 
 export function setDay(date, status) {
   const handler = (json, dispatch, getState) => {
-    dispatch(setDay({day: date, status: status}));
+    dispatch(setCalendarDay({day: date, status: status}));
   }
   return fetchAsync(`/data/setday?date=${date}&status=${status}`, handler);
 }

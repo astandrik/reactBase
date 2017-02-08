@@ -12,6 +12,7 @@ import Icon from "../../Icons/Icon";
 import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';
 import DeclineTrudModalContainer from "../../containers/ModalContainers/DeclineTrudModalContainer";
+import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 
 
 const codeBlockStyle = {
@@ -153,9 +154,9 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                 </div>
               </Container>
             </div>
-            <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
+            <Container className="labor-main-container" vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
                 <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
-                  <Field name="comment"  handleChange={this.handleDebounce.bind(this)}   component={NameField} />
+                    {labor.task_name}
                 </h2>
                 <Container flex="3" containerStyle={codeBlockStyle}>
                   <Panel label="Количество часов">
@@ -174,6 +175,9 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                     ignoreCase={true}
                   loadOptions={this.getUsers} />
                 </Panel>
+                <Panel label="Комментарий">
+                  <Field name="comment"  handleChange={this.handleDebounce.bind(this)} placeholder="Комментарий к трудозатрате"  component={NameField} />
+                </Panel>
                 <div>
                   <TaskCommentsTabContainer sendComment={props.sendComment.bind(this, labor)} task={labor}/>
                 </div>
@@ -183,6 +187,8 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
             <DeclineTrudModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isDeclineModalOpen}
                 labor={this.props.labor}
                 answer={this.state.currentQuestion.bind(this)}/>
+                <ConfirmModalContainer containerStyle={{maxHeight: '0', maxWidth: '0'}} isModalOpen={this.state.isModalOpen} message={this.state.message}
+                  answer={this.state.currentQuestion.bind(this)}/>
         </form>
         )
       }

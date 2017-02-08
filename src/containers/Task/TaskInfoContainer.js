@@ -14,7 +14,8 @@ import {
     declineTask,
     completeTask,
     createTask,
-    deleteTask
+    deleteTask,
+    reopenTask
 } from "../../redux/actions/tasksActions";
 import {
     openTrudModal,
@@ -90,6 +91,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         acceptTask:(task)=> {
           dispatch(acceptTask(task));
+        },
+        reopenTask:(task) => {
+          dispatch(reopenTask(task));
         },
         declineTask:(task) => {
           dispatch(declineTask(task));

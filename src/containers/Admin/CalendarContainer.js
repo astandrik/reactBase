@@ -1,6 +1,7 @@
 import Calendar from "../../components/Admin/Calendar";
 import {
-  setDay
+  setDay,
+  loadCalendar
 } from "../../redux/actions/Admin/calendarActions";
 import { connect } from 'react-redux';
 
@@ -14,6 +15,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setDay:(day, status) => {
       dispatch(setDay(day, status));
+    },
+    loadYear:(year) => {
+      dispatch(loadCalendar(year));
     }
   }
 }
