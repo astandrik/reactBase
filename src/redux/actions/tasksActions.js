@@ -236,7 +236,7 @@ export function editLabor(data, fromLabor, fromTable) {
 
 export function loadWorkCodes() {
     const handler = (data, dispatch) => {
-        let codes = data.data.codes.map(x => ({value: x.id, label: x.value}));
+        let codes = data.data.codes.map(x => ({value: x.id, label: x.value + ", " + x.description}));
         dispatch(setCodes({
             codes
         }));

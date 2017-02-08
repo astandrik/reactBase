@@ -58,14 +58,16 @@ export class TableData {
         executors: dataInfo[i].executors,
         id: dataInfo[i].id,
         dates: {},
-        status: dataInfo[i].status
+        status: dataInfo[i].status,
+        rights:  dataInfo[i].rights
       };
       for(let j = 0; j < dateArray.length; j++) {
         datedTaskLabors[taskName].dates[dateArray[j]] = {
           val: 0,
           timings:  [],
           id: dataInfo[i].id,
-          executors: dataInfo[i].executors
+          executors: dataInfo[i].executors,          
+          rights:  dataInfo[i].rights
         };
       }
 

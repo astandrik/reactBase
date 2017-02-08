@@ -47,7 +47,7 @@ const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, delet
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
     <div style={{marginLeft:"15px"}} data-tip={rights.delete ? "Удалить" : "Нет прав на удаление"}>
-      <Icon onClick={deleteTrud} className={`clickable-image ellipsis ${(rights.delete ? "" : "disabled")}`} name="rubbish-bin"  />
+      <Icon onClick={context.startQuestion.bind(context,"delete")}  className={`clickable-image ellipsis ${(rights.delete ? "" : "disabled")}`} name="rubbish-bin"  />
     </div>
     <ReactTooltip   place="top" type="dark" effect="float"/>
   </div>
@@ -63,7 +63,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
     author_val: props.author_val,
     isModalOpen: false,
     isDeclineModalOpen: false,
-    message: "Ebin))",
+    message: "OK",
     currentQuestion: () => {}
     };
     this.handleDebounce = debounce(this.handleEdit, 400);
@@ -109,12 +109,24 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
         message: "Уверены, что хотите подтвердить трудозатрату?",
         isModalOpen: true
       });
+    } if(type==="delete") {
+      this.setState({
+        currentQuestion: this.deleteAnswer,
+        message: "Уверены, что хотите удалить трудозатрату?",
+        isModalOpen: true
+      });
     }
   }
   acceptAnswer(answer) {
     this.closeConfirm.bind(this)();
     if(answer) {
       this.props.acceptTrud(this.props.labor);
+    }
+  }
+  deleteAnswer(answer) {
+    this.closeConfirm.bind(this)();
+    if(answer) {
+      this.props.deleteTrud.call(this, this.props.labor);
     }
   }
   declineAnswer(answer, comment) {
@@ -148,7 +160,6 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                   <ImagePanel rights={labor.rights}
                   declineTrud={this.props.declineTrud.bind(this, labor)}
                   acceptTrud={this.props.acceptTrud.bind(this, labor)} returnToTask={props.returnToTask.bind(this, labor)}
-                  deleteTrud={this.props.deleteTrud.bind(this, labor)}
                   context={this}
                   status={labor.status} />
                 </div>
@@ -175,7 +186,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                     ignoreCase={true}
                   loadOptions={this.getUsers} />
                 </Panel>
-                <Panel label="Комментарий">
+                <Panel label="Комментарий к трудозатрате">
                   <Field name="comment"  handleChange={this.handleDebounce.bind(this)} placeholder="Комментарий к трудозатрате"  component={NameField} />
                 </Panel>
                 <div>

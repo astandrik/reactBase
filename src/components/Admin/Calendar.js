@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import "../styles/calendar.css";
 import {Calendar,Week, Month} from '../../react-calendar';
+import legend from "../../Icons/calendar-legend.svg";
 
 const buttonContainerStyles = {
   display: "flex",
@@ -87,6 +88,9 @@ export default class CalendarContainer extends React.Component {
       return (
         <div className="calendar-container">
          <PagingCalendar calendar={calendar} setDay={this.props.setDay} loadYear={props.loadYear}/>
+         <div className="calendar-legend">
+           <img  src={legend} alt="logo" />
+          </div>
         </div>
       );
     } else {

@@ -68,7 +68,7 @@ export default class TrudTab extends React.Component {
     this.state = {
         isModalOpen: false,
         isDeclineModalOpen: false,
-        message: "Ebin))",
+        message: "OK",
         selectedLabor: null,
         currentQuestion: () => {}
     }

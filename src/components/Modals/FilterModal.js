@@ -38,6 +38,9 @@ const filterModal = class filter extends React.Component {
   }
   toggleCheckedStatus(elem) {
     let newFilters = this.state.currentTaskFilters;
+    if(!newFilters.statuses) {
+      newFilters.statuses = ["3"];
+    }
     if(!~newFilters.statuses.indexOf(elem.value)) {
       if(elem.value === "0,1,2,3,4") {
         newFilters.statuses=[ "0,1,2,3,4"];

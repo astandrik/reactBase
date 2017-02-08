@@ -77,6 +77,10 @@
   min-height: 80%;
 }
 
+.workChartContainer .taskBlock {
+  padding: 0 10px;
+}
+
 .upperBlock{
   display: flex;
   flex-direction: row;

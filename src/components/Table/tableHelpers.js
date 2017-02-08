@@ -3,6 +3,7 @@ import {getDateRange, getDateMonthRange} from "../../redux/actions/tableActions"
 let helpers = {};
 import Icon from "../../Icons/Icon";
 import taskHelpers from "../Tasks/taskHelpers";
+import moment from "moment";
 
 
 helpers.generateHeaders = function (headers = [], datedLabors, onAccept) {
@@ -10,10 +11,11 @@ helpers.generateHeaders = function (headers = [], datedLabors, onAccept) {
   for(var i = 1; i <= headers.length; i++) {
     const newLabors = datedLabors[headers[i-1]] ? datedLabors[headers[i-1]].filter(x=> x.rawstatus===0) : [];
     const canAcceptAll = (newLabors.length > 0) && newLabors.every(x => x.rights.accept);
+    const currentDay = moment().format("DD.MM");
     th[i] = (
       <th key={i} className="table-header">
         <div>
-          <span>{headers[i-1]}</span>
+          <span className={currentDay == headers[i-1] ? "current-day" : ""}>{headers[i-1]}</span>
           <Icon name="acceptTrud" className={`clickable-image openTrud small ` + ( canAcceptAll ?  "" : "noDisplay")} onClick={onAccept.bind(this, headers[i-1], newLabors)}/>
         </div>
       </th>

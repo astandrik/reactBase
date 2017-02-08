@@ -22,7 +22,7 @@ const mapStateToProps = (state,ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    cellClickHandler: (data, id, date) => {
+    cellClickHandler: (data, id, date, val) => {
       dispatch(activateTask({
          taskId: id
       }));
@@ -31,11 +31,15 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(loadTask({id}));
         dispatch(toggleRightPanel({status: 1}));
       } else {
+        if(val.rights && ~val.rights.indexOf("time")) {
         dispatch(openTrudModal());
-        const taskCallback = (task) => {
-            dispatch(setAddingTrudTask({task}));
-        };
-        dispatch(loadTask({id}, taskCallback));
+          const taskCallback = (task) => {
+              dispatch(setAddingTrudTask({task}));
+          };
+          dispatch(loadTask({id}, taskCallback));
+        } else {
+            dispatch(toggleRightPanel({status: 0}));
+        }
       }
     },
     rowClickHandler: (data, id) => {

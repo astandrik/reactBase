@@ -17,6 +17,11 @@
   font-family: serif!important;
 }
 
+.current-day {
+  color: red;
+  font-weight: bold;
+}
+
 .overall-row {
   pointer-events: none;
 }

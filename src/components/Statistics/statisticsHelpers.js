@@ -1,5 +1,5 @@
 import React from "react";
-
+import ReactTooltip from 'react-tooltip';
 
 export function createTaskBlocks(obj) {
   let blocks = [];
@@ -29,13 +29,14 @@ export function createTaskBlocks(obj) {
     let underWorkWidth = (data[i].underwork / lowerTotal) * 100 + "%";
     let hours = (
       <div className="hoursBlock">
+         <ReactTooltip place="top" type="dark" effect="float"/>
         <div className="upperBlock" style={{minWidth: upperWidth, maxWidth: upperWidth}}>
-          {data[i].max_hours ? <div className="normativeBlock" style={{width:maxHoursWidth}}><div>{data[i].max_hours}</div></div> : <div className="noDisplay"/>}
-          {data[i].overwork ? <div className="overworkBlock" style={{width:overWorkWidth}}><div>{data[i].overwork}</div></div> : <div className="noDisplay"/>}
+          {data[i].max_hours ? <div className="normativeBlock" data-tip="Норматив" style={{width:maxHoursWidth}}><div>{data[i].max_hours}</div></div> : <div className="noDisplay"/>}
+          {data[i].overwork ? <div className="overworkBlock" data-tip="Переработка" style={{width:overWorkWidth}}><div>{data[i].overwork}</div></div> : <div className="noDisplay"/>}
         </div>
         <div className="lowerBlock" style={{minWidth: lowerWidth, maxWidth: lowerWidth}}>
-          {data[i].done_hours ? <div className="workdoneBlock" style={{width:doneHoursWidth}}><div>{data[i].done_hours}</div></div> : <div className="noDisplay"/>}
-          {data[i].underwork ? <div className="underworkBlock" style={{width:underWorkWidth}}><div>{data[i].underwork}</div></div> :  <div className="noDisplay"/>}
+          {data[i].done_hours ? <div className="workdoneBlock" data-tip="Выполнено" style={{width:doneHoursWidth}}><div>{data[i].done_hours}</div></div> : <div className="noDisplay"/>}
+          {data[i].underwork ? <div className="underworkBlock" data-tip="Остаток" style={{width:underWorkWidth}}><div>{data[i].underwork}</div></div> :  <div className="noDisplay"/>}
         </div>
       </div>
     )
