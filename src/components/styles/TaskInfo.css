@@ -9,6 +9,11 @@
   border: 1px solid #ddd;
 }
 
+.ReactModal__Overlay .taskPanel  {
+  background-color: transparent;
+  border: none;
+}
+
 .modalForm .taskPanel {
   border: none;
 }
@@ -36,7 +41,8 @@
 
 @media all and (min-width:1500px) {
   .executorNames{
-    display: block;
+    display: flex;
+    flex-direction: row;
   }
   .executorHeader {
     display: flex;

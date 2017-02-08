@@ -24,7 +24,8 @@ const sidenavRoutes = [
     RouterCreator("Коды работ", "/admin/workCodes"),
     RouterCreator("Статьи расходов", "/admin/finances"),
     RouterCreator("Штатная структура", "/admin/structure"),
-    RouterCreator("Список сотрудников", "/admin/users")
+    RouterCreator("Список сотрудников", "/admin/users"),
+    RouterCreator("Производственный календарь", "/admin/calendar")
   ]},
   {name: "Выход", to: "logout"}
 ];

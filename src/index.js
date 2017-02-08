@@ -17,13 +17,14 @@ let store = createStore(Reducers,composeEnhancers(applyMiddleware(thunk)));
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 import {TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,
-StructureRoutes, UsersRoutes, CodesRoutes,FinancesRoutes} from "./Routes/routes";
+StructureRoutes, UsersRoutes, CodesRoutes,FinancesRoutes, CalendarRoutes} from "./Routes/routes";
 
 import {getCurrentUser,getSubordinates, pingLogin,logout} from "./redux/actions/userActions";
 import {setTabs, setCurrentTitle, clearLayout, setLocation, setFilters, setQuery} from "./redux/actions/layoutActions";
 import {loadDepTree,loadFlatDepartments} from "./redux/actions/Admin/departmentActions";
 import {getUsers} from "./redux/actions/Admin/usersActions";
 import {loadCodes} from "./redux/actions/Admin/codesActions";
+import {loadCalendar} from "./redux/actions/Admin/calendarActions";
 import {loadFinancesTable} from "./redux/actions/Admin/financesActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData, setMonday} from "./redux/actions/tableActions";
@@ -50,7 +51,8 @@ var loadRepo = {
   setLocation: (location) => store.dispatch(setLocation({location})),
   monday: () => store.dispatch(setMonday()),
   setFilters: (filters) => store.dispatch(setFilters({filters})),
-  setQuery:(query) => store.dispatch(setQuery({query}))
+  setQuery:(query) => store.dispatch(setQuery({query})),
+  calendar: (year) => store.dispatch(loadCalendar(year))
 }
 
 browserHistory.listen(function(ev) {
@@ -71,6 +73,7 @@ const StructureRouter = StructureRoutes({loadRepo: loadRepo});
 const UsersRouter = UsersRoutes({loadRepo: loadRepo});
 const CodesRouter = CodesRoutes({loadRepo: loadRepo});
 const FinancesRouter = FinancesRoutes({loadRepo: loadRepo});
+const CalendarRouter = CalendarRoutes({loadRepo: loadRepo});
 
 
 const renderFunc = () => {
@@ -89,6 +92,7 @@ const renderFunc = () => {
               {UsersRouter}
               {CodesRouter}
               {FinancesRouter}
+              {CalendarRouter}
             </Route>
         </Router>
         </MuiThemeProvider>

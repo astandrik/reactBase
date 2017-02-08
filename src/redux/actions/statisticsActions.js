@@ -135,8 +135,8 @@ export function loadPie(obj) {
     }
     const day1 = getDateRange(getState().Statistics.weekPeriod.first).first;
     const day2 = getDateRange(getState().Statistics.weekPeriod.last).last;
-    const date_from = Math.floor((+day1 + 1000*60*60*24*7)/1000);
-    const date_to = Math.floor((+day2 + 1000*60*60*24)/1000);
+    const date_from = Math.floor((+day1)/1000);
+    const date_to = Math.floor((+day2)/1000);
     const user_ids = (obj.user_ids && obj.user_ids.length>0) ? obj.user_ids.join(",") : undefined;
     const code_ids = (obj.code_ids && obj.code_ids.length>0) ? obj.code_ids.join(","): undefined;
     const task_ids = (obj.task_ids && obj.task_ids.length>0) ? obj.task_ids.join(","): undefined;

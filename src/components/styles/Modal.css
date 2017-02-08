@@ -1,6 +1,6 @@
 .large-modal {
+  position: relative;
   background: #EEEEEE!important;
-  position: absolute;
     border: 1px solid rgb(204, 204, 204);
     overflow: auto;
     border-radius: 4px;
@@ -24,7 +24,7 @@
 }
 
 .small-modal {
-  position: absolute;
+  position: relative;
     border: 1px solid rgb(204, 204, 204);
     overflow: auto;
     border-radius: 4px;
@@ -51,8 +51,8 @@
 }
 
 .medium-modal {
-  position: absolute;
     border: 1px solid rgb(204, 204, 204);
+    position: relative;
     overflow: auto;
     border-radius: 4px;
     outline: none;
@@ -73,8 +73,8 @@
 }
 
 
+
 input[name="hours"] {
-  max-width: 40px;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
@@ -84,6 +84,11 @@ input[name="hours"] {
   margin-bottom: 1px;
   padding: 0;
   height: 34px;
+  margin-top: 6px;
+}
+
+.ReactModal__Content input[name="hours"] {
+      max-width: 178px;
 }
 
 .confirm-text {

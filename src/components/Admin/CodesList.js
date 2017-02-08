@@ -120,6 +120,17 @@ export default class CodesList extends React.Component {
       return <div/>;
     }
 
+    if(codes.tree.length === 0) {
+      let emptyCode = {
+        description: "",
+        label: "",
+        week_limit: "",
+        id: "new"
+      }
+      codes.tree.push({
+        ...emptyCode
+      });
+    }
     if(this.state.activeEditing === "new" && codes.tree[codes.tree.length -1].id !== "new") {
       let emptyCode = {
         description: "",

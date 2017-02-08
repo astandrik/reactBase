@@ -12,6 +12,7 @@ import * as usersReducers from "./reducers/Admin/Users";
 import * as financesReducers from "./reducers/Admin/Finances";
 import * as codesReducers from "./reducers/Admin/Codes";
 import * as statisticsReducers from "./reducers/Statistics";
+import * as calendarReducers from "./reducers/Admin/Calendar";
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -83,7 +84,8 @@ const Admin = combineReducers({
   financesPage: financesReducers.setFinancesPage,
   codesPage: codesReducers.setCodesPage,
   codesTable: codesReducers.setCodesTable,
-  financesTable: financesReducers.setFinancesTable
+  financesTable: financesReducers.setFinancesTable,
+  calendar: calendarReducers.setCalendar
 
 })
 

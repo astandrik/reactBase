@@ -115,6 +115,16 @@ export default class FinancesList extends React.Component {
       return <div/>;
     }
 
+    if(finances.tree.length === 0) {
+      let emptyCode = {
+        description: "",
+        label: "",
+        id: "new"
+      }
+      finances.tree.push({
+        ...emptyCode
+      });
+    }
     if(this.state.activeEditing === "new" && finances.tree[finances.tree.length -1].id !== "new") {
       let emptyCode = {
         description: "",

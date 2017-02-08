@@ -17,11 +17,13 @@ const datepickerStyles = {
   float: "right",
   flexDirection: "row",
   justifyContent: "center",
-  background: "white"
+  background: "white",
+  alignItems: "flex-end"
 }
 
-const datePicker = (props, range, type, handlePrev,handleNext, selectDate, context,ref, dateClick)=> (
+const datePicker = (props, range, type, handlePrev,handleNext, selectDate, context,ref, dateClick, text)=> (
   <div style={datepickerStyles}>
+    <div className="from-to">{text}</div>
     <img className="clickable-image left" onClick={handlePrev.bind(context, type)}  src={left} alt="logo" />
     <div className="dateContainer">
       <DatePicker
@@ -287,12 +289,10 @@ export default class Labors extends React.Component {
     picker = (
       <div className="weekPicker">
       <div>
-        <span>От</span>
-        {datePicker.call(this,props,range1, "start", this.handlePrev, this.handleNext, this.dateSelect, this, "start", this.startClick.bind(this))}
+        {datePicker.call(this,props,range1, "start", this.handlePrev, this.handleNext, this.dateSelect, this, "start", this.startClick.bind(this), "От:")}
       </div>
       <div>
-        <span>До</span>
-        {datePicker.call(this,props,range2, "end", this.handlePrev, this.handleNext, this.dateSelect, this, "end", this.endClick.bind(this))}
+        {datePicker.call(this,props,range2, "end", this.handlePrev, this.handleNext, this.dateSelect, this, "end", this.endClick.bind(this), "До:")}
       </div>
     </div>
     )

@@ -4,7 +4,7 @@ import {Reports} from "./Reports";
 import {Subordinates} from "./Subordinates";
 import {TasksTable} from "./TasksTable";
 import {Statistics} from "./Statistics"
-import {StateStructureList,UsersList,CodesList, FinancesList} from "./Admin";
+import {StateStructureList,UsersList,CodesList, FinancesList, Calendar} from "./Admin";
 import Login from "./Login";
 import React from 'react';
 import { Route, browserHistory } from 'react-router';
@@ -86,6 +86,18 @@ const CodesRoutes = (props) => {
   )
 }
 
+const CalendarRoutes = (props) => {
+  const calendarEnter = () => {
+    props.loadRepo.clearLayout();
+    props.loadRepo.tabs([]);
+    props.loadRepo.setCurrentTitle("Производственный календарь");
+    const curDate = new Date();
+    props.loadRepo.calendar(curDate.getFullYear());
+  }
+  return (
+    <Route path="admin/calendar" components={Calendar} onEnter={calendarEnter} />
+  )
+}
 
 const FinancesRoutes = (props) => {
   const financesEnter = () => {
@@ -169,4 +181,4 @@ const StatisticsRoutes = (props) => {
 }
 
 export {Home, TaskRoutes,ReportRoutes,SubordinatesRoutes,StatisticsRoutes, LoginRoutes,LogoutRoutes,StructureRoutes,
-UsersRoutes, CodesRoutes, FinancesRoutes};
+UsersRoutes, CodesRoutes, FinancesRoutes, CalendarRoutes};

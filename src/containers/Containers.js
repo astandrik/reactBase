@@ -24,10 +24,11 @@ import StateStructureContainer from "./Admin/StateStructureContainer";
 import UsersContainer from "./Admin/UsersContainer";
 import CodesContainer from "./Admin/CodesContainer";
 import FinancesContainer from "./Admin/FinancesContainer";
+import CalendarContainer from "./Admin/CalendarContainer";
 
 export {SpinnerContainer,ToolbarContainer,LeftNavContainer,
   TaskListContainer, TaskInfoContainer,TaskTrudTabContainer,
   TaskCommentsTabContainer,RightTaskPanelContainer,NewTaskInfoContainer,
   GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer,
 ReportsTableContainer, SubordinatesTableContainer,StatisticsContainer, StateStructureContainer,
-UsersContainer, CodesContainer, FinancesContainer};
+UsersContainer, CodesContainer, FinancesContainer,CalendarContainer};

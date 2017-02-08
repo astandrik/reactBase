@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StateStructureContainer,UsersContainer, CodesContainer,FinancesContainer} from "../containers/Containers";
+import {StateStructureContainer,UsersContainer, CodesContainer,FinancesContainer, CalendarContainer} from "../containers/Containers";
 import Container from "../components/Container";
 
 
@@ -56,4 +56,16 @@ const FinancesList = () => {
 }
 
 
-export {StateStructureList,UsersList, CodesList, FinancesList};
+const Calendar = () => {
+  return (
+  <Container vertical={true} style={{height:"100%"}} >
+    <div containerStyle={containerTaskListContainerStyles} style={TaskListContainerStyles}>
+      <CalendarContainer />
+    </div>
+  </Container>
+  )
+}
+
+
+
+export {StateStructureList,UsersList, CodesList, FinancesList,Calendar};
