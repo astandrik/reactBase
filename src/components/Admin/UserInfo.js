@@ -4,7 +4,9 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import {connect} from 'react-redux';
 import {debounce} from "../../helperFunctions";
 import Icon from "../../Icons/Icon";
+import FlatButton from 'material-ui/FlatButton';
 import {StandardField, Panel, DepartmentField} from "../formComponents/ReusableComponents";
+import PasswordChangeModalContainer from "../../containers/ModalContainers/PasswordChangeModalContainer";
 const  { DOM: { input, select, textarea } } = React
 
 
@@ -24,9 +26,30 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
   constructor(props) {
    super(props);
     this.handleDebounce = debounce(this.handleEdit, 400);
+    this.state= {
+      isModalOpen:false
+    }
+  }
+  changePassword(){
+    this.setState({
+      isModalOpen: true
+    });
   }
   handleEdit(e) {
     setTimeout(() => {this.refs.sbmt.click()});
+  }
+  closeModal() {
+    this.setState({
+      isModalOpen: false
+    });
+  }
+  savePassword(user, newPass) {
+    const obj = {
+      password: newPass,
+      id: user.id
+    }
+    this.props.setPassword(obj);
+    this.closeModal();
   }
   render () {
     const props=this.props;
@@ -49,6 +72,9 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
                 </Panel>
                 <Panel label="Логин в Active Directory">
                   <Field name="login" component={StandardField} placeholder="Логин в Active Directory"/>
+                </Panel>
+                <Panel label="AD логин">
+                  <Field name="ldap_login" component={StandardField} placeholder="AD логин"/>
                 </Panel>
                 <Panel label="Отделение штатной структуры">
                   <DepartmentField departments={props.departments} debouncedUpdate={this.handleEdit.bind(this)}/>
@@ -77,10 +103,12 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
                     <Field name="is_banned" id="employed" component="input" type="checkbox" className="form-checkbox"/>
                   </div>
                 </Panel>
+                <FlatButton style={{float:"left"}} onClick={this.changePassword.bind(this)} label="Сменить пароль" />
             </Container>
           </Container>
             <Field name="role" id="employed" component="input" type="text" className="noDisplay"/>
           <input type="submit"  ref="sbmt" style={{display:"none"}}/>
+          <PasswordChangeModalContainer savePassword={this.savePassword.bind(this, user)} closeModal={this.closeModal.bind(this)} isModalOpen={this.state.isModalOpen} user={user}/>
         </form>
         )
       }

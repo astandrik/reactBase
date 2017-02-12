@@ -35,6 +35,13 @@ export function getUsers() {
   }
 }
 
+export function setPassword(data) {
+  const handler = () => {
+
+  }
+  return fetchPost(`/account/setpwd`, data, handler);
+}
+
 export function promote(user) {
   const handler = (json, dispatch, getState) => {
     dispatch(loadUser(user));

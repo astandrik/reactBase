@@ -3,7 +3,8 @@ import {
     connect
 } from 'react-redux';
 import {
-  deleteUser
+  deleteUser,
+  setPassword
 } from "../../redux/actions/Admin/usersActions";
 import {
     toggleRightPanel
@@ -26,6 +27,9 @@ const mapDispatchToProps = (dispatch) => {
           dispatch(toggleRightPanel({
             status: 0
           }));
+        },
+        setPassword: (obj) => {
+          dispatch(setPassword(obj));
         }
     }
 }

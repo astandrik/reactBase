@@ -39,6 +39,9 @@ const  UserInfoComponent =  class UserInfo extends React.Component {
                 <Panel label="Логин в Active Directory">
                   <Field name="login" component={StandardField} placeholder="Логин в Active Directory"/>
                 </Panel>
+                <Panel label="AD логин">
+                  <Field name="ldap_login" component={StandardField} placeholder="AD логин"/>
+                </Panel>
                 <Panel label="Отделение штатной структуры">
                   <DepartmentField departments={props.departments}/>
                 </Panel>
