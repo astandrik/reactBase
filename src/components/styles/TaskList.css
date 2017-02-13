@@ -169,8 +169,12 @@
 
 .rightPanelContainer {
   transition: all ease 0.5s;
-  border: 1px solid black;
   border-radius: 5px;
+}
+
+.rightPanel{
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
 .task-header {
@@ -245,8 +249,8 @@ button span {
 .tasksContainer {
   transition: all ease 0.5s;
   overflow: auto;
-  background-color: #EEEEEE;
-  border:1px black solid;
+  background-color: white;
   border-radius: 5px;
   padding: 5px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }

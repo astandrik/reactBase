@@ -75,23 +75,6 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
     })
     this.handleDebounce();
   }
-  getUsers(query) {
-    if (!query) {
-      return Promise.resolve({ options: [] });
-    }
-
-    return fetch(`/data/searchusers?query=${query}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
-    });
-  }
   startQuestion(type) {
     if(type === "decline") {
       this.setState({
@@ -144,6 +127,22 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
     const props=this.props;
     const labor = props.labor;
     const {handleSubmit} = props;
+    const debouncedFetch = debounce((query, callback) => {
+      if(!query) {
+        callback(null,{options: []});
+      }
+      fetch(`/data/searchusers?query=${encodeURIComponent(query)}`,
+        {
+          method: "GET",
+          credentials: 'include'
+        })
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
+        });
+    }, 500);
     if(!labor.description) {
       return <div/>;
     } else {
@@ -186,7 +185,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
                     placeholder="Список выбранных сотрудников"
                     backspaceRemoves={false}
                     ignoreCase={true}
-                  loadOptions={this.getUsers} />
+                  loadOptions={debouncedFetch} />
                 </Panel>
                 <Panel label="Комментарий к трудозатрате">
                   <Field name="comment"  handleChange={this.handleDebounce.bind(this)} placeholder="Комментарий к трудозатрате"  component={NameField} />

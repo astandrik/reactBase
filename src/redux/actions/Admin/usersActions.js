@@ -29,7 +29,7 @@ export function getUsers() {
     const query = getState().searchQuery;
     let q = "";
     if(query !== "") {
-      q = "&query="+query;
+      q = "&query="+encodeURIComponent(query);
     }
     dispatch(fetchAsync(`/all/users?limit=${limit}&offset=${currentOffset}`+q,handler));
   }

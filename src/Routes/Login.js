@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import FlatButton from 'material-ui/FlatButton';
 import {validateLoginData} from "../redux/actions/userActions";
-
+import logo from "../Icons/thumb.png"
 import { connect } from 'react-redux';
 
 
@@ -40,14 +40,20 @@ class Login extends Component {
     })
   }
   render() {
-    const name = "Автоматизированная информационная Система Планирования и Контроля Исполнения государственного задания ФГБУ \"НИИ ЦПК имени Ю.А.Гагарина\"";
+    const name = <span>
+      {"Автоматизированная информационная Система Планирования и Контроля Исполнения"} <span className="noBreak">{" государственного задания "}</span>
+      <span className="noBreak">
+         {"ФГБУ \"НИИ ЦПК имени Ю.А.Гагарина\""}
+      </span>
+    </span>;
     const enter=() => {};
     const self = this;
     return (
       <div className="login-view">
         <div className="login-block">
-        <h1>{name}</h1>
-        <LoginPanel context={self} />
+          <h1 style={{padding: "0 45px"}}>{name}</h1>
+
+          <LoginPanel context={self} />
         </div>
       </div>
     );

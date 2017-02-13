@@ -114,7 +114,7 @@ export default class GlobalHeader extends React.Component {
         <div style={headerStyles} className={"line-height-"+lineHeight}>
           <div className="header-filter-container">
             <h2 style={{textAlign: "center", marginBottom:"0px", marginTop: "5px"}}>{this.props.currentTitle}</h2>
-            <div className={isFilterDisplayed ? "" : "noDisplay"}>
+            <div data-tip="Фильтры" className={isFilterDisplayed ? "" : "noDisplay"}>
               <Icon name="filter" onClick={this.handleTouchTap.bind(this)} className={`clickable-image clock filter-icon ${filterChanged ? "active-filter" : ""}`}/>
             </div>
           </div>

@@ -22,11 +22,15 @@ import ReactTooltip from 'react-tooltip';
 const ImagePanel = ({chooseTrudTab, chooseCommentTab, openPopover,activePanel}) => (
   <div style={{display: 'flex', justifyContent: "flex-end"}}>
     <div style={{marginRight:"15px", display: "flex", flexDirection:"row"}}>
-      <Icon name="clock" className={`clickable-image clock ${activePanel==="trud" ? 'active' : ''}`} onClick={chooseTrudTab}/>
-      <Icon name="comment" className={`clickable-image comment ${activePanel==="comment" ? 'active' : ''}`} onClick={chooseCommentTab}/>
+      <div data-tip="Список трудозатрат">
+        <Icon  name="clock" className={`clickable-image clock ${activePanel==="trud" ? 'active' : ''}`} onClick={chooseTrudTab}/>
+      </div>
+      <div data-tip="Комментарии к задаче">
+        <Icon name="comment" className={`clickable-image comment ${activePanel==="comment" ? 'active' : ''}`} onClick={chooseCommentTab}/>
+      </div>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
-    <div style={{marginLeft:"15px"}}>
+    <div style={{marginLeft:"15px"}} data-tip="Дополнительно">
       <Icon className="clickable-image ellipsis" onClick={openPopover} name="ellipsis" />
     </div>
   </div>

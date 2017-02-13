@@ -64,11 +64,11 @@ class Layout extends React.Component {
           <div style={containerStyle}>
             <SpinnerContainer/>
             <SideBarContainer children={sidenavRoutes}/>
-            <Container vertical="true" style={{background:"#DDDDDD"}}>
+            <Container vertical="true" style={{background:"#f7f7f8"}}>
                 <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
                 <div containerStyle={{overflow:"auto"}} style={{height: "100%"}}>
                   {this.props.children}
-                  <ReactTooltip place="top" type="dark" effect="float"/>
+                  <ReactTooltip place="top" type="light" className="customTooltip" effect="float"/>
                 </div>
             </Container>
         </div>

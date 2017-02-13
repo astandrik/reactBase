@@ -7,8 +7,8 @@
 .tableContainer {
   transition: all ease 0.5s;
   overflow: auto;
-  background-color: #EEEEEE;
-  border:1px black solid;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
   border-radius: 5px;
   padding: 5px;
 }
@@ -20,6 +20,13 @@
 .current-day {
   color: red;
   font-weight: bold;
+}
+
+.table-header svg {
+  margin-left: 2px;
+}
+.table-header>div>span {
+  margin-top: 1px;
 }
 
 .overall-row {

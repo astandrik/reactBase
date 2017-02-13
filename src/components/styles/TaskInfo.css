@@ -5,8 +5,12 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 4px;
-  background-color: gainsboro;
-  border: 1px solid #ddd;
+  background-color: white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.ReactModal__Content .taskPanel{
+    box-shadow:none;
 }
 
 .ReactModal__Overlay .taskPanel  {

@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import close from "../../Icons/delete.svg";
 import 'react-datepicker/dist/react-datepicker.css';
+import {debounce} from "../../helperFunctions";
 import { Field, reduxForm ,change} from 'redux-form'
 import "../styles/Modal.css";
 import DPicker from "../formComponents/DatePicker";
@@ -43,23 +44,6 @@ const dialog = class addTrudModalDialog extends React.Component {
       author_val: user
     })
   }
-  getUsers(query) {
-    if (!query) {
-      return Promise.resolve({ options: [] });
-    }
-
-    return fetch(`/data/searchusers?query=${query}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
-    });
-  }
   closeModal() {
     this.setState({
       author_val: {id: 0, name:0}
@@ -74,6 +58,22 @@ const dialog = class addTrudModalDialog extends React.Component {
   }
   render() {
   const props = this.props;
+  const debouncedFetch = debounce((query, callback) => {
+    if(!query) {
+      callback(null,{options: []});
+    }
+    fetch(`/data/searchusers?query=${encodeURIComponent(query)}`,
+      {
+        method: "GET",
+        credentials: 'include'
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
+      });
+  }, 500);
   const { handleSubmit } = props;
   let author_val = null;
   if(!this.state.author_val.value) {
@@ -106,7 +106,7 @@ const dialog = class addTrudModalDialog extends React.Component {
             placeholder="Список выбранных сотрудников"
             backspaceRemoves={false}
             ignoreCase={true}
-          loadOptions={this.getUsers} />
+          loadOptions={debouncedFetch} />
         </Panel>
         <div className="taskDate">
           <span> Дата: </span>

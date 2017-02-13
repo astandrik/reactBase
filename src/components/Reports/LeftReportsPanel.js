@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import right from "../../Icons/right.svg";
 import left from "../../Icons/left.svg";
 import helpers from "../Table/tableHelpers";
+import {debounce} from "../../helperFunctions";
 
 const datepickerStyles = {
   width: "100%",
@@ -66,23 +67,6 @@ export default class Labors extends React.Component {
     }
   }
 
-  getUsers(query) {
-    if (!query) {
-      return Promise.resolve({ options: [] });
-    }
-
-    return fetch(`/data/searchusers?query=${query}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
-    });
-  }
   radiogroupChanged(event, val) {
     if(val === "tasks" ) {
       this.setState({
@@ -149,6 +133,22 @@ export default class Labors extends React.Component {
   }
   render () {
   const props = this.props;
+  const debouncedFetch = debounce((query, callback) => {
+    if(!query) {
+      callback(null,{options: []});
+    }
+    fetch(`/data/searchusers?query=${encodeURIComponent(query)}`,
+      {
+        method: "GET",
+        credentials: 'include'
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
+      });
+  }, 500);
   const radio = this.state.currentRadio;
   const range = radio === "table" ? helpers.getDateMonthRange(props.currentWeek) : helpers.getDateRange(props.currentWeek);
   let reportSelector = <div/>;
@@ -192,7 +192,7 @@ export default class Labors extends React.Component {
           ignoreCase={true}
           onFocus={this.disableClick.bind(this, true)}
           onBlur={this.disableClick.bind(this, false)}
-        loadOptions={this.getUsers} />
+        loadOptions={debouncedFetch} />
       </div>
       <div className={"elements-report-select"} flex="4">
         <RadioButtonGroup className={"report-type-choose-radio " +  (this.state.disableClick  ? "no-events-tree" : "")} name="user_type" valueSelected={this.state.currentRadio} onChange={this.radiogroupChanged.bind(this)}>

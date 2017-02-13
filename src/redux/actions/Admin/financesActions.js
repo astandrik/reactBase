@@ -55,7 +55,7 @@ export function loadFinancesTable() {
     const query = getState().searchQuery;
     let q = "";
     if(query !== "") {
-      q = "&query="+query;
+      q = "&query="+encodeURIComponent(query);
     }
     dispatch(fetchAsync(`/all/finances?limit=${limit}&offset=${currentOffset}`+q,handler));
   }

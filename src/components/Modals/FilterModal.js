@@ -5,6 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 import "../styles/Modal.css";
 import Checkbox from 'material-ui/Checkbox';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import {debounce} from "../../helperFunctions";
 import Select from 'react-select';
 import {
   browserHistory
@@ -113,27 +114,26 @@ const filterModal = class filter extends React.Component {
     const location = browserHistory.getCurrentLocation().pathname;
     browserHistory.push({pathname: location, query: {...queryFilter}});
   }
-  getUsers(query) {
-    if (!query) {
-			return Promise.resolve({ options: [] });
-		}
-
-		return fetch(`/data/searchusers?query=${query}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      })
-		.then((response) => {
-      return response.json();
-    })
-		.then((json) => {
-			return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
-		});
-  }
   render() {
     const props = this.props;
     const checkBoxValues = props.filterValues;
     let checkBoxes = [];
+    const debouncedFetch = debounce((query, callback) => {
+      if(!query) {
+        callback(null,{options: []});
+      }
+      fetch(`/data/searchusers?query=${encodeURIComponent(query)}`,
+        {
+          method: "GET",
+          credentials: 'include'
+        })
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
+        });
+    }, 500);
     let currentTaskFilters = this.state.currentTaskFilters;
     for(var i = 0; i < checkBoxValues.length; i++) {
       let checked = false;
@@ -163,7 +163,7 @@ const filterModal = class filter extends React.Component {
           placeholder="Список выбранных сотрудников"
           backspaceRemoves={false}
           ignoreCase={true}
-        loadOptions={this.getUsers} />
+        loadOptions={debouncedFetch} />
             :
             <Select
                 multi={true}

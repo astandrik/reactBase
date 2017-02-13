@@ -29,11 +29,40 @@
   color: white;
 }
 
+
+.thumb-logo {
+  width:187px;
+  height: 100px;
+}
+
+.noBreak {
+  white-space: nowrap;
+}
+
+.login-panel-input:nth-child(2) {
+  margin: 10px 0;
+}
+
+.__react_component_tooltip.type-light{
+  border: 1px solid black!important;
+  font-size: 15px!important;
+  opacity: 1!important;
+}
+
+.__react_component_tooltip.type-light.place-left:after {
+  border-left-color: black!important;
+}
+
+.__react_component_tooltip.type-light.place-top:after {
+  border-top-color: black!important;
+}
+
 .login-block{
   padding-top: 40px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   height: calc(100% - 40px);
 }
 

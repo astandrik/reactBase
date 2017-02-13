@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import right from "../../Icons/right.svg";
 import left from "../../Icons/left.svg";
 import helpers from "../Table/tableHelpers";
+import {debounce} from "../../helperFunctions";
 
 const datepickerStyles = {
   width: "100%",
@@ -83,23 +84,6 @@ export default class Labors extends React.Component {
       currentType:2
     })
     this.props.loadHisto(this.state);
-  }
-  getUsers(query) {
-    if (!query) {
-      return Promise.resolve({ options: [] });
-    }
-
-    return fetch(`/data/searchusers?query=${query}`,
-      {
-        method: "GET",
-        credentials: 'include'
-      })
-    .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      return { options: json.data.users.map(x => ({value: x.id, label: x.name})) };
-    });
   }
   radiogroupChanged(event, val) {
     if(val === "tasks" ) {
@@ -247,6 +231,22 @@ export default class Labors extends React.Component {
   const bar = props.bar;
   let picker = <div className="noDisplay"/>;
   let secondPanelHeader = null;
+  const debouncedFetch = debounce((query, callback) => {
+    if(!query) {
+      callback(null,{options: []});
+    }
+    fetch(`/data/searchusers?query=${encodeURIComponent(query)}`,
+      {
+        method: "GET",
+        credentials: 'include'
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
+      });
+  }, 500);
   let bottomPanelButtons = null;
   if(this.state.currentPanel === 1) {
     secondPanelHeader=  (
@@ -312,7 +312,7 @@ export default class Labors extends React.Component {
           ignoreCase={true}
           onFocus={this.disableClick.bind(this, true)}
           onBlur={this.disableClick.bind(this, false)}
-        loadOptions={this.getUsers} />
+        loadOptions={debouncedFetch} />
       </div>
       <div className={"elements-report-select"} flex="4">
         {secondPanelHeader}

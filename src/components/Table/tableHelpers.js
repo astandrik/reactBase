@@ -16,7 +16,9 @@ helpers.generateHeaders = function (headers = [], datedLabors, onAccept) {
       <th key={i} className="table-header">
         <div>
           <span className={currentDay == headers[i-1] ? "current-day" : ""}>{headers[i-1]}</span>
-          <Icon name="acceptTrud" className={`clickable-image openTrud small ` + ( canAcceptAll ?  "" : "noDisplay")} onClick={onAccept.bind(this, headers[i-1], newLabors)}/>
+          <div data-tip={"Подтвердить все трудозатраты за " + headers[i-1]}>
+            <Icon name="acceptTrud" className={`clickable-image openTrud small ` + ( canAcceptAll ?  "" : "noDisplay")} onClick={onAccept.bind(this, headers[i-1], newLabors)}/>
+          </div>
         </div>
       </th>
     );
