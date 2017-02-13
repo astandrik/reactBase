@@ -4,11 +4,11 @@ import "../styles/TaskTrudTab.css";
 import openTrud from "../../Icons/fast-forward.svg";
 import moment from "moment";
 import helpers from "./taskHelpers";
-import ReactTooltip from 'react-tooltip'
 import 'moment/locale/ru';
 import Icon from "../../Icons/Icon";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
 import DeclineTrudModalContainer from "../../containers/ModalContainers/DeclineTrudModalContainer";
+import ReactTooltip from 'react-tooltip';
 
 const statusDict = {
   "Новая": "new-task",
@@ -40,20 +40,17 @@ const generateLaborsBlock = function(laborGroup,props) {
               <Icon name="acceptTrud" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
                 onClick={this.startQuestion.bind(this,"accept", labor)}/>
             </div>
-            <ReactTooltip place="top" type="dark" effect="float" className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}/>
           </div>
           <div flex="1" style={{height:"100%"}}>
             <div data-tip={labor.rights.accept ? "Отклонить" : "Нет прав на отклонение"} style={{height:"100%"}}>
               <Icon name="decline" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
                 onClick={this.startQuestion.bind(this,"decline", labor)}/>
             </div>
-            <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
           <div flex="1">
             <div data-tip="Открыть">
               <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
             </div>
-            <ReactTooltip place="top" type="dark" effect="float"/>
           </div>
         </Container>
       </Container>
@@ -104,6 +101,9 @@ export default class TrudTab extends React.Component {
   }
   closeConfirm() {
     this.setState({isModalOpen: false, isDeclineModalOpen: false});
+  }
+  componentDidUpdate() {
+    ReactTooltip.rebuild();
   }
   render() {
     const props = this.props;

@@ -7,6 +7,7 @@ import RightStatisticsPanelContainer from "../../containers/Statistics/RightStat
 
 
 
+
 export default class Table extends React.Component {
   render() {
     return (

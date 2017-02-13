@@ -1,6 +1,7 @@
 import React from "react";
 import {ToolbarContainer, SpinnerContainer,SideBarContainer,GlobalHeaderContainer}  from "./containers/Containers";
 import Container from "./components/Container";
+import ReactTooltip from 'react-tooltip';
 import {
     closeErrorsModal
 } from "./redux/actions/layoutActions";
@@ -67,6 +68,7 @@ class Layout extends React.Component {
                 <GlobalHeaderContainer containerStyle={headerStyle} flex="1"/>
                 <div containerStyle={{overflow:"auto"}} style={{height: "100%"}}>
                   {this.props.children}
+                  <ReactTooltip place="top" type="dark" effect="float"/>
                 </div>
             </Container>
         </div>

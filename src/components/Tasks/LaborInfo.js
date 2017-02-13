@@ -9,10 +9,10 @@ import {debounce} from "../../helperFunctions";
 import TaskCommentsTabContainer from "../../containers/Task/TaskCommentsTabContainer";
 import {WorkCodeField, FinancesField,NameField, Panel, HoursField} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
-import ReactTooltip from 'react-tooltip';
 import Select from 'react-select';
 import DeclineTrudModalContainer from "../../containers/ModalContainers/DeclineTrudModalContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
+import ReactTooltip from 'react-tooltip';
 
 
 const codeBlockStyle = {
@@ -29,27 +29,23 @@ const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, delet
       <div data-tip="Вернуться">
         <Icon name="cursor" className={`clickable-image comment`} onClick={returnToTask}/>
       </div>
-      <ReactTooltip place="top" type="dark" effect="float"/>
       <div data-tip={rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(status !== "Новая") ? "noDisplay" : ''} `}>
         <div className={(rights.accept ? "" : "disabled")}>
           <Icon name="acceptTrud" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
              onClick={context.startQuestion.bind(context,"accept")}/>
         </div>
       </div>
-      <ReactTooltip place="top" type="dark" effect="float"/>
       <div data-tip={rights.accept ? "Отклонить" : "Нет прав на отклонение"}>
         <div className={(rights.accept ? "" : "disabled")}>
           <Icon name="decline" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
            onClick={context.startQuestion.bind(context,"decline")}/>
         </div>
       </div>
-      <ReactTooltip place="top" type="dark" effect="float"/>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
     <div style={{marginLeft:"15px"}} data-tip={rights.delete ? "Удалить" : "Нет прав на удаление"}>
       <Icon onClick={context.startQuestion.bind(context,"delete")}  className={`clickable-image ellipsis ${(rights.delete ? "" : "disabled")}`} name="rubbish-bin"  />
     </div>
-    <ReactTooltip   place="top" type="dark" effect="float"/>
   </div>
 );
 
@@ -122,6 +118,12 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
     if(answer) {
       this.props.acceptTrud(this.props.labor);
     }
+  }
+  componentDidUpdate() {
+    ReactTooltip.rebuild();
+  }
+  componentDidMount() {
+    ReactTooltip.rebuild();
   }
   deleteAnswer(answer) {
     this.closeConfirm.bind(this)();

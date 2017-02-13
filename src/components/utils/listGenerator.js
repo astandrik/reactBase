@@ -1,7 +1,6 @@
 import React from "react";
 import next from "../../Icons/next.svg";
 import MenuItem from 'material-ui/MenuItem';
-import ReactTooltip from 'react-tooltip'
 import { List } from 'react-virtualized';
 let helpers = {};
 
@@ -29,7 +28,7 @@ helpers.createExecutors = function(executors) {
     executors.forEach((x,i) => {
       const name = x.name.split(' ').map(x=>x[0].toUpperCase());
       executorDivs.push(<div className="singleExecutor" key={x.id}>
-      <span data-tip={x.name}>{name}</span><ReactTooltip place="top" type="dark" effect="float"/></div>)
+      <span data-tip={x.name}>{name}</span></div>)
     });
   }
   return executorDivs;

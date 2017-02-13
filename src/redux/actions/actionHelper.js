@@ -47,7 +47,7 @@ export function fetchPost(url, data, handler, errorHandler) {
             .then(json => {
                 dispatch(changeFetchingStatus({
                     status: false
-                }));    
+                }));
                 if (json.data === false) {
                     dispatch(showValidationErrors({
                         errors: json.error
@@ -68,7 +68,13 @@ export function fetchAsync(url, handler, errorHandler) {
         dispatch(changeFetchingStatus({
             status: true
         }));
-        return fetch(url,{
+        let newUrl = url;
+        if(~newUrl.indexOf("?")) {
+          newUrl += `&cacheBooster=${Math.random()*100}`
+        } else {
+          newUrl += `?cacheBooster=${Math.random()*100}`
+        }
+        return fetch(newUrl,{
           method: "GET",
           credentials: 'include'
         })

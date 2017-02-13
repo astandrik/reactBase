@@ -24,6 +24,22 @@
   margin:5px;
 }
 
+.laborBlock > div{
+-ms-flex-preferred-size: auto!important;
+}
+
+.rightPanel  .contained {
+  -ms-flex-preferred-size: auto!important;
+}
+
+.ReactModal__Content .contained {
+        -ms-flex-preferred-size: auto!important;
+}
+
+.filter-popover .contained {
+    -ms-flex-preferred-size: auto!important;
+}
+
 .panelText.fullWidth {
   width: 100%;
 }

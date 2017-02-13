@@ -68,10 +68,10 @@ function createTable (tableData, props) {
       comments = <div className="comments-number">{val.commentsNumber}</div>
     }
     return (
-      <td key={val.id+day} data-tip={val.allHours ? "" : (!~val.rights.indexOf("time")) ? "Нет права на создание трудозатраты" : "Создать трудозатрату" } className={`tableCell ${val.overWork ? "has-overwork" : ""} ${val.hasUnaccepted ? ' has-unaccepted' : ''}` +
+      <td key={val.id+day}   data-tip={val.allHours ? "" : (!~val.rights.indexOf("time")) ? "Нет права на создание трудозатраты" : "Создать трудозатрату" } className={`tableCell ${val.overWork ? "has-overwork" : ""} ${val.hasUnaccepted ? ' has-unaccepted' : ''}` +
       `${val.id === props.activeIndexes.taskId && (day === props.currentDay || props.currentDay === false)? " active" : ''}`} width={width+"%"}
-        onClick={props.cellClickHandler.bind(this, val.timings, val.id, day, val)}>{val.allHours ? (val.myHours + "/" + val.allHours) : 0}
-      {comments}  <ReactTooltip place="top" type="dark" effect="float"/></td>
+       onClick={props.cellClickHandler.bind(this, val.timings, val.id, day, val)}>{val.allHours ? (val.myHours + "/" + val.allHours) : 0}
+      {comments} </td>
     )
   };
   const rowsObj = tableGenerator.generateRows(tableData, props, config, "dates");
@@ -131,6 +131,9 @@ export default class Table extends React.Component {
       date: "null",
       labors: []
     }
+  }
+  componentDidUpdate() {
+    ReactTooltip.rebuild();
   }
   openConfirm(date, labors) {
     this.setState({

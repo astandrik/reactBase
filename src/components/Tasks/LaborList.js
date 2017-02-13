@@ -6,7 +6,6 @@ import TaskTrudTabContainer from "../../containers/Task/TaskTrudTabContainer";
 import moment from 'moment';
 import AddTrudModalContainer from "../../containers/ModalContainers/AddTrudModalContainer";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
-import ReactTooltip from 'react-tooltip'
 
 export default class Labors extends React.Component {
   constructor(props) {
@@ -47,12 +46,10 @@ export default class Labors extends React.Component {
           Добавить трудозатрату
         </div>
       </div>
-        <ReactTooltip place="top" type="dark" effect="float"/>
         <div  data-tip={ task.rights.accept ? "" : "Недостаточно прав"}>
           <div data-tip={ task.rights.accept ? "" : "Недостаточно прав"} className={`addTrudButton ${canAcceptAll ? "" : " disabled"}`} onClick={this.openConfirm.bind(this)}>
             Принять все
           </div>
-          <ReactTooltip place="top" type="dark" effect="float"/>
         </div>
       </div>
     )

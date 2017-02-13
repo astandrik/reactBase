@@ -29,7 +29,6 @@ export function createTaskBlocks(obj) {
     let underWorkWidth = (data[i].underwork / lowerTotal) * 100 + "%";
     let hours = (
       <div className="hoursBlock">
-         <ReactTooltip place="top" type="dark" effect="float"/>
         <div className="upperBlock" style={{minWidth: upperWidth, maxWidth: upperWidth}}>
           {data[i].max_hours ? <div className="normativeBlock" data-tip="Норматив" style={{width:maxHoursWidth}}><div>{data[i].max_hours}</div></div> : <div className="noDisplay"/>}
           {data[i].overwork ? <div className="overworkBlock" data-tip="Переработка" style={{width:overWorkWidth}}><div>{data[i].overwork}</div></div> : <div className="noDisplay"/>}

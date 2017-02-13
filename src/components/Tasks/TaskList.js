@@ -84,6 +84,7 @@ export default class TaskList extends React.Component {
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
+    ReactTooltip.rebuild();
   }
   render() {
     let propsTasks = this.props.tasks;
@@ -158,7 +159,6 @@ export default class TaskList extends React.Component {
     return (
       <Container className="task-list-container">
         <div className="tasksContainer" style={fullSize} ref="taskTree">
-          <ReactTooltip place="top" type="dark" effect="float"/>
           <div style={buttonContainerStyles}>
             <div>
               <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewTask}/>

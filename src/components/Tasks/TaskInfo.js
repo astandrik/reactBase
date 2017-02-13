@@ -14,6 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
 import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
+import ReactTooltip from 'react-tooltip';
 
 
 
@@ -114,6 +115,9 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       open: false,
     });
   };
+  componentDidUpdate() {
+    ReactTooltip.rebuild();
+  }
   render () {
     const props=this.props;
     const task = props.task;

@@ -23,7 +23,7 @@ const Container = (props) => {
     delete child.props.className;
     flex = flex || 1;
     children[i] = (
-      <div key={i} style={{...containerStyle, flex:flex}} className={className}>
+      <div key={i} style={{...containerStyle, flex:flex}} className={className + " contained"}>
         {child}
       </div>
     );
