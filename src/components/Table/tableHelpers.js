@@ -153,102 +153,122 @@ helpers.generateSimpleHeaders = function(table)  {
  return rowGenerator(ths, "head");
 }
 
+function generateThs(number) {
+  let ths = [];
+  for(let i = 0; i < number; i++) {
+    ths.push(<th key={"th-" + i}></th>);
+  }
+  return ths;
+}
+
+function generateTds(number) {
+  let ths = [];
+  for(let i = 0; i < number; i++) {
+    ths.push(<td key={"td-" + i}></td>);
+  }
+  return ths;
+}
+
 helpers.generateUserReportTable = function(user, dateWords) {
   let rows = [];
   const daysNumber = user.days.length;
   let tick = true;
-  const totalTableWidth = daysNumber+3 + 6;
+  const totalTableWidth = daysNumber+3 + 9;
   const headerRow = [
     (<tr   key="header-row" className="noDisplay noBorder">
-      <th colSpan={totalTableWidth} key="header-td">
+      {generateThs(6)}
+      <th colSpan={totalTableWidth- 4 - 5 - 5} key="header-td">
         Табель №
       </th>
+      {generateThs(8)}
     </tr>),,
     (<tr  key="header-row-2" className="noDisplay noBorder">
-      <th colSpan={totalTableWidth} key="header-td">
+      {generateThs(6)}
+      <th colSpan={totalTableWidth- 4 - 5 - 5} key="header-td">
         {"учета использования рабочего времени"}
       </th>
+      {generateThs(4)}
+      <th colSpan={4} key="header-td-4">
+        Коды
+      </th>
     </tr>),
-    <tr key="a1">
+    <tr key="a1" className="noDisplay">
+      {generateThs(totalTableWidth - 7)}
+      <th colSpan={3} key="header-td-5">
+        Форма по ОКУД
+      </th>
+      <th colSpan={4} key="header-td-6">
+
+      </th>
     </tr>,
     <tr key="a2 noBorder" className="noDisplay">
-      <th colSpan={totalTableWidth} key="header-td">
+      {generateThs(13)}
+      <th colSpan={12} key="header-td">
         {"за период " + dateWords}
+      </th>
+      {generateThs(totalTableWidth - 20 - 12)}
+      <th colSpan={3} key="header-td-7">
+        Дата
+      </th>
+      <th colSpan={4} key="header-td-8">
+
       </th>
     </tr>,
     <tr key="a3 noBorder" className="noDisplay" >
-      <th  colSpan={7}>
+      <th  colSpan={3}>
         Учреждение:
       </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th  colSpan={totalTableWidth - 11}>
+      {generateThs(3)}
+      <th colSpan={26}>
         ФГБУ "НИИ ЦПК имени Ю.А. Гагарина"
+      </th>
+      {generateThs(totalTableWidth - 26 - 3 - 3 - 7)}
+      <th colSpan={3} key="header-td-7">
+        по ОКПО
+      </th>
+      <th colSpan={4} key="header-td-8">
+
       </th>
     </tr>,
     <tr key="a5 noBorder" className="noDisplay" >
-      <th colSpan={7}>
+      <th colSpan={6}>
         Структурное подразделение:
       </th>
-      <th>
+      <th colSpan={26}>
+
       </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th  colSpan={totalTableWidth - 11}>
+      {generateThs(totalTableWidth - 26 - 3 - 3 -4)}
+      <th colSpan={4} key="header-td-8">
 
       </th>
     </tr>,
     <tr key="a7" className="noDisplay" >
-      <th   colSpan={7}>
+      <th   colSpan={3}>
         Вид табеля:
       </th>
-      <th>
+      {generateThs(3)}
+      <th colSpan={26}>
+
       </th>
-      <th>
+      {generateThs(totalTableWidth - 26 - 3 - 3 - 8)}
+      <th colSpan={4} key="header-td-7">
+        Номер корректировки
       </th>
-      <th>
-      </th>
-      <th>
-      </th>
-      <th  colSpan={totalTableWidth - 11}>
+      <th colSpan={4} key="header-td-8">
 
       </th>
     </tr>,
     <tr key="a9" className="noDisplay">
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-    <th>
-    </th>
-      <th  colSpan={totalTableWidth - 11}>
+      {generateThs(13)}
+      <th  colSpan={12}>
         (первичный - 0; корректирующий - 1, 2 и т.д.)
+      </th>
+      {generateThs(totalTableWidth - 12 - 13 - 10)}
+      <th colSpan={6} key="header-td-7">
+        Дата формирования документа
+      </th>
+      <th colSpan={4} key="header-td-8">
+        {moment().format("DD/MM/YYYY")}
       </th>
     </tr>,
     <tr key="a10" className="noDisplay">
@@ -256,13 +276,13 @@ helpers.generateUserReportTable = function(user, dateWords) {
   ]
   rows = headerRow.concat([(
     <tr key="first-row">
-      <th className="tg-yw4l" colSpan="2" rowSpan="4"  key="fio-header">
+      <th className="tg-yw4l" colSpan="3" rowSpan="4"  key="fio-header">
         Фамилия, имя, отчество
       </th>
-      <th  className="tg-yw4l" colSpan="2" rowSpan="4" key="number-header">
+      <th  className="tg-yw4l" colSpan="3" rowSpan="4" key="number-header">
         Учетный номер
       </th>
-      <th className="tg-yw4l" colSpan="2" rowSpan="4"  key="position-header">
+      <th className="tg-yw4l" colSpan="3" rowSpan="4"  key="position-header">
         Должность (профессия)
       </th>
       <th className="tg-yw4l" rowSpan="2" colSpan={daysNumber+3}  key="monthDates">
@@ -271,7 +291,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
     </tr>),
     <tr key="3422">
     </tr>]);
-  let rownumbers = [<td className="tg-yw4l" colSpan="2" key="1" >1</td>,<td className="tg-yw4l" colSpan="2" key="2">2</td>,<td className="tg-yw4l" colSpan="2" key="3">3</td>];
+  let rownumbers = [<td className="tg-yw4l" colSpan="3" key="1" >1</td>,<td className="tg-yw4l" colSpan="3" key="2">2</td>,<td className="tg-yw4l" colSpan="3" key="3">3</td>];
   let daysArr = [];
   let dayTypesInfo = [];
   let financeRows = [];
@@ -356,9 +376,9 @@ helpers.generateUserReportTable = function(user, dateWords) {
   }
   let totalRowCounter = firstRows.length*3 + secondRows.length*3 + 2;
   const userInfo = [
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="2" key="fio"> {user.name} </td>,
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="2" key="number"> {user.number} </td>,
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="2" key="position"> {user.position} </td>
+    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="fio"> {user.name} </td>,
+    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="number"> {user.number} </td>,
+    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="position"> {user.position} </td>
   ]
   for(let i = 0; i < user.days.length; i++) {
     userInfo.push(
@@ -387,7 +407,132 @@ helpers.generateUserReportTable = function(user, dateWords) {
   userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo">{`Ф - ${user.totalDays}/${user.totalHours}`}</td>);
   rows.push(<tr key="row-four">{userInfo}</tr>);
   rows.push(<tr key="row-five">{dayTypesInfo}</tr>);
-  rows = rows.concat(financeRows);
+
+  let otherRows = [<tr className="noDisplay" key="blank1"/>,<tr className="noDisplay" key="blank2"/>];
+
+  let firstOtherRow = [
+    <tr key="other1" className="noDisplay">
+      <td key="executor1" rowSpan="4" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor2" rowSpan="4" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor3" rowSpan="4" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor4" rowSpan="4" colSpan="3">
+
+      </td>
+      {generateTds(6)}
+      <td key="markBuh" rowSpan="4" colSpan="18">
+        Отметка бухгалтерии о принятии настоящего табеля
+      </td>
+      {generateTds(totalTableWidth - 3 * 4 - 3 - 6 - 18 )}
+    </tr>,
+    <tr  key="blank73"/>,
+    <tr  key="blank83"/>,
+      <tr  key="blank89"/>,
+    <tr key="other11" className="noDisplay">
+      <td key="executor1"  colSpan="3">
+        Ответственный исполнитель
+      </td>
+      <td/>
+      <td key="executor2" colSpan="3">
+        (должность)
+      </td>
+      <td/>
+      <td key="executor3" colSpan="3">
+        (подпись)
+      </td>
+      <td/>
+      <td key="executor4"  colSpan="3">
+        (расшифровка подписи)
+      </td>
+      {generateTds(totalTableWidth - 3 * 4 - 3)}
+    </tr>,
+    <tr  key="blank3" />,
+    <tr  key="blank4"/>
+  ]
+
+  let thirdOtherRow = [
+    <tr key="other3" className="noDisplay">
+      <td key="executor1" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor2" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor3" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor4" rowSpan="3" colSpan="3">
+
+      </td>
+      {generateTds(6)}
+      <td key="executor11" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor21" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor31" rowSpan="3" colSpan="3">
+
+      </td>
+      <td/>
+      <td key="executor41" rowSpan="3" colSpan="3">
+
+      </td>
+      {generateTds(4)}
+    </tr>,
+    <tr  key="blank71"/>,
+    <tr  key="blank81"/>,
+    <tr key="other4" className="noDisplay">
+        <td key="executor1" colSpan="3">
+          Исполнитель
+        </td>
+        <td/>
+        <td key="executor2" colSpan="3">
+          (должность)
+        </td>
+        <td/>
+        <td key="executor3" colSpan="3">
+          (подпись)
+        </td>
+        <td/>
+        <td key="executor4"  colSpan="3">
+          (расшифровка подписи)
+        </td>
+        {generateTds(6)}
+      <td key="executor11" colSpan="3">
+        Исполнитель
+      </td>
+      <td/>
+      <td key="executor21" colSpan="3">
+        (должность)
+      </td>
+      <td/>
+      <td key="executor31" colSpan="3">
+        (подпись)
+      </td>
+      <td/>
+      <td key="executor41"  colSpan="3">
+        (расшифровка подписи)
+      </td>
+      {generateTds(4)}
+    </tr>
+  ]
+
+  otherRows = otherRows.concat(firstOtherRow).concat(thirdOtherRow);
+  rows = rows.concat(financeRows).concat(otherRows);
   return rows;
 }
 

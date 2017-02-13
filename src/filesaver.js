@@ -247,6 +247,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
     let maxLength = -1;
     const boldBorder = {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}};
     const bottomBorder = {bottom: {style: "thin"}};
+    const thickBorder =  {top :{style: "medium"}, bottom: {style: "medium"},left: {style: "medium"}, right: {style: "medium"}};
     const alignment = function(r) {
       if(r == 4 || r == 5 || r == 6) {
         return "left";
@@ -254,14 +255,68 @@ function sheet_from_array_of_arrays_table(data, opts) {
         return "center";
       }
     }
-    const fntSize = function(r) {
+    const fntSize = function(r, c) {
+      if(r > data.length - 14 && c > 30) {
+        return "7";
+      }
+      if((r > data.length - 14 && c <= 3 ) || (r > data.length - 14 && c > 11 && c < 20)) {
+        return "7";
+      }
+      if((r > data.length - 14)) {
+        return "11";
+      }
       if(r < 7) {
-        return "12";
+        return "11";
       } else {
         return "9";
       }
     }
     const re = 8;
+    function borderVal(R,C) {
+      if((R === data.length - 7) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+        return {top: {style: "medium"}};
+      }
+      if((R === data.length - 1) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+        return {top: {style: "medium"}};
+      }
+      if((R === data.length - 1) && ((C >=21 && C<24) || (C >=25 && C<28) || (C >=29 && C<32) || (C >=33 && C<36))) {
+        return {top: {style: "medium"}, bottom:{style:"mediumDashed"}};
+      }
+      if(C === 19 && R === data.length - 11) {
+          return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
+      }
+      if(R === data.length - 1 && C ==19) {
+        return {bottom: {style: "mediumDashed"},left: {style: "mediumDashed"}};
+      }
+      if(R === data.length - 1 && C ===39) {
+        return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
+      }
+      if(C === 39 && R === data.length - 11) {
+        return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
+      }
+      if(C === 19 && R > data.length - 12) {
+        return {left: {style: "mediumDashed"}};
+      }
+      if(R === data.length - 1 && C > 18) {
+        return {bottom: {style: "mediumDashed"}};
+      }
+      if(C === 39 && R > data.length - 12) {
+        return {right: {style: "mediumDashed"}};
+      }
+      if( R === data.length - 11 && C > 18 && C <40) {
+        return {top: {style: "mediumDashed"}};
+      }
+      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 14))) {
+        return {};
+      }
+      if(R == re) {
+        return bottomBorder;
+      }
+      if(R < re && R > 0) {
+        return thickBorder;
+      }
+      return boldBorder;
+    }
     for (var R = 0; R < data.length; ++R) {
       if (range.s.r > R) range.s.r = R;
       if (range.e.r < R) range.e.r = R;
@@ -273,8 +328,8 @@ function sheet_from_array_of_arrays_table(data, opts) {
             var cell = { v: "", t: "s"};
             cell.s = {
                 alignment: { wrapText: true, horizontal: alignment(R) , vertical: "center"},
-                border:  (R < re ? {} : ( R== re ? bottomBorder : boldBorder)),
-                font: {sz: fntSize(R)}
+                border:  borderVal(R,i),
+                font: {sz: fntSize(R, i)}
             };
             var cell_ref = XLSX.utils.encode_cell({ c: i, r: R });
             ws[cell_ref] = cell;
@@ -306,8 +361,8 @@ function sheet_from_array_of_arrays_table(data, opts) {
             if(!cell.s) {
               cell.s = {
                   alignment: { wrapText: true, horizontal:  alignment(R), vertical: "center"},
-                  border: (R < re ? {} : ( R== re ? bottomBorder : boldBorder)),
-                  font: {sz: fntSize(R)}
+                  border: borderVal(R,C),
+                  font: {sz: fntSize(R, C)}
               };
             }
             ws[cell_ref] = cell;
@@ -460,10 +515,10 @@ function generateArray(table) {
               if(colspan) {
                 colspan = parseInt(colspan);
                 for(let i = 0; i < colspan;i++) {
-                  wscols.push({wpx : cellValue==="Числа месяца" ? 40: 25})
+                  wscols.push({wpx : cellValue==="Числа месяца" ? 50: 35})
                 }
               } else {
-                  wscols.push({wpx : 25})
+                  wscols.push({wpx : 35})
               }
             }
             //Handle Value
@@ -474,7 +529,7 @@ function generateArray(table) {
         }
         out.push(outRow);
     }
-    return [out, ranges,wscols];      
+    return [out, ranges,wscols];
 };
 
 export function htmlToExcel(tableSelector) {
