@@ -49,7 +49,7 @@ const generateLaborsBlock = function(laborGroup,props) {
           </div>
           <div flex="1">
             <div data-tip="Открыть">
-              <img className="clickable-image openTrud" src={openTrud} onClick={props.openTrud.bind(this, labor)} alt="logo" />
+              <img className="clickable-image openTrud" src={openTrud} onClick={() => {setTimeout(ReactTooltip.hide,100); props.openTrud.call(this, labor)}} alt="logo" />
             </div>
           </div>
         </Container>

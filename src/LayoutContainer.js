@@ -59,7 +59,7 @@ class Layout extends React.Component {
     if(this.props.pingedUser !== null) {
       containerStyle = Object.assign({},containerStyles,{height: "calc(100% - 42px)"});
       rendered = (
-      <div>
+      <div onClick={() => {ReactTooltip.hide()}}>
           <ToolbarContainer/>
           <div style={containerStyle}>
             <SpinnerContainer/>
