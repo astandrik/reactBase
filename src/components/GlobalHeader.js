@@ -42,6 +42,9 @@ function compareFilters(filter1, filter2) {
   if(!filter1.statuses || !filter2.statuses) {
     return false;
   }
+  if(!filter1.sub_ids || !filter2.sub_ids) {
+    return false;
+  }
   if(filter1.statuses.length !== filter2.statuses.length || filter1.sub_ids.length !== filter2.sub_ids.length || filter1.type !== filter2.type
   || filter1.all_subordinates !== filter2.all_subordinates) {
     return true;

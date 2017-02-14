@@ -18,6 +18,10 @@
   border: none;
 }
 
+textarea.fieldValue.taskHeader {
+  width:100%;
+}
+
 .modalForm .taskPanel {
   border: none;
 }

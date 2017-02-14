@@ -150,11 +150,13 @@ export function editTask(data, task) {
     const t = new Task(json.data);
     if(tasks) {
       let newTasks = tasks.treeNormalized.byId[t.id];
-      for(let i = 0; i< newTasks.length; i++) {
-        newTasks[i].name = t.name;
-        newTasks[i].executors = t.executors;
-        newTasks[i].rawstatus = t.rawstatus;
-        newTasks[i].status = statusDict[t.rawstatus];
+      if(newTasks) {
+        for(let i = 0; i< newTasks.length; i++) {
+          newTasks[i].name = t.name;
+          newTasks[i].executors = t.executors;
+          newTasks[i].rawstatus = t.rawstatus;
+          newTasks[i].status = statusDict[t.rawstatus];
+        }
       }
       tasks.changed = !tasks.changed;
       dispatch(setTasks({tasks}));

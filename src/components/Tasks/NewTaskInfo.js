@@ -41,7 +41,7 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
       </div>
       <Container vertical={true} flex="6" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
           <h2 containerStyle={headerBlockStyle} flex="1" style={{margin:"5px", marginBottom: "20px"}}>
-            <Field name="name" className="fieldValue taskHeader" component="input" placeholder="Название задачи"/>
+            <Field name="name" className="fieldValue taskHeader" component="textarea" placeholder="Название задачи"/>
           </h2>
           <Container containerStyle={codeBlockStyle} flex="3">
             <Panel label="Код работ">

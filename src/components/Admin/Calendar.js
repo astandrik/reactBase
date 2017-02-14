@@ -75,6 +75,39 @@ const PagingCalendar = React.createClass({
   }
 });
 
+function generateLegend() {
+  return (
+    <div className="legend-block">
+      <div className="single-block">
+        <div className="holiday-day">
+
+        </div>
+        <span> - </span>
+        <div>
+          Выходной день
+        </div>
+      </div>
+      <div className="single-block">
+        <div className="short-day">
+
+        </div>
+        <span> - </span>
+        <div>
+          Укороченный день
+        </div>
+      </div>
+      <div className="single-block">
+        <div className="work-day">
+
+        </div>
+        <span> - </span>
+        <div>
+          Рабочий день
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default class CalendarContainer extends React.Component {
   constructor(props) {

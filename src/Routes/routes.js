@@ -55,6 +55,21 @@ const StructureRoutes = (props) => {
     props.loadRepo.departments();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Штатная структура");
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="admin/structure" components={StateStructureList} onEnter={structureEnter} />
@@ -68,6 +83,21 @@ const UsersRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Список сотрудников");
     props.loadRepo.flatDepartments();
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="admin/users" components={UsersList} onEnter={usersEnter} />
@@ -80,6 +110,21 @@ const CodesRoutes = (props) => {
     props.loadRepo.codesTable();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Коды работ");
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="admin/workCodes" components={CodesList} onEnter={codesEnter} />
@@ -93,6 +138,21 @@ const CalendarRoutes = (props) => {
     props.loadRepo.setCurrentTitle("Производственный календарь");
     const curDate = new Date();
     props.loadRepo.calendar(curDate.getFullYear());
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="admin/calendar" components={Calendar} onEnter={calendarEnter} />
@@ -105,6 +165,21 @@ const FinancesRoutes = (props) => {
     props.loadRepo.financesTable();
     props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Статьи финансирования");
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="admin/finances" components={FinancesList} onEnter={financesEnter} />
@@ -119,6 +194,21 @@ const ReportRoutes = (props) => {
     props.loadRepo.setCurrentTitle("Мои отчеты");
     props.loadRepo.monday();
     props.loadRepo.finances();
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="reports" component={Reports}  onEnter={reportsEnter}/>
@@ -174,6 +264,21 @@ const StatisticsRoutes = (props) => {
     props.loadRepo.tabs([]);
     props.loadRepo.workCodes();
     props.loadRepo.setCurrentTitle("Статистика");
+    const location = browserHistory.getCurrentLocation()
+    const query = location.query;
+    if(query) {
+      let obj = {};
+      if(query.statuses) {
+        obj.statuses = query.statuses.split(",");
+      }
+      if(query.sub_ids) {
+        obj.sub_ids = query.sub_ids.split(",").map(x=>parseInt(x));
+      }
+      if(query.all_subs) {
+        obj.all_subs = query.all_subs;
+      }
+      props.loadRepo.setFilters(obj);
+    }
   }
   return (
     <Route path="statistics" component={Statistics}  onEnter={statisticsEnter}/>

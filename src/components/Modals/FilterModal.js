@@ -139,8 +139,10 @@ const filterModal = class filter extends React.Component {
         });
     }, 500);
     let currentTaskFilters = this.state.currentTaskFilters;
-    if(currentTaskFilters.statuses.join(",") === "0,1,2,3,4") {
-      currentTaskFilters.statuses = ["0,1,2,3,4"];
+    if(currentTaskFilters && currentTaskFilters.statuses) {
+      if(currentTaskFilters.statuses.join(",") === "0,1,2,3,4") {
+        currentTaskFilters.statuses = ["0,1,2,3,4"];
+      }
     }
     for(var i = 0; i < checkBoxValues.length; i++) {
       let checked = false;
