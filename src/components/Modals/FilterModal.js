@@ -131,10 +131,17 @@ const filterModal = class filter extends React.Component {
           return response.json();
         })
         .then((json) => {
+          if(!json.data) {
+            callback(null,{options: []});
+            return;
+          }
           callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
         });
     }, 500);
     let currentTaskFilters = this.state.currentTaskFilters;
+    if(currentTaskFilters.statuses.join(",") === "0,1,2,3,4") {
+      currentTaskFilters.statuses = ["0,1,2,3,4"];
+    }
     for(var i = 0; i < checkBoxValues.length; i++) {
       let checked = false;
       if(currentTaskFilters.statuses) {

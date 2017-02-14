@@ -94,6 +94,7 @@ input[name="hours"] {
 }
 
 .filter-popover {
+  max-width: 750px;
   min-width: 650px;
   min-height: 200px;
   border: 1px solid rgb(204, 204, 204);

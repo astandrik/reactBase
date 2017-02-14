@@ -71,6 +71,10 @@ const dialog = class addTrudModalDialog extends React.Component {
         return response.json();
       })
       .then((json) => {
+        if(!json.data) {
+          callback(null,{options: []});
+          return;
+        }
         callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
       });
   }, 500);
