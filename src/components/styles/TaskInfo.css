@@ -22,6 +22,10 @@ textarea.fieldValue.taskHeader {
   width:100%;
 }
 
+.global-task-container .Select--multi{
+  max-width: 300px;
+}
+
 .labor-main-container.contained h2{
   border-bottom: 1px solid black;
 }
