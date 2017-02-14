@@ -12,7 +12,7 @@ function createChildren(items, marginLeft, userType, query) {
       continue;
     }
     if(item.children) {
-      const container = <Link className={"list-element list-element-"+marginLeft} to={!item.fake ? (item.to+query) : null} key={item.name}/>;
+      const container = <Link activeClassName="side-active-link" className={"list-element list-element-"+marginLeft} to={!item.fake ? (item.to+query) : null} key={item.name}/>;
       children.push((
       <ListItem
              containerElement={container}
@@ -23,7 +23,7 @@ function createChildren(items, marginLeft, userType, query) {
       />
     ));
     } else {
-      const container = <Link className={"list-element list-element-"+marginLeft}  to={!item.fake ? (item.to+query)  : null}  key={item.name}/>;
+      const container = <Link activeClassName="side-active-link"  className={"list-element list-element-"+marginLeft}  to={!item.fake ? (item.to+query)  : null}  key={item.name}/>;
       children.push((
             <ListItem containerElement={container}
               primaryText={item.name}

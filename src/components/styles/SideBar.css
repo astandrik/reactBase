@@ -17,8 +17,14 @@
 }
 
 .side-bar .list-element:hover{
-  background-color: #100619!important;
+  background-color: #100619;
 }
+
+
+.side-active-link{
+    background-color: #1B2432!important;
+}
+
 
 .side-list {
   margin-top: 40px;
