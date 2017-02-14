@@ -7,6 +7,7 @@ import { List } from 'react-virtualized';
 import {PagesPicker} from "../formComponents/ReusableComponents";
 import {rowHeight} from "../../helperFunctions";
 import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModalContainer";
+import ReactTooltip from 'react-tooltip';
 
 const buttonContainerStyles = {
   display: "flex",
@@ -86,6 +87,7 @@ export default class CodesList extends React.Component {
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
+    ReactTooltip.rebuild();
   }
   changeState(event) {
     const newVal = event.target.value;
@@ -185,8 +187,8 @@ export default class CodesList extends React.Component {
           {beingEdited ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
           {beingEdited? <input name="week_limit" value={self.state.week_limit} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.week_limit}</span>}
           {beingEdited  ?
-            <Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/>
-            : <Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/>}
+            <div data-tip="Сохранить"><Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/></div>
+            : <div data-tip="Редактировать"><Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/></div>}
         </div>
       )
     }

@@ -12,7 +12,7 @@ import Popover from 'material-ui/Popover';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import {debounce} from "../../helperFunctions";
-import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel} from "../formComponents/ReusableComponents";
+import {WorkCodeField, FinancesField,ExecutorsSelectField,NameField, DescriptionField, Panel,ExecutorsAsyncSelectField} from "../formComponents/ReusableComponents";
 import Icon from "../../Icons/Icon";
 import ReactTooltip from 'react-tooltip';
 
@@ -131,7 +131,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
     const executorNames = helpers.createExecutors(executorsFromForm);
     let executorsField = "";
     if(this.state.executorsFieldActive) {
-      executorsField = <ExecutorsSelectField executors={props.executors} debouncedUpdate={this.handleEdit.bind(this)}
+      executorsField = <ExecutorsAsyncSelectField executors={props.executors} debouncedUpdate={this.handleEdit.bind(this)}
         deactivateExecutorsField={this.deactivateExecutorsField.bind(this)}/>
     } else {
       executorsField = (<div  className="executorHeader"><span>Исполнители: </span><div className="executorNames" onClick={this.activateExecutorsField.bind(this)}>{executorNames}</div></div>);
@@ -140,7 +140,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
       return <div/>;
     } else {
       return (
-        <form onSubmit={handleSubmit} className={task.rights.update ? "" : "no-update"} onChange={this.handleDebounce.bind(this)} style={{display:"flex", flexDirection:"column", height: "100%"}}>
+        <form onSubmit={handleSubmit} className={task.rights.update ? "" : "no-update"} style={{display:"flex", flexDirection:"column", height: "100%"}}>
           {popover}
           <Container className="global-task-container" vertical={true}>
             <div className="infoHeader" flex="1">
@@ -160,7 +160,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
             </div>
             <Container vertical={true} flex="11" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
                 <h2 flex="1" containerStyle={headerBlockStyle} style={{margin:"5px", marginBottom: "20px"}}>
-                  <Field name="name"  component={NameField} />
+                  <Field name="name" handleChange={this.handleDebounce.bind(this)}   component={NameField} />
                 </h2>
                 <Container flex="3" containerStyle={codeBlockStyle}>
                   <Panel label="Код работ">
@@ -173,7 +173,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
                 <div className="taskPanel" flex="4" containerStyle={descriptionBlockStyle}>
                   <span className="panelLabel"> Описание </span>
                     <span  className="panelText fullWidth">
-                      <Field className="fieldValue" name="description" component={DescriptionField}/>
+                      <Field className="fieldValue" name="description" handleChange={this.handleDebounce.bind(this)}  component={DescriptionField}/>
                     </span>
                 </div>
                 <div className={(props.activeTab !== "trud") ? "noDisplay" : "trud"}>

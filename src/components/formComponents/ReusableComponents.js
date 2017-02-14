@@ -1,5 +1,6 @@
 import React from 'react';
 import SelectInput from "./SelectInput";
+import SelectAsyncInput from "./SelectAsyncInput";
 import { Field } from 'redux-form';
 import right from "../../Icons/right.svg";
 import left from "../../Icons/left.svg";
@@ -94,6 +95,21 @@ export const ExecutorsSelectField = ({executors, deactivateExecutorsField,deboun
   }/>
 );
 
+export const ExecutorsAsyncSelectField = ({executors, deactivateExecutorsField,debouncedUpdate}) => (
+  <Field
+  name="executors"
+  newOnBlur={deactivateExecutorsField}
+  newOnChange={debouncedUpdate}
+  component={prp =>
+      <SelectAsyncInput
+          multi={true}
+          {...prp}
+          placeholder="Исполнители"
+          autofocus={true}
+      />
+  }/>
+);
+
 export function onChangeSubmit(onChange, handleSubmit) {
   return (event) => {
     onChange(event);
@@ -108,8 +124,8 @@ export const NameField = ({input, placeholder,handleChange}) => {
   export const StandardField = ({input, placeholder}) => {
       return (<input {...input} placeholder= {placeholder ? placeholder : ""}   className="fieldValue standard-field"/>);
     }
-export const DescriptionField = ({input, placeholder}) => {
-    return (<textarea  {...input}   style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
+export const DescriptionField = ({input, placeholder,handleChange}) => {
+    return (<textarea  {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
 }
 
 export const HoursField = ({input, handleChange}) => {

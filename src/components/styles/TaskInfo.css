@@ -22,6 +22,10 @@ textarea.fieldValue.taskHeader {
   width:100%;
 }
 
+.labor-main-container.contained h2{
+  border-bottom: 1px solid black;
+}
+
 .modalForm .taskPanel {
   border: none;
 }

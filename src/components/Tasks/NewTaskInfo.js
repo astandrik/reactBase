@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 import FlatButton from 'material-ui/FlatButton';
 import {connect} from 'react-redux';
 import DPicker from "../formComponents/DatePicker";
-import {WorkCodeField, FinancesField,ExecutorsSelectField, Panel} from "../formComponents/ReusableComponents";
+import {WorkCodeField, FinancesField,ExecutorsSelectField, Panel,ExecutorsAsyncSelectField} from "../formComponents/ReusableComponents";
 
 
 const codeBlockStyle = {
@@ -31,7 +31,7 @@ const newTaskInfoComponent = class newTaskInfo extends React.Component {
       <div className="infoHeader" flex="1">
         <Container style={{justifyContent: "space-between"}}>
           <div className="infoHeaderBlock fullWidth" style={{display: 'flex', justifyContent: "flex-begin"}}>
-            <ExecutorsSelectField executors={props.executors}/>
+            <ExecutorsAsyncSelectField executors={props.executors}/>
             <div>
               <img className="user" src={calendar} alt="logo" />
               <Field name="startDate" component={DPicker}/>
