@@ -61,7 +61,7 @@ export default class TaskList extends React.Component {
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
-  }  
+  }
   render() {
     let departments = this.props.departments;
     const props = this.props;
@@ -128,7 +128,7 @@ export default class TaskList extends React.Component {
         <div className="tasksContainer" style={fullSize} ref="taskTree">
           <div style={buttonContainerStyles}>
             <div>
-              <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewDepartment}/>
+              <RaisedButton className="addButton" label="Добавить" onClick={this.props.handleAddNewDepartment.bind(this, this.props.activeIndexes.taskId)}/>
             </div>
           </div>
           {tasksView}

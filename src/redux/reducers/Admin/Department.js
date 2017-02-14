@@ -4,6 +4,9 @@ import {
   SET_FLAT_DEPARTMENTS
 } from "../../actions/Admin/departmentActions";
 
+import {    CLEAR_LAYOUT
+} from "../../actions/layoutActions";
+
 import {normalizeTree} from "../../../Entities/Admin/DepartmentTree";
 
 export function setDepartmentTree(state = [], action) {
@@ -27,6 +30,8 @@ export function setDepartment(state = false, action) {
   switch (action.type) {
     case SET_DEPARTMENT:
       return action.department;
+    case CLEAR_LAYOUT:
+      return false;
     default:
       return state;
   }

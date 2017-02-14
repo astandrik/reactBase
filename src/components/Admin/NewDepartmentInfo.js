@@ -69,8 +69,14 @@ let taskForm = reduxForm({
 const selector = formValueSelector('departmentInfoDialogForm');
 taskForm = connect(
   state => {
-    return ({
-  })}
+    if(state.Admin.department) {
+        return   {
+          initialValues: {parent: state.Admin.department.value}
+        }
+    } else {
+      return ({});
+    }
+  }
 )(taskForm);
 
 export default taskForm;

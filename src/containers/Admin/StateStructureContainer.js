@@ -41,10 +41,11 @@ const mapDispatchToProps = (dispatch) => {
     setClientHeight: (height) => {
       dispatch(setClientHeight({height}));
     },
-    handleAddNewDepartment: () => {
+    handleAddNewDepartment: (parent_id) => {
         dispatch(setDepartment({
             department: {
-                type: "new"
+                type: "new",
+                value: parent_id
             }
         }));
         dispatch(toggleRightPanel({
