@@ -36,7 +36,7 @@ function createChildren(items, marginLeft, userType, query) {
 
 const Search = (props) => {
   return (
-    <input className="search-side-input" onChange={props.changeSearchQuery}  placeholder="Поиск..."/>
+    <input value={props.context.state.query} className="search-side-input" onChange={props.changeSearchQuery}  placeholder="Поиск..."/>
   )
 }
 
@@ -45,7 +45,7 @@ const SideBar = class Side extends React.Component {
       super(props);
       this.setSearchQuery = debounce(this.setSearchQuery, 500);
       this.state = {
-        query: ""
+        query: props.searchQuery
       };
   }
   changeSearchQuery(event) {
@@ -54,8 +54,19 @@ const SideBar = class Side extends React.Component {
     });
     this.setSearchQuery();
   }
+  eliminateQuery() {
+    this.setState({
+      query: ""
+    });
+    this.setSearchQuery();
+  }
   setSearchQuery() {
       this.props.changeSearchQuery(this.state.query, this.props.location);
+  }
+  componentWillReceiveProps(nextProps) {
+    if(this.state.query !== nextProps.searchQuery && nextProps.searchQuery=== "") {
+      this.eliminateQuery.call(this);
+    }
   }
   render() {
     const props = this.props;
@@ -63,7 +74,7 @@ const SideBar = class Side extends React.Component {
     let children = this.menuItems;
     return(
       <div className={`side-bar ${this.props.showNav ? '' : 'deactivated'}`}>
-        <Search changeSearchQuery={this.changeSearchQuery.bind(this)}/>
+        <Search changeSearchQuery={this.changeSearchQuery.bind(this)} context={this}/>
         <div className="side-list">
           {children}
         </div>
