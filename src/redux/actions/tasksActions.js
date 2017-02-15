@@ -221,6 +221,7 @@ export function editLabor(data, fromLabor, fromTable) {
         tableData.overallDated[currentLabor.date].overallTotal +=  parseInt(newVal) - parseInt(oldVal);
         timing.value = newVal;
         timing.code = currentLabor.code;
+        timing.status = currentLabor.status;
         dispatch(setTableData({tableData}));
       } else {
         const currentWeek = getState().Table.currentWeek;

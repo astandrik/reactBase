@@ -29,13 +29,13 @@ const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, delet
       <div data-tip="Вернуться">
         <Icon name="cursor" className={`clickable-image comment`} onClick={returnToTask}/>
       </div>
-      <div data-tip={rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(status !== "Новая") ? "noDisplay" : ''} `}>
+      <div data-tip={rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${((status !== "Новая") || !rights.accept) ? "noDisplay" : ''} `}>
         <div className={(rights.accept ? "" : "disabled")}>
           <Icon name="acceptTrud" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
              onClick={context.startQuestion.bind(context,"accept")}/>
         </div>
       </div>
-      <div data-tip={rights.accept ? "Отклонить" : "Нет прав на отклонение"}>
+      <div data-tip={rights.accept ? "Отклонить" : "Нет прав на отклонение"} className={((rights.accept && status !== "Отклонена") ? "" : "noDisplay")}>
         <div className={(rights.accept ? "" : "disabled")}>
           <Icon name="decline" className={`clickable-image comment `  + (rights.accept ? "" : "disabled")}
            onClick={context.startQuestion.bind(context,"decline")}/>

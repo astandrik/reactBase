@@ -35,13 +35,13 @@ const generateLaborsBlock = function(laborGroup,props) {
               {comments}
             </div>
           </div>
-          <div flex="1" style={{height:"100%"}}>
+          <div flex="1" style={{height:"100%"}} className={(labor.rights.accept ? "" : "noDisplay")}>
             <div style={{height:"100%"}} data-tip={labor.rights.accept ? "Подтвердить" : "Нет прав на подтверждение"} className={`${(labor.status !== "Новая") ? "noDisplay" : ''}`}>
               <Icon name="acceptTrud" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
                 onClick={this.startQuestion.bind(this,"accept", labor)}/>
             </div>
           </div>
-          <div flex="1" style={{height:"100%"}}>
+          <div flex="1" style={{height:"100%"}} className={((labor.rights.accept && labor.status !== "Отклонена") ? "" : "noDisplay")}>
             <div data-tip={labor.rights.accept ? "Отклонить" : "Нет прав на отклонение"} style={{height:"100%"}}>
               <Icon name="decline" className={`clickable-image openTrud ` + (labor.rights.accept ? "" : "disabled")}
                 onClick={this.startQuestion.bind(this,"decline", labor)}/>
