@@ -533,8 +533,22 @@ helpers.generateUserReportTable = function(user, dateWords) {
     </tr>
   ]
 
+  let datesOtherRow = [
+    <tr key="blank13"/>,<tr key="blank14"/>,
+    <tr key="date1" className="noDisplay">
+      <td colSpan="10" key="day1">
+        {moment().format("DD MM YYYY")}
+      </td>
+        {generateTds(11)}
+        <td colSpan="10" key="day2">
+
+        </td>
+        {generateTds(9)}
+    </tr>
+  ]
+
   otherRows = otherRows.concat(firstOtherRow).concat(thirdOtherRow);
-  rows = rows.concat(financeRows).concat(otherRows);
+  rows = rows.concat(financeRows).concat(otherRows).concat(datesOtherRow);
   return rows;
 }
 

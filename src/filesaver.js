@@ -256,6 +256,9 @@ function sheet_from_array_of_arrays_table(data, opts) {
       }
     }
     const fntSize = function(r, c) {
+      if(r === data.length -1) {
+        return "14";
+      }
       if(r > data.length - 14 && c > 30) {
         return "7";
       }
@@ -273,16 +276,19 @@ function sheet_from_array_of_arrays_table(data, opts) {
     }
     const re = 8;
     function borderVal(R,C) {
-      if((R === data.length - 7) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+      if((R === data.length - 13) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
         return {top: {style: "medium"}};
       }
-      if((R === data.length - 1) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+      if((R === data.length - 4) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
         return {top: {style: "medium"}};
       }
-      if((R === data.length - 1) && ((C >=21 && C<24) || (C >=25 && C<28) || (C >=29 && C<32) || (C >=33 && C<36))) {
-        return {top: {style: "medium"}, bottom:{style:"mediumDashed"}};
+      if((R === data.length - 4) && ((C >=21 && C<24) || (C >=25 && C<28) || (C >=29 && C<32) || (C >=33 && C<36))) {
+        return {top: {style: "medium"}};
       }
-      if(C === 19 && R === data.length - 11) {
+      if((R === data.length - 1) &&(C < 10)) {
+        return {bottom: {style: "medium"}};
+      }
+      if(C === 19 && R === data.length - 14) {
           return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C ==19) {
@@ -291,22 +297,22 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(R === data.length - 1 && C ===39) {
         return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
       }
-      if(C === 39 && R === data.length - 11) {
+      if(C === 39 && R === data.length - 14) {
         return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(C === 19 && R > data.length - 12) {
+      if(C === 19 && R > data.length - 15) {
         return {left: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C > 18) {
         return {bottom: {style: "mediumDashed"}};
       }
-      if(C === 39 && R > data.length - 12) {
+      if(C === 39 && R > data.length - 15) {
         return {right: {style: "mediumDashed"}};
       }
-      if( R === data.length - 11 && C > 18 && C <40) {
+      if( R === data.length - 14 && C > 18 && C <40) {
         return {top: {style: "mediumDashed"}};
       }
-      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 14))) {
+      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 17))) {
         return {};
       }
       if(R == re) {
@@ -532,6 +538,8 @@ function generateArray(table) {
     return [out, ranges,wscols];
 };
 
+import moment from "moment";
+
 export function htmlToExcel(tableSelector) {
   const type = "xlsx";
   var theTable = tableSelector;
@@ -552,6 +560,6 @@ export function htmlToExcel(tableSelector) {
   wb.Sheets[ws_name] = ws;
 
   var wbout = XLSX.write(wb, {bookType:type, bookSST:false, type: 'binary'});
-  var fname = 'Табель.' + type;
+  var fname = 'Табель.'+moment().format("DD_MM_YYYY_h_mm_ss") + "." + type;
   saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
 }
