@@ -297,17 +297,42 @@ function mergeArrays(arr1, arr2) {
   return newArr;
 }
 
+function searchGlobalIndexesTreeByName(query, tree) {
+  let globalIndexes = [];
+  tree.forEach((x,i) => {
+    if(x.children) {
+      let openedChildren = searchGlobalIndexesTreeByName(query, x.children);
+      if(openedChildren.length !== 0) {
+        globalIndexes = globalIndexes.concat(openedChildren);
+        globalIndexes.push(x.globalIndex);
+      }
+    }
+    if(~x.name.indexOf(query)) {
+      globalIndexes.push(x.globalIndex);
+    }
+  });
+  return globalIndexes;
+}
+
 
 export function loadTree(params) {
   const handler = function (json, dispatch, getState) {
       const type = getState().globalTaskType;
       let tasks = new TaskTree(json.data.tree);
-      const currentOpened = getState().openedTasks;      
+      const currentOpened = getState().openedTasks;
+      const searchQuery = getState().searchQuery;
+      let openedBySearch = [];
+      if(searchQuery !== "") {
+        openedBySearch = searchGlobalIndexesTreeByName(searchQuery, tasks.tree);
+      }
       if(type!== "all") {
         const name = typeDict[type];
         const chosenTasks = tasks.tree.filter(x => x.name === name);
         const opened =  [chosenTasks[0].globalIndex];
-        const newOpened = mergeArrays(opened,currentOpened);
+        let newOpened = mergeArrays(opened,currentOpened);
+        if(openedBySearch.length !== 0) {
+          newOpened = mergeArrays(newOpened,openedBySearch);
+        }
         if(chosenTasks[0]) {
           dispatch(setTaskOpen({globalIndexes:newOpened}));
         }
@@ -316,7 +341,10 @@ export function loadTree(params) {
         }));
       } else {
         const opened =  tasks.tree.map(x=>x.globalIndex);
-        const newOpened = mergeArrays(opened,currentOpened);
+        let newOpened = mergeArrays(opened,currentOpened);
+        if(openedBySearch.length !== 0) {
+          newOpened = mergeArrays(newOpened,openedBySearch);
+        }
         dispatch(setTaskOpen({globalIndexes: newOpened}));
         dispatch(setTasks({
             tasks: tasks,
