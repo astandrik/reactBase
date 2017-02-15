@@ -345,6 +345,11 @@ function searchGlobalIndexesTreeByName(query, tree) {
   return globalIndexes;
 }
 
+function isFunction(functionToCheck) {
+ var getType = {};
+ return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+}
+
 
 export function loadTree(params, callback) {
   const handler = function (json, dispatch, getState) {
@@ -382,7 +387,7 @@ export function loadTree(params, callback) {
             treeNormalized: tasks.treeNormalized
         }));
       }
-      if(callback) {
+      if(callback && isFunction(callback)) {
         callback();
       }
   }

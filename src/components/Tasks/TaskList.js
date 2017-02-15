@@ -9,6 +9,7 @@ import listGenerator from "../utils/listGenerator";
 import Icon from "../../Icons/Icon";
 import { List } from 'react-virtualized';
 import {rowHeight} from "../../helperFunctions";
+import {debounce} from "../../helperFunctions";
 import ReactTooltip from 'react-tooltip';
 
 const buttonContainerStyles = {
@@ -80,12 +81,16 @@ export default class TaskList extends React.Component {
   constructor(props) {
     super(props);
     this.componentDidUpdate = this.componentDidUpdate.bind(this);
+    this.rebuildToolTips = debounce(this.rebuildToolTips, 400);
   }
   componentDidUpdate() {
     const ref = this.refs.taskTree;
     if(ref) {
       this.props.setClientHeight(ref.clientHeight);
     }
+    ReactTooltip.rebuild();
+  }
+  rebuildToolTips() {
     ReactTooltip.rebuild();
   }
   render() {
@@ -148,7 +153,6 @@ export default class TaskList extends React.Component {
           </div>
         )
       }
-
     let tasksView = (
       <List
      width={500}
@@ -156,6 +160,8 @@ export default class TaskList extends React.Component {
     rowHeight={rowHeight}
     rowCount={taskContainers.length}
     rowRenderer={rowRenderer}
+    overscanRowCount={30}
+    onScroll={this.rebuildToolTips}
     />
     )
     return (
