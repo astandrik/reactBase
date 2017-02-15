@@ -43,8 +43,10 @@ const ImagePanel = ({acceptTrud, returnToTask, status, declineTrud,rights, delet
       </div>
     </div>
     <div style={{width:"1px", borderRight: "1px solid black"}}></div>
-    <div style={{marginLeft:"15px"}} data-tip={rights.delete ? "Удалить" : "Нет прав на удаление"}>
-      <Icon onClick={context.startQuestion.bind(context,"delete")}  className={`clickable-image ellipsis ${(rights.delete ? "" : "disabled")}`} name="rubbish-bin"  />
+    <div data-tip={rights.delete ? "Удалить" : "Нет прав на удаление"}>
+      <div style={{marginLeft:"15px"}} className={(rights.delete ? "" : "disabled")}>
+        <Icon className={`clickable-image ellipsis ${(rights.delete ? "" : "disabled")}`} onClick={context.startQuestion.bind(context,"delete")}   name="rubbish-bin"  />
+      </div>
     </div>
   </div>
 );
