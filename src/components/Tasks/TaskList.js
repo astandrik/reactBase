@@ -69,7 +69,9 @@ const generateTaskContainers = helpers.generateTaskContainers;
 
 function resolveIgnoredTree(task) {
   if(task.children) {
-    task.ignored = task.ignored && task.children.every(x => resolveIgnoredTree(x).ignored);
+    task.children.forEach(x => resolveIgnoredTree(x));
+    const resolvedChildren = task.children.every(x => x.ignored);
+    task.ignored = task.ignored && resolvedChildren;
   }
   return task;
 }

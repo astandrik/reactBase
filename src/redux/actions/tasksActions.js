@@ -302,7 +302,7 @@ export function loadTree(params) {
   const handler = function (json, dispatch, getState) {
       const type = getState().globalTaskType;
       let tasks = new TaskTree(json.data.tree);
-      const currentOpened = getState().openedTasks;
+      const currentOpened = getState().openedTasks;      
       if(type!== "all") {
         const name = typeDict[type];
         const chosenTasks = tasks.tree.filter(x => x.name === name);
