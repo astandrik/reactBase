@@ -65,6 +65,23 @@ export const closeLabor= generateActionFunc(CLOSE_LABOR);
 export const setGlobalTaskType = generateActionFunc(SET_GLOBAL_TASK_TYPE);
 export const setTaskOpen = generateActionFunc(SET_TASK_OPEN);
 
+function searchGlobalIndexesTreeByTaskId(id, tree) {
+  let globalIndexes = [];
+  tree.forEach((x,i) => {
+    if(x.children) {
+      let openedChildren = searchGlobalIndexesTreeByTaskId(id, x.children);
+      if(openedChildren.length !== 0) {
+        globalIndexes = globalIndexes.concat(openedChildren);
+        globalIndexes.push(x.globalIndex);
+      }
+    }
+    if(x.id == id) {
+      globalIndexes.push(x.globalIndex);
+    }
+  });
+  return globalIndexes;
+}
+
 export function setAddingTrudTask(task) {
   return (dispatch, getState) => {
     const user = getState().User.user;
@@ -111,7 +128,20 @@ export function loadTask(obj, callback) {
 
 export function createTask(data) {
     const handler = (json,dispatch, getState) => {
-      dispatch(loadTasks());
+      const callback = () => {
+        const tasks = getState().tasks;
+        if(tasks) {
+          const openIds= searchGlobalIndexesTreeByTaskId(json.data.id, tasks.tree);
+          const currentOpened = getState().openedTasks;
+          let newOpened = mergeArrays(openIds, currentOpened);
+          dispatch(setTaskOpen({globalIndexes:newOpened}));
+        }
+        dispatch(activateTask({taskId: json.data.id}));
+      }
+
+
+
+      dispatch(loadTasks(callback));
       dispatch(reset('newTaskInfoDialogForm'));
       dispatch(loadTask(json.data));
     }
@@ -267,7 +297,7 @@ const typeDict = {
 
 
 
-export function loadTasks() {
+export function loadTasks(callback) {
     return (dispatch, getState) => {
       const params = getState().currentTaskFilters;
       let par = {};
@@ -281,7 +311,7 @@ export function loadTasks() {
           paramArr.push(`${e}=${par[e]}`);
         }
       }
-      dispatch(loadTree(paramArr))
+      dispatch(loadTree(paramArr, callback))
     }
 }
 
@@ -316,7 +346,7 @@ function searchGlobalIndexesTreeByName(query, tree) {
 }
 
 
-export function loadTree(params) {
+export function loadTree(params, callback) {
   const handler = function (json, dispatch, getState) {
       const type = getState().globalTaskType;
       let tasks = new TaskTree(json.data.tree);
@@ -351,6 +381,9 @@ export function loadTree(params) {
             tasks: tasks,
             treeNormalized: tasks.treeNormalized
         }));
+      }
+      if(callback) {
+        callback();
       }
   }
  return fetchAsync(`/data/tree?${params.join("&")}`, handler);
