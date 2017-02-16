@@ -148,8 +148,8 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
           }
           callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
         });
-    }, 500);    
-    if(!labor.id) {
+    }, 500);
+    if(!labor.id && (labor.id!== 0)) {
       return <div/>;
     } else {
       return (

@@ -136,7 +136,7 @@ const  TaskInfoComponent =  class newTaskInfo extends React.Component {
     } else {
       executorsField = (<div  className="executorHeader"><span>Исполнители: </span><div className="executorNames" onClick={this.activateExecutorsField.bind(this)}>{executorNames}</div></div>);
     }
-    if(!task.name) {
+    if(!task.id && (task.id !== 0)) {
       return <div/>;
     } else {
       return (
