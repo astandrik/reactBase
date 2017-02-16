@@ -125,7 +125,7 @@ export const NameField = ({input, placeholder,handleChange}) => {
       return (<input {...input} placeholder= {placeholder ? placeholder : ""}   className="fieldValue standard-field"/>);
     }
 export const DescriptionField = ({input, placeholder,handleChange}) => {
-    return (<textarea  {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    style={{margin:"10px", minHeight:"100px", minWidth:"90%"}}/>);
+    return (<textarea  {...input} onChange={handleChange ? onChangeSubmit(input.onChange, handleChange) : input.onChange}    style={{minHeight:"100px", minWidth:"98%"}}/>);
 }
 
 export const HoursField = ({input, handleChange}) => {

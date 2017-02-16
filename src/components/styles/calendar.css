@@ -14,6 +14,54 @@
     color: #eeeeee;
 }
 
+.calendar-legend {
+  position: absolute;
+  top: 137px;
+  right: 38px;
+}
+
+.calendar-legend span {
+  line-height: 25px;
+  padding: 0 3px;
+}
+
+.calendar-dash{
+      font-size: 20px;
+}
+
+.calendar-day-name {
+  font-size: 12px;
+  line-height: 29px!important;
+}
+
+.single-block > div{
+  outline: 1px solid black;
+}
+
+.single-block {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0;
+}
+
+.holiday-day {
+  height: 30px;
+  width: 30px;
+  background: rgba(255, 192, 203, 0.71);
+}
+
+.short-day {
+  height: 30px;
+  width: 30px;
+  background: rgba(255,255,0,0.6);
+}
+
+.work-day {
+  height: 30px;
+  width: 30px;
+  background-color: white;
+}
+
 .rc-Week-number {
     color: #777777;
     display: inline-block;

@@ -70,7 +70,8 @@ export default class Labors extends React.Component {
       user_id: false,
       type: 1,
       currentType: null,
-      currentPanel: 1
+      currentPanel: 1,
+      currentStatisticsTypeRadio: "diagram"
     }
   }
   loadPie() {
@@ -106,6 +107,24 @@ export default class Labors extends React.Component {
       });
     }
     this.props.radioChanged();
+  }
+  radiogroupStatisticTypeChanged(event, val) {
+    if(val === "diagram") {
+      this.setState({
+        currentStatisticsTypeRadio: "diagram"
+      });
+      this.openTrud.call(this);
+    } else if (val === "histogram") {
+      this.setState({
+        currentStatisticsTypeRadio: "histogram"
+      });
+      this.openTrud.call(this);
+    } else if (val === "normatives") {
+      this.setState({
+        currentStatisticsTypeRadio: "normatives"
+      });
+      this.openNormatives.call(this);
+    }
   }
   handleSelectChange(vals) {
     const user_ids = vals.map(x => x.value);
@@ -194,6 +213,19 @@ export default class Labors extends React.Component {
   endClick() {
     this.refs.end.deferFocusInput();
   }
+  loadCurrentGraph() {
+    switch(this.state.currentStatisticsTypeRadio) {
+      case "diagram":
+        this.loadPie.call(this);
+        break;
+      case "histogram":
+        this.loadHisto.call(this);
+        break;
+      case "normatives":
+        this.loadNormatives.call(this);
+        break;
+    }
+  }
   render () {
   const props = this.props;
   const radio = this.state.currentRadio;
@@ -266,12 +298,6 @@ export default class Labors extends React.Component {
         />
       </RadioButtonGroup>
     );
-    bottomPanelButtons = (
-      <div className="button-statistics-create" flex="1">
-        <FlatButton style={{float:"right"}}  label="Диаграмма" onClick={this.loadPie.bind(this, radio)} />
-        <FlatButton style={{float:"right"}}  label="Гистограмма" onClick={this.loadHisto.bind(this, radio)} />
-      </div>
-    )
   } else {
       secondPanelHeader=  <h3 className="reports-header" style={{margin: "5px 0"}}>Задачи</h3>
       reportSelector = (
@@ -282,11 +308,6 @@ export default class Labors extends React.Component {
             onChange={this.handleTaskSelectChange.bind(this)}
             options={this.props.currentTasks}
         />
-      )
-      bottomPanelButtons = (
-        <div className="button-statistics-create" flex="1">
-          <FlatButton style={{float:"right"}}  label="Построить график" onClick={this.loadNormatives.bind(this, radio)} />
-        </div>
       )
   }
   const period = props.period;
@@ -303,8 +324,21 @@ export default class Labors extends React.Component {
   return (
     <Container vertical={true}>
       <div className="top-statistics-buttons-container">
-           <FlatButton style={{float:"right"}}  label="Нормативы" onClick={this.openNormatives.bind(this)} />
-          <FlatButton style={{float:"right"}}  label="Трудоемкость" onClick={this.openTrud.bind(this)} />
+          <RadioButtonGroup className={"statistics-type-choose-radio "} name="user_type" valueSelected={this.state.currentStatisticsTypeRadio}
+             onChange={this.radiogroupStatisticTypeChanged.bind(this)}>
+            <RadioButton
+              value="diagram"
+              label="Диаграмма"
+            />
+            <RadioButton
+              value="histogram"
+              label="Гистограмма"
+            />
+            <RadioButton
+              value="normatives"
+              label="Нормативы"
+            />
+          </RadioButtonGroup>
       </div>
       <h3 className="reports-header"> Сотрудники</h3>
       <div className="user-report-select" flex="2">
@@ -323,7 +357,9 @@ export default class Labors extends React.Component {
         {reportSelector}
       </div>
       {picker}
-      {bottomPanelButtons}
+      <div className="button-statistics-create" flex="1">
+        <FlatButton style={{float:"right"}}  label="Построить график" onClick={this.loadCurrentGraph.bind(this, radio)} />
+      </div>
     </Container>
     )
   }

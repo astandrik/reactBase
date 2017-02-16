@@ -180,7 +180,7 @@ export default class FinancesList extends React.Component {
           {beingEdited ? <input name="description" value={self.state.description} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.description}</span>}
           {beingEdited  ?
             <div data-tip="Сохранить"><Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/></div>
-            : <div data-tip="Редактировать"><Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/></div>}
+            : <div data-tip="Редактировать" className="pencil-edit"><Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/></div>}
         </div>
       )
     }

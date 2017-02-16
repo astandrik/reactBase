@@ -26,11 +26,10 @@ const tab = class TaskCommentsTab extends React.Component {
               {comments}
             </div>
             <div  className={" comment-send-area " + (props.task.rights.comment ? "" : "disabled")}>
-              <Container className="leaveCommentContainer">
-                <span flex="1" style={{marginLeft:"20px"}}>{props.task.manager}</span>
-                <textarea  flex="3" style={{margin:"10px", minHeight:"100px", minWidth:"90%"}} onChange={this.stopPropagation} ref="commentField" placeholder="Напишите комментарий"/>
+              <Container className="leaveCommentContainer" vertical={true}>
+                  <textarea  flex="3" style={{margin:"5px", minHeight:"70px", minWidth:"98%"}} onChange={this.stopPropagation} ref="commentField" placeholder="Напишите комментарий"/>
+                  <FlatButton onClick={prepareComment} label="Отправить" />
               </Container>
-              <FlatButton onClick={prepareComment} label="Отправить" />
             </div>
           </Container>
       )

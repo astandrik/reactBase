@@ -65,7 +65,7 @@ export default class Labors extends React.Component {
           </div>
       </div>
       <Container vertical={true} flex="6" height="auto" containerStyle={{overflowY: "auto", overflowX: 'hidden', paddingTop: "25px"}}>
-          <h2 flex="1" style={{margin:"5px", marginBottom: "20px"}}>
+          <h2 className="labor-list-header" flex="1" style={{margin:"5px", marginBottom: "20px"}}>
             {task.title}
           </h2>
           <div className="trud">

@@ -16,6 +16,16 @@ import ConfirmModalContainer from "../../containers/ModalContainers/ConfirmModal
 import RightTablePanelContainer from "../../containers/Table/RightTablePanelContainer";
 import ReactTooltip from 'react-tooltip';
 
+var CustomInput = React.createClass({
+  render () {
+    return (
+      <div  onClick={this.props.onClick} className="tableWeekContainer">
+      {this.props.visualized}
+      <img className="tableCalendar" src={calendar} alt="logo" />
+      </div>
+    )
+  }
+});
 
 const datepickerStyles = {
   width: "100%",
@@ -35,9 +45,8 @@ const datePicker = (props, range)=> (
   <div style={datepickerStyles}>
     <img className="clickable-image left" onClick={props.handlePrevWeek.bind(this,props.currentWeek)}  src={left} alt="logo" />
     <div className="dateContainer">
-      <span className="weekVisualiser">{"Неделя " + helpers.getWeek(props.currentWeek) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" }</span>
-      <img className="tableCalendar" src={calendar} alt="logo" />
       <DatePicker
+        customInput={<CustomInput   visualized={<span className="weekVisualiser">{"Неделя " + helpers.getWeek(props.currentWeek) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" }</span>}/>}
         selected={props.currentWeek ? moment(props.currentWeek) : moment(new Date())}
         onChange={props.onDateSelect}
       />

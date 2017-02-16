@@ -130,10 +130,26 @@ tr.unaccepted-task td{
   margin-left: 5px;
 }
 
+.task-table-container .weekVisualiser {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.labor-list-header{
+  border-bottom: 1px black solid;
+}
+
+.tableWeekContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .tableCalendar {
   width: 20px;
   height: 20px;
   margin: 0 5px;
+  cursor: pointer;
 }
 
 .weekVisualiser {

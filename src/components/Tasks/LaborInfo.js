@@ -154,7 +154,7 @@ const  LaborInfoComponent =  class newLaborInfo extends React.Component {
     } else {
       return (
         <form onSubmit={handleSubmit} className={labor.rights.update ? "" : "no-update"} style={{display:"flex", flexDirection:"column", height: "100%"}}>
-          <Container vertical={true}>
+          <Container vertical={true} className="labor-info-container">
             <div className="infoHeader" flex="1">
               <Container style={{justifyContent: "space-between"}}>
                 <div ref="executorsSelect" className="infoHeaderBlock" style={{display: 'flex', justifyContent: "flex-begin"}}>

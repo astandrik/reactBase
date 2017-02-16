@@ -32,7 +32,8 @@ export default class Labor {
     this.status = this.status=== undefined ? "Вычисляется" : this.status;
     this.code = {
         label: json.code.value,
-        value: json.code.id
+        value: json.code.id,
+        description: json.code.description
     };
   }
 }

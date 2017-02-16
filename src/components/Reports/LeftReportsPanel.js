@@ -21,18 +21,28 @@ const datepickerStyles = {
   background: "white"
 }
 
+var CustomInput = React.createClass({
+  render () {
+    return (
+      <div  onClick={this.props.onClick} className="tableWeekContainer">
+      <img className="tableCalendar" src={calendar} alt="logo" />
+      {this.props.visualized}
+      </div>
+    )
+  }
+});
+
+
 
 const datePicker = (props, range, isMonth)=> (
   <div style={datepickerStyles}>
     <img className="clickable-image left" onClick={isMonth ? props.handlePrevMonth.bind(this,props.currentWeek) : props.handlePrevWeek.bind(this,props.currentWeek)}  src={left} alt="logo" />
     <div className="dateContainer">
-      <span className="weekVisualiser">{
+      <DatePicker   customInput={<CustomInput visualized={<span className="weekVisualiser">{
         isMonth ?
         moment(range.first).format("MMMM YYYY").toUpperCase()
         :
-        ("Неделя " + helpers.getWeek(props.currentWeek) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" )}</span>
-      <img className="tableCalendar" src={calendar} alt="logo" />
-      <DatePicker
+        ("Неделя " + helpers.getWeek(props.currentWeek) + " (" + moment(range.first).format("DD MMMM") + " - " + moment(range.last).format("DD MMMM") + ")" )}</span>}/>}
         selected={props.currentWeek ? moment(props.currentWeek) : moment(new Date())}
         onChange={isMonth? props.onDateMonthSelect : props.onDateSelect}
       />

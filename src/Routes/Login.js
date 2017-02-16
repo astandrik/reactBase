@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 const LoginPanel = (props) => {
   return (
       <div className="login-panel">
-        <input className="login-panel-input" value={props.context.login} onChange={props.context.handleLoginChange.bind(props.context)} placeholder="Логин"/>
+        <input onKeyDown={((e) => {if(e.keyCode == 13) props.context.validateLoginData.call(props.context)})} className="login-panel-input" value={props.context.login} onChange={props.context.handleLoginChange.bind(props.context)} placeholder="Логин"/>
         <input onKeyDown={((e) => {if(e.keyCode == 13) props.context.validateLoginData.call(props.context)})} className="login-panel-input" value={props.context.password} onChange={props.context.handlePasswordChange.bind(props.context)} placeholder="Пароль" type="password"/>
         <FlatButton backgroundColor="yellow" onClick={props.context.validateLoginData.bind(props.context)} label="войти" />
       </div>

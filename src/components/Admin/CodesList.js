@@ -188,7 +188,7 @@ export default class CodesList extends React.Component {
           {beingEdited? <input name="week_limit" value={self.state.week_limit} onChange={self.changeState.bind(self)}/> : <span className="taskLabel">{item.week_limit}</span>}
           {beingEdited  ?
             <div data-tip="Сохранить"><Icon name="acceptTrud" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.commitChanges.bind(self, item)}/></div>
-            : <div data-tip="Редактировать"><Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/></div>}
+            : <div className="pencil-edit" data-tip="Редактировать"><Icon name="edit" className={`clickable-image clock ${item.isHeader ? "non-visible" : ""}`} onClick={self.activateCodeEditing.bind(self, item)}/></div>}
         </div>
       )
     }

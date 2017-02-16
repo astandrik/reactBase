@@ -18,6 +18,14 @@
   line-height: 36px!important
 }
 
+.pencil-edit {
+  visibility: hidden;
+}
+
+.single-task:hover .pencil-edit{
+  visibility:visible;
+}
+
 .tasksContainer .ReactVirtualized__Grid  {
   width: 100%!important;
   outline: none!important;

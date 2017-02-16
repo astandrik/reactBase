@@ -7,6 +7,7 @@ import Checkbox from 'material-ui/Checkbox';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import {debounce} from "../../helperFunctions";
 import Select from 'react-select';
+import close from "../../Icons/delete.svg"
 import {
   browserHistory
 } from "react-router";
@@ -194,6 +195,9 @@ const filterModal = class filter extends React.Component {
       className="filter-popover"
       >
       <Container vertical="true" style={{justifyContent: "spaceBetween"}} >
+        <div className="close-container">
+          <img role="presentation" className="clickable-image close-filter-panel" onClick={props.closeModal}  src={close}/>
+        </div>
         <Container className="filter-modal-all-container">
           <div className="filter-modal-container" flex="4">
             <span className="modal-header">Задачи</span>
@@ -216,9 +220,10 @@ const filterModal = class filter extends React.Component {
             {subs_select}
           </div>
         </Container>
-        <div>
-          <FlatButton style={{float:"right"}} className="addTrudButton" label="Сбросить" onClick={this.resetFilters.bind(this, props.currentLocation)} />
-          <FlatButton style={{float:"left"}} className="addTrudButton" label="Применить" onClick={this.applyFilters.bind(this, props.currentLocation)} />
+        <div className="filter-button-container">
+          <FlatButton style={{float:"right"}} className="addTrudButton apply" label="Применить" onClick={this.applyFilters.bind(this, props.currentLocation)} />
+          <FlatButton style={{float:"left"}} className="addTrudButton reset" label="Сбросить" onClick={this.resetFilters.bind(this, props.currentLocation)} />
+
         </div>
       </Container>
       </Popover>

@@ -123,7 +123,8 @@ textarea.fieldValue.taskHeader {
 }
 
 .infoHeaderBlock .datePicker {
-    margin-top: 5px;
+  margin-top: 8px!important;
+  margin-left: 5px;
     border: none;
     border-bottom: 1px solid black;
     outline: none;
@@ -293,12 +294,34 @@ svg.active {
     border-bottom-left-radius: 3px;
 }
 
+.labor-info-container .infoHeader {
+  min-height:50px;
+}
+
+.labor-info-container .infoHeaderBlock img{
+  margin-top: 2px;
+}
+
+
+.labor-info-container textarea[name="comment"] {
+  font-family: serif;
+  font-size: medium;
+  border: none!important;
+}
+
+
+.labor-info-container .infoHeaderBlock .react-datepicker__input-container{
+  margin-top: 8px!important;
+  margin-left: 5px;
+}
+
 .addTrudButtonContainer {
   max-height: 50px;
-  outline: 1px black solid;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+- background-color: #f8f8f9;
 }
 
 .no-update .taskPanel {
