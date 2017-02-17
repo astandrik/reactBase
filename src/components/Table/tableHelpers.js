@@ -173,7 +173,14 @@ function generateTds(number) {
 
 helpers.generateUserReportTable = function(user, dateWords) {
   let rows = [];
-  const daysNumber = user.days.length;
+  const daysNumber = 31;
+  while(user.days.length < 31) {
+    user.days.push({
+      dayType: "",
+      finance: [],
+      hours: 0
+    })
+  }
   let tick = true;
   const totalTableWidth = daysNumber+3 + 9;
   const headerRow = [
@@ -195,8 +202,8 @@ helpers.generateUserReportTable = function(user, dateWords) {
       </th>
     </tr>),
     <tr key="a1" className="noDisplay">
-      {generateThs(totalTableWidth - 7)}
-      <th colSpan={3} key="header-td-5">
+      {generateThs(totalTableWidth - 8)}
+      <th colSpan={4} key="header-td-5">
         Форма по ОКУД
       </th>
       <th colSpan={4} key="header-td-6">
@@ -221,11 +228,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
         Учреждение:
       </th>
       {generateThs(3)}
-      <th colSpan={26}>
+      <th colSpan={25}>
         ФГБУ "НИИ ЦПК имени Ю.А. Гагарина"
       </th>
-      {generateThs(totalTableWidth - 26 - 3 - 3 - 7)}
-      <th colSpan={3} key="header-td-7">
+      {generateThs(totalTableWidth - 25 - 3 - 3 - 8)}
+      <th colSpan={4} key="header-td-7">
         по ОКПО
       </th>
       <th colSpan={4} key="header-td-8">
@@ -236,10 +243,10 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th colSpan={6}>
         Структурное подразделение:
       </th>
-      <th colSpan={26}>
+      <th colSpan={25}>
 
       </th>
-      {generateThs(totalTableWidth - 26 - 3 - 3 -4)}
+      {generateThs(totalTableWidth - 25 - 3 - 3 -4)}
       <th colSpan={4} key="header-td-8">
 
       </th>
@@ -249,11 +256,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
         Вид табеля:
       </th>
       {generateThs(3)}
-      <th colSpan={26}>
+      <th colSpan={25}>
 
       </th>
-      {generateThs(totalTableWidth - 26 - 3 - 3 - 8)}
-      <th colSpan={4} key="header-td-7">
+      {generateThs(totalTableWidth - 25 - 3 - 3 - 9)}
+      <th colSpan={5} key="header-td-7">
         Номер корректировки
       </th>
       <th colSpan={4} key="header-td-8">
@@ -415,7 +422,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
   let firstOtherRow = [
     <tr key="other1" className="noDisplay">
       <td key="executor1" rowSpan="4" colSpan="3">
-
+        Ответственный исполнитель
       </td>
       <td/>
       <td key="executor2" rowSpan="4" colSpan="3">
@@ -429,7 +436,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <td key="executor4" rowSpan="4" colSpan="3">
 
       </td>
-      {generateTds(6)}
+      {generateTds(9)}
       <td key="markBuh" rowSpan="4" colSpan="18">
         Отметка бухгалтерии о принятии настоящего табеля
       </td>
@@ -440,7 +447,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <tr  key="blank89"/>,
     <tr key="other11" className="noDisplay">
       <td key="executor1"  colSpan="3">
-        Ответственный исполнитель
+
       </td>
       <td/>
       <td key="executor2" colSpan="3">
@@ -463,7 +470,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
   let thirdOtherRow = [
     <tr key="other3" className="noDisplay">
       <td key="executor1" rowSpan="3" colSpan="3">
-
+        Исполнитель
       </td>
       <td/>
       <td key="executor2" rowSpan="3" colSpan="3">
@@ -477,9 +484,9 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <td key="executor4" rowSpan="3" colSpan="3">
 
       </td>
-      {generateTds(6)}
+      {generateTds(10)}
       <td key="executor11" rowSpan="3" colSpan="3">
-
+        Исполнитель
       </td>
       <td/>
       <td key="executor21" rowSpan="3" colSpan="3">
@@ -499,7 +506,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
     <tr  key="blank81"/>,
     <tr key="other4" className="noDisplay">
         <td key="executor1" colSpan="3">
-          Исполнитель
+
         </td>
         <td/>
         <td key="executor2" colSpan="3">
@@ -513,9 +520,9 @@ helpers.generateUserReportTable = function(user, dateWords) {
         <td key="executor4"  colSpan="3">
           (расшифровка подписи)
         </td>
-        {generateTds(6)}
+        {generateTds(10)}
       <td key="executor11" colSpan="3">
-        Исполнитель
+
       </td>
       <td/>
       <td key="executor21" colSpan="3">
@@ -539,11 +546,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <td colSpan="10" key="day1">
         {moment().format("DD MM YYYY")}
       </td>
-        {generateTds(11)}
+        {generateTds(15)}
         <td colSpan="10" key="day2">
 
         </td>
-        {generateTds(9)}
+        {generateTds(8)}
     </tr>
   ]
 

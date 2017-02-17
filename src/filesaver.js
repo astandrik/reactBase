@@ -262,7 +262,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(r > data.length - 14 && c > 30) {
         return "7";
       }
-      if((r > data.length - 14 && c <= 3 ) || (r > data.length - 14 && c > 11 && c < 20)) {
+      if((r > data.length - 14 && c > 11 && c < 20)) {
         return "7";
       }
       if((r > data.length - 14)) {
@@ -276,40 +276,43 @@ function sheet_from_array_of_arrays_table(data, opts) {
     }
     const re = 8;
     function borderVal(R,C) {
-      if((R === data.length - 13) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+      if(((R=== 4) || (R===5) || (R===6)) && (C >= 6 && C <= 30)) {
+        return {bottom: {style: "thin"}};
+      }
+      if((R === data.length - 10) && ((C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
         return {top: {style: "medium"}};
       }
-      if((R === data.length - 4) && ((C >=0 && C<3) || (C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
+      if((R === data.length - 4) && ((C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
         return {top: {style: "medium"}};
       }
-      if((R === data.length - 4) && ((C >=21 && C<24) || (C >=25 && C<28) || (C >=29 && C<32) || (C >=33 && C<36))) {
+      if((R === data.length - 4) && ((C >=29 && C<32) || (C >=33 && C<36) || (C >=37 && C<40))) {
         return {top: {style: "medium"}};
       }
       if((R === data.length - 1) &&(C < 10)) {
         return {bottom: {style: "medium"}};
       }
-      if(C === 19 && R === data.length - 14) {
+      if(C === 23 && R === data.length - 14) {
           return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C ==19) {
+      if(R === data.length - 1 && C ==23) {
         return {bottom: {style: "mediumDashed"},left: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C ===39) {
+      if(R === data.length - 1 && C ===42) {
         return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
       }
-      if(C === 39 && R === data.length - 14) {
+      if(C === 42 && R === data.length - 14) {
         return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(C === 19 && R > data.length - 15) {
+      if(C === 23 && R > data.length - 15) {
         return {left: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C > 18) {
+      if(R === data.length - 1 && C > 22) {
         return {bottom: {style: "mediumDashed"}};
       }
-      if(C === 39 && R > data.length - 15) {
+      if(C === 42 && R > data.length - 15) {
         return {right: {style: "mediumDashed"}};
       }
-      if( R === data.length - 14 && C > 18 && C <40) {
+      if( R === data.length - 14 && C > 22 && C <43) {
         return {top: {style: "mediumDashed"}};
       }
       if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 17))) {
@@ -521,10 +524,10 @@ function generateArray(table) {
               if(colspan) {
                 colspan = parseInt(colspan);
                 for(let i = 0; i < colspan;i++) {
-                  wscols.push({wpx : cellValue==="Числа месяца" ? 50: 35})
+                  wscols.push({wpx : cellValue==="Числа месяца" ? 50: 29})
                 }
               } else {
-                  wscols.push({wpx : 35})
+                  wscols.push({wpx : 29})
               }
             }
             //Handle Value
@@ -558,8 +561,9 @@ export function htmlToExcel(tableSelector) {
   /* add worksheet to workbook */
   wb.SheetNames.push(ws_name);
   wb.Sheets[ws_name] = ws;
+  ws['!pageSetup'] ={scale: '100', orientation: 'landscape', paperSize: "2"};
 
-  var wbout = XLSX.write(wb, {bookType:type, bookSST:false, type: 'binary'});
+  var wbout = XLSX.write(wb, {bookType:type, bookSST:false, type: 'binary', view:"pageLayout"});
   var fname = 'Табель.'+moment().format("DD_MM_YYYY_h_mm_ss") + "." + type;
   saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
 }
