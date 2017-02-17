@@ -563,7 +563,7 @@ export function htmlToExcel(tableSelector) {
   wb.Sheets[ws_name] = ws;
   ws['!pageSetup'] ={scale: '100', orientation: 'landscape', paperSize: "2"};
 
-  var wbout = XLSX.write(wb, {bookType:type, bookSST:false, type: 'binary', view:"pageLayout"});
+  var wbout = XLSX.write(wb, {bookType:type, bookSST:false, type: 'binary'});
   var fname = 'Табель.'+moment().format("DD_MM_YYYY_h_mm_ss") + "." + type;
   saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), fname);
 }
