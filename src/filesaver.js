@@ -248,9 +248,11 @@ function sheet_from_array_of_arrays_table(data, opts) {
     const boldBorder = {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}};
     const bottomBorder = {bottom: {style: "thin"}};
     const thickBorder =  {top :{style: "medium"}, bottom: {style: "medium"},left: {style: "medium"}, right: {style: "medium"}};
-    const alignment = function(r) {
-      if(r == 4 || r == 5 || r == 6) {
+    const alignment = function(r,c) {
+      if((r == 4 || r == 5 || r == 6) && c < 36) {
         return "left";
+      } else if((r == 4 || r == 5 || r == 6 || r ==2 || r ==3) && c >= 36) {
+        return "right";
       } else {
         return "center";
       }
@@ -276,46 +278,46 @@ function sheet_from_array_of_arrays_table(data, opts) {
     }
     const re = 8;
     function borderVal(R,C) {
-      if(((R=== 4) || (R===5) || (R===6)) && (C >= 6 && C <= 30)) {
+      if(((R=== 4) || (R===5) || (R===6)) && (C >= 7 && C <= 34)) {
         return {bottom: {style: "thin"}};
       }
-      if((R === data.length - 10) && ((C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
-        return {top: {style: "medium"}};
+      if((R === data.length - 10) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
+        return {top: {style: "thin"}};
       }
-      if((R === data.length - 4) && ((C >=4 && C<7) || (C >=8 && C<11) || (C >=12 && C<15))) {
-        return {top: {style: "medium"}};
+      if((R === data.length - 4) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
+        return {top: {style: "thin"}};
       }
-      if((R === data.length - 4) && ((C >=29 && C<32) || (C >=33 && C<36) || (C >=37 && C<40))) {
-        return {top: {style: "medium"}};
+      if((R === data.length - 4) && ((C >=31 && C<35) || (C >=36 && C<40) || (C >=41 && C<45))) {
+        return {top: {style: "thin"}};
       }
       if((R === data.length - 1) &&(C < 10)) {
-        return {bottom: {style: "medium"}};
+        return {bottom: {style: "thin"}};
       }
-      if(C === 23 && R === data.length - 14) {
+      if(C === 26 && R === data.length - 14) {
           return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C ==23) {
+      if(R === data.length - 1 && C ==26) {
         return {bottom: {style: "mediumDashed"},left: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C ===42) {
+      if(R === data.length - 1 && C ===45) {
         return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
       }
-      if(C === 42 && R === data.length - 14) {
+      if(C === 45 && R === data.length - 14) {
         return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(C === 23 && R > data.length - 15) {
+      if(C === 26 && R > data.length - 15) {
         return {left: {style: "mediumDashed"}};
       }
-      if(R === data.length - 1 && C > 22) {
+      if(R === data.length - 1 && C > 25) {
         return {bottom: {style: "mediumDashed"}};
       }
-      if(C === 42 && R > data.length - 15) {
+      if(C === 45 && R > data.length - 15) {
         return {right: {style: "mediumDashed"}};
       }
-      if( R === data.length - 14 && C > 22 && C <43) {
+      if( R === data.length - 14 && C > 25 && C <46) {
         return {top: {style: "mediumDashed"}};
       }
-      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 17))) {
+      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 16))) {
         return {};
       }
       if(R == re) {
@@ -336,7 +338,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
         for(let i = 0; i < maxLength; i++) {
             var cell = { v: "", t: "s"};
             cell.s = {
-                alignment: { wrapText: true, horizontal: alignment(R) , vertical: "center"},
+                alignment: { wrapText: true, horizontal: alignment(R,i) , vertical: "center"},
                 border:  borderVal(R,i),
                 font: {sz: fntSize(R, i)}
             };
@@ -369,7 +371,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
             else cell.t = 's';
             if(!cell.s) {
               cell.s = {
-                  alignment: { wrapText: true, horizontal:  alignment(R), vertical: "center"},
+                  alignment: { wrapText: true, horizontal:  alignment(R,C), vertical: "center"},
                   border: borderVal(R,C),
                   font: {sz: fntSize(R, C)}
               };
@@ -524,10 +526,10 @@ function generateArray(table) {
               if(colspan) {
                 colspan = parseInt(colspan);
                 for(let i = 0; i < colspan;i++) {
-                  wscols.push({wpx : cellValue==="Числа месяца" ? 50: 29})
+                  wscols.push({wpx : cellValue==="Числа месяца" ? 50: 26})
                 }
               } else {
-                  wscols.push({wpx : 29})
+                  wscols.push({wpx : 26})
               }
             }
             //Handle Value
@@ -558,6 +560,11 @@ export function htmlToExcel(tableSelector) {
   /* add ranges to worksheet */
   ws['!merges'] = ranges;
   ws['!cols'] = width;
+  ws['!rows'] = [];
+  for(var i = 0; i < 1000; i++) {
+    ws['!rows'].push({hpx:25});
+  }
+  ws['!rows'][11]={hpx:35}
   /* add worksheet to workbook */
   wb.SheetNames.push(ws_name);
   wb.Sheets[ws_name] = ws;

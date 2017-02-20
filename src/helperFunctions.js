@@ -91,6 +91,9 @@ export const parseUserReportTable = (data) => {
 	userDict.totalDays = data.total.days;
 	userDict.totalFinance = data.total.finance;
 	userDict.totalHours = data.total.hours;
+	userDict.halfDays = data.half.days;
+	userDict.halfFinance = data.half.finance;
+	userDict.halfHours = data.half.hours;
 	return {user: userDict}
 }
 

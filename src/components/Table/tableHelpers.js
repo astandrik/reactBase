@@ -189,20 +189,20 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th colSpan={totalTableWidth- 4 - 5 - 5} key="header-td">
         Табель №
       </th>
-      {generateThs(8)}
+      {generateThs(11)}
     </tr>),,
     (<tr  key="header-row-2" className="noDisplay noBorder">
       {generateThs(6)}
       <th colSpan={totalTableWidth- 4 - 5 - 5} key="header-td">
         {"учета использования рабочего времени"}
       </th>
-      {generateThs(4)}
+      {generateThs(7)}
       <th colSpan={4} key="header-td-4">
         Коды
       </th>
     </tr>),
     <tr key="a1" className="noDisplay">
-      {generateThs(totalTableWidth - 8)}
+      {generateThs(totalTableWidth - 5)}
       <th colSpan={4} key="header-td-5">
         Форма по ОКУД
       </th>
@@ -211,11 +211,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
       </th>
     </tr>,
     <tr key="a2 noBorder" className="noDisplay">
-      {generateThs(13)}
+      {generateThs(14)}
       <th colSpan={12} key="header-td">
         {"за период " + dateWords}
       </th>
-      {generateThs(totalTableWidth - 20 - 12)}
+      {generateThs(totalTableWidth - 20 - 10)}
       <th colSpan={3} key="header-td-7">
         Дата
       </th>
@@ -227,11 +227,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th  colSpan={3}>
         Учреждение:
       </th>
-      {generateThs(3)}
+      {generateThs(4)}
       <th colSpan={25}>
         ФГБУ "НИИ ЦПК имени Ю.А. Гагарина"
       </th>
-      {generateThs(totalTableWidth - 25 - 3 - 3 - 8)}
+      {generateThs(totalTableWidth - 25 - 3 - 4 - 5)}
       <th colSpan={4} key="header-td-7">
         по ОКПО
       </th>
@@ -240,13 +240,13 @@ helpers.generateUserReportTable = function(user, dateWords) {
       </th>
     </tr>,
     <tr key="a5 noBorder" className="noDisplay" >
-      <th colSpan={6}>
+      <th colSpan={7}>
         Структурное подразделение:
       </th>
       <th colSpan={25}>
 
       </th>
-      {generateThs(totalTableWidth - 25 - 3 - 3 -4)}
+      {generateThs(totalTableWidth - 25 - 3 - 3 -2)}
       <th colSpan={4} key="header-td-8">
 
       </th>
@@ -255,11 +255,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th   colSpan={3}>
         Вид табеля:
       </th>
-      {generateThs(3)}
+      {generateThs(4)}
       <th colSpan={25}>
 
       </th>
-      {generateThs(totalTableWidth - 25 - 3 - 3 - 9)}
+      {generateThs(totalTableWidth - 25 - 3 - 4 - 6)}
       <th colSpan={5} key="header-td-7">
         Номер корректировки
       </th>
@@ -268,11 +268,11 @@ helpers.generateUserReportTable = function(user, dateWords) {
       </th>
     </tr>,
     <tr key="a9" className="noDisplay">
-      {generateThs(13)}
+      {generateThs(14)}
       <th  colSpan={12}>
         (первичный - 0; корректирующий - 1, 2 и т.д.)
       </th>
-      {generateThs(totalTableWidth - 12 - 13 - 10)}
+      {generateThs(totalTableWidth - 12 - 14 - 7)}
       <th colSpan={6} key="header-td-7">
         Дата формирования документа
       </th>
@@ -294,7 +294,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th className="tg-yw4l" colSpan="3" rowSpan="4"  key="position-header">
         Должность (профессия)
       </th>
-      <th className="tg-yw4l" rowSpan="2" colSpan={daysNumber+3}  key="monthDates">
+      <th className="tg-yw4l" rowSpan="2" colSpan={daysNumber+6}  key="monthDates">
         Числа месяца
       </th>
     </tr>),
@@ -304,10 +304,18 @@ helpers.generateUserReportTable = function(user, dateWords) {
   let daysArr = [];
   let dayTypesInfo = [];
   let financeRows = [];
+  let setHalf = false;
   for(let i = 0; i < user.days.length; i++) {
+    if(i+1 === 16 && !setHalf) {
+      setHalf = true;
+      rownumbers.push(<td className="tg-yw4l"  colSpan="3" key={i+3488}>{i+4}</td>);
+      dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty2"></td>);
+      i--;
+      continue;
+    }
     daysArr.push(<td rowSpan="2" className="tg-yw4l" key={`days${i}`}>{i+1}</td>)
     dayTypesInfo.push(<td className="tg-yw4l" key={i+88}>{user.days[i].dayType}</td>);
-    rownumbers.push(<td className="tg-yw4l" key={i+3488}>{i+4}</td>)
+    rownumbers.push(<td className="tg-yw4l" key={setHalf ? i+ 3987 : i+3488}>{(setHalf ? (i+5) : (i+4))}</td>)
   };
   let i = 0;
   let totalFinanceCells = [];
@@ -316,7 +324,15 @@ helpers.generateUserReportTable = function(user, dateWords) {
   for(; i < user.longestFinance; i++) {
       let firstRow = [];
       let secondRow = [];
+      setHalf = false;
       for(let j = 0; j < user.days.length; j++) {
+        if(j+1 == 16 && !setHalf) {
+          firstRow.push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={j+ i +623}></td>);
+          secondRow.push(<td className="tg-yw4l" rowSpan="3"  colSpan="3" key={j+ i + 28}></td>);
+          setHalf = true;
+          j--;
+          continue;
+        }
         if(user.days[i].finance && user.days[j].finance[i]) {
           firstRow.push(<td className="tg-yw4l" rowSpan="3" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
           secondRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
@@ -347,14 +363,16 @@ helpers.generateUserReportTable = function(user, dateWords) {
     if(tick) {
       tick = false;
       if(user.totalFinance[i]) {
-        firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>)
+        firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+        firstRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-12338}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>)
       } else {
         break;
       }
     } else {
       tick = true;
       if(user.totalFinance[i]) {
-        secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>)
+        secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+        secondRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-15222348}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>);
       } else {
         break;
       }
@@ -389,7 +407,14 @@ helpers.generateUserReportTable = function(user, dateWords) {
     <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="number"> {user.number} </td>,
     <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="position"> {user.position} </td>
   ]
+  setHalf = false;
   for(let i = 0; i < user.days.length; i++) {
+    if(i+1 === 16 && !setHalf) {
+        userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo2">{`Ф - ${user.halfDays}/${user.halfHours}`}</td>);
+        i--;
+        setHalf = true;
+        continue;
+    }
     userInfo.push(
       <td className="tg-yw4l"  key={i+43}>{user.days[i].hours}</td>
      )
@@ -404,12 +429,14 @@ helpers.generateUserReportTable = function(user, dateWords) {
   }
   rows.push(
     <tr key="second-row">
-      {daysArr}
+      {daysArr.slice(0,15)}
+      <td rowSpan="2" colSpan="3" className="tg-yw4l"> Итого дней (часов) явок (неявок) с 1 по 15 </td>
+      {daysArr.slice(15)}
       <td rowSpan="2" colSpan="3" className="tg-yw4l"> Всего дней (часов) явок (неявок) </td>
     </tr>
   )
   rows.push(  <tr key="mmm"></tr>)
-  rownumbers.push(<td key="hm" className="tg-yw4l" colSpan="3" >{daysNumber+4}</td>);
+  rownumbers.push(<td key="hm" className="tg-yw4l" colSpan="3" >{daysNumber+5}</td>);
   rows.push(<tr key="numbers-row" >{rownumbers}</tr>);
   dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty"></td>)
 
@@ -421,47 +448,46 @@ helpers.generateUserReportTable = function(user, dateWords) {
 
   let firstOtherRow = [
     <tr key="other1" className="noDisplay">
-      <td key="executor1" rowSpan="4" colSpan="3">
+      <td key="executor1" rowSpan="3" colSpan="4">
         Ответственный исполнитель
       </td>
       <td/>
-      <td key="executor2" rowSpan="4" colSpan="3">
+      <td key="executor2" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor3" rowSpan="4" colSpan="3">
+      <td key="executor3" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor4" rowSpan="4" colSpan="3">
+      <td key="executor4" rowSpan="3" colSpan="4">
 
       </td>
-      {generateTds(9)}
+      {generateTds(8)}
       <td key="markBuh" rowSpan="4" colSpan="18">
         Отметка бухгалтерии о принятии настоящего табеля
       </td>
-      {generateTds(totalTableWidth - 3 * 4 - 3 - 6 - 18 )}
+      {generateTds(totalTableWidth - 3 * 4 - 12 - 18 )}
     </tr>,
     <tr  key="blank73"/>,
     <tr  key="blank83"/>,
-      <tr  key="blank89"/>,
     <tr key="other11" className="noDisplay">
-      <td key="executor1"  colSpan="3">
+      <td key="executor1"  colSpan="4">
 
       </td>
       <td/>
-      <td key="executor2" colSpan="3">
+      <td key="executor2" colSpan="4">
         (должность)
       </td>
       <td/>
-      <td key="executor3" colSpan="3">
+      <td key="executor3" colSpan="4">
         (подпись)
       </td>
       <td/>
-      <td key="executor4"  colSpan="3">
+      <td key="executor4"  colSpan="4">
         (расшифровка подписи)
       </td>
-      {generateTds(totalTableWidth - 3 * 4 - 3)}
+      {generateTds(totalTableWidth - 3 * 4)}
     </tr>,
     <tr  key="blank3" />,
     <tr  key="blank4"/>
@@ -469,74 +495,74 @@ helpers.generateUserReportTable = function(user, dateWords) {
 
   let thirdOtherRow = [
     <tr key="other3" className="noDisplay">
-      <td key="executor1" rowSpan="3" colSpan="3">
+      <td key="executor1" rowSpan="3" colSpan="4">
         Исполнитель
       </td>
       <td/>
-      <td key="executor2" rowSpan="3" colSpan="3">
+      <td key="executor2" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor3" rowSpan="3" colSpan="3">
+      <td key="executor3" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor4" rowSpan="3" colSpan="3">
+      <td key="executor4" rowSpan="3" colSpan="4">
 
       </td>
-      {generateTds(10)}
-      <td key="executor11" rowSpan="3" colSpan="3">
+      {generateTds(7)}
+      <td key="executor11" rowSpan="3" colSpan="4">
         Исполнитель
       </td>
       <td/>
-      <td key="executor21" rowSpan="3" colSpan="3">
+      <td key="executor21" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor31" rowSpan="3" colSpan="3">
+      <td key="executor31" rowSpan="3" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor41" rowSpan="3" colSpan="3">
+      <td key="executor41" rowSpan="3" colSpan="4">
 
       </td>
-      {generateTds(4)}
+      {generateTds(3)}
     </tr>,
     <tr  key="blank71"/>,
     <tr  key="blank81"/>,
     <tr key="other4" className="noDisplay">
-        <td key="executor1" colSpan="3">
+        <td key="executor1" colSpan="4">
 
         </td>
         <td/>
-        <td key="executor2" colSpan="3">
+        <td key="executor2" colSpan="4">
           (должность)
         </td>
         <td/>
-        <td key="executor3" colSpan="3">
+        <td key="executor3" colSpan="4">
           (подпись)
         </td>
         <td/>
-        <td key="executor4"  colSpan="3">
+        <td key="executor4"  colSpan="4">
           (расшифровка подписи)
         </td>
-        {generateTds(10)}
-      <td key="executor11" colSpan="3">
+        {generateTds(7)}
+      <td key="executor11" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor21" colSpan="3">
+      <td key="executor21" colSpan="4">
         (должность)
       </td>
       <td/>
-      <td key="executor31" colSpan="3">
+      <td key="executor31" colSpan="4">
         (подпись)
       </td>
       <td/>
-      <td key="executor41"  colSpan="3">
+      <td key="executor41"  colSpan="4">
         (расшифровка подписи)
       </td>
-      {generateTds(4)}
+      {generateTds(3)}
     </tr>
   ]
 
@@ -546,7 +572,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <td colSpan="10" key="day1">
         {moment().format("DD MM YYYY")}
       </td>
-        {generateTds(15)}
+        {generateTds(18)}
         <td colSpan="10" key="day2">
 
         </td>
