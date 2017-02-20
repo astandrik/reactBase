@@ -248,6 +248,12 @@ function sheet_from_array_of_arrays_table(data, opts) {
     const boldBorder = {top :{style: "thin"}, bottom: {style: "thin"},left: {style: "thin"}, right: {style: "thin"}};
     const bottomBorder = {bottom: {style: "thin"}};
     const thickBorder =  {top :{style: "medium"}, bottom: {style: "medium"},left: {style: "medium"}, right: {style: "medium"}};
+    const valignment = function(r,c) {
+      if((r > data.length - 12) && (c < 4 ) || (r > data.length - 7)) {
+        return "bottom";
+      }
+      return "center";
+    }
     const alignment = function(r,c) {
       if((r == 4 || r == 5 || r == 6) && c < 36) {
         return "left";
@@ -258,16 +264,22 @@ function sheet_from_array_of_arrays_table(data, opts) {
       }
     }
     const fntSize = function(r, c) {
+      if(((r == data.length - 11) || (r == data.length - 10)|| (r == data.length - 9)|| (r == data.length - 8)) && (c > 26 && c <45)) {
+        return "16";
+      }
       if(r === data.length -1) {
         return "14";
       }
-      if(r > data.length - 14 && c > 30) {
+      if(r > data.length - 12 && c > 36) {
         return "7";
       }
-      if((r > data.length - 14 && c > 11 && c < 20)) {
+      if((r > data.length - 12 && c > 11 && c < 20)) {
         return "7";
       }
-      if((r > data.length - 14)) {
+      if((r > data.length - 12) && (c < 4)) {
+        return "11";
+      }
+      if((r > data.length - 12)) {
         return "11";
       }
       if(r < 7) {
@@ -281,7 +293,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(((R=== 4) || (R===5) || (R===6)) && (C >= 7 && C <= 34)) {
         return {bottom: {style: "thin"}};
       }
-      if((R === data.length - 10) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
+      if((R === data.length - 9) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
         return {top: {style: "thin"}};
       }
       if((R === data.length - 4) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
@@ -293,7 +305,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if((R === data.length - 1) &&(C < 10)) {
         return {bottom: {style: "thin"}};
       }
-      if(C === 26 && R === data.length - 14) {
+      if(C === 26 && R === data.length - 11) {
           return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C ==26) {
@@ -302,22 +314,22 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(R === data.length - 1 && C ===45) {
         return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
       }
-      if(C === 45 && R === data.length - 14) {
+      if(C === 45 && R === data.length - 11) {
         return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(C === 26 && R > data.length - 15) {
+      if(C === 26 && R > data.length - 12) {
         return {left: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C > 25) {
         return {bottom: {style: "mediumDashed"}};
       }
-      if(C === 45 && R > data.length - 15) {
+      if(C === 45 && R > data.length - 12) {
         return {right: {style: "mediumDashed"}};
       }
-      if( R === data.length - 14 && C > 25 && C <46) {
+      if( R === data.length - 11 && C > 25 && C <46) {
         return {top: {style: "mediumDashed"}};
       }
-      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 16))) {
+      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 13))) {
         return {};
       }
       if(R == re) {
@@ -338,7 +350,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
         for(let i = 0; i < maxLength; i++) {
             var cell = { v: "", t: "s"};
             cell.s = {
-                alignment: { wrapText: true, horizontal: alignment(R,i) , vertical: "center"},
+                alignment: { wrapText: true, horizontal: alignment(R,i) , vertical: valignment(R,i)},
                 border:  borderVal(R,i),
                 font: {sz: fntSize(R, i)}
             };
@@ -371,7 +383,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
             else cell.t = 's';
             if(!cell.s) {
               cell.s = {
-                  alignment: { wrapText: true, horizontal:  alignment(R,C), vertical: "center"},
+                  alignment: { wrapText: true, horizontal:  alignment(R,C), vertical: valignment(R,C)},
                   border: borderVal(R,C),
                   font: {sz: fntSize(R, C)}
               };
@@ -562,7 +574,7 @@ export function htmlToExcel(tableSelector) {
   ws['!cols'] = width;
   ws['!rows'] = [];
   for(var i = 0; i < 1000; i++) {
-    ws['!rows'].push({hpx:25});
+    ws['!rows'].push({hpx:22});
   }
   ws['!rows'][11]={hpx:35}
   /* add worksheet to workbook */

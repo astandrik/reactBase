@@ -327,18 +327,18 @@ helpers.generateUserReportTable = function(user, dateWords) {
       setHalf = false;
       for(let j = 0; j < user.days.length; j++) {
         if(j+1 == 16 && !setHalf) {
-          firstRow.push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={j+ i +623}></td>);
-          secondRow.push(<td className="tg-yw4l" rowSpan="3"  colSpan="3" key={j+ i + 28}></td>);
+          firstRow.push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={j+ i +623}></td>);
+          secondRow.push(<td className="tg-yw4l" rowSpan="2"  colSpan="3" key={j+ i + 28}></td>);
           setHalf = true;
           j--;
           continue;
         }
         if(user.days[i].finance && user.days[j].finance[i]) {
-          firstRow.push(<td className="tg-yw4l" rowSpan="3" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
-          secondRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
+          firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
+          secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
         } else {
-          firstRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i +158123}></td>)
-          secondRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i + 35128}></td>)
+          firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +158123}></td>)
+          secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i + 35128}></td>)
         }
       }
       firstRows.push(firstRow
@@ -352,8 +352,8 @@ helpers.generateUserReportTable = function(user, dateWords) {
       let firstRow = [];
       let secondRow = [];
       for(let j = 0; j < user.days.length; j++) {
-        firstRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i +158123}></td>)
-        secondRow.push(<td className="tg-yw4l" rowSpan="3" key={j+ i + 35128}></td>)
+        firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +158123}></td>)
+        secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i + 35128}></td>)
       }
       firstRows.push(firstRow
       )
@@ -363,16 +363,16 @@ helpers.generateUserReportTable = function(user, dateWords) {
     if(tick) {
       tick = false;
       if(user.totalFinance[i]) {
-        firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
-        firstRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-12338}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>)
+        firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+        firstRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-12338}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>)
       } else {
         break;
       }
     } else {
       tick = true;
       if(user.totalFinance[i]) {
-        secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
-        secondRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="3" colSpan="3" key={ i-15222348}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>);
+        secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+        secondRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15222348}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>);
       } else {
         break;
       }
@@ -392,16 +392,16 @@ helpers.generateUserReportTable = function(user, dateWords) {
       }
       if(tick) {
         tick = false;
-        firstRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="3" key={i +6575}></td>);
+        firstRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +6575}></td>);
         diff--;
         i--;
       } else {
         tick = true
-        secondRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="3" key={i +13}></td>);
+        secondRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +13}></td>);
       }
     }
   }
-  let totalRowCounter = firstRows.length*3 + secondRows.length*3 + 2;
+  let totalRowCounter = firstRows.length*2 + secondRows.length*2 + 2;
   const userInfo = [
     <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="fio"> {user.name} </td>,
     <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="number"> {user.number} </td>,
@@ -422,9 +422,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
   for(let i = 0; i < firstRows.length; i++) {
     financeRows.push(<tr key ={i+13*76}>{firstRows[i]}</tr>);
     financeRows.push(<tr key={i-115}></tr>)
-    financeRows.push(<tr key={i-2415}></tr>)
     financeRows.push(<tr key ={i*13}>{secondRows[i]}</tr>);
-    financeRows.push(<tr key={i+123215}></tr>)
     financeRows.push(<tr key={i+1232}></tr>)
   }
   rows.push(
@@ -444,23 +442,23 @@ helpers.generateUserReportTable = function(user, dateWords) {
   rows.push(<tr key="row-four">{userInfo}</tr>);
   rows.push(<tr key="row-five">{dayTypesInfo}</tr>);
 
-  let otherRows = [<tr className="noDisplay" key="blank1"/>,<tr className="noDisplay" key="blank2"/>];
+  let otherRows = [<tr className="noDisplay" key="blank1"/>];
 
   let firstOtherRow = [
     <tr key="other1" className="noDisplay">
-      <td key="executor1" rowSpan="3" colSpan="4">
-        Ответственный исполнитель
+      <td key="executor1" rowSpan="2" colSpan="4">
+        Ответственный
       </td>
       <td/>
-      <td key="executor2" rowSpan="3" colSpan="4">
+      <td key="executor2" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor3" rowSpan="3" colSpan="4">
+      <td key="executor3" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor4" rowSpan="3" colSpan="4">
+      <td key="executor4" rowSpan="2" colSpan="4">
 
       </td>
       {generateTds(8)}
@@ -470,10 +468,9 @@ helpers.generateUserReportTable = function(user, dateWords) {
       {generateTds(totalTableWidth - 3 * 4 - 12 - 18 )}
     </tr>,
     <tr  key="blank73"/>,
-    <tr  key="blank83"/>,
     <tr key="other11" className="noDisplay">
       <td key="executor1"  colSpan="4">
-
+      исполнитель
       </td>
       <td/>
       <td key="executor2" colSpan="4">
@@ -490,46 +487,45 @@ helpers.generateUserReportTable = function(user, dateWords) {
       {generateTds(totalTableWidth - 3 * 4)}
     </tr>,
     <tr  key="blank3" />,
-    <tr  key="blank4"/>
+    <tr  key="blank81"/>
   ]
 
   let thirdOtherRow = [
     <tr key="other3" className="noDisplay">
-      <td key="executor1" rowSpan="3" colSpan="4">
+      <td key="executor1" rowSpan="2" colSpan="4">
         Исполнитель
       </td>
       <td/>
-      <td key="executor2" rowSpan="3" colSpan="4">
+      <td key="executor2" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor3" rowSpan="3" colSpan="4">
+      <td key="executor3" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor4" rowSpan="3" colSpan="4">
+      <td key="executor4" rowSpan="2" colSpan="4">
 
       </td>
       {generateTds(7)}
-      <td key="executor11" rowSpan="3" colSpan="4">
+      <td key="executor11" rowSpan="2" colSpan="4">
         Исполнитель
       </td>
       <td/>
-      <td key="executor21" rowSpan="3" colSpan="4">
+      <td key="executor21" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor31" rowSpan="3" colSpan="4">
+      <td key="executor31" rowSpan="2" colSpan="4">
 
       </td>
       <td/>
-      <td key="executor41" rowSpan="3" colSpan="4">
+      <td key="executor41" rowSpan="2" colSpan="4">
 
       </td>
       {generateTds(3)}
     </tr>,
     <tr  key="blank71"/>,
-    <tr  key="blank81"/>,
     <tr key="other4" className="noDisplay">
         <td key="executor1" colSpan="4">
 
