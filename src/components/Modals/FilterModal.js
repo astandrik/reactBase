@@ -140,6 +140,9 @@ const filterModal = class filter extends React.Component {
         });
     }, 500);
     let currentTaskFilters = this.state.currentTaskFilters;
+    if(currentTaskFilters.statuses === undefined) {
+      currentTaskFilters.statuses = this.state.defaultFilters.statuses;
+    }
     if(currentTaskFilters && currentTaskFilters.statuses) {
       if(currentTaskFilters.statuses.join(",") === "0,1,2,3,4") {
         currentTaskFilters.statuses = ["0,1,2,3,4"];

@@ -28,6 +28,7 @@ import {loadCalendar} from "./redux/actions/Admin/calendarActions";
 import {loadFinancesTable} from "./redux/actions/Admin/financesActions";
 import {loadTasks,loadWorkCodes, loadFinances, setGlobalTaskType} from "./redux/actions/tasksActions";
 import {loadTableData, setMonday} from "./redux/actions/tableActions";
+import {loadPeopleTree} from "./redux/actions/subordinateActions";
 import LayoutContainer from "./LayoutContainer";
 
 var loadRepo = {
@@ -52,7 +53,8 @@ var loadRepo = {
   monday: () => store.dispatch(setMonday()),
   setFilters: (filters) => store.dispatch(setFilters({filters})),
   setQuery:(query) => store.dispatch(setQuery({query})),
-  calendar: (year) => store.dispatch(loadCalendar(year))
+  calendar: (year) => store.dispatch(loadCalendar(year)),
+  peopleTree: () => store.dispatch(loadPeopleTree())
 }
 
 browserHistory.listen(function(ev) {

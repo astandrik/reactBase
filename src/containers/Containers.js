@@ -17,7 +17,7 @@ import RightTablePanelContainer from "./Table/RightTablePanelContainer";
 import LaborListContainer from "./Table/LaborListContainer";
 
 import ReportsTableContainer from "./Reports/ReportsTableContainer";
-import SubordinatesTableContainer from "./SubordinatesTableContainer";
+import SubordinatesListContainer from "./SubordinatesListContainer";
 import StatisticsContainer from "./Statistics/StatisticsContainer";
 
 import StateStructureContainer from "./Admin/StateStructureContainer";
@@ -30,5 +30,5 @@ export {SpinnerContainer,ToolbarContainer,LeftNavContainer,
   TaskListContainer, TaskInfoContainer,TaskTrudTabContainer,
   TaskCommentsTabContainer,RightTaskPanelContainer,NewTaskInfoContainer,
   GlobalHeaderContainer,RightPanelContainer, TaskTableContainer,SideBarContainer,
-ReportsTableContainer, SubordinatesTableContainer,StatisticsContainer, StateStructureContainer,
+ReportsTableContainer, SubordinatesListContainer,StatisticsContainer, StateStructureContainer,
 UsersContainer, CodesContainer, FinancesContainer,CalendarContainer};

@@ -45,7 +45,7 @@ function compareFilters(filter1, filter2) {
   if(!filter1.sub_ids || !filter2.sub_ids) {
     return false;
   }
-  if(filter1.statuses.length !== filter2.statuses.length || filter1.sub_ids.length !== filter2.sub_ids.length || filter1.type !== filter2.type
+  if(filter1.statuses.length !== filter2.statuses.length || filter1.sub_ids.length !== filter2.sub_ids.length
   || filter1.all_subordinates !== filter2.all_subordinates) {
     return true;
   }
@@ -66,8 +66,7 @@ const filterNeeded = [
    "Нераспределенные задачи",
   "Мои задачи",
    "Задачи подчинённых",
-   "Все задачи",
-   "Мои сотрудники"
+   "Все задачи"
 ]
 
 export default class GlobalHeader extends React.Component {

@@ -218,13 +218,8 @@ const ReportRoutes = (props) => {
 const SubordinatesRoutes = (props) => {
   const subordinatesEnter = () => {
     props.loadRepo.clearLayout();
-    props.loadRepo.setGlobalTaskType("subordinate");
-    props.loadRepo.tabs([]);
     props.loadRepo.setCurrentTitle("Мои сотрудники");
-    props.loadRepo.tableData();
-    props.loadRepo.workCodes();
-    props.loadRepo.finances();
-    props.loadRepo.subordinates();
+    props.loadRepo.peopleTree();
     const location = browserHistory.getCurrentLocation()
     const query = location.query;
     if(query) {

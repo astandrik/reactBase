@@ -76,7 +76,7 @@ const filtersDict = {
 
 export function setFilters(state = {}, action) {
   switch (action.type) {
-    case SET_GLOBAL_TASK_TYPE:    
+    case SET_GLOBAL_TASK_TYPE:
     if(state.type === undefined) {
       const defFilters = Object.assign({},JSON.parse(JSON.stringify(defaultFilters)),{type: filtersDict[action.routeType].type});
       return defFilters;

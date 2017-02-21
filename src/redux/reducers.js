@@ -13,6 +13,8 @@ import * as financesReducers from "./reducers/Admin/Finances";
 import * as codesReducers from "./reducers/Admin/Codes";
 import * as statisticsReducers from "./reducers/Statistics";
 import * as calendarReducers from "./reducers/Admin/Calendar";
+import * as subordinatesReducers from "./reducers/Subordinates";
+
 import {
     reducer as formReducer
 } from 'redux-form';
@@ -64,7 +66,8 @@ const User = combineReducers({
     user: userReducers.userSet,
     subordinates: userReducers.setSubordinates,
     pingedUser: userReducers.setPingedUser,
-    userType: userReducers.setUserType
+    userType: userReducers.setUserType,
+    peopleTree: subordinatesReducers.setSubordinates
 })
 
 const Statistics = combineReducers({
