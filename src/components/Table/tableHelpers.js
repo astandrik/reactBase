@@ -563,17 +563,30 @@ helpers.generateUserReportTable = function(user, dateWords) {
   ]
 
   let datesOtherRow = [
-    <tr key="blank13"/>,<tr key="blank14"/>,
+    <tr key="blank135"/>,<tr key="blank142"/>,
     <tr key="date1" className="noDisplay">
-      <td colSpan="10" key="day1">
-        {moment().format("DD MM YYYY")}
+      <td colSpan="2" key="day11">
+        "{moment().format("DD")}"
+      </td>
+      <td colSpan="6" key="day12">
+        {moment().format("MM")}
+      </td>
+      <td colSpan="2" key="day13">
+        {moment().format("YYYY")}г.
       </td>
         {generateTds(18)}
-        <td colSpan="10" key="day2">
+        <td colSpan="2" key="day21">
+        "           "
+        </td>
+        <td colSpan="6" key="day22">
+
+        </td>
+        <td colSpan="2" key="day23">
 
         </td>
         {generateTds(8)}
-    </tr>
+    </tr>,
+    <tr key="blank13"/>
   ]
 
   otherRows = otherRows.concat(firstOtherRow).concat(thirdOtherRow);

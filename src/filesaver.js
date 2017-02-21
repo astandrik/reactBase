@@ -249,7 +249,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
     const bottomBorder = {bottom: {style: "thin"}};
     const thickBorder =  {top :{style: "medium"}, bottom: {style: "medium"},left: {style: "medium"}, right: {style: "medium"}};
     const valignment = function(r,c) {
-      if((r > data.length - 12) && (c < 4 ) || (r > data.length - 7)) {
+      if((r > data.length - 13) && (c < 4 ) || (r > data.length - 7)) {
         return "bottom";
       }
       return "center";
@@ -264,23 +264,26 @@ function sheet_from_array_of_arrays_table(data, opts) {
       }
     }
     const fntSize = function(r, c) {
-      if(((r == data.length - 11) || (r == data.length - 10)|| (r == data.length - 9)|| (r == data.length - 8)) && (c > 26 && c <45)) {
+      if(((r == data.length - 12) || (r == data.length - 11)|| (r == data.length - 10)|| (r == data.length - 9)) && (c > 26 && c <45)) {
         return "16";
       }
       if(r === data.length -1) {
         return "14";
       }
-      if(r > data.length - 12 && c > 36) {
+      if(r > data.length - 13 && c > 36) {
         return "7";
       }
-      if((r > data.length - 12 && c > 11 && c < 20)) {
+      if((r > data.length - 13 && c > 11 && c < 20)) {
         return "7";
       }
-      if((r > data.length - 12) && (c < 4)) {
+      if((r > data.length - 13) && (c < 4)) {
         return "11";
       }
-      if((r > data.length - 12)) {
+      if((r > data.length - 13)) {
         return "11";
+      }
+      if(r==0 || r ==1) {
+        return "14";
       }
       if(r < 7) {
         return "11";
@@ -293,19 +296,19 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(((R=== 4) || (R===5) || (R===6)) && (C >= 7 && C <= 34)) {
         return {bottom: {style: "thin"}};
       }
-      if((R === data.length - 9) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
+      if((R === data.length - 10) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
         return {top: {style: "thin"}};
       }
-      if((R === data.length - 4) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
+      if((R === data.length - 5) && ((C >=5 && C<9) || (C >=10 && C<14) || (C >=15 && C<19))) {
         return {top: {style: "thin"}};
       }
-      if((R === data.length - 4) && ((C >=31 && C<35) || (C >=36 && C<40) || (C >=41 && C<45))) {
+      if((R === data.length - 5) && ((C >=31 && C<35) || (C >=36 && C<40) || (C >=41 && C<45))) {
         return {top: {style: "thin"}};
       }
-      if((R === data.length - 1) &&(C < 10)) {
+      if((R === data.length - 2) &&((C < 10) || (C > 27 && C <36))) {
         return {bottom: {style: "thin"}};
       }
-      if(C === 26 && R === data.length - 11) {
+      if(C === 26 && R === data.length - 12) {
           return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C ==26) {
@@ -314,22 +317,22 @@ function sheet_from_array_of_arrays_table(data, opts) {
       if(R === data.length - 1 && C ===45) {
         return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
       }
-      if(C === 45 && R === data.length - 11) {
+      if(C === 45 && R === data.length - 12) {
         return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
       }
-      if(C === 26 && R > data.length - 12) {
+      if(C === 26 && R > data.length - 13) {
         return {left: {style: "mediumDashed"}};
       }
       if(R === data.length - 1 && C > 25) {
         return {bottom: {style: "mediumDashed"}};
       }
-      if(C === 45 && R > data.length - 12) {
+      if(C === 45 && R > data.length - 13) {
         return {right: {style: "mediumDashed"}};
       }
-      if( R === data.length - 11 && C > 25 && C <46) {
+      if( R === data.length - 12 && C > 25 && C <46) {
         return {top: {style: "mediumDashed"}};
       }
-      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 13))) {
+      if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 14))) {
         return {};
       }
       if(R == re) {
