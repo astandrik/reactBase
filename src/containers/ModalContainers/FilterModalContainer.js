@@ -33,7 +33,6 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(setFilters({filters: filt}));
         if(~currentLocation.indexOf("tasks")) {
           dispatch(loadTableData());
-        } else if (~currentLocation.indexOf("list")) {
           dispatch(loadTasks());
         }
       }
