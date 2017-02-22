@@ -18,7 +18,7 @@ const TaskRoutes = (props) => {
   };
   const mainTasksEnter = (ev) => {
     props.loadRepo.clearLayout();
-    const location = browserHistory.getCurrentLocation()
+    const location = browserHistory.getCurrentLocation();
     if(location.pathname.split("/").length === 3) {
       browserHistory.push(location.pathname + "/table");
       return;
