@@ -7,7 +7,7 @@ import {Statistics} from "./Statistics"
 import {StateStructureList,UsersList,CodesList, FinancesList, Calendar} from "./Admin";
 import Login from "./Login";
 import React from 'react';
-import { Route, browserHistory } from 'react-router';
+import { Route, browserHistory, Redirect} from 'react-router';
 
 const TaskRoutes = (props) => {
   const taskEnter = () => {
@@ -18,13 +18,17 @@ const TaskRoutes = (props) => {
   };
   const mainTasksEnter = (ev) => {
     props.loadRepo.clearLayout();
+    const location = browserHistory.getCurrentLocation()
+    if(location.pathname.split("/").length === 3) {
+      browserHistory.push(location.pathname + "/table");
+      return;
+    }
     props.loadRepo.workCodes();
     props.loadRepo.finances();
     props.loadRepo.monday();
     props.loadRepo.subordinates();
     const type = ev.params.type;
     props.loadRepo.setGlobalTaskType(type);
-    const location = browserHistory.getCurrentLocation()
     const query = location.query;
     if(query) {
       let obj = {};

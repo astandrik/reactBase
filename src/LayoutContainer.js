@@ -13,10 +13,10 @@ const RouterCreator = function(name, to, fake, userType = 0) {
 }
 
 const sidenavRoutes = [
-  {name: "Все задачи", to:"/tasks/all/table",
-  children:[RouterCreator("Мои задачи", "/tasks/my/table"),
-  RouterCreator("Нераспределенные задачи", "/tasks/nonDistributed/table")
-  ,RouterCreator("Задачи подчиненных", "/tasks/subordinate/table",false, 1)]
+  {name: "Все задачи", to:"/tasks/all",
+  children:[RouterCreator("Мои задачи", "/tasks/my"),
+  RouterCreator("Нераспределенные задачи", "/tasks/nonDistributed")
+  ,RouterCreator("Задачи подчиненных", "/tasks/subordinate",false, 1)]
   },
   RouterCreator("Мои сотрудники", '/subordinates',false, 1),
   RouterCreator("Мои отчеты", '/reports'),

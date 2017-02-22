@@ -14,7 +14,8 @@ const mapStateToProps = (state,ownProps) => {
     peopleTree: state.User.peopleTree,
     activeIndexes: state.activeIndexes,
     openedTasks: state.openedTasks,
-    clientHeight: state.clientHeight
+    clientHeight: state.clientHeight,
+    user: state.User.user
   }
 }
 
