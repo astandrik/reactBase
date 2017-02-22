@@ -46,7 +46,7 @@ function compareFilters(filter1, filter2) {
     return false;
   }
   if(filter1.statuses.length !== filter2.statuses.length || filter1.sub_ids.length !== filter2.sub_ids.length
-  || filter1.all_subordinates !== filter2.all_subordinates) {
+  || filter1.all_subs !== filter2.all_subs) {
     return true;
   }
   for(let i = 0; i < filter1.statuses.length; i++) {

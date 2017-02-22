@@ -21,7 +21,8 @@ const mapStateToProps = (state, ownProps) => {
       currentTaskFilters: state.currentTaskFilters,
       executors: state.User.subordinates,
       defaultFilters: state.defaultFilters,
-      currentLocation: state.currentLocation
+      currentLocation: state.currentLocation,
+      location: state.currentLocation
     }
 }
 
@@ -30,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       applyFilters:(filters, currentLocation) => {
         const filt = {sub_ids: filters.sub_ids, statuses: filters.statuses, all_subs: filters.all_subs};
         dispatch(setFilters({filters: filt}));
-        if(~currentLocation.indexOf("table") || ~currentLocation.indexOf("subordinates")) {
+        if(~currentLocation.indexOf("tasks")) {
           dispatch(loadTableData());
         } else if (~currentLocation.indexOf("list")) {
           dispatch(loadTasks());

@@ -7,7 +7,7 @@ import {Statistics} from "./Statistics"
 import {StateStructureList,UsersList,CodesList, FinancesList, Calendar} from "./Admin";
 import Login from "./Login";
 import React from 'react';
-import { Route, browserHistory, Redirect} from 'react-router';
+import { Route, browserHistory, Redirect, IndexRoute} from 'react-router';
 
 const TaskRoutes = (props) => {
   const taskEnter = () => {
@@ -19,10 +19,6 @@ const TaskRoutes = (props) => {
   const mainTasksEnter = (ev) => {
     props.loadRepo.clearLayout();
     const location = browserHistory.getCurrentLocation();
-    if(location.pathname.split("/").length === 3) {
-      browserHistory.push(location.pathname + "/table");
-      return;
-    }
     props.loadRepo.workCodes();
     props.loadRepo.finances();
     props.loadRepo.monday();
@@ -46,6 +42,7 @@ const TaskRoutes = (props) => {
   }
   return (
   <Route path="tasks/:type" loadRepo={props.loadRepo} component={Tasks} onEnter={mainTasksEnter}>
+    <IndexRoute onEnter={tableEnter} component={TasksTable} />
     <Route path="list" onEnter={taskEnter} component={TaskList}/>
     <Route path="table" onEnter={tableEnter} component={TasksTable}/>
   </Route>

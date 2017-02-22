@@ -27,14 +27,17 @@ const filterModal = class filter extends React.Component {
     const filters = props.currentTaskFilters;
     this.state = {
       currentTaskFilters: filters,
-      defaultFilters: props.defaultFilters
+      defaultFilters: props.defaultFilters,
+      location: "",
+      newFilters: false
     }
   }
   resetFilters(location) {
     const newFilters = copyFilters(this.props.defaultFilters);
     this.setState({
       currentTaskFilters: newFilters,
-      selectedUsers: []
+      selectedUsers: [],
+      newFilters: false
     });
     this.applyFilters(location, newFilters);
   }
@@ -54,12 +57,14 @@ const filterModal = class filter extends React.Component {
         newFilters.statuses.push(elem.value);
       }
       this.setState({
-        currentTaskFilters: newFilters
+        currentTaskFilters: newFilters,
+        newFilters: false
       });
     } else {
       newFilters.statuses.splice(newFilters.statuses.indexOf(elem.value),1);
       this.setState({
-        currentTaskFilters: newFilters
+        currentTaskFilters: newFilters,
+        newFilters: false
       });
     }
   }
@@ -68,13 +73,15 @@ const filterModal = class filter extends React.Component {
       let newFilters = this.state.currentTaskFilters;
       newFilters.all_subs = 1;
       this.setState({
-        currentTaskFilters: newFilters
+        currentTaskFilters: newFilters,
+        newFilters: false
       })
     } else {
       let newFilters = this.state.currentTaskFilters;
       newFilters.all_subs = 0;
       this.setState({
-        currentTaskFilters: newFilters
+        currentTaskFilters: newFilters,
+        newFilters: false
       })
     }
   }
@@ -83,7 +90,8 @@ const filterModal = class filter extends React.Component {
     newFilters.sub_ids = vals.map(x => x.value);
     this.setState({
         selectedUsers: vals,
-        currentTaskFilters: newFilters
+        currentTaskFilters: newFilters,
+        newFilters: false
     })
   }
   applyFilters(currentLocation, filters) {
@@ -115,6 +123,13 @@ const filterModal = class filter extends React.Component {
     const location = browserHistory.getCurrentLocation().pathname;
     browserHistory.push({pathname: location, query: {...queryFilter}});
   }
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.location !== this.state.location) {
+      this.setState({
+        newFilters: true
+      })
+    }
+  }
   render() {
     const props = this.props;
     const checkBoxValues = props.filterValues;
@@ -139,7 +154,12 @@ const filterModal = class filter extends React.Component {
           callback(null,{ options: json.data.users.map(x => ({value: x.id, label: x.name})) });
         });
     }, 500);
-    let currentTaskFilters = this.state.currentTaskFilters;
+    let currentTaskFilters = {};
+    if(this.state.newFilters) {
+        currentTaskFilters = this.props.currentTaskFilters;
+    } else {
+        currentTaskFilters = this.state.currentTaskFilters;
+    }
     if(currentTaskFilters.statuses === undefined) {
       currentTaskFilters.statuses = this.state.defaultFilters.statuses;
     }

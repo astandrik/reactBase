@@ -96,7 +96,7 @@ export default class TaskList extends React.Component {
            <span className="taskLabel">{item.name}</span>
             <span className="taskLabel">{item.position}</span>
              <span className="taskLabel">{item.department}</span>
-            <Link to={props.user.id === item.id ? "/tasks/my/table?all_subs=1&statuses=0,1,2,3,4" : ("/tasks/subordinate/table?all_subs=1&statuses=0,1,2,3,4&sub_ids=" + item.id)} data-tip="Открыть задачи пользователя"><Icon name="briefcase" className="clickable-image next " src={briefcase} /></Link>
+            <Link to={props.user.id === item.id ? ("/tasks/my/table?all_subs=1&statuses=0,1,2,3,4&sub_ids=" + item.id) : ("/tasks/subordinate/table?all_subs=1&statuses=0,1,2,3,4&sub_ids=" + item.id)} data-tip="Открыть задачи пользователя"><Icon name="briefcase" className="clickable-image next " src={briefcase} /></Link>
             <img role="presentation"  className={"clickable-image next " + (item.opened? 'opened' : 'closed') +
               (item.children.length ? " visible" : " non-visible")} onClick={props.toggleTaskOpen.bind(this,item)}  src={next}/>
         </div>
