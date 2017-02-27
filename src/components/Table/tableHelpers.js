@@ -272,8 +272,8 @@ helpers.generateUserReportTable = function(user, dateWords) {
       <th  colSpan={12}>
         (первичный - 0; корректирующий - 1, 2 и т.д.)
       </th>
-      {generateThs(totalTableWidth - 12 - 14 - 7)}
-      <th colSpan={6} key="header-td-7">
+      {generateThs(totalTableWidth - 12 - 14 - 8)}
+      <th colSpan={7} key="header-td-7">
         Дата формирования документа
       </th>
       <th colSpan={4} key="header-td-8">

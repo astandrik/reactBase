@@ -257,7 +257,7 @@ function sheet_from_array_of_arrays_table(data, opts) {
     const alignment = function(r,c) {
       if((r == 4 || r == 5 || r == 6) && c < 36) {
         return "left";
-      } else if((r == 4 || r == 5 || r == 6 || r ==2 || r ==3) && c >= 36) {
+      } else if((r == 4 || r == 5 || r == 6 || r ==2 || r ==3 || r== 7) && c >= 35 && c <=39) {
         return "right";
       } else {
         return "center";
@@ -284,6 +284,9 @@ function sheet_from_array_of_arrays_table(data, opts) {
       }
       if(r==0 || r ==1) {
         return "14";
+      }
+      if(r==7 && c >= 35 && c <=39) {
+          return "11";
       }
       if(r < 7) {
         return "11";
