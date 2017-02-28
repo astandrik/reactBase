@@ -34,7 +34,7 @@ export default class RightTaskPanel extends React.Component {
       if(props.reportsTable.user && props.reportsTable.user.days.length) {
         let range = getDateMonthRange(currentWeek);
         const dateRangeWords = "c " + moment(range.first).format("DD") + " по " + moment(range.last).format("DD MMMM") + " " +  moment(range.last).format("YYYY") + "г";
-        let table = thelpers.generateUserReportTable(props.reportsTable.user, dateRangeWords);
+        let table = thelpers.generateUserReportTable([props.reportsTable.user,props.reportsTable.user,props.reportsTable.user], dateRangeWords);
         return (
           <Container vertical={true}>
             <div flex="1" className="reportHeaderContainer">

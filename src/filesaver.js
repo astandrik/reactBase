@@ -312,28 +312,28 @@ function sheet_from_array_of_arrays_table(data, opts) {
         return {bottom: {style: "thin"}};
       }
       if(C === 26 && R === data.length - 12) {
-          return {left: {style: "mediumDashed"},top: {style: "mediumDashed"}};
+          return {left: {style: "mediumDashDot"},top: {style: "mediumDashDot"}};
       }
       if(R === data.length - 1 && C ==26) {
-        return {bottom: {style: "mediumDashed"},left: {style: "mediumDashed"}};
+        return {bottom: {style: "mediumDashDot"},left: {style: "mediumDashDot"}};
       }
       if(R === data.length - 1 && C ===45) {
-        return {bottom: {style: "mediumDashed"},right: {style: "mediumDashed"}};
+        return {bottom: {style: "mediumDashDot"},right: {style: "mediumDashDot"}};
       }
       if(C === 45 && R === data.length - 12) {
-        return {right: {style: "mediumDashed"},top: {style: "mediumDashed"}};
+        return {right: {style: "mediumDashDot"},top: {style: "mediumDashDot"}};
       }
       if(C === 26 && R > data.length - 13) {
-        return {left: {style: "mediumDashed"}};
+        return {left: {style: "mediumDashDot"}};
       }
       if(R === data.length - 1 && C > 25) {
-        return {bottom: {style: "mediumDashed"}};
+        return {bottom: {style: "mediumDashDot"}};
       }
       if(C === 45 && R > data.length - 13) {
-        return {right: {style: "mediumDashed"}};
+        return {right: {style: "mediumDashDot"}};
       }
       if( R === data.length - 12 && C > 25 && C <46) {
-        return {top: {style: "mediumDashed"}};
+        return {top: {style: "mediumDashDot"}};
       }
       if(((R < re) && C < (maxLength-4) ) || (R == 0) || (R > (data.length - 14))) {
         return {};

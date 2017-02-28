@@ -171,9 +171,10 @@ function generateTds(number) {
   return ths;
 }
 
-helpers.generateUserReportTable = function(user, dateWords) {
+helpers.generateUserReportTable = function(users, dateWords) {
   let rows = [];
   const daysNumber = 31;
+  let user = users[0];
   while(user.days.length < 31) {
     user.days.push({
       dayType: "",
@@ -181,7 +182,6 @@ helpers.generateUserReportTable = function(user, dateWords) {
       hours: 0
     })
   }
-  let tick = true;
   const totalTableWidth = daysNumber+3 + 9;
   const headerRow = [
     (<tr   key="header-row" className="noDisplay noBorder">
@@ -300,147 +300,164 @@ helpers.generateUserReportTable = function(user, dateWords) {
     </tr>),
     <tr key="3422">
     </tr>]);
-  let rownumbers = [<td className="tg-yw4l" colSpan="3" key="1" >1</td>,<td className="tg-yw4l" colSpan="3" key="2">2</td>,<td className="tg-yw4l" colSpan="3" key="3">3</td>];
-  let daysArr = [];
-  let dayTypesInfo = [];
-  let financeRows = [];
   let setHalf = false;
-  for(let i = 0; i < user.days.length; i++) {
-    if(i+1 === 16 && !setHalf) {
-      setHalf = true;
-      rownumbers.push(<td className="tg-yw4l"  colSpan="3" key={i+3488}>{i+4}</td>);
-      dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty2"></td>);
-      i--;
-      continue;
+  let daysArr = [];
+  let rownumbers = [<td className="tg-yw4l" colSpan="3" key="1" >1</td>,<td className="tg-yw4l" colSpan="3" key="2">2</td>,<td className="tg-yw4l" colSpan="3" key="3">3</td>];
+    for(let i = 0; i < user.days.length; i++) {
+      if(i+1 === 16 && !setHalf) {
+        setHalf = true;
+        rownumbers.push(<td className="tg-yw4l"  colSpan="3" key={i+3488}>{i+4}</td>);
+        i--;
+        continue;
+      }
+      rownumbers.push(<td className="tg-yw4l" key={setHalf ? i+ 3987 : i+3488}>{(setHalf ? (i+5) : (i+4))}</td>);
+      daysArr.push(<td rowSpan="2" className="tg-yw4l" key={`days${i}`}>{i+1}</td>);
     }
-    daysArr.push(<td rowSpan="2" className="tg-yw4l" key={`days${i}`}>{i+1}</td>)
-    dayTypesInfo.push(<td className="tg-yw4l" key={i+88}>{user.days[i].dayType}</td>);
-    rownumbers.push(<td className="tg-yw4l" key={setHalf ? i+ 3987 : i+3488}>{(setHalf ? (i+5) : (i+4))}</td>)
-  };
-  let i = 0;
-  let totalFinanceCells = [];
-  let firstRows = [];
-  let secondRows = [];
-  for(; i < user.longestFinance; i++) {
-      let firstRow = [];
-      let secondRow = [];
-      setHalf = false;
-      for(let j = 0; j < user.days.length; j++) {
-        if(j+1 == 16 && !setHalf) {
-          firstRow.push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={j+ i +623}></td>);
-          secondRow.push(<td className="tg-yw4l" rowSpan="2"  colSpan="3" key={j+ i + 28}></td>);
-          setHalf = true;
-          j--;
-          continue;
+    rownumbers.push(<td key={"hm"} className="tg-yw4l" colSpan="3" >{daysNumber+5}</td>);
+    let dayTypesInfo = [];
+    let financeRows = [];
+    rows.push(
+      <tr key={"second-row" + ind}>
+        {daysArr.slice(0,15)}
+        <td rowSpan="2" colSpan="3" className="tg-yw4l"> Итого дней (часов) явок (неявок) с 1 по 15 </td>
+        {daysArr.slice(15)}
+        <td rowSpan="2" colSpan="3" className="tg-yw4l"> Всего дней (часов) явок (неявок) </td>
+      </tr>
+    )
+  for(var ind = 0; ind < users.length; ind++) {
+    let tick = true;
+    let user = users[ind];
+    let daysArr = [];
+    let dayTypesInfo = [];
+    let financeRows = [];
+    let setHalf = false;
+    for(let i = 0; i < user.days.length; i++) {
+      if(i+1 === 16 && !setHalf) {
+        setHalf = true;
+        dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty2"></td>);
+        i--;
+        continue;
+      }
+      dayTypesInfo.push(<td className="tg-yw4l" key={i+88}>{user.days[i].dayType}</td>);
+    };
+    let i = 0;
+    let totalFinanceCells = [];
+    let firstRows = [];
+    let secondRows = [];
+    for(; i < user.longestFinance; i++) {
+        let firstRow = [];
+        let secondRow = [];
+        setHalf = false;
+        for(let j = 0; j < user.days.length; j++) {
+          if(j+1 == 16 && !setHalf) {
+            firstRow.push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={j+ i +623}></td>);
+            secondRow.push(<td className="tg-yw4l" rowSpan="2"  colSpan="3" key={j+ i + 28}></td>);
+            setHalf = true;
+            j--;
+            continue;
+          }
+          if(user.days[i].finance && user.days[j].finance[i]) {
+            firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
+            secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
+          } else {
+            firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +158123}></td>)
+            secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i + 35128}></td>)
+          }
         }
-        if(user.days[i].finance && user.days[j].finance[i]) {
-          firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j + i+15228}>{user.days[j].finance[i].hours}</td>)
-          secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +323458}>{user.days[j].finance[i].name}</td>)
-        } else {
+        firstRows.push(firstRow
+        )
+        secondRows.push(secondRow
+        )
+    }
+    let globalCounter = 0;
+    for(let i = 0; i < user.totalFinance.length; i++) {
+      if(!firstRows[globalCounter]) {
+        let firstRow = [];
+        let secondRow = [];
+        for(let j = 0; j < user.days.length; j++) {
           firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +158123}></td>)
           secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i + 35128}></td>)
         }
-      }
-      firstRows.push(firstRow
-      )
-      secondRows.push(secondRow
-      )
-  }
-  let globalCounter = 0;
-  for(let i = 0; i < user.totalFinance.length; i++) {
-    if(!firstRows[globalCounter]) {
-      let firstRow = [];
-      let secondRow = [];
-      for(let j = 0; j < user.days.length; j++) {
-        firstRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i +158123}></td>)
-        secondRow.push(<td className="tg-yw4l" rowSpan="2" key={j+ i + 35128}></td>)
-      }
-      firstRows.push(firstRow
-      )
-      secondRows.push(secondRow
-      )
-    }
-    if(tick) {
-      tick = false;
-      if(user.totalFinance[i]) {
-        firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
-        firstRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-12338}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>)
-      } else {
-        break;
-      }
-    } else {
-      tick = true;
-      if(user.totalFinance[i]) {
-        secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
-        secondRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15222348}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>);
-      } else {
-        break;
-      }
-      globalCounter++;
-    }
-  }
-  let counter = globalCounter;
-  let rowLen = (firstRows.length);
-  tick = false;
-  let diff = rowLen - counter;
-  if(diff > 0) {
-    let i = secondRows.length - 1;
-    while(diff) {
-      if(tick && user.totalFinance.length %2 && !(diff-1)) {
-        diff--;
-        continue;
+        firstRows.push(firstRow
+        )
+        secondRows.push(secondRow
+        )
       }
       if(tick) {
         tick = false;
-        firstRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +6575}></td>);
-        diff--;
-        i--;
+        if(user.totalFinance[i]) {
+          firstRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-128}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+          firstRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-12338}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>)
+        } else {
+          break;
+        }
       } else {
-        tick = true
-        secondRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +13}></td>);
+        tick = true;
+        if(user.totalFinance[i]) {
+          secondRows[globalCounter].push(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15228}>{user.totalFinance[i].value} - {`${user.totalFinance[i].days}/${user.totalFinance[i].hours}`}</td>);
+          secondRows[globalCounter][15]=(<td className="tg-yw4l" rowSpan="2" colSpan="3" key={ i-15222348}>{user.halfFinance[i].value} - {`${user.halfFinance[i].days}/${user.halfFinance[i].hours}`}</td>);
+        } else {
+          break;
+        }
+        globalCounter++;
       }
     }
-  }
-  let totalRowCounter = firstRows.length*2 + secondRows.length*2 + 2;
-  const userInfo = [
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="fio"> {user.name} </td>,
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="number"> {user.number} </td>,
-    <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="position"> {user.position} </td>
-  ]
-  setHalf = false;
-  for(let i = 0; i < user.days.length; i++) {
-    if(i+1 === 16 && !setHalf) {
-        userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo2">{`Ф - ${user.halfDays}/${user.halfHours}`}</td>);
-        i--;
-        setHalf = true;
-        continue;
+    let counter = globalCounter;
+    let rowLen = (firstRows.length);
+    tick = false;
+    let diff = rowLen - counter;
+    if(diff > 0) {
+      let i = secondRows.length - 1;
+      while(diff) {
+        if(tick && user.totalFinance.length %2 && !(diff-1)) {
+          diff--;
+          continue;
+        }
+        if(tick) {
+          tick = false;
+          firstRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +6575}></td>);
+          diff--;
+          i--;
+        } else {
+          tick = true
+          secondRows[i].push(<td className="tg-yw4l" colSpan="3" rowSpan="2" key={i +13}></td>);
+        }
+      }
     }
-    userInfo.push(
-      <td className="tg-yw4l"  key={i+43}>{user.days[i].hours}</td>
-     )
+    let totalRowCounter = firstRows.length*2 + secondRows.length*2 + 2;
+    const userInfo = [
+      <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="fio"> {user.name} </td>,
+      <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="number"> {user.number} </td>,
+      <td className="tg-yw4l" rowSpan={totalRowCounter} colSpan="3" key="position"> {user.position} </td>
+    ]
+    setHalf = false;
+    for(let i = 0; i < user.days.length; i++) {
+      if(i+1 === 16 && !setHalf) {
+          userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo2">{`Ф - ${user.halfDays}/${user.halfHours}`}</td>);
+          i--;
+          setHalf = true;
+          continue;
+      }
+      userInfo.push(
+        <td className="tg-yw4l"  key={i+43}>{user.days[i].hours}</td>
+       )
+    }
+    for(let i = 0; i < firstRows.length; i++) {
+      financeRows.push(<tr key ={i+13*76 * (ind+1)}>{firstRows[i]}</tr>);
+      financeRows.push(<tr key={i-(115)*(ind+1)}></tr>)
+      financeRows.push(<tr key ={i + (i+1)*(ind+1)*13}>{secondRows[i]}</tr>);
+      financeRows.push(<tr key={i+1232*(ind+1)}></tr>);
+    }
+    if(ind==0) {
+      rows.push(  <tr key={"mmm" + ind}></tr>)
+      rows.push(<tr key={"numbers-row"+ind} >{rownumbers}</tr>);
+    }
+    dayTypesInfo.push(<td className="tg-yw4l empt" colSpan="3" key="empty"></td>)
+    userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo">{`Ф - ${user.totalDays}/${user.totalHours}`}</td>);
+    rows.push(<tr key={"row-four" + ind}>{userInfo}</tr>);
+    rows.push(<tr key={"row-five" + ind}>{dayTypesInfo}</tr>);
+    rows = rows.concat(financeRows)
   }
-  for(let i = 0; i < firstRows.length; i++) {
-    financeRows.push(<tr key ={i+13*76}>{firstRows[i]}</tr>);
-    financeRows.push(<tr key={i-115}></tr>)
-    financeRows.push(<tr key ={i*13}>{secondRows[i]}</tr>);
-    financeRows.push(<tr key={i+1232}></tr>)
-  }
-  rows.push(
-    <tr key="second-row">
-      {daysArr.slice(0,15)}
-      <td rowSpan="2" colSpan="3" className="tg-yw4l"> Итого дней (часов) явок (неявок) с 1 по 15 </td>
-      {daysArr.slice(15)}
-      <td rowSpan="2" colSpan="3" className="tg-yw4l"> Всего дней (часов) явок (неявок) </td>
-    </tr>
-  )
-  rows.push(  <tr key="mmm"></tr>)
-  rownumbers.push(<td key="hm" className="tg-yw4l" colSpan="3" >{daysNumber+5}</td>);
-  rows.push(<tr key="numbers-row" >{rownumbers}</tr>);
-  dayTypesInfo.push(<td className="tg-yw4l" colSpan="3" key="empty"></td>)
-
-  userInfo.push(<td className="tg-yw4l" colSpan="3" key="itogo">{`Ф - ${user.totalDays}/${user.totalHours}`}</td>);
-  rows.push(<tr key="row-four">{userInfo}</tr>);
-  rows.push(<tr key="row-five">{dayTypesInfo}</tr>);
 
   let otherRows = [<tr className="noDisplay" key="blank1"/>];
 
@@ -569,7 +586,7 @@ helpers.generateUserReportTable = function(user, dateWords) {
         "{moment().format("DD")}"
       </td>
       <td colSpan="6" key="day12">
-        {moment().format("MM")}
+        {moment().format("MMMM")}
       </td>
       <td colSpan="2" key="day13">
         {moment().format("YYYY")}г.
@@ -588,9 +605,8 @@ helpers.generateUserReportTable = function(user, dateWords) {
     </tr>,
     <tr key="blank13"/>
   ]
-
   otherRows = otherRows.concat(firstOtherRow).concat(thirdOtherRow);
-  rows = rows.concat(financeRows).concat(otherRows).concat(datesOtherRow);
+  rows = rows.concat(otherRows).concat(datesOtherRow);
   return rows;
 }
 
