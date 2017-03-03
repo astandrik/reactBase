@@ -174,14 +174,6 @@ function generateTds(number) {
 helpers.generateUserReportTable = function(users, dateWords) {
   let rows = [];
   const daysNumber = 31;
-  let user = users[0];
-  while(user.days.length < 31) {
-    user.days.push({
-      dayType: "",
-      finance: [],
-      hours: 0
-    })
-  }
   const totalTableWidth = daysNumber+3 + 9;
   const headerRow = [
     (<tr   key="header-row" className="noDisplay noBorder">
@@ -303,7 +295,7 @@ helpers.generateUserReportTable = function(users, dateWords) {
   let setHalf = false;
   let daysArr = [];
   let rownumbers = [<td className="tg-yw4l" colSpan="3" key="1" >1</td>,<td className="tg-yw4l" colSpan="3" key="2">2</td>,<td className="tg-yw4l" colSpan="3" key="3">3</td>];
-    for(let i = 0; i < user.days.length; i++) {
+    for(let i = 0; i < daysNumber; i++) {
       if(i+1 === 16 && !setHalf) {
         setHalf = true;
         rownumbers.push(<td className="tg-yw4l"  colSpan="3" key={i+3488}>{i+4}</td>);
@@ -325,8 +317,15 @@ helpers.generateUserReportTable = function(users, dateWords) {
       </tr>
     )
   for(var ind = 0; ind < users.length; ind++) {
-    let tick = true;
     let user = users[ind];
+    while(user.days.length < 31) {
+      user.days.push({
+        dayType: "",
+        finance: [],
+        hours: 0
+      })
+    }
+    let tick = true;    
     let daysArr = [];
     let dayTypesInfo = [];
     let financeRows = [];

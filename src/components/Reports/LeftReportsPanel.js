@@ -198,10 +198,10 @@ export default class Labors extends React.Component {
     <Container vertical={true}>
       <h3 className="reports-header"> Сотрудник{radio !== "table" ? "и" : ""} </h3>
       <div className="user-report-select" flex="2">
-        <Select.Async multi={radio === "table" ? false : true} value={radio === "table" ? this.state.currentUser : this.state.selectedUsers}
-        onChange={radio === "table" ? this.handleSingleSelectChange.bind(this) : this.handleSelectChange.bind(this)}
+        <Select.Async multi={true} value={this.state.selectedUsers}
+        onChange={this.handleSelectChange.bind(this)}
         searchPromptText="Введите имя пользователя"
-          placeholder={radio === "table" ? "Сотрудник" : "Список выбранных сотрудников"}
+          placeholder={"Список выбранных сотрудников"}
           backspaceRemoves={false}
           ignoreCase={true}
           onFocus={this.disableClick.bind(this, true)}

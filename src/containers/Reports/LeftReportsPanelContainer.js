@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     createUserReport: (state) => {
       let obj = {};
-      obj.user_id = state.user_id;
+      obj.user_ids = state.user_ids;
       dispatch(createUserReport(obj));
     },
     onDateSelect: (day) => {

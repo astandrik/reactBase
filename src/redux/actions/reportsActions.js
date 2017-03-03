@@ -95,7 +95,7 @@ export function createFinanceReport(obj) {
 
 export function createUserReport(obj) {
   return (dispatch, getState) => {
-      const handler = (json, dispatch, getState) => {
+      const handler = (json, dispatch, getState) => {        
         const parsedTable = parseUserReportTable(json.data);
         dispatch(setReportTableData({table: parsedTable}));
       }
@@ -103,7 +103,7 @@ export function createUserReport(obj) {
       const range = getDateMonthRange(day);
       const date_from = Math.floor((+range.first + 5 * 1000 * 60 * 60)/1000);
       const date_to = Math.floor((+range.last+ 5 * 1000 * 60 * 60)/1000);
-      const id = obj.user_id ? obj.user_id : getState().User.pingedUser;
+      const id = (obj.user_ids && obj.user_ids.length>0) ? obj.user_ids.join(",") : [getState().User.pingedUser];
       let par = {
         date_to,
         date_from,
